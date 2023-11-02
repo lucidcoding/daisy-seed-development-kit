@@ -1,0 +1,4 @@
+2 x CD4051 DIP analogue multiplexers
+2 x 14 pin DIP sockets
+16 x Bourns PTV09A-4025U-B104
+1 x JST PH2.54 8 male connector

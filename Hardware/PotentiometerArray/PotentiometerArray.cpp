@@ -1,0 +1,52 @@
+#include "PotentiometerArray.h"
+#include "daisysp.h"
+#include "daisy_seed.h"
+
+using namespace daisysp;
+using namespace daisy;
+
+namespace developmentKit
+{
+    void PotentiometerArray::Init()
+    {
+        adcConfig[0].InitMux(seed->GetPin(MUX1_COM_PIN), 8, seed->GetPin(MUX_S0_PIN), seed->GetPin(MUX_S1_PIN), seed->GetPin(MUX_S2_PIN)); 
+        adcConfig[1].InitMux(seed->GetPin(MUX2_COM_PIN), 8, seed->GetPin(MUX_S0_PIN), seed->GetPin(MUX_S1_PIN), seed->GetPin(MUX_S2_PIN)); 
+        seed->adc.Init(adcConfig, 2);
+
+        for (int i = 0; i < POTENTIOMETER_COUNT; i++)
+        {
+            analogControl[i].Init(&rawReading[i], this->seed->AudioCallbackRate());
+            //parameter[i].Init(analogControl[i], 0, 1.0f, Parameter::LINEAR);
+        }
+
+        for (int i = 0; i < POTENTIOMETER_COUNT; i++)
+        {
+            //parameter[i].Init(analogControl[i], 0, 1.0f, Parameter::LINEAR);
+        }
+    }
+
+    void PotentiometerArray::Process()
+    {
+        for (int muxIx = 0; muxIx < 2; muxIx ++)
+        {
+            for (int muxPotIx = 0; muxPotIx < 8; muxPotIx ++)
+            {
+                int globalPotIx = inputToIndexMapping[muxIx][muxPotIx];
+                rawReading[globalPotIx] = seed->adc.GetMux(muxIx, muxPotIx);
+                analogControl[globalPotIx].Process();
+                ///parameter[muxPotIx].Process();
+            }
+        }
+    }
+
+    void PotentiometerArray::Poll()
+    {
+        for (int i = 0; i < 16; i ++)
+        {
+            seed->Print("%d:%d\t", i, (analogControl[i].GetRawValue()) / 256); 
+        }
+
+        seed->PrintLine("");
+        System::Delay(1000);
+    }
+}
