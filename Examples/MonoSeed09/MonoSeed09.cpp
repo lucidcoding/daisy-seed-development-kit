@@ -2,6 +2,7 @@
 #include "daisy_seed.h"
 #include "../../Hardware/PotentiometerArray/PotentiometerArray.h"
 
+#define MIN_PULSE_WIDTH 0.05f
 using namespace daisysp;
 using namespace daisy;
 using namespace developmentKit;
@@ -18,19 +19,35 @@ bool gate;
 int midiChannel;
 float maxCutoffFrequency;
 float midiNoteFreq;
-Parameter lfoShapeParam, lfoRateParam, waveformParam, oscillatorLfoModParam, cutoffParam, resonanceParam, svfAdsrParam, svfLfoModParam,
+Parameter masterVolumeParam, lfoShapeParam, lfoRateParam, waveformParam, oscillatorLfoModParam, cutoffParam, resonanceParam, svfAdsrParam, svfLfoModParam,
     pulseWidthParam, pulseWidthLfoModParam, subOscLevelParam, attackParam, decayParam, sustainParam, releaseParam;
 
-void UpdateLfo()
+static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
+                          AudioHandle::InterleavingOutputBuffer out,
+                          size_t size)
 {
+    potentiometerArray.Process(); 
+    
     float lfoRate = lfoRateParam.Process();
-    lfo.SetFreq(lfoRate);
-}
-
-void UpdateWaveform()
-{
-    // I expect there's a better way of doing this.
     float waveformValue = waveformParam.Process();
+    float oscillatorLfoMod = oscillatorLfoModParam.Process();
+    float pulseWidth = pulseWidthParam.Process();
+
+    float pulseWidthLfoMod = pulseWidthLfoModParam.Process();
+    float subOscLevel = subOscLevelParam.Process();
+    float masterVolume = masterVolumeParam.Process();
+
+    float cutOffFrequency = cutoffParam.Process();
+    float resonance = resonanceParam.Process();
+    float svfAdsr = svfAdsrParam.Process();
+    float svfLfoMod = svfLfoModParam.Process();
+
+    float attackTime = attackParam.Process();
+    float decayTime = decayParam.Process();
+    float sustainLevel = sustainParam.Process();
+    float releaseTime = releaseParam.Process();
+
+    lfo.SetFreq(lfoRate);
 
     if (waveformValue >= 0 && waveformValue < 1.0f)
     {
@@ -45,61 +62,32 @@ void UpdateWaveform()
         oscillator.SetWaveform(Oscillator::WAVE_SQUARE);
     }
 
-    float subOscLevel = subOscLevelParam.Process();
-}
-
-void UpdateAdsr()
-{
-    float attackTime = attackParam.Process();
-    float decayTime = decayParam.Process();
-    float sustainLevel = sustainParam.Process();
-    float releaseTime = releaseParam.Process();
     adsr.SetTime(ADSR_SEG_ATTACK, attackTime);
     adsr.SetTime(ADSR_SEG_DECAY, decayTime);
     adsr.SetSustainLevel(sustainLevel);
     adsr.SetTime(ADSR_SEG_RELEASE, releaseTime);
-}
 
-void UpdateSvf()
-{
-}
-
-static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
-                          AudioHandle::InterleavingOutputBuffer out,
-                          size_t size)
-{
-    potentiometerArray.Process();
-    UpdateLfo();
-    UpdateWaveform();
-    UpdateAdsr();
-    // UpdateSvf();
-
-    float cutOffFrequency = cutoffParam.Process();
-    float resonance = resonanceParam.Process();
-    float svfAdsr = svfAdsrParam.Process();
-    float svfLfoMod = svfLfoModParam.Process();
-    float oscillatorLfoMod = oscillatorLfoModParam.Process();
-    float pulseWidth = pulseWidthParam.Process();
-    float pulseWidthLfoMod = pulseWidthLfoModParam.Process();
-    float subOscLevel = subOscLevelParam.Process();
     svf.SetRes(resonance);
 
     float adsrOut, lfoOut, oscillatorOut, subOscOut, filterOut;
+    const float adsrFactor = 10;
 
     for (size_t i = 0; i < size; i += 2)
     {
         adsrOut = adsr.Process(gate);
         lfo.SetAmp(oscillatorLfoMod);
         lfoOut = lfo.Process();
-        oscillator.SetAmp(adsrOut / 10);
+        oscillator.SetAmp(adsrOut / adsrFactor * masterVolume);
         oscillator.SetFreq(midiNoteFreq + lfoOut);
 
-        subOsc.SetAmp(adsrOut / 20 * subOscLevel);
+        subOsc.SetAmp(adsrOut / adsrFactor * subOscLevel * masterVolume);
         subOsc.SetFreq((midiNoteFreq / 2) + lfoOut);
 
         lfo.SetAmp(pulseWidthLfoMod);
         lfoOut = lfo.Process();
-        oscillator.SetPw(pulseWidth + lfoOut);
+        float finalPulseWidth = pulseWidth + lfoOut;
+        finalPulseWidth = finalPulseWidth > MIN_PULSE_WIDTH ? finalPulseWidth : MIN_PULSE_WIDTH;
+        oscillator.SetPw(finalPulseWidth);
 
         oscillatorOut = oscillator.Process();
         subOscOut = subOsc.Process();
@@ -173,9 +161,10 @@ void InitParameters(float sampleRate)
     lfoRateParam.Init(potentiometerArray.analogControl[0], 0.25f, 20.0f, Parameter::LOGARITHMIC);
     waveformParam.Init(potentiometerArray.analogControl[1], 0, 3.0f, Parameter::LINEAR);
     oscillatorLfoModParam.Init(potentiometerArray.analogControl[2], 0, 100.0f, Parameter::LINEAR);
-    pulseWidthParam.Init(potentiometerArray.analogControl[3], 0.005f, 0.51f, Parameter::LINEAR);
+    pulseWidthParam.Init(potentiometerArray.analogControl[3], MIN_PULSE_WIDTH, 0.51f, Parameter::LINEAR);
     pulseWidthLfoModParam.Init(potentiometerArray.analogControl[4], 0, 0.5f, Parameter::LINEAR);
     subOscLevelParam.Init(potentiometerArray.analogControl[5], 0, 1.0f, Parameter::LINEAR);
+    masterVolumeParam.Init(potentiometerArray.analogControl[6], 0, 1.0f, Parameter::LINEAR);
     cutoffParam.Init(potentiometerArray.analogControl[8], 0, sampleRate / 3, Parameter::LINEAR);
     resonanceParam.Init(potentiometerArray.analogControl[9], 0, 1.0f, Parameter::LINEAR);
     svfAdsrParam.Init(potentiometerArray.analogControl[10], 0, 1.0f, Parameter::LINEAR);
