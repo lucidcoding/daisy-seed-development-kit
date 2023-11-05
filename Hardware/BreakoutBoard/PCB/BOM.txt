@@ -1,0 +1,7 @@
+A1 - 1 x Daisy Seed
+A1, J1, J2 - 4 x 20 pin female socket
+J3, J4 - 2 x Lumberg 1502 01 3.5mm TRS jack sockets
+J5, J6 - 2 x JST XH2.54 4 pin male connector
+J7, J9 - 2 x JST XH2.54 6 pin male connector
+J8, J11, J12, J13 - 4 x JST XH2.54 8 pin male connector
+J10 - 1 x DCJ200-10 barrel jack socket

@@ -47,8 +47,6 @@ int main(void)
 	hardware.adc.Init(&adcConfig, 1);
 	hardware.adc.Start();
 
-    //seed.StartAudio(AudioCallback);
-
 	while(1)
 	{
 		int val = hardware.adc.Get(0);

@@ -1,0 +1,8 @@
+J1 - 1 x JST XH2.54 4 pin male connector
+J2, J2 - 2 x DIN 5 pin female connector 
+R1 - 1 x Resistor 220Ω 0.25W
+R2 - 1 x Resistor 270Ω 0.25W
+R3 - 1 x Resistor 33Ω 0.25W
+R4 - 1 x Resistor 10Ω 0.25W
+C1 - 1 x Capacitor 100nF
+U1 - 1 x IC H11L1

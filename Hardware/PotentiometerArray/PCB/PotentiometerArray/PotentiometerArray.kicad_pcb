@@ -5,6 +5,12 @@
   )
 
   (paper "A4")
+  (title_block
+    (title "Daisy Seed Development Kit Potentiometer Array")
+    (date "2023-11-05")
+    (rev "1.0.1")
+  )
+
   (layers
     (0 "F.Cu" signal)
     (31 "B.Cu" signal)

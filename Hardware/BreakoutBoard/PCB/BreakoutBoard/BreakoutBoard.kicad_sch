@@ -4,6 +4,12 @@
 
   (paper "A4")
 
+  (title_block
+    (title "Daisy Seed Development Kit Breakout Board")
+    (date "2023-11-05")
+    (rev "1.0.1")
+  )
+
   (lib_symbols
     (symbol "1502_01:1502_01" (pin_names (offset 1.016)) (in_bom yes) (on_board yes)
       (property "Reference" "J4" (id 0) (at -2.0189 10.16 0)

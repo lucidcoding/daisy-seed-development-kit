@@ -9,8 +9,6 @@
 #define MUX_S1_PIN 20
 #define MUX_S2_PIN 21
 
-#include <string>
-#include <vector>
 #include "daisysp.h"
 #include "daisy_seed.h"
 
@@ -26,7 +24,6 @@ namespace developmentKit
         void Process();
         void Poll();
         DaisySeed *seed;
-        //Parameter parameter[POTENTIOMETER_COUNT];
         AnalogControl analogControl[POTENTIOMETER_COUNT];
 
     private:
