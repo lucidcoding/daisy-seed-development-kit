@@ -36,6 +36,12 @@ One you have not signals playing to the MIDI in port, modify the sound using the
 
 ![potentiometer layout](./PotentiometerLayout.png)
 
+## Demo
+
+Here it is in action:
+[![MonoSeed-09 demo](https://youtu.be/sGi7Sy4ES4g/0.jpg)](https://youtu.be/sGi7Sy4ES4g)
+https://youtu.be/sGi7Sy4ES4g
+
 ## Disclaimer
 
 Although I am a professional programmer, I am purely a hobbyist when it comes to hardware or embedded programming. There may well be some mistakes here and I accept no responsibility for damage to you Daisy Seed, external equipment or anything else. You use this code and harware at your own risk.
