@@ -34,7 +34,7 @@ Ensure the Daisy Seed is correctly seated in the breakout board. Then connect th
 
 One you have not signals playing to the MIDI in port, modify the sound using the knobs. The knobs have the following functions:
 
-![potentiometer layout](./PotentiometerLayout.png){ width: 50px; }
+![potentiometer layout](./PotentiometerLayout.png =433x435)
 
 ## Disclaimer
 
