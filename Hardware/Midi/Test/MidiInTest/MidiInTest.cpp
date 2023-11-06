@@ -6,7 +6,7 @@ using namespace daisy;
 
 static DaisySeed hardware;
 MidiUartHandler midi;
-Oscillator oscillator;
+Oscillator mainOsc;
 Adsr adsr;
 bool gate;
 int midiChannel;
@@ -20,8 +20,8 @@ static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
     for (size_t i = 0; i < size; i += 2)
     {
         adsrOut = adsr.Process(gate);
-        oscillator.SetAmp(adsrOut / 10);
-        oscillatorOut = oscillator.Process();
+        mainOsc.SetAmp(adsrOut / 10);
+        oscillatorOut = mainOsc.Process();
         out[i] = oscillatorOut;
         out[i + 1] = oscillatorOut;
     }
@@ -29,9 +29,9 @@ static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
 
 void InitOscillator(float sampleRate)
 {
-    oscillator.Init(sampleRate);
-    oscillator.SetWaveform(Oscillator::WAVE_POLYBLEP_TRI);
-    oscillator.SetAmp(0.1);
+    mainOsc.Init(sampleRate);
+    mainOsc.SetWaveform(Oscillator::WAVE_POLYBLEP_TRI);
+    mainOsc.SetAmp(0.1);
 }
 
 void InitAdsr(float sampleRate)
@@ -64,7 +64,7 @@ void HandleMidiMessage(MidiEvent m)
             {
                 p = m.AsNoteOn();
                 gate = true;
-                oscillator.SetFreq(mtof(p.note));
+                mainOsc.SetFreq(mtof(p.note));
             }
 
             break;

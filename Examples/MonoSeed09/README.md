@@ -1,4 +1,4 @@
-# Daisy Seed Development Kit
+# MonoSeed-09 Virtual Analogue Monosynth
 
 ## Author
 
@@ -6,7 +6,7 @@ Paul Davies
 
 ## Description
 
-A modular development kit for the Electrosmith Daisy Seed development board. Currently modules include the central breakout board, a MIDI adapter and an array of 16 potentiometers. The breakout board includes connections for a second potentiometer array, SPI, I2C, an encoder and an SD card.
+My first experiment using the Daisy Seed Development Kit. This is a virtual analogue monosynth with one knob per function. It started off as an emulation of a Roland SH-09 but seems to have diverged from that somewhere along the way.
 
 ## Environment Setup
 
