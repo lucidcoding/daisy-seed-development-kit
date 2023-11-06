@@ -30,6 +30,12 @@ make clean; make; make program-dfu;
 
 Ensure the Daisy Seed is correctly seated in the breakout board. Then connect the potentiometer array to port 1 with a JST XH2.54 8 wire cable, and connect the MIDI adapter with a JST XH2.54 4 wire cable. Finally connect your MIDI sequencer to the MIDI in DIN connector and plug your headphones into the audio out jack socket. Set the MIDI transmit channel to 1 - this is what it defaults to.
 
+## Usage
+
+One you have not signals playing to the MIDI in port, modify the sound using the knobs. The knobs have the following functions:
+
+![potentiometer layout](./PotentiometerLayout.png)
+
 ## Disclaimer
 
 Although I am a professional programmer, I am purely a hobbyist when it comes to hardware or embedded programming. There may well be some mistakes here and I accept no responsibility for damage to you Daisy Seed, external equipment or anything else. You use this code and harware at your own risk.
