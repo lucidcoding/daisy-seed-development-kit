@@ -198,17 +198,14 @@ void InitParameters(float sampleRate)
     lfoRateParam.Init(potentiometerArray.analogControl[1], 0.25f, 20.0f, Parameter::LOGARITHMIC);
     lfoShapeParam.Init(potentiometerArray.analogControl[2], 0, 4.0f, Parameter::LINEAR);
     mainOscShapeParam.Init(potentiometerArray.analogControl[3], 0, 3.0f, Parameter::LINEAR);
-
     mainOscLfoModParam.Init(potentiometerArray.analogControl[4], 0, 100.0f, Parameter::LINEAR);
     mainOscPulseWidthParam.Init(potentiometerArray.analogControl[5], MIN_PULSE_WIDTH, 0.51f, Parameter::LINEAR);
     mainOscPulseWidthLfoModParam.Init(potentiometerArray.analogControl[6], 0, 0.5f, Parameter::LINEAR);
     subOscLevelParam.Init(potentiometerArray.analogControl[7], 0, 1.0f, Parameter::LINEAR);
-
     svfCutOffFrequencyParam.Init(potentiometerArray.analogControl[8], 0, sampleRate / 3, Parameter::LINEAR);
     svfResonanceParam.Init(potentiometerArray.analogControl[9], 0, 1.0f, Parameter::LINEAR);
     svfAdsrModParam.Init(potentiometerArray.analogControl[10], 0, 1.0f, Parameter::LINEAR);
     svfLfoModParam.Init(potentiometerArray.analogControl[11], 0, 1.0f, Parameter::LINEAR);
-
     attackParam.Init(potentiometerArray.analogControl[12], 0.001f, 1.0f, Parameter::LINEAR);
     decayParam.Init(potentiometerArray.analogControl[13], 0.025f, 1.0f, Parameter::LINEAR);
     sustainParam.Init(potentiometerArray.analogControl[14], 0., 1.0f, Parameter::LINEAR);
