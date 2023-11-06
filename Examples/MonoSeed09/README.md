@@ -39,7 +39,7 @@ One you have not signals playing to the MIDI in port, modify the sound using the
 ## Demo
 
 Here it is in action:
-[![MonoSeed-09 demo](https://youtu.be/sGi7Sy4ES4g/0.jpg)](https://youtu.be/sGi7Sy4ES4g)
+[![MonoSeed-09 demo](https://img.youtube.com/vi/sGi7Sy4ES4g/0.jpg)](https://youtu.be/sGi7Sy4ES4g)
 https://youtu.be/sGi7Sy4ES4g
 
 ## Disclaimer
