@@ -11,32 +11,41 @@ namespace developmentKit
 
     void ExternalCodec::Init(DaisySeed *seed)
     {
-        // WARNING: This is specifically for my, early model of Daisy Seed. Needs to be updated for later versions.
         // Handle Seed Audio as-is and then
         SaiHandle::Config sai_config[2];
+
         // Internal Codec
+        if (seed->CheckBoardVersion() == DaisySeed::BoardVersion::DAISY_SEED_1_1)
+        {
+            sai_config[0].pin_config.sa = {DSY_GPIOE, 6};
+            sai_config[0].pin_config.sb = {DSY_GPIOE, 3};
+            sai_config[0].a_dir = SaiHandle::Config::Direction::RECEIVE;
+            sai_config[0].b_dir = SaiHandle::Config::Direction::TRANSMIT;
+        }
+        else
+        {
+            sai_config[0].pin_config.sa = {DSY_GPIOE, 6};
+            sai_config[0].pin_config.sb = {DSY_GPIOE, 3};
+            sai_config[0].a_dir = SaiHandle::Config::Direction::TRANSMIT;
+            sai_config[0].b_dir = SaiHandle::Config::Direction::RECEIVE;
+        }
         sai_config[0].periph = SaiHandle::Config::Peripheral::SAI_1;
         sai_config[0].sr = SaiHandle::Config::SampleRate::SAI_48KHZ;
         sai_config[0].bit_depth = SaiHandle::Config::BitDepth::SAI_24BIT;
         sai_config[0].a_sync = SaiHandle::Config::Sync::MASTER;
         sai_config[0].b_sync = SaiHandle::Config::Sync::SLAVE;
-        sai_config[0].a_dir = SaiHandle::Config::Direction::TRANSMIT;
-        sai_config[0].b_dir = SaiHandle::Config::Direction::RECEIVE;
         sai_config[0].pin_config.fs = {DSY_GPIOE, 4};
         sai_config[0].pin_config.mclk = {DSY_GPIOE, 2};
         sai_config[0].pin_config.sck = {DSY_GPIOE, 5};
-        sai_config[0].pin_config.sa = {DSY_GPIOE, 6};
-        sai_config[0].pin_config.sb = {DSY_GPIOE, 3};
 
-        // External Codec
         // External Codec
         // Set up like Seed rev 5:
         // https://github.com/electro-smith/libDaisy/blob/master/src/daisy_seed.cpp#L269
         sai_config[1].periph = SaiHandle::Config::Peripheral::SAI_2;
         sai_config[1].sr = SaiHandle::Config::SampleRate::SAI_48KHZ;
         sai_config[1].bit_depth = SaiHandle::Config::BitDepth::SAI_24BIT;
-        sai_config[1].a_sync = SaiHandle::Config::Sync::MASTER;
-        sai_config[1].b_sync = SaiHandle::Config::Sync::SLAVE;
+        sai_config[1].a_sync = SaiHandle::Config::Sync::SLAVE;
+        sai_config[1].b_sync = SaiHandle::Config::Sync::MASTER;
         sai_config[1].a_dir = SaiHandle::Config::Direction::RECEIVE;
         sai_config[1].b_dir = SaiHandle::Config::Direction::TRANSMIT;
         sai_config[1].pin_config.fs = seed->GetPin(27);
@@ -63,15 +72,15 @@ namespace developmentKit
 
         // Reset Pin for AK4556
         // Built-in AK4556 was reset during Seed Init
-        // dsy_gpio_pin codec_reset_pin = seed.GetPin(PIN_AK4556_RESET);
-        dsy_gpio_pin codec_reset_pin = {DSY_GPIOB, 11};
-        Ak4556::Init(codec_reset_pin);
+        //dsy_gpio_pin codec_reset_pin = seed->GetPin(29);
+        //Ak4556::Init(codec_reset_pin);
 
         // Reinit Audio for _both_ codecs...
         AudioHandle::Config cfg;
         cfg.blocksize = 48;
         cfg.samplerate = SaiHandle::Config::SampleRate::SAI_48KHZ;
-        cfg.postgain = 0.5f;
+        // cfg.postgain   = 0.5f;
+        cfg.postgain = 1.f;
         seed->audio_handle.Init(cfg, sai_handle[0], sai_handle[1]);
     }
 }

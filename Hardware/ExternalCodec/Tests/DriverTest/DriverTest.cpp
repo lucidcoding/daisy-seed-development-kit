@@ -1,52 +1,30 @@
-#include "daisysp.h"
 #include "daisy_seed.h"
+#include "daisysp.h"
 #include "../../Drivers/ExternalCodec.h"
 
-using namespace daisysp;
 using namespace daisy;
+using namespace daisysp;
 using namespace developmentKit;
 
-static DaisySeed hardware;
-static Oscillator osc;
+DaisySeed hardware;
 ExternalCodec externalCodec;
 
-static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
-                          AudioHandle::InterleavingOutputBuffer out,
-                          size_t size)
+void AudioCallback(AudioHandle::InputBuffer in, AudioHandle::OutputBuffer out, size_t size)
 {
-    float sig;
-    for (size_t i = 0; i < size; i += 2)
+    for(size_t i = 0; i < size; i++)
     {
-        sig = osc.Process();
-
-        // left out
-        out[i] = sig;
-
-        // right out
-        out[i + 1] = sig;
+        out[0][i] = in[2][i];
+        out[1][i] = in[3][i];
+        out[2][i] = in[0][i];
+        out[3][i] = in[1][i];
     }
 }
 
 int main(void)
 {
-    // initialize seed hardware and oscillator daisysp module
-    float sample_rate;
-    hardware.Configure();
-    hardware.Init();
+	hardware.Init();
     externalCodec.Init(&hardware);
-    hardware.SetAudioBlockSize(4);
-    sample_rate = hardware.AudioSampleRate();
-    osc.Init(sample_rate);
-
-    // Set parameters for oscillator
-    osc.SetWaveform(osc.WAVE_SIN);
-    osc.SetFreq(440);
-    osc.SetAmp(0.5);
-
-    // start callback
-    hardware.StartAudio(AudioCallback);
-
-    while (1)
-    {
-    }
+	hardware.SetAudioSampleRate(SaiHandle::Config::SampleRate::SAI_48KHZ);
+	hardware.StartAudio(AudioCallback);
+	while(1) {}
 }
