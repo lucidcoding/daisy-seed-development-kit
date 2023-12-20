@@ -11,7 +11,7 @@ ExternalCodec externalCodec;
 
 void AudioCallback(AudioHandle::InputBuffer in, AudioHandle::OutputBuffer out, size_t size)
 {
-    for(size_t i = 0; i < size; i++)
+    for (size_t i = 0; i < size; i++)
     {
         out[0][i] = in[2][i];
         out[1][i] = in[3][i];
@@ -22,9 +22,11 @@ void AudioCallback(AudioHandle::InputBuffer in, AudioHandle::OutputBuffer out, s
 
 int main(void)
 {
-	hardware.Init();
+    hardware.Init();
     externalCodec.Init(&hardware);
-	hardware.SetAudioSampleRate(SaiHandle::Config::SampleRate::SAI_48KHZ);
-	hardware.StartAudio(AudioCallback);
-	while(1) {}
+    hardware.SetAudioSampleRate(SaiHandle::Config::SampleRate::SAI_48KHZ);
+    hardware.StartAudio(AudioCallback);
+    while (1)
+    {
+    }
 }

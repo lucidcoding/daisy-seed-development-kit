@@ -8,6 +8,10 @@ using namespace daisy;
 static DaisySeed hardware;
 Mcp23017 mcp;
 bool ledOn = true;
+bool stableState[24];
+bool lastState[24];
+uint32_t lastDebounceTime[24];
+uint32_t debounceDelay = 1000;
 
 static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
                           AudioHandle::InterleavingOutputBuffer out,
@@ -29,91 +33,76 @@ int main(void)
     config.transport_config.i2c_config.mode = I2CHandle::Config::Mode::I2C_MASTER;
     config.transport_config.i2c_config.pin_config.scl = {DSY_GPIOB, 8};
     config.transport_config.i2c_config.pin_config.sda = {DSY_GPIOB, 9};
-
     mcp.Init(config);
-    //mcp.PortMode(MCPPort::A, 0xFF, 0xFF); // Inputs, pullup
-    
-    mcp.PortMode(MCPPort::A, 0x00); // Outputs
-    mcp.PortMode(MCPPort::B, 0x00); // Outputs
+    mcp.PortMode(MCPPort::A, 0xFF, 0xFF);
+    mcp.PortMode(MCPPort::B, 0x00);
+    mcp.WritePort(MCPPort::B, 0xFF);
 
-    mcp.PinMode(8, MCPMode::OUTPUT, false);
-    mcp.PinMode(9, MCPMode::INPUT, false);
-    //mcp.PinMode(0, MCPMode::INPUT_PULLUP, false);
-    //mcp.PinMode(1, MCPMode::INPUT_PULLUP, false);
-    //mcp.PinMode(14, MCPMode::OUTPUT, false);
-    mcp.WritePin(8, 1);
-    //mcp.PinMode(15, 0);
+    const uint8_t columnPins[6] = {8, 9, 10, 11, 12, 13};
+    const uint8_t inputPins[4] = {0, 2, 3, 7};
 
-    uint8_t countdown = 8;
+    const uint8_t switchLookup[6][4] = {
+        {10, 11, 22, 0},
+        {9, 12, 21, 1},
+        {8, 13, 20, 2},
+        {7, 14, 19, 3},
+        {6, 15, 18, 4},
+        {5, 16, 17, 255}};
+
     while (1)
     {
-        /*mcp.Read();
-        uint8_t inp = mcp.GetPin(0);
-        hardware.PrintLine("Read: %d", inp);
-        mcp.WritePin(8, inp);
-        System::Delay(1000);*/
+        const uint32_t waitTime = 50;
 
-        //mcp.WritePin(8, ledOn);
-        ledOn = !ledOn;
-        mcp.WritePin(0, ledOn);
-        mcp.Read();
-        uint8_t inp = mcp.GetPin(9);
-        hardware.PrintLine("LedOn: %d, inp: %d", ledOn, inp);
-        System::Delay(1000);
+        for (uint8_t columnPinIndex = 0; columnPinIndex < 6; columnPinIndex++)
+        {
+            uint8_t columnPin = columnPins[columnPinIndex];
 
-        /*mcp.WritePin(8, ledOn);
-        mcp.WritePin(9, 1);
-        mcp.WritePin(12, 1);
-        mcp.WritePin(13, 0);
-        mcp.WritePin(14, 0);
-        mcp.WritePin(15, 0);
-        System::Delay(1);
-        mcp.WritePin(8, ledOn);
-        mcp.WritePin(9, 1);
-        mcp.WritePin(12, 0);
-        mcp.WritePin(13, 1);
-        mcp.WritePin(14, 0);
-        mcp.WritePin(15, 0);
-        System::Delay(1);
-        mcp.WritePin(8, ledOn);
-        mcp.WritePin(9, 1);
-        mcp.WritePin(12, 0);
-        mcp.WritePin(13, 0);
-        mcp.WritePin(14, 1);
-        mcp.WritePin(15, 0);
-        System::Delay(1);
-        mcp.WritePin(8, ledOn);
-        mcp.WritePin(9, 1);
-        mcp.WritePin(12, 0);
-        mcp.WritePin(13, 0);
-        mcp.WritePin(14, 0);
-        mcp.WritePin(15, 1);
-        System::Delay(1);*/
+            for (uint8_t columnPinToSetIndex = 0; columnPinToSetIndex < 6; columnPinToSetIndex++)
+            {
+                uint8_t columnPinToSet = columnPins[columnPinToSetIndex];
+                mcp.WritePin(columnPinToSet, columnPin == columnPinToSet ? 0 : 1);
+            }
 
+            uint16_t read = mcp.Read();
+            uint8_t inputPortReading = read & 0xFF;
 
-        /*hardware.PrintLine("Output High");
-        mcp.PinMode(15, MCPMode::OUTPUT, false);
-        mcp.WritePin(15, 1);
-        mcp.Read();
-        uint8_t inp = mcp.GetPin(0);
-        uint8_t inp2 = mcp.GetPin(1);
-        hardware.PrintLine("Read: %d, %d", inp, inp2);
-        System::Delay(1000);
-        hardware.PrintLine("Output Low");
-        mcp.PinMode(15, MCPMode::OUTPUT, false);
-        mcp.WritePin(15, 0);
-        mcp.Read();
-        inp = mcp.GetPin(0);
-        inp2 = mcp.GetPin(1);
-        hardware.PrintLine("Read: %d, %d", inp, inp2);
-        System::Delay(1000);
-        hardware.PrintLine("Input");
-        mcp.PinMode(15, MCPMode::INPUT, false);
-        mcp.Read();
-        inp = mcp.GetPin(0);
-        inp2 = mcp.GetPin(1);
-        hardware.PrintLine("Read: %d, %d", inp, inp2);
-        System::Delay(1000);*/
+            for (uint8_t inputPinIndex = 0; inputPinIndex < 4; inputPinIndex++)
+            {
+                uint8_t switchIndex = switchLookup[columnPinIndex][inputPinIndex];
 
+                if (switchIndex != 255) // Unused
+                {
+                    uint8_t inputPin = inputPins[inputPinIndex];
+                    bool currentState = mcp.GetPin(inputPin) == 255 ? false : true;
+
+                    if (currentState != lastState[switchIndex])
+                    {
+                        lastDebounceTime[switchIndex] = System::GetUs();
+                    }
+
+                    if ((System::GetUs() - lastDebounceTime[switchIndex]) > debounceDelay)
+                    {
+                        if (currentState != stableState[switchIndex])
+                        {
+                            stableState[switchIndex] = currentState;
+                            lastState[switchIndex] = currentState;
+
+                            if (stableState[switchIndex] == true)
+                            {
+                                hardware.PrintLine("Switch ON %d", switchIndex);
+                            }
+                            else
+                            {
+                                hardware.PrintLine("Switch OFF %d", switchIndex);
+                            }
+                        }
+                    }
+
+                    lastState[switchIndex] = currentState;
+                }
+            }
+
+            System::DelayUs(waitTime);
+        }
     }
 }

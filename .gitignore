@@ -1051,3 +1051,4 @@ fp-info-cache
 *.gbr
 *.gbrjob
 *.declarations
+*.drl
