@@ -1,17 +1,23 @@
 #include "daisysp.h"
 #include "daisy_seed.h"
 #include "dev/mcp23x17.h"
+#include "../../Drivers/StepSequencerKeys.h";
+#include "../../Drivers/StepSequencerLeds.h";
 
 using namespace daisysp;
 using namespace daisy;
+using namespace developmentKit;
 
 static DaisySeed hardware;
 Mcp23017 mcp;
+Mcp23017 mcp2;
 bool ledOn = true;
 bool stableState[24];
 bool lastState[24];
 uint32_t lastDebounceTime[24];
 uint32_t debounceDelay = 1000;
+StepSequencerKeys keys;
+StepSequencerLeds leds;
 
 static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
                           AudioHandle::InterleavingOutputBuffer out,
@@ -26,83 +32,42 @@ int main(void)
     hardware.StartLog(false);
     hardware.PrintLine("Starting...");
 
-    Mcp23017::Config config;
-    config.transport_config.i2c_address = 0x20;
-    config.transport_config.i2c_config.periph = I2CHandle::Config::Peripheral::I2C_1;
-    config.transport_config.i2c_config.speed = I2CHandle::Config::Speed::I2C_1MHZ;
-    config.transport_config.i2c_config.mode = I2CHandle::Config::Mode::I2C_MASTER;
-    config.transport_config.i2c_config.pin_config.scl = {DSY_GPIOB, 8};
-    config.transport_config.i2c_config.pin_config.sda = {DSY_GPIOB, 9};
-    mcp.Init(config);
-    mcp.PortMode(MCPPort::A, 0xFF, 0xFF);
-    mcp.PortMode(MCPPort::B, 0x00);
-    mcp.WritePort(MCPPort::B, 0xFF);
+    /*Mcp23017::Config config2;
+    config2.transport_config.i2c_address = 0x21;
+    config2.transport_config.i2c_config.periph = I2CHandle::Config::Peripheral::I2C_1;
+    config2.transport_config.i2c_config.speed = I2CHandle::Config::Speed::I2C_1MHZ;
+    config2.transport_config.i2c_config.mode = I2CHandle::Config::Mode::I2C_MASTER;
+    config2.transport_config.i2c_config.pin_config.scl = {DSY_GPIOB, 8};
+    config2.transport_config.i2c_config.pin_config.sda = {DSY_GPIOB, 9};
+    mcp2.Init(config2);
+    mcp2.PortMode(MCPPort::A, 0x00);
+    mcp2.PortMode(MCPPort::B, 0x00);
+    mcp2.WritePort(MCPPort::A, 0x00);
+    mcp2.WritePort(MCPPort::B, 0x00);*/
 
-    const uint8_t columnPins[6] = {8, 9, 10, 11, 12, 13};
-    const uint8_t inputPins[4] = {0, 2, 3, 7};
-
-    const uint8_t switchLookup[6][4] = {
-        {10, 11, 22, 0},
-        {9, 12, 21, 1},
-        {8, 13, 20, 2},
-        {7, 14, 19, 3},
-        {6, 15, 18, 4},
-        {5, 16, 17, 255}};
+    keys.Init();
+    leds.Init();
+    //leds.SetLed(2, true);
+    leds.SetLed(0, true);
+    leds.SetLed(4, true);
+    leds.SetLed(9, true);
+    leds.SetLed(14, true);
+    leds.SetLed(19, true);
+    //leds.SetLed(5, true);
 
     while (1)
     {
-        const uint32_t waitTime = 50;
 
-        for (uint8_t columnPinIndex = 0; columnPinIndex < 6; columnPinIndex++)
+        uint64_t retVal = keys.Process();
+
+        if (retVal > 0)
         {
-            uint8_t columnPin = columnPins[columnPinIndex];
-
-            for (uint8_t columnPinToSetIndex = 0; columnPinToSetIndex < 6; columnPinToSetIndex++)
-            {
-                uint8_t columnPinToSet = columnPins[columnPinToSetIndex];
-                mcp.WritePin(columnPinToSet, columnPin == columnPinToSet ? 0 : 1);
-            }
-
-            uint16_t read = mcp.Read();
-            uint8_t inputPortReading = read & 0xFF;
-
-            for (uint8_t inputPinIndex = 0; inputPinIndex < 4; inputPinIndex++)
-            {
-                uint8_t switchIndex = switchLookup[columnPinIndex][inputPinIndex];
-
-                if (switchIndex != 255) // Unused
-                {
-                    uint8_t inputPin = inputPins[inputPinIndex];
-                    bool currentState = mcp.GetPin(inputPin) == 255 ? false : true;
-
-                    if (currentState != lastState[switchIndex])
-                    {
-                        lastDebounceTime[switchIndex] = System::GetUs();
-                    }
-
-                    if ((System::GetUs() - lastDebounceTime[switchIndex]) > debounceDelay)
-                    {
-                        if (currentState != stableState[switchIndex])
-                        {
-                            stableState[switchIndex] = currentState;
-                            lastState[switchIndex] = currentState;
-
-                            if (stableState[switchIndex] == true)
-                            {
-                                hardware.PrintLine("Switch ON %d", switchIndex);
-                            }
-                            else
-                            {
-                                hardware.PrintLine("Switch OFF %d", switchIndex);
-                            }
-                        }
-                    }
-
-                    lastState[switchIndex] = currentState;
-                }
-            }
-
-            System::DelayUs(waitTime);
+            hardware.PrintLine("RetVal: %d", retVal);
         }
+
+        leds.Process(&hardware);
+
+        System::DelayUs(50);
+        //System::Delay(1000);
     }
 }
