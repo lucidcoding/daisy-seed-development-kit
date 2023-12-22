@@ -16,7 +16,7 @@ namespace developmentKit
     public:
         void Init();
         void SetLed(uint8_t ledIndex, bool state);
-        void Process(DaisySeed *seed);
+        void Process();
 
     private:
         Mcp23017 mcp;

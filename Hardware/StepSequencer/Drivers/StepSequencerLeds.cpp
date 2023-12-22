@@ -37,7 +37,7 @@ namespace developmentKit
         }*/
     }
 
-    void StepSequencerLeds::Process(DaisySeed *seed)
+    void StepSequencerLeds::Process()
     {
         mcp.WritePort(MCPPort::A, 0x00);
         uint8_t currentColumnPin = columnPins[currentColumnIndex];
@@ -57,7 +57,6 @@ namespace developmentKit
             
             if(ledIndex != 255 && ledStates[ledIndex])
             {
-                seed->PrintLine("currentColumnIndex: %d, currentColumnPin: %d, currentRowIndex: %d, currentRowPin: %d, ledIndex: %d ", currentColumnIndex, currentColumnPin, currentRowIndex, currentRowPin, ledIndex);
                 state = 1;
             }
             mcp.WritePin(currentRowPin, state);

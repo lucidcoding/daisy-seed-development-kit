@@ -25,57 +25,54 @@ namespace developmentKit
     uint64_t StepSequencerKeys::Process()
     {
         uint64_t returnValue = 0;
+        uint8_t columnPin = columnPins[columnPinIndex];
 
-        for (uint8_t columnPinIndex = 0; columnPinIndex < 6; columnPinIndex++)
+        for (uint8_t columnPinToSetIndex = 0; columnPinToSetIndex < 6; columnPinToSetIndex++)
         {
-            uint8_t columnPin = columnPins[columnPinIndex];
+            uint8_t columnPinToSet = columnPins[columnPinToSetIndex];
+            mcp.WritePin(columnPinToSet, columnPin == columnPinToSet ? 0 : 1);
+        }
 
-            for (uint8_t columnPinToSetIndex = 0; columnPinToSetIndex < 6; columnPinToSetIndex++)
+        uint16_t read = mcp.Read();
+        uint8_t inputPortReading = read & 0xFF;
+
+        for (uint8_t inputPinIndex = 0; inputPinIndex < 4; inputPinIndex++)
+        {
+            uint8_t switchIndex = switchLookup[columnPinIndex][inputPinIndex];
+
+            if (switchIndex != 255) // Unused
             {
-                uint8_t columnPinToSet = columnPins[columnPinToSetIndex];
-                mcp.WritePin(columnPinToSet, columnPin == columnPinToSet ? 0 : 1);
-            }
+                uint8_t inputPin = inputPins[inputPinIndex];
+                bool currentState = mcp.GetPin(inputPin) == 255 ? false : true;
 
-            uint16_t read = mcp.Read();
-            uint8_t inputPortReading = read & 0xFF;
-
-            for (uint8_t inputPinIndex = 0; inputPinIndex < 4; inputPinIndex++)
-            {
-                uint8_t switchIndex = switchLookup[columnPinIndex][inputPinIndex];
-
-                if (switchIndex != 255) // Unused
+                if (currentState != lastState[switchIndex])
                 {
-                    uint8_t inputPin = inputPins[inputPinIndex];
-                    bool currentState = mcp.GetPin(inputPin) == 255 ? false : true;
+                    lastDebounceTime[switchIndex] = System::GetUs();
+                }
 
-                    if (currentState != lastState[switchIndex])
+                if ((System::GetUs() - lastDebounceTime[switchIndex]) > STEP_SEQUENCER_DEBOUNCE_TIME)
+                {
+                    if (currentState != stableState[switchIndex])
                     {
-                        lastDebounceTime[switchIndex] = System::GetUs();
-                    }
+                        stableState[switchIndex] = currentState;
+                        lastState[switchIndex] = currentState;
 
-                    if ((System::GetUs() - lastDebounceTime[switchIndex]) > STEP_SEQUENCER_DEBOUNCE_TIME)
-                    {
-                        if (currentState != stableState[switchIndex])
+                        if (stableState[switchIndex] == true)
                         {
-                            stableState[switchIndex] = currentState;
-                            lastState[switchIndex] = currentState;
-
-                            if (stableState[switchIndex] == true)
-                            {
-                                returnValue |= (1 << switchIndex);
-                            }
-                            else
-                            {
-                                // Handle switch off here.
-                            }
+                            returnValue |= (1 << switchIndex);
+                        }
+                        else
+                        {
+                            // Handle switch off here.
                         }
                     }
-
-                    lastState[switchIndex] = currentState;
                 }
+
+                lastState[switchIndex] = currentState;
             }
         }
 
+        columnPinIndex = (columnPinIndex + 1) % 6;
         return returnValue;
     }
 }

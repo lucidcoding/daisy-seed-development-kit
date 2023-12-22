@@ -21,6 +21,7 @@ namespace developmentKit
 
     private:
         Mcp23017 mcp;
+        uint8_t columnPinIndex;
         uint8_t columnPins[6] = {8, 9, 10, 11, 12, 13};
         uint8_t inputPins[4] = {0, 2, 3, 7};
         uint8_t switchLookup[6][4] = {

@@ -47,13 +47,11 @@ int main(void)
 
     keys.Init();
     leds.Init();
-    //leds.SetLed(2, true);
     leds.SetLed(0, true);
     leds.SetLed(4, true);
     leds.SetLed(9, true);
     leds.SetLed(14, true);
     leds.SetLed(19, true);
-    //leds.SetLed(5, true);
 
     while (1)
     {
@@ -65,9 +63,9 @@ int main(void)
             hardware.PrintLine("RetVal: %d", retVal);
         }
 
-        leds.Process(&hardware);
+        leds.Process();
 
-        System::DelayUs(50);
+        System::DelayUs(500);
         //System::Delay(1000);
     }
 }
