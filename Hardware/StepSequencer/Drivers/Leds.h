@@ -6,12 +6,12 @@
 #include "daisy_seed.h"
 #include "dev/mcp23x17.h"
 
-namespace developmentKit
+namespace developmentKit::stepSequencer
 {
     using namespace daisysp;
     using namespace daisy;
 
-    class StepSequencerLeds
+    class Leds
     {
     public:
         void Init();

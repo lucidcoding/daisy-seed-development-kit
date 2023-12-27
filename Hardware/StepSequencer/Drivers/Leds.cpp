@@ -1,13 +1,13 @@
-#include "StepSequencerLeds.h"
+#include "Leds.h"
 #include "daisysp.h"
 #include "daisy_seed.h"
 
-namespace developmentKit
+namespace developmentKit::stepSequencer
 {
     using namespace daisysp;
     using namespace daisy;
 
-    void StepSequencerLeds::Init()
+    void Leds::Init()
     {
         Mcp23017::Config config;
         config.transport_config.i2c_address = 0x21;
@@ -21,10 +21,9 @@ namespace developmentKit
         mcp.PortMode(MCPPort::B, 0x00);
         mcp.WritePort(MCPPort::A, 0x00);
         mcp.WritePort(MCPPort::B, 0x00);
-        // ledStates = 0x00000000;
     }
 
-    void StepSequencerLeds::SetLed(uint8_t ledIndex, bool state)
+    void Leds::SetLed(uint8_t ledIndex, bool state)
     {
         ledStates[ledIndex] = state;
         /*if(state)
@@ -37,16 +36,13 @@ namespace developmentKit
         }*/
     }
 
-    void StepSequencerLeds::Process()
+    void Leds::Process()
     {
         mcp.WritePort(MCPPort::A, 0x00);
         uint8_t currentColumnPin = columnPins[currentColumnIndex];
+        mcp.WritePort(MCPPort::B, ~(0x01 << (currentColumnPin - 8)));
 
-        for (uint8_t currentColumnIndexToWrite; currentColumnIndexToWrite < 6; currentColumnIndexToWrite++)
-        {
-            uint8_t currentColumnPinToWrite = columnPins[currentColumnIndexToWrite];
-            mcp.WritePin(currentColumnPinToWrite, currentColumnIndexToWrite == currentColumnIndex ? 0 : 1);
-        }
+        uint8_t portAValue = 0x00 << currentColumnPin;
 
         for (uint8_t currentRowIndex = 0; currentRowIndex < 4; currentRowIndex++)
         {
@@ -54,14 +50,15 @@ namespace developmentKit
 
             uint8_t ledIndex = ledLookup[currentColumnIndex][currentRowIndex];
             uint8_t state = 0;
-            
-            if(ledIndex != 255 && ledStates[ledIndex])
+
+            if (ledIndex != 255 && ledStates[ledIndex])
             {
-                state = 1;
+                portAValue = portAValue | (0x01 << currentRowPin);
             }
-            mcp.WritePin(currentRowPin, state);
         }
 
+        
+        mcp.WritePort(MCPPort::A, portAValue);
         currentColumnIndex = (currentColumnIndex + 1) % 6;
     }
 }

@@ -1,13 +1,13 @@
-#include "StepSequencerKeys.h"
+#include "Keys.h"
 #include "daisysp.h"
 #include "daisy_seed.h"
 
-namespace developmentKit
+namespace developmentKit::stepSequencer
 {
     using namespace daisysp;
     using namespace daisy;
 
-    void StepSequencerKeys::Init()
+    void Keys::Init()
     {
         Mcp23017::Config config;
         config.transport_config.i2c_address = 0x20;
@@ -22,19 +22,12 @@ namespace developmentKit
         mcp.WritePort(MCPPort::B, 0xFF);
     }
 
-    uint64_t StepSequencerKeys::Process()
+    uint64_t Keys::Process()
     {
         uint64_t returnValue = 0;
         uint8_t columnPin = columnPins[columnPinIndex];
-
-        for (uint8_t columnPinToSetIndex = 0; columnPinToSetIndex < 6; columnPinToSetIndex++)
-        {
-            uint8_t columnPinToSet = columnPins[columnPinToSetIndex];
-            mcp.WritePin(columnPinToSet, columnPin == columnPinToSet ? 0 : 1);
-        }
-
-        uint16_t read = mcp.Read();
-        uint8_t inputPortReading = read & 0xFF;
+        mcp.WritePort(MCPPort::B, ~(0x01 << (columnPin - 8)));
+        mcp.Read();
 
         for (uint8_t inputPinIndex = 0; inputPinIndex < 4; inputPinIndex++)
         {

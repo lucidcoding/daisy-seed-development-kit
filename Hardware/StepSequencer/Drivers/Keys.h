@@ -8,12 +8,12 @@
 
 #define STEP_SEQUENCER_DEBOUNCE_TIME 1000
 
-namespace developmentKit
+namespace developmentKit::stepSequencer
 {
     using namespace daisysp;
     using namespace daisy;
 
-    class StepSequencerKeys
+    class Keys
     {
     public:
         void Init();

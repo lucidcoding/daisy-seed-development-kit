@@ -1,12 +1,12 @@
 #include "daisysp.h"
 #include "daisy_seed.h"
 #include "dev/mcp23x17.h"
-#include "../../Drivers/StepSequencerKeys.h";
-#include "../../Drivers/StepSequencerLeds.h";
+#include "../../Drivers/Keys.h"
+#include "../../Drivers/Leds.h"
 
 using namespace daisysp;
 using namespace daisy;
-using namespace developmentKit;
+using namespace developmentKit::stepSequencer;
 
 static DaisySeed hardware;
 Mcp23017 mcp;
@@ -16,8 +16,8 @@ bool stableState[24];
 bool lastState[24];
 uint32_t lastDebounceTime[24];
 uint32_t debounceDelay = 1000;
-StepSequencerKeys keys;
-StepSequencerLeds leds;
+Keys keys;
+Leds leds;
 
 static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
                           AudioHandle::InterleavingOutputBuffer out,
@@ -27,45 +27,56 @@ static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
 
 int main(void)
 {
+    const uint8_t ledMax = 22;
+    uint8_t currentLed = 0;
+    const uint16_t ledChangeCountdownMax = 2000;
+    uint16_t ledChangeCountdown = ledChangeCountdownMax;
+    uint32_t lastProcessTimeUs;
+    uint32_t processIntervalUs = 500;
+
     hardware.Configure();
     hardware.Init();
     hardware.StartLog(false);
     hardware.PrintLine("Starting...");
 
-    /*Mcp23017::Config config2;
-    config2.transport_config.i2c_address = 0x21;
-    config2.transport_config.i2c_config.periph = I2CHandle::Config::Peripheral::I2C_1;
-    config2.transport_config.i2c_config.speed = I2CHandle::Config::Speed::I2C_1MHZ;
-    config2.transport_config.i2c_config.mode = I2CHandle::Config::Mode::I2C_MASTER;
-    config2.transport_config.i2c_config.pin_config.scl = {DSY_GPIOB, 8};
-    config2.transport_config.i2c_config.pin_config.sda = {DSY_GPIOB, 9};
-    mcp2.Init(config2);
-    mcp2.PortMode(MCPPort::A, 0x00);
-    mcp2.PortMode(MCPPort::B, 0x00);
-    mcp2.WritePort(MCPPort::A, 0x00);
-    mcp2.WritePort(MCPPort::B, 0x00);*/
-
     keys.Init();
     leds.Init();
-    leds.SetLed(0, true);
-    leds.SetLed(4, true);
-    leds.SetLed(9, true);
-    leds.SetLed(14, true);
-    leds.SetLed(19, true);
 
     while (1)
     {
+        uint32_t currentProcessTimeUs = System::GetUs();
 
-        uint64_t retVal = keys.Process();
-
-        if (retVal > 0)
+        if (currentProcessTimeUs - lastProcessTimeUs > processIntervalUs)
         {
-            hardware.PrintLine("RetVal: %d", retVal);
+            // hardware.PrintLine("currentProcessTimeUs: %lu", currentProcessTimeUs);
+            lastProcessTimeUs = currentProcessTimeUs;
+
+            // hardware.PrintLine("ledChangeCountdown: %lu", System::GetUs());
+            if (ledChangeCountdown-- < 1)
+            {
+                // hardware.PrintLine("ledChangeCountdown: %u", ledChangeCountdown);
+                ledChangeCountdown = ledChangeCountdownMax;
+                currentLed = (currentLed + 1) % ledMax;
+
+                for (uint8_t ledToSet = 0; ledToSet <= ledMax; ledToSet++)
+                {
+                    leds.SetLed(ledToSet, ledToSet == currentLed);
+                }
+            }
+
+            // hardware.PrintLine("Processing keys: %lu", System::GetUs());
+            uint64_t retVal = keys.Process();
+
+            if (retVal > 0)
+            {
+                hardware.PrintLine("RetVal: %u", retVal);
+            }
+
+            // hardware.PrintLine("Processing leds: %lu", System::GetUs());
+            leds.Process();
+            // hardware.PrintLine("Done: %lu", System::GetUs());
+            /*uint32_t timeTaken = System::GetUs() - currentProcessTimeUs;
+            hardware.PrintLine("timeTaken: %d", timeTaken);*/
         }
-
-        leds.Process();
-
-        System::DelayUs(500);
-        //System::Delay(1000);
     }
 }
