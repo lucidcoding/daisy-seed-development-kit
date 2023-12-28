@@ -12,7 +12,7 @@ namespace developmentKit::stepSequencer
     {
     public:
         virtual void Init() = 0;
-        virtual uint8_t ScanNextColumn() = 0;
+        virtual uint8_t ScanNextColumn(uint32_t currentProcessTimeUs) = 0;
 
     private:
     };

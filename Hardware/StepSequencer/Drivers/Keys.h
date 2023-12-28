@@ -18,7 +18,7 @@ namespace developmentKit::stepSequencer
     {
     public:
         void Init();
-        uint8_t ScanNextColumn();
+        uint8_t ScanNextColumn(uint32_t currentProcessTimeUs);
 
     private:
         Mcp23017 mcp;

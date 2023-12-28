@@ -27,7 +27,7 @@ static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
 {
 }
 
-/*int main(void)
+int main(void)
 {
 
     hardware.Configure();
@@ -44,8 +44,8 @@ static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
     {
         stepSequencer.Process(System::GetUs());
     }
-}*/
-int main(void)
+}
+/*int main(void)
 {
     const uint8_t ledMax = 22;
     uint8_t currentLed = 0;
@@ -68,13 +68,10 @@ int main(void)
 
         if (currentProcessTimeUs - lastProcessTimeUs > processIntervalUs)
         {
-            // hardware.PrintLine("currentProcessTimeUs: %lu", currentProcessTimeUs);
             lastProcessTimeUs = currentProcessTimeUs;
 
-            // hardware.PrintLine("ledChangeCountdown: %lu", System::GetUs());
             if (ledChangeCountdown-- < 1)
             {
-                // hardware.PrintLine("ledChangeCountdown: %u", ledChangeCountdown);
                 ledChangeCountdown = ledChangeCountdownMax;
                 currentLed = (currentLed + 1) % ledMax;
 
@@ -84,19 +81,14 @@ int main(void)
                 }
             }
 
-            // hardware.PrintLine("Processing keys: %lu", System::GetUs());
-            uint8_t retVal = keys.ScanNextColumn();
+            uint8_t retVal = keys.ScanNextColumn(currentProcessTimeUs);
 
             if (retVal < 255)
             {
                 hardware.PrintLine("RetVal: %d", retVal);
             }
 
-            // hardware.PrintLine("Processing leds: %lu", System::GetUs());
             leds.ScanNextColumn();
-            // hardware.PrintLine("Done: %lu", System::GetUs());
-            // uint32_t timeTaken = System::GetUs() - currentProcessTimeUs;
-            // hardware.PrintLine("timeTaken: %d", timeTaken);
         }
     }
-}
+}*/

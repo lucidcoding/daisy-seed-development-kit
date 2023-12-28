@@ -78,7 +78,7 @@ namespace developmentKit::stepSequencer
                 currentStep = (currentStep + 1) % stepCount;
             }
 
-            uint64_t retVal = keys->ScanNextColumn();
+            uint64_t retVal = keys->ScanNextColumn(currentProcessTimeUs);
 
             if (retVal < 255)
             {

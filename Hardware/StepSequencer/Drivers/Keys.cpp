@@ -22,7 +22,7 @@ namespace developmentKit::stepSequencer
         mcp.WritePort(MCPPort::B, 0xFF);
     }
 
-    uint8_t Keys::ScanNextColumn()
+    uint8_t Keys::ScanNextColumn(uint32_t currentProcessTimeUs)
     {
         uint64_t returnValue = 255;
         uint8_t columnPin = columnPins[columnPinIndex];
@@ -40,10 +40,10 @@ namespace developmentKit::stepSequencer
 
                 if (currentState != lastState[switchIndex])
                 {
-                    lastDebounceTime[switchIndex] = System::GetUs();
+                    lastDebounceTime[switchIndex] = currentProcessTimeUs;
                 }
 
-                if ((System::GetUs() - lastDebounceTime[switchIndex]) > STEP_SEQUENCER_DEBOUNCE_TIME)
+                if ((currentProcessTimeUs - lastDebounceTime[switchIndex]) > STEP_SEQUENCER_DEBOUNCE_TIME)
                 {
                     if (currentState != stableState[switchIndex])
                     {
