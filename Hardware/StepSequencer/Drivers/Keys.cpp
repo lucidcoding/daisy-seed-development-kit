@@ -22,7 +22,7 @@ namespace developmentKit::stepSequencer
         mcp.WritePort(MCPPort::B, 0xFF);
     }
 
-    uint8_t Keys::Process()
+    uint8_t Keys::ScanNextColumn()
     {
         uint64_t returnValue = 255;
         uint8_t columnPin = columnPins[columnPinIndex];

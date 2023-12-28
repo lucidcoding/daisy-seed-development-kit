@@ -17,7 +17,7 @@ namespace developmentKit::stepSequencer
     {
     public:
         void Init();
-        uint8_t Process();
+        uint8_t ScanNextColumn();
         DaisySeed *seed;
 
     private:

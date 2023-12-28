@@ -73,7 +73,7 @@ namespace developmentKit::stepSequencer
                 currentStep = (currentStep + 1) % stepCount;
             }
 
-            uint64_t retVal = keys.Process();
+            uint64_t retVal = keys.ScanNextColumn();
 
             if (retVal < 255)
             {
