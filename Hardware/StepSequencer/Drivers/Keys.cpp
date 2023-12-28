@@ -22,9 +22,9 @@ namespace developmentKit::stepSequencer
         mcp.WritePort(MCPPort::B, 0xFF);
     }
 
-    uint64_t Keys::Process()
+    uint8_t Keys::Process()
     {
-        uint64_t returnValue = 0;
+        uint64_t returnValue = 255;
         uint8_t columnPin = columnPins[columnPinIndex];
         mcp.WritePort(MCPPort::B, ~(0x01 << (columnPin - 8)));
         mcp.Read();
@@ -52,7 +52,9 @@ namespace developmentKit::stepSequencer
 
                         if (stableState[switchIndex] == true)
                         {
-                            returnValue |= (1 << switchIndex);
+                            seed->PrintLine("Key Pressed: %d", switchIndex);
+                            //returnValue |= (1 << switchIndex);
+                            returnValue = switchIndex;
                         }
                         else
                         {

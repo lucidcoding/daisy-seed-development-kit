@@ -5,7 +5,8 @@ TARGET = StandaloneTest
 CPP_SOURCES = \
 	StandaloneTest.cpp \
 	../../Drivers/Keys.cpp \
-	../../Drivers/Leds.cpp
+	../../Drivers/Leds.cpp \
+	../../StepSequencer.cpp
 
 # Core location, and generic Makefile.
 SYSTEM_FILES_DIR = $(LIBDAISY_DIR)/core

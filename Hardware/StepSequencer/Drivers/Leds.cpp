@@ -26,14 +26,6 @@ namespace developmentKit::stepSequencer
     void Leds::SetLed(uint8_t ledIndex, bool state)
     {
         ledStates[ledIndex] = state;
-        /*if(state)
-        {
-            ledStates |= (ledIndex << 1);
-        }
-        else
-        {
-            ledStates &= ~(ledIndex << 1);
-        }*/
     }
 
     void Leds::Process()

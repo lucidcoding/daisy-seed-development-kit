@@ -17,7 +17,8 @@ namespace developmentKit::stepSequencer
     {
     public:
         void Init();
-        uint64_t Process();
+        uint8_t Process();
+        DaisySeed *seed;
 
     private:
         Mcp23017 mcp;
