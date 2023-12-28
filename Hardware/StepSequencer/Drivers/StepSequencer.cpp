@@ -64,10 +64,8 @@ namespace developmentKit::stepSequencer
         UpdateLedsForCurrentStep();
     }
 
-    void StepSequencer::Process()
+    void StepSequencer::Process(uint32_t currentProcessTimeUs)
     {
-        uint32_t currentProcessTimeUs = System::GetUs();
-
         if (currentProcessTimeUs - lastProcessTimeUs > STEP_SEQUENCER_PROCESS_INTERVAL_US)
         {
             lastProcessTimeUs = currentProcessTimeUs;
@@ -149,7 +147,7 @@ namespace developmentKit::stepSequencer
                 }
             }
 
-            leds->Process();
+            leds->ScanNextColumn();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace developmentKit::stepSequencer
     public:
         virtual void Init()= 0;
         virtual void SetLed(uint8_t ledIndex, bool state) = 0;
-        virtual void Process() = 0;
+        virtual void ScanNextColumn() = 0;
 
     private:
     };

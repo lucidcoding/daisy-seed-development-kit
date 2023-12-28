@@ -23,7 +23,7 @@ namespace developmentKit::stepSequencer
     public:
         StepSequencer(IKeys *keys, ILeds *leds);
         void Init();
-        void Process();
+        void Process(uint32_t currentProcessTimeUs);
         DaisySeed *seed;
 
     private:

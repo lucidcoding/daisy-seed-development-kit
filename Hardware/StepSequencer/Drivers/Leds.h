@@ -17,7 +17,7 @@ namespace developmentKit::stepSequencer
     public:
         void Init();
         void SetLed(uint8_t ledIndex, bool state);
-        void Process();
+        void ScanNextColumn();
 
     private:
         Mcp23017 mcp;

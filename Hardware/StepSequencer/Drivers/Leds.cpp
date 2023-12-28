@@ -28,7 +28,7 @@ namespace developmentKit::stepSequencer
         ledStates[ledIndex] = state;
     }
 
-    void Leds::Process()
+    void Leds::ScanNextColumn()
     {
         mcp.WritePort(MCPPort::A, 0x00);
         uint8_t currentColumnPin = columnPins[currentColumnIndex];

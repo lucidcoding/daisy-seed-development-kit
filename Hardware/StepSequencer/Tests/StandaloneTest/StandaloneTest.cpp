@@ -27,7 +27,7 @@ static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
 {
 }
 
-int main(void)
+/*int main(void)
 {
 
     hardware.Configure();
@@ -42,10 +42,10 @@ int main(void)
 
     while (1)
     {
-        stepSequencer.Process();
+        stepSequencer.Process(System::GetUs());
     }
-}
-/*int main(void)
+}*/
+int main(void)
 {
     const uint8_t ledMax = 22;
     uint8_t currentLed = 0;
@@ -85,18 +85,18 @@ int main(void)
             }
 
             // hardware.PrintLine("Processing keys: %lu", System::GetUs());
-            uint64_t retVal = keys.Process();
+            uint8_t retVal = keys.ScanNextColumn();
 
-            if (retVal > 0)
+            if (retVal < 255)
             {
-                hardware.PrintLine("RetVal: %u", retVal);
+                hardware.PrintLine("RetVal: %d", retVal);
             }
 
             // hardware.PrintLine("Processing leds: %lu", System::GetUs());
-            leds.Process();
+            leds.ScanNextColumn();
             // hardware.PrintLine("Done: %lu", System::GetUs());
             // uint32_t timeTaken = System::GetUs() - currentProcessTimeUs;
             // hardware.PrintLine("timeTaken: %d", timeTaken);
         }
     }
-}*/
+}
