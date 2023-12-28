@@ -1,4 +1,6 @@
 #include "StepSequencer.h"
+#include "IKeys.h"
+#include "ILeds.h"
 #include "daisysp.h"
 #include "daisy_seed.h"
 
@@ -7,16 +9,21 @@ namespace developmentKit::stepSequencer
     using namespace daisysp;
     using namespace daisy;
 
+    StepSequencer::StepSequencer(IKeys *keys, ILeds* leds)
+    {
+        this->keys = keys;
+        this->leds = leds;
+    }
+
     void StepSequencer::Init()
     {
         stepCount = 16;
         currentStep = 0;
         stepInterval = 250;
         tick = stepInterval - 1;
-        keys.seed = seed;
         mode = STEP_SEQUENCER_MODE_STOP;
-        keys.Init();
-        leds.Init();
+        keys->Init();
+        leds->Init();
 
         steps[0].accent = true;
         steps[1].note = 1;
@@ -41,13 +48,13 @@ namespace developmentKit::stepSequencer
 
         for (uint8_t ledToSet = 0; ledToSet <= 15; ledToSet++)
         {
-            leds.SetLed(ledToSet, ledToSet == noteToLedLookup[step.note]);
+            leds->SetLed(ledToSet, ledToSet == noteToLedLookup[step.note]);
         }
 
-        leds.SetLed(17, step.octaveDown);
-        leds.SetLed(18, step.octaveUp);
-        leds.SetLed(19, step.accent);
-        leds.SetLed(20, step.slide);
+        leds->SetLed(17, step.octaveDown);
+        leds->SetLed(18, step.octaveUp);
+        leds->SetLed(19, step.accent);
+        leds->SetLed(20, step.slide);
     }
 
     void StepSequencer::StartStepRecording()
@@ -73,11 +80,11 @@ namespace developmentKit::stepSequencer
                 currentStep = (currentStep + 1) % stepCount;
             }
 
-            uint64_t retVal = keys.ScanNextColumn();
+            uint64_t retVal = keys->ScanNextColumn();
 
             if (retVal < 255)
             {
-                leds.SetLed(retVal, true);
+                leds->SetLed(retVal, true);
 
                 if (retVal == 6)
                 {
@@ -118,22 +125,22 @@ namespace developmentKit::stepSequencer
                         steps[currentStep].note = note;
                     }
 
-                    if(retVal == 17)
+                    if (retVal == 17)
                     {
                         steps[currentStep].octaveDown = !steps[currentStep].octaveDown;
                     }
 
-                    if(retVal == 18)
+                    if (retVal == 18)
                     {
                         steps[currentStep].octaveUp = !steps[currentStep].octaveUp;
                     }
 
-                    if(retVal == 19)
+                    if (retVal == 19)
                     {
                         steps[currentStep].accent = !steps[currentStep].accent;
                     }
 
-                    if(retVal == 20)
+                    if (retVal == 20)
                     {
                         steps[currentStep].slide = !steps[currentStep].slide;
                     }
@@ -142,7 +149,7 @@ namespace developmentKit::stepSequencer
                 }
             }
 
-            leds.Process();
+            leds->Process();
         }
     }
 }

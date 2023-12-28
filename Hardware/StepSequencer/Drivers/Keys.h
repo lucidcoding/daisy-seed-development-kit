@@ -5,6 +5,7 @@
 #include "daisysp.h"
 #include "daisy_seed.h"
 #include "dev/mcp23x17.h"
+#include "IKeys.h"
 
 #define STEP_SEQUENCER_DEBOUNCE_TIME 1000
 
@@ -13,12 +14,11 @@ namespace developmentKit::stepSequencer
     using namespace daisysp;
     using namespace daisy;
 
-    class Keys
+    class Keys : public IKeys
     {
     public:
         void Init();
         uint8_t ScanNextColumn();
-        DaisySeed *seed;
 
     private:
         Mcp23017 mcp;

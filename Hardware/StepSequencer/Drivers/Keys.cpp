@@ -52,8 +52,6 @@ namespace developmentKit::stepSequencer
 
                         if (stableState[switchIndex] == true)
                         {
-                            seed->PrintLine("Key Pressed: %d", switchIndex);
-                            //returnValue |= (1 << switchIndex);
                             returnValue = switchIndex;
                         }
                         else

@@ -19,7 +19,7 @@ uint32_t lastDebounceTime[24];
 uint32_t debounceDelay = 1000;
 Keys keys;
 Leds leds;
-StepSequencer stepSequencer;
+StepSequencer stepSequencer(&keys, &leds);
 
 static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
                           AudioHandle::InterleavingOutputBuffer out,

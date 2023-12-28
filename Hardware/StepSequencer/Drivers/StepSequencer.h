@@ -9,8 +9,8 @@
 
 #include "daisysp.h"
 #include "daisy_seed.h"
-#include "Keys.h"
-#include "Leds.h"
+#include "IKeys.h"
+#include "ILeds.h"
 #include "Step.h"
 
 namespace developmentKit::stepSequencer
@@ -21,6 +21,7 @@ namespace developmentKit::stepSequencer
     class StepSequencer
     {
     public:
+        StepSequencer(IKeys *keys, ILeds *leds);
         void Init();
         void Process();
         DaisySeed *seed;
@@ -29,8 +30,8 @@ namespace developmentKit::stepSequencer
         uint8_t stepCount;
         uint8_t currentStep;
         Step steps[16];
-        Keys keys;
-        Leds leds;
+        IKeys *keys;
+        ILeds *leds;
         uint32_t lastProcessTimeUs;
         uint16_t tick;
         uint16_t stepInterval;
