@@ -16,6 +16,7 @@ namespace developmentKit::stepSequencer
     public:
         void Init();
         void SetLed(uint8_t ledIndex, bool state);
+        void SetLeds(uint64_t states);
         void ScanNextColumn();
 
     private:

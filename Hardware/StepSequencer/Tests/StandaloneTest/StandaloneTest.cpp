@@ -51,12 +51,8 @@ int main(void)
             uint8_t lastKeyPress = keys.ScanNextColumn(currentProcessTimeUs);
             stepSequencer.SetKeys(lastKeyPress);
             stepSequencer.Process(currentProcessTimeUs);
-
-            for(uint8_t i = 0; i < 32; i++)
-            {
-                leds.SetLed(i, stepSequencer.leds[i]);
-            }
-            
+            uint64_t ledStates = stepSequencer.GetLedStates();
+            leds.SetLeds(ledStates);
             leds.ScanNextColumn();
         }
     }

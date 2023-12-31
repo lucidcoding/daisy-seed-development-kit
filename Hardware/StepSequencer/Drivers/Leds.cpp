@@ -28,6 +28,14 @@ namespace developmentKit::stepSequencer
         ledStates[ledIndex] = state;
     }
 
+    void Leds::SetLeds(uint64_t states)
+    {
+        for(uint8_t ledIndex = 0; ledIndex < 64; ledIndex ++)
+        {
+            ledStates[ledIndex] = (((states >> ledIndex) & 0x01) == 0x01);
+        }
+    }
+
     void Leds::ScanNextColumn()
     {
         mcp.WritePort(MCPPort::A, 0x00);

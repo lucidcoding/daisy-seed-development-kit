@@ -2,16 +2,20 @@
 #ifndef STEP_SEQUENCER_STEP_H
 #define STEP_SEQUENCER_STEP_H
 
-#include "daisysp.h"
+//#include "daisysp.h"
+//#include "Types.h"
+#include "stdint.h"
 
 namespace developmentKit::stepSequencer
 {
-    using namespace daisysp;
+    //using namespace daisysp;
 
     class Step
     {
     public:
         uint8_t note;
+        uint32_t d;
+        uint64_t e;
         bool octaveUp;
         bool octaveDown;
         bool gate;
