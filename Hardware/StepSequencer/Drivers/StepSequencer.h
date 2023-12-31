@@ -21,18 +21,17 @@ namespace developmentKit::stepSequencer
     class StepSequencer
     {
     public:
-        StepSequencer(IKeys *keys, ILeds *leds);
+        //StepSequencer();
         void Init();
+        void SetKeys(uint8_t keys);
         void Process(uint32_t currentProcessTimeUs);
-        DaisySeed *seed;
+        bool leds[32];
 
     private:
         uint8_t stepCount;
         uint8_t currentStep;
         Step steps[16];
-        IKeys *keys;
-        ILeds *leds;
-        uint32_t lastProcessTimeUs;
+        uint8_t lastKeyPress;
         uint16_t tick;
         uint16_t stepInterval;
         void UpdateLedsForCurrentStep();

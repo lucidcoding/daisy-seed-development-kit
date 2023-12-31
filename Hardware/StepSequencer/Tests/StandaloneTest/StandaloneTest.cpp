@@ -19,7 +19,8 @@ uint32_t lastDebounceTime[24];
 uint32_t debounceDelay = 1000;
 Keys keys;
 Leds leds;
-StepSequencer stepSequencer(&keys, &leds);
+StepSequencer stepSequencer;
+uint32_t lastProcessTimeUs;
 
 static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
                           AudioHandle::InterleavingOutputBuffer out,
@@ -35,14 +36,29 @@ int main(void)
     hardware.StartLog(false);
     hardware.PrintLine("Starting...");
 
-    stepSequencer.seed = &hardware;
+    leds.Init();
+    keys.Init();
     stepSequencer.Init();
-
- 
 
     while (1)
     {
-        stepSequencer.Process(System::GetUs());
+        uint32_t currentProcessTimeUs = System::GetUs();
+
+        if (currentProcessTimeUs - lastProcessTimeUs > STEP_SEQUENCER_PROCESS_INTERVAL_US)
+        {
+            lastProcessTimeUs = currentProcessTimeUs;
+
+            uint8_t lastKeyPress = keys.ScanNextColumn(currentProcessTimeUs);
+            stepSequencer.SetKeys(lastKeyPress);
+            stepSequencer.Process(currentProcessTimeUs);
+
+            for(uint8_t i = 0; i < 32; i++)
+            {
+                leds.SetLed(i, stepSequencer.leds[i]);
+            }
+            
+            leds.ScanNextColumn();
+        }
     }
 }
 /*int main(void)

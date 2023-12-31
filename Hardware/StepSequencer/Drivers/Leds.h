@@ -5,14 +5,13 @@
 #include "daisysp.h"
 #include "daisy_seed.h"
 #include "dev/mcp23x17.h"
-#include "ILeds.h"
 
 namespace developmentKit::stepSequencer
 {
     using namespace daisysp;
     using namespace daisy;
 
-    class Leds : public ILeds
+    class Leds
     {
     public:
         void Init();
