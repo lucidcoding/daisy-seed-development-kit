@@ -32,7 +32,7 @@ namespace developmentKit::stepSequencer
     {
         Step step = steps[currentStep];
 
-        for (uint8_t ledToSet = 0; ledToSet < 16; ledToSet++)
+        for (uint8_t ledToSet = 0; ledToSet < 17; ledToSet++)
         {
             leds[ledToSet] = (ledToSet == noteToLedLookup[step.note]);
         }
@@ -59,7 +59,7 @@ namespace developmentKit::stepSequencer
     {
         uint64_t returnValue = 0x00;
 
-        for (uint8_t ledIndex = 0; ledIndex < 64; ledIndex++)
+        for (uint8_t ledIndex = 0; ledIndex < STEP_SEQUENCER_NUMBER_OF_LEDS; ledIndex++)
         {
             returnValue = returnValue | ((leds[ledIndex] ? 0x01 : 0x00) << ledIndex);
         }
@@ -80,19 +80,19 @@ namespace developmentKit::stepSequencer
         {
             leds[lastKeyPress] = true;
 
-            if (lastKeyPress == 6)
+            if (lastKeyPress == STEP_SEQUENCER_KEYS_PLAY)
             {
                 mode = (mode == STEP_SEQUENCER_MODE_PLAY) ? STEP_SEQUENCER_MODE_STOP : STEP_SEQUENCER_MODE_PLAY;
             }
 
-            if (lastKeyPress == 7)
+            if (lastKeyPress == STEP_SEQUENCER_KEYS_REC)
             {
                 StartStepRecording();
             }
 
             if (mode == STEP_SEQUENCER_MODE_STEP_REC)
             {
-                if (lastKeyPress == 21)
+                if (lastKeyPress == STEP_SEQUENCER_KEYS_BACK)
                 {
                     if (currentStep > 0)
                     {
@@ -101,7 +101,7 @@ namespace developmentKit::stepSequencer
                     }
                 }
 
-                if (lastKeyPress == 22)
+                if (lastKeyPress == STEP_SEQUENCER_KEYS_NEXT)
                 {
                     if (currentStep < (stepCount - 1))
                     {
@@ -120,22 +120,22 @@ namespace developmentKit::stepSequencer
                     steps[currentStep].note = note;
                 }
 
-                if (lastKeyPress == 17)
+                if (lastKeyPress == STEP_SEQUENCER_KEYS_OCTAVE_DOWN)
                 {
                     steps[currentStep].octaveDown = !steps[currentStep].octaveDown;
                 }
 
-                if (lastKeyPress == 18)
+                if (lastKeyPress == STEP_SEQUENCER_KEYS_OCTAVE_UP)
                 {
                     steps[currentStep].octaveUp = !steps[currentStep].octaveUp;
                 }
 
-                if (lastKeyPress == 19)
+                if (lastKeyPress == STEP_SEQUENCER_KEYS_ACCENT)
                 {
                     steps[currentStep].accent = !steps[currentStep].accent;
                 }
 
-                if (lastKeyPress == 20)
+                if (lastKeyPress == STEP_SEQUENCER_KEYS_SLIDE)
                 {
                     steps[currentStep].slide = !steps[currentStep].slide;
                 }
