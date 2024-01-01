@@ -1,17 +1,8 @@
-#include "StepSequencer.h"
-/*#include "IKeys.h"
-#include "ILeds.h"
-#include "daisysp.h"
-#include "daisy_seed.h"*/
-//#include "daisysp.h"
-//#include "Types.h"
 #include "stdint.h"
+#include "StepSequencer.h"
 
 namespace developmentKit::stepSequencer
 {
-    //using namespace daisysp;
-    //using namespace daisy;
-
     void StepSequencer::Init()
     {
         stepCount = 16;
@@ -68,7 +59,7 @@ namespace developmentKit::stepSequencer
     {
         uint64_t returnValue = 0x00;
 
-        for(uint8_t ledIndex = 0; ledIndex < 64; ledIndex++)
+        for (uint8_t ledIndex = 0; ledIndex < 64; ledIndex++)
         {
             returnValue = returnValue | ((leds[ledIndex] ? 0x01 : 0x00) << ledIndex);
         }
@@ -124,9 +115,10 @@ namespace developmentKit::stepSequencer
 
             if (mode == STEP_SEQUENCER_MODE_STEP_REC)
             {
-                /*if (std::find(std::begin(noteToLedLookup), std::end(noteToLedLookup), lastKeyPress) != std::end(noteToLedLookup))
+                uint8_t note = getNoteFromKeyPressed(lastKeyPress);
+
+                if(note != 255)
                 {
-                    uint8_t note = std::distance(noteToLedLookup, std::find(noteToLedLookup, noteToLedLookup + 16, lastKeyPress));
                     steps[currentStep].note = note;
                 }
 
@@ -150,8 +142,21 @@ namespace developmentKit::stepSequencer
                     steps[currentStep].slide = !steps[currentStep].slide;
                 }
 
-                UpdateLedsForCurrentStep();*/
+                UpdateLedsForCurrentStep();
             }
         }
+    }
+
+    uint8_t StepSequencer::getNoteFromKeyPressed(uint8_t keyPressed)
+    {
+        for (uint8_t currentIndex = 0; currentIndex < 13; currentIndex++)
+        {
+            if(noteToLedLookup[currentIndex] == keyPressed)
+            {
+                return currentIndex;
+            }
+        }
+
+        return 255;
     }
 }

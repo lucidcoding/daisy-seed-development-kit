@@ -14,8 +14,6 @@ namespace developmentKit::stepSequencer
     {
     public:
         uint8_t note;
-        uint32_t d;
-        uint64_t e;
         bool octaveUp;
         bool octaveDown;
         bool gate;
