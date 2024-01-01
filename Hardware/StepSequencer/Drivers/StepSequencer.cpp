@@ -32,7 +32,7 @@ namespace developmentKit::stepSequencer
     {
         Step step = steps[currentStep];
 
-        for (uint8_t ledToSet = 0; ledToSet <= 15; ledToSet++)
+        for (uint8_t ledToSet = 0; ledToSet < 16; ledToSet++)
         {
             leds[ledToSet] = (ledToSet == noteToLedLookup[step.note]);
         }
@@ -69,16 +69,14 @@ namespace developmentKit::stepSequencer
 
     void StepSequencer::Process(uint32_t currentProcessTimeUs)
     {
-
         if (mode == STEP_SEQUENCER_MODE_PLAY && tick++ >= stepInterval)
         {
             tick = 0;
-
             UpdateLedsForCurrentStep();
             currentStep = (currentStep + 1) % stepCount;
         }
 
-        if (lastKeyPress < 255)
+        if (lastKeyPress != STEP_SEQUENCER_NO_KEY_PRESS)
         {
             leds[lastKeyPress] = true;
 
@@ -117,7 +115,7 @@ namespace developmentKit::stepSequencer
             {
                 uint8_t note = getNoteFromKeyPressed(lastKeyPress);
 
-                if(note != 255)
+                if(note != STEP_SEQUENCER_NOT_NOTE_KEY)
                 {
                     steps[currentStep].note = note;
                 }
@@ -149,7 +147,7 @@ namespace developmentKit::stepSequencer
 
     uint8_t StepSequencer::getNoteFromKeyPressed(uint8_t keyPressed)
     {
-        for (uint8_t currentIndex = 0; currentIndex < 13; currentIndex++)
+        for (uint8_t currentIndex = 0; currentIndex < STEP_SEQUENCER_NUMBER_OF_NOTE_KEYS; currentIndex++)
         {
             if(noteToLedLookup[currentIndex] == keyPressed)
             {
@@ -157,6 +155,6 @@ namespace developmentKit::stepSequencer
             }
         }
 
-        return 255;
+        return STEP_SEQUENCER_NOT_NOTE_KEY;
     }
 }
