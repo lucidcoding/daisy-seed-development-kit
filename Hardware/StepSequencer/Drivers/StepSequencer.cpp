@@ -37,10 +37,10 @@ namespace developmentKit::stepSequencer
             leds[ledToSet] = (ledToSet == noteToLedLookup[step.note]);
         }
 
-        leds[17] = step.octaveDown;
-        leds[18] = step.octaveUp;
-        leds[19] = step.accent;
-        leds[20] = step.slide;
+        leds[STEP_SEQUENCER_LEDS_OCTAVE_DOWN] = step.octaveDown;
+        leds[STEP_SEQUENCER_LEDS_OCTAVE_UP] = step.octaveUp;
+        leds[STEP_SEQUENCER_LEDS_ACCENT] = step.accent;
+        leds[STEP_SEQUENCER_LEDS_SLIDE] = step.slide;
     }
 
     void StepSequencer::StartStepRecording()
