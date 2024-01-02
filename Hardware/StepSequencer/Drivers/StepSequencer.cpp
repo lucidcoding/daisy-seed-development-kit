@@ -1,5 +1,6 @@
 #include "stdint.h"
 #include "StepSequencer.h"
+#include "NoteEvent.h"
 
 namespace developmentKit::stepSequencer
 {
@@ -11,6 +12,7 @@ namespace developmentKit::stepSequencer
         tick = stepInterval - 1;
         mode = STEP_SEQUENCER_MODE_STOP;
         hasStepEvent = false;
+        gateOn = false;
 
         steps[0].accent = true;
         steps[1].note = 1;
@@ -77,7 +79,36 @@ namespace developmentKit::stepSequencer
             tick = 0;
             UpdateLedsForCurrentStep();
             currentStep = (currentStep + 1) % stepCount;
+
+            currentNoteEvent.type = STEP_SEQUENCER_NOTE_EVENT_TYPE_NOTE_ON;
+            currentNoteEvent.note = steps[currentStep].note;
+            currentNoteEvent.octaveDown = steps[currentStep].octaveDown;
+            currentNoteEvent.octaveUp = steps[currentStep].octaveUp;
+            currentNoteEvent.accent = steps[currentStep].accent;
+            currentNoteEvent.slide = steps[currentStep].slide;
             hasStepEvent = true;
+            gateCount = 0;
+            gateOn = true;
+        }
+
+        if (gateOn)
+        {
+            if (gateCount++ >= STEP_SEQUENCER_GATE_LENGTH)
+            {
+                if (!steps[currentStep].slide)
+                {
+                    gateOn = false;
+                    currentNoteEvent.type = STEP_SEQUENCER_NOTE_EVENT_TYPE_NOTE_OFF;
+                    hasStepEvent = true;
+                }
+
+                if (steps[currentStep].slide && mode != STEP_SEQUENCER_MODE_PLAY)
+                {
+                    gateOn = false;
+                    currentNoteEvent.type = STEP_SEQUENCER_NOTE_EVENT_TYPE_NOTE_OFF;
+                    hasStepEvent = true;
+                }
+            }
         }
 
         if (lastKeyPress != STEP_SEQUENCER_NO_KEY_PRESS)
@@ -86,7 +117,15 @@ namespace developmentKit::stepSequencer
 
             if (lastKeyPress == STEP_SEQUENCER_KEYS_PLAY)
             {
-                mode = (mode == STEP_SEQUENCER_MODE_PLAY) ? STEP_SEQUENCER_MODE_STOP : STEP_SEQUENCER_MODE_PLAY;
+                if (mode == STEP_SEQUENCER_MODE_PLAY)
+                {
+                    mode = STEP_SEQUENCER_MODE_STOP;
+                    // gateOn = false;
+                }
+                else if (mode == STEP_SEQUENCER_MODE_STOP)
+                {
+                    mode = STEP_SEQUENCER_MODE_PLAY;
+                }
             }
 
             if (lastKeyPress == STEP_SEQUENCER_KEYS_REC)
@@ -167,8 +206,8 @@ namespace developmentKit::stepSequencer
         return hasStepEvent;
     }
 
-    Step StepSequencer::GetCurrentStep()
+    NoteEvent StepSequencer::GetCurrentStep()
     {
-        return steps[currentStep];
+        return currentNoteEvent;
     }
 }

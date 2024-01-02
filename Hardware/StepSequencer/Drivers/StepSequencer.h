@@ -2,6 +2,11 @@
 #ifndef STEP_SEQUENCER_H
 #define STEP_SEQUENCER_H
 #define STEP_SEQUENCER_PROCESS_INTERVAL_US 500
+#define STEP_SEQUENCER_NUMBER_OF_LEDS 23
+#define STEP_SEQUENCER_NUMBER_OF_NOTE_KEYS 13
+#define STEP_SEQUENCER_NO_KEY_PRESS 255
+#define STEP_SEQUENCER_NOT_NOTE_KEY 255
+#define STEP_SEQUENCER_GATE_LENGTH 100
 
 #define STEP_SEQUENCER_MODE_STOP 0
 #define STEP_SEQUENCER_MODE_PLAY 1
@@ -55,13 +60,9 @@
 #define STEP_SEQUENCER_LEDS_BACK 21
 #define STEP_SEQUENCER_LEDS_NEXT 22
 
-#define STEP_SEQUENCER_NUMBER_OF_LEDS 23
-#define STEP_SEQUENCER_NUMBER_OF_NOTE_KEYS 13
-#define STEP_SEQUENCER_NO_KEY_PRESS 255
-#define STEP_SEQUENCER_NOT_NOTE_KEY 255
-
 #include "stdint.h"
 #include "Step.h"
+#include "NoteEvent.h"
 
 namespace developmentKit::stepSequencer
 {
@@ -73,7 +74,7 @@ namespace developmentKit::stepSequencer
         void Process(uint32_t currentProcessTimeUs);
         uint64_t GetLedStates();
         bool HasStepEvent();
-        Step GetCurrentStep();
+        NoteEvent GetCurrentStep();
 
     private:
         uint8_t stepCount;
@@ -89,6 +90,9 @@ namespace developmentKit::stepSequencer
         bool leds[STEP_SEQUENCER_NUMBER_OF_LEDS];
         uint8_t GetNoteFromKeyPressed(uint8_t keyPressed);
         bool hasStepEvent;
+        uint8_t gateCount;
+        NoteEvent currentNoteEvent;
+        bool gateOn;
     };
 }
 

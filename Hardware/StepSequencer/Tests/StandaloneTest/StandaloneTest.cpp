@@ -2,7 +2,7 @@
 #include "daisy_seed.h"
 #include "../../Drivers/Keys.h"
 #include "../../Drivers/Leds.h"
-#include "../../Drivers/Step.h"
+#include "../../Drivers/NoteEvent.h"
 #include "../../Drivers/StepSequencer.h"
 
 using namespace daisysp;
@@ -47,13 +47,22 @@ void InitAdsr(float sampleRate)
     adsr.SetTime(ADSR_SEG_ATTACK, .01);
     adsr.SetTime(ADSR_SEG_DECAY, .1);
     adsr.SetTime(ADSR_SEG_RELEASE, .1);
-    adsr.SetSustainLevel(.5);
+    adsr.SetSustainLevel(.2);
 }
 
-void HandleStepMessage(Step step)
+void HandleStepMessage(NoteEvent noteEvent)
 {
-    gate = true;
-    mainOsc.SetFreq(mtof(64 + step.note));
+    if (noteEvent.type == STEP_SEQUENCER_NOTE_EVENT_TYPE_NOTE_ON)
+    {
+        hardware.PrintLine("on");
+        gate = true;
+        mainOsc.SetFreq(mtof(64 + noteEvent.note));
+    }
+    else if (noteEvent.type == STEP_SEQUENCER_NOTE_EVENT_TYPE_NOTE_OFF)
+    {
+        hardware.PrintLine("off");
+        gate = false;
+    }
 }
 
 int main(void)
@@ -87,9 +96,9 @@ int main(void)
 
             if (stepSequencer.HasStepEvent())
             {
-                Step step = stepSequencer.GetCurrentStep();
-                hardware.PrintLine("Note: %d, oct-:%d, oct+:%d, acc:%d, sli:%d", step.note, step.octaveDown, step.octaveUp, step.accent, step.slide);
-                HandleStepMessage(step);
+                NoteEvent noteEvent = stepSequencer.GetCurrentStep();
+                //hardware.PrintLine("type:%d, note: %d, oct-:%d, oct+:%d, acc:%d, sli:%d", noteEvent.type, noteEvent.note, noteEvent.octaveDown, noteEvent.octaveUp, noteEvent.accent, noteEvent.slide);
+                HandleStepMessage(noteEvent);
             }
         }
     }
