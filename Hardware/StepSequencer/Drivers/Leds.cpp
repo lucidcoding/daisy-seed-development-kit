@@ -49,7 +49,6 @@ namespace developmentKit::stepSequencer
             uint8_t currentRowPin = rowPins[currentRowIndex];
 
             uint8_t ledIndex = ledLookup[currentColumnIndex][currentRowIndex];
-            uint8_t state = 0;
 
             if (ledIndex != 255 && ledStates[ledIndex])
             {

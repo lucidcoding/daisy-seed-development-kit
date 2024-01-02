@@ -7,9 +7,10 @@ namespace developmentKit::stepSequencer
     {
         stepCount = 16;
         currentStep = 0;
-        stepInterval = 250;
+        stepInterval = 500;
         tick = stepInterval - 1;
         mode = STEP_SEQUENCER_MODE_STOP;
+        hasStepEvent = false;
 
         steps[0].accent = true;
         steps[1].note = 1;
@@ -69,11 +70,14 @@ namespace developmentKit::stepSequencer
 
     void StepSequencer::Process(uint32_t currentProcessTimeUs)
     {
+        hasStepEvent = false;
+
         if (mode == STEP_SEQUENCER_MODE_PLAY && tick++ >= stepInterval)
         {
             tick = 0;
             UpdateLedsForCurrentStep();
             currentStep = (currentStep + 1) % stepCount;
+            hasStepEvent = true;
         }
 
         if (lastKeyPress != STEP_SEQUENCER_NO_KEY_PRESS)
@@ -113,9 +117,9 @@ namespace developmentKit::stepSequencer
 
             if (mode == STEP_SEQUENCER_MODE_STEP_REC)
             {
-                uint8_t note = getNoteFromKeyPressed(lastKeyPress);
+                uint8_t note = GetNoteFromKeyPressed(lastKeyPress);
 
-                if(note != STEP_SEQUENCER_NOT_NOTE_KEY)
+                if (note != STEP_SEQUENCER_NOT_NOTE_KEY)
                 {
                     steps[currentStep].note = note;
                 }
@@ -145,16 +149,26 @@ namespace developmentKit::stepSequencer
         }
     }
 
-    uint8_t StepSequencer::getNoteFromKeyPressed(uint8_t keyPressed)
+    uint8_t StepSequencer::GetNoteFromKeyPressed(uint8_t keyPressed)
     {
         for (uint8_t currentIndex = 0; currentIndex < STEP_SEQUENCER_NUMBER_OF_NOTE_KEYS; currentIndex++)
         {
-            if(noteToLedLookup[currentIndex] == keyPressed)
+            if (noteToLedLookup[currentIndex] == keyPressed)
             {
                 return currentIndex;
             }
         }
 
         return STEP_SEQUENCER_NOT_NOTE_KEY;
+    }
+
+    bool StepSequencer::HasStepEvent()
+    {
+        return hasStepEvent;
+    }
+
+    Step StepSequencer::GetCurrentStep()
+    {
+        return steps[currentStep];
     }
 }

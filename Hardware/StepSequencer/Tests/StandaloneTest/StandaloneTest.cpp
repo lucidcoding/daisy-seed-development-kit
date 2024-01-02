@@ -1,8 +1,8 @@
 #include "daisysp.h"
 #include "daisy_seed.h"
-#include "dev/mcp23x17.h"
 #include "../../Drivers/Keys.h"
 #include "../../Drivers/Leds.h"
+#include "../../Drivers/Step.h"
 #include "../../Drivers/StepSequencer.h"
 
 using namespace daisysp;
@@ -10,35 +10,65 @@ using namespace daisy;
 using namespace developmentKit::stepSequencer;
 
 static DaisySeed hardware;
-Mcp23017 mcp;
-Mcp23017 mcp2;
-bool ledOn = true;
-bool stableState[24];
-bool lastState[24];
-uint32_t lastDebounceTime[24];
-uint32_t debounceDelay = 1000;
 Keys keys;
 Leds leds;
 StepSequencer stepSequencer;
 uint32_t lastProcessTimeUs;
+Oscillator mainOsc;
+Adsr adsr;
+bool gate;
 
 static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
                           AudioHandle::InterleavingOutputBuffer out,
                           size_t size)
 {
+    float oscillatorOut, adsrOut;
+
+    for (size_t i = 0; i < size; i += 2)
+    {
+        adsrOut = adsr.Process(gate);
+        mainOsc.SetAmp(adsrOut / 10);
+        oscillatorOut = mainOsc.Process();
+        out[i] = oscillatorOut;
+        out[i + 1] = oscillatorOut;
+    }
+}
+
+void InitOscillator(float sampleRate)
+{
+    mainOsc.Init(sampleRate);
+    mainOsc.SetWaveform(Oscillator::WAVE_POLYBLEP_TRI);
+    mainOsc.SetAmp(0.5);
+}
+
+void InitAdsr(float sampleRate)
+{
+    adsr.Init(sampleRate);
+    adsr.SetTime(ADSR_SEG_ATTACK, .01);
+    adsr.SetTime(ADSR_SEG_DECAY, .1);
+    adsr.SetTime(ADSR_SEG_RELEASE, .1);
+    adsr.SetSustainLevel(.5);
+}
+
+void HandleStepMessage(Step step)
+{
+    gate = true;
+    mainOsc.SetFreq(mtof(64 + step.note));
 }
 
 int main(void)
 {
-
     hardware.Configure();
     hardware.Init();
-    hardware.StartLog(false);
-    hardware.PrintLine("Starting...");
-
+    float sampleRate = hardware.AudioSampleRate();
+    InitOscillator(sampleRate);
+    InitAdsr(sampleRate);
     leds.Init();
     keys.Init();
     stepSequencer.Init();
+    hardware.StartAudio(AudioCallback);
+    hardware.StartLog(false);
+    hardware.PrintLine("Starting...");
 
     while (1)
     {
@@ -54,53 +84,13 @@ int main(void)
             uint64_t ledStates = stepSequencer.GetLedStates();
             leds.SetLeds(ledStates);
             leds.ScanNextColumn();
+
+            if (stepSequencer.HasStepEvent())
+            {
+                Step step = stepSequencer.GetCurrentStep();
+                hardware.PrintLine("Note: %d, oct-:%d, oct+:%d, acc:%d, sli:%d", step.note, step.octaveDown, step.octaveUp, step.accent, step.slide);
+                HandleStepMessage(step);
+            }
         }
     }
 }
-/*int main(void)
-{
-    const uint8_t ledMax = 22;
-    uint8_t currentLed = 0;
-    const uint16_t ledChangeCountdownMax = 2000;
-    uint16_t ledChangeCountdown = ledChangeCountdownMax;
-    uint32_t lastProcessTimeUs;
-    uint32_t processIntervalUs = 500;
-
-    hardware.Configure();
-    hardware.Init();
-    hardware.StartLog(false);
-    hardware.PrintLine("Starting...");
-
-    keys.Init();
-    leds.Init();
-
-    while (1)
-    {
-        uint32_t currentProcessTimeUs = System::GetUs();
-
-        if (currentProcessTimeUs - lastProcessTimeUs > processIntervalUs)
-        {
-            lastProcessTimeUs = currentProcessTimeUs;
-
-            if (ledChangeCountdown-- < 1)
-            {
-                ledChangeCountdown = ledChangeCountdownMax;
-                currentLed = (currentLed + 1) % ledMax;
-
-                for (uint8_t ledToSet = 0; ledToSet <= ledMax; ledToSet++)
-                {
-                    leds.SetLed(ledToSet, ledToSet == currentLed);
-                }
-            }
-
-            uint8_t retVal = keys.ScanNextColumn(currentProcessTimeUs);
-
-            if (retVal < 255)
-            {
-                hardware.PrintLine("RetVal: %d", retVal);
-            }
-
-            leds.ScanNextColumn();
-        }
-    }
-}*/

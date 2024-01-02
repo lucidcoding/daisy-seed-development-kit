@@ -17,7 +17,7 @@
 #define STEP_SEQUENCER_KEYS_D_SHARP 1
 #define STEP_SEQUENCER_KEYS_E 11
 #define STEP_SEQUENCER_KEYS_F 12
-#define STEP_SEQUENCER_KEYS__SHARP 2
+#define STEP_SEQUENCER_KEYS_F_SHARP 2
 #define STEP_SEQUENCER_KEYS_G 13
 #define STEP_SEQUENCER_KEYS_G_SHARP 3
 #define STEP_SEQUENCER_KEYS_A 14
@@ -72,6 +72,8 @@ namespace developmentKit::stepSequencer
         void SetKeys(uint8_t keys);
         void Process(uint32_t currentProcessTimeUs);
         uint64_t GetLedStates();
+        bool HasStepEvent();
+        Step GetCurrentStep();
 
     private:
         uint8_t stepCount;
@@ -85,7 +87,8 @@ namespace developmentKit::stepSequencer
         uint8_t mode;
         const uint8_t noteToLedLookup[STEP_SEQUENCER_NUMBER_OF_NOTE_KEYS] = {9, 0, 10, 1, 11, 12, 2, 13, 3, 14, 4, 15, 16};
         bool leds[STEP_SEQUENCER_NUMBER_OF_LEDS];
-        uint8_t getNoteFromKeyPressed(uint8_t keyPressed);
+        uint8_t GetNoteFromKeyPressed(uint8_t keyPressed);
+        bool hasStepEvent;
     };
 }
 
