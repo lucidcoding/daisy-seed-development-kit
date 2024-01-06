@@ -17,17 +17,31 @@ uint32_t lastProcessTimeUs;
 Oscillator mainOsc;
 Adsr adsr;
 bool gate;
+Port port;
+float noteFreq;
+bool slideOn;
 
 static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
                           AudioHandle::InterleavingOutputBuffer out,
                           size_t size)
 {
-    float oscillatorOut, adsrOut;
+    float oscillatorOut, adsrOut, portamentoOut;
 
     for (size_t i = 0; i < size; i += 2)
     {
         adsrOut = adsr.Process(gate);
         mainOsc.SetAmp(adsrOut / 10);
+        portamentoOut = port.Process(noteFreq);
+        
+        if(slideOn)
+        {
+            mainOsc.SetFreq(portamentoOut);
+        }
+        else
+        {
+            mainOsc.SetFreq(noteFreq);
+        }
+
         oscillatorOut = mainOsc.Process();
         out[i] = oscillatorOut;
         out[i + 1] = oscillatorOut;
@@ -37,7 +51,7 @@ static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
 void InitOscillator(float sampleRate)
 {
     mainOsc.Init(sampleRate);
-    mainOsc.SetWaveform(Oscillator::WAVE_POLYBLEP_TRI);
+    mainOsc.SetWaveform(Oscillator::WAVE_SAW);
     mainOsc.SetAmp(0.5);
 }
 
@@ -56,7 +70,28 @@ void HandleStepMessage(NoteEvent noteEvent)
     {
         hardware.PrintLine("on");
         gate = true;
-        mainOsc.SetFreq(mtof(64 + noteEvent.note));
+        noteFreq = mtof(64 + noteEvent.note);
+
+        if(noteEvent.octaveUp)
+        {
+            noteFreq += 12;
+        }
+
+        if(noteEvent.octaveDown)
+        {
+            noteFreq -= 12;
+        }
+
+        slideOn = noteEvent.slide;
+
+        /*if(noteEvent.slide)
+        {
+            port.SetHtime(0.1);
+        }
+        else
+        {
+            port.SetHtime(0);
+        }*/
     }
     else if (noteEvent.type == STEP_SEQUENCER_NOTE_EVENT_TYPE_NOTE_OFF)
     {
@@ -71,6 +106,12 @@ int main(void)
     hardware.Init();
     float sampleRate = hardware.AudioSampleRate();
     InitOscillator(sampleRate);
+
+    //https://github.com/moonfriendsynth/OscPocket-VA-Daisy-Pod/blob/main/vasynth.cpp
+    float portamento = 0.08;
+    port.Init(sampleRate, portamento);
+    port.SetHtime(portamento);
+
     InitAdsr(sampleRate);
     leds.Init();
     keys.Init();

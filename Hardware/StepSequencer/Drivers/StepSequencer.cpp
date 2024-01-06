@@ -23,7 +23,10 @@ namespace developmentKit::stepSequencer
         steps[6].slide = true;
         steps[8].note = 10;
         steps[10].note = 9;
-        steps[10].accent = true;
+        steps[10].octaveDown = true;
+        steps[10].slide = true;
+        steps[11].note = 9;
+        steps[11].octaveUp = true;
         steps[12].note = 3;
         steps[12].octaveDown = true;
         steps[13].note = 3;
