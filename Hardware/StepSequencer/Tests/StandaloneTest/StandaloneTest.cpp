@@ -20,6 +20,7 @@ bool gate;
 Port port;
 float noteFreq;
 bool slideOn;
+bool accent;
 
 static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
                           AudioHandle::InterleavingOutputBuffer out,
@@ -30,7 +31,7 @@ static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
     for (size_t i = 0; i < size; i += 2)
     {
         adsrOut = adsr.Process(gate);
-        mainOsc.SetAmp(adsrOut / 10);
+        mainOsc.SetAmp(adsrOut / 10 * (accent ? 1 : 0.7));
         portamentoOut = port.Process(noteFreq);
         
         if(slideOn)
@@ -41,6 +42,8 @@ static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
         {
             mainOsc.SetFreq(noteFreq);
         }
+        
+        //mainOsc.SetFreq(noteFreq);
 
         oscillatorOut = mainOsc.Process();
         out[i] = oscillatorOut;
@@ -60,7 +63,7 @@ void InitAdsr(float sampleRate)
     adsr.Init(sampleRate);
     adsr.SetTime(ADSR_SEG_ATTACK, .01);
     adsr.SetTime(ADSR_SEG_DECAY, .1);
-    adsr.SetTime(ADSR_SEG_RELEASE, .1);
+    adsr.SetTime(ADSR_SEG_RELEASE, .2);
     adsr.SetSustainLevel(.2);
 }
 
@@ -70,7 +73,7 @@ void HandleStepMessage(NoteEvent noteEvent)
     {
         hardware.PrintLine("on");
         gate = true;
-        noteFreq = mtof(64 + noteEvent.note);
+        noteFreq = mtof(60 + noteEvent.note);
 
         if(noteEvent.octaveUp)
         {
@@ -83,6 +86,7 @@ void HandleStepMessage(NoteEvent noteEvent)
         }
 
         slideOn = noteEvent.slide;
+        accent = noteEvent.accent;
 
         /*if(noteEvent.slide)
         {

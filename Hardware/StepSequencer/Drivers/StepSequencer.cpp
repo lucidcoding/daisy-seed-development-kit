@@ -15,23 +15,63 @@ namespace developmentKit::stepSequencer
         gateOn = false;
 
         steps[0].accent = true;
-        steps[1].note = 1;
-        steps[3].note = 4;
-        steps[3].accent = true;
-        steps[5].octaveUp = true;
-        steps[6].note = 1;
-        steps[6].slide = true;
-        steps[8].note = 10;
-        steps[10].note = 9;
-        steps[10].octaveDown = true;
+        steps[0].note = 0;
+        steps[0].gate = true;
+
+        steps[1].note = 0;
+        steps[1].gate = true;
+
+        steps[2].gate = false;
+
+        steps[3].note = 0;
+        steps[3].gate = true;
+
+        steps[4].note = 0;
+        steps[4].gate = true;
+        steps[4].slide = true;
+
+        steps[5].note = 0;
+        steps[5].gate = true;
+
+        steps[6].gate = false;
+
+        steps[7].note = 0;
+        steps[7].octaveUp = true;
+        steps[7].gate = true;
+
+        steps[8].note = 7;
+        steps[8].slide = true;
+        steps[8].gate = true;
+
+        steps[9].note = 7;
+        steps[9].octaveUp = true;
+        steps[9].gate = true;
+
+        steps[10].note = 0;
         steps[10].slide = true;
-        steps[11].note = 9;
+        steps[10].gate = true;
+
+        steps[11].note = 0;
         steps[11].octaveUp = true;
-        steps[12].note = 3;
+        steps[10].slide = true;
+        steps[11].gate = true;
+
+        steps[12].note = 0;
         steps[12].octaveDown = true;
-        steps[13].note = 3;
-        steps[14].note = 1;
-        steps[15].octaveUp = true;
+        steps[12].gate = true;
+
+        steps[13].note = 7;
+        steps[13].accent = true;
+        steps[13].slide = true;
+        steps[13].gate = true;
+
+        steps[14].note = 7;
+        steps[14].octaveUp = true;
+        steps[14].gate = true;
+
+        steps[15].gate = false;
+
+
     }
 
     void StepSequencer::UpdateLedsForCurrentStep()
