@@ -7,19 +7,6 @@
 
 using namespace developmentKit::stepSequencer;
 
-unsigned int Factorial(unsigned int number)
-{
-    return number <= 1 ? number : Factorial(number - 1) * number;
-}
-
-TEST_CASE("Factorials are computed", "[factorial]")
-{
-    REQUIRE(Factorial(1) == 1);
-    REQUIRE(Factorial(2) == 2);
-    REQUIRE(Factorial(3) == 6);
-    REQUIRE(Factorial(10) == 3628800);
-}
-
 Step steps[16];
 
 void SetupSteps()
@@ -55,7 +42,7 @@ void SetupSteps()
     steps[10].note = 0;
     steps[10].gate = true;
 
-    steps[11].note = 0;
+    steps[11].note = 7;
     steps[11].gate = true;
 
     steps[12].gate = false;
@@ -112,17 +99,20 @@ SCENARIO("Pressing play advances to first step")
     REQUIRE(sequencerBrain.GetCurrentStepIndex() == 0);
     sequencerBrain.Process(0);
     REQUIRE(sequencerBrain.GetCurrentStepIndex() == 1);
-}
+}*/
 
-SCENARIO("Pressing play switches on gate for specified time")
+TEST_CASE("Pressing play switches on gate for specified time")
 {
     SequencerBrain sequencerBrain;
     sequencerBrain.Init();
     sequencerBrain.SetStepInterval(10);
+    SetupSteps();
     sequencerBrain.SetSteps(steps);
     REQUIRE(!sequencerBrain.GetGate());
     sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
     REQUIRE(!sequencerBrain.GetGate());
+    sequencerBrain.Process(0);
+    REQUIRE(sequencerBrain.GetGate());
 
     for (uint8_t i = 0; i < 4; i++)
     {
@@ -132,12 +122,10 @@ SCENARIO("Pressing play switches on gate for specified time")
     REQUIRE(sequencerBrain.GetGate());
     sequencerBrain.Process(0);
     REQUIRE(!sequencerBrain.GetGate());
-}*/
+}
 
-SCENARIO("Correct notes are played necessarily in the right order")
+TEST_CASE("Correct notes are played necessarily in the right order")
 {
-    DEBUG("TEST 1");
-    std::cout << "TEST 2";
     SequencerBrain sequencerBrain;
     sequencerBrain.Init();
     sequencerBrain.SetStepInterval(10);

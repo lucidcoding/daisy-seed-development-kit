@@ -108,6 +108,7 @@ namespace developmentKit::stepSequencer
 
     void SequencerBrain::ActivateCurrentStep()
     {
+        DEBUG("Activating step: " << (uint16_t)currentStep << ", gate: " << steps[currentStep].gate);
         tick = stepInterval;
         UpdateLedsForCurrentStep();
 
@@ -116,6 +117,10 @@ namespace developmentKit::stepSequencer
             DEBUG("Open gate");
             gateCount = 0;
             gateOn = true;
+        }
+        else
+        {
+             DEBUG("No gate");
         }
     }
 
@@ -129,10 +134,6 @@ namespace developmentKit::stepSequencer
             {
                 DEBUG("Play pressed");
 
-                currentStep = 0;
-                tick = stepInterval;
-                ActivateCurrentStep();
-
                 if (mode == STEP_SEQUENCER_MODE_PLAY)
                 {
                     DEBUG("Stopping");
@@ -143,6 +144,8 @@ namespace developmentKit::stepSequencer
                 else if (mode == STEP_SEQUENCER_MODE_STOP)
                 {
                     DEBUG("Playing");
+                    currentStep = 0;
+                    ActivateCurrentStep();
 
                     mode = STEP_SEQUENCER_MODE_PLAY;
                 }
@@ -214,15 +217,15 @@ namespace developmentKit::stepSequencer
         if (mode == STEP_SEQUENCER_MODE_PLAY && --tick <= 0)
         {
             DEBUG("Processing tick: " << tick);
-
+            currentStep = (currentStep + 1) % stepCount;
             ActivateCurrentStep();
 
-            currentStep = (currentStep + 1) % stepCount;
         }
 
         if (gateOn)
         {
-            // f (gateCount++ >= STEP_SEQUENCER_GATE_LENGTH)
+            DEBUG("Gate on, when to stop:" << (stepInterval - gateLength));
+
             if (tick < (stepInterval - gateLength))
             {
                 DEBUG("Close gate");
