@@ -8,12 +8,11 @@
 # Core location, and generic Makefile.
 # SYSTEM_FILES_DIR = $(LIBDAISY_DIR)/core
 # include $(SYSTEM_FILES_DIR)/Makefile
-
-
+ 
 test:
-	g++ -lstdc++ -o my_output \
-		Test.cpp \
-		../../Drivers/StepSequencer.cpp
+	g++ -lstdc++ -o StepSequencerTests -DTESTING \
+		SequencerBrain.test.cpp \
+		../../Drivers/SequencerBrain.cpp 
 
 clean:
 	rm -f rm -fR build

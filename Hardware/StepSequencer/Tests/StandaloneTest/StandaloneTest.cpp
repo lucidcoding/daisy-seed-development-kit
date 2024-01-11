@@ -38,8 +38,6 @@ static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
             mainOsc.SetFreq(noteFreq);
         }
         
-        //mainOsc.SetFreq(noteFreq);
-
         oscillatorOut = mainOsc.Process();
         out[i] = oscillatorOut;
         out[i + 1] = oscillatorOut;
@@ -62,34 +60,6 @@ void InitAdsr(float sampleRate)
     adsr.SetSustainLevel(.2);
 }
 
-void HandleStepMessage(NoteEvent noteEvent)
-{
-    if (noteEvent.type == STEP_SEQUENCER_NOTE_EVENT_TYPE_NOTE_ON)
-    {
-        hardware.PrintLine("on");
-        gate = true;
-        noteFreq = mtof(60 + noteEvent.note);
-
-        if(noteEvent.octaveUp)
-        {
-            noteFreq += 12;
-        }
-
-        if(noteEvent.octaveDown)
-        {
-            noteFreq -= 12;
-        }
-
-        slideOn = noteEvent.slide;
-        accent = noteEvent.accent;
-    }
-    else if (noteEvent.type == STEP_SEQUENCER_NOTE_EVENT_TYPE_NOTE_OFF)
-    {
-        hardware.PrintLine("off");
-        gate = false;
-    }
-}
-
 int main(void)
 {
     hardware.Configure();
@@ -110,11 +80,7 @@ int main(void)
     while (1)
     {
         stepSequencer.Listen();
-
-        if(stepSequencer.HasEvents())
-        {
-            NoteEvent noteEvent = stepSequencer.GetEvent();
-            HandleStepMessage(noteEvent);
-        }
+        gate = stepSequencer.GetGate();
+        noteFreq = mtof(60);
     }
 }

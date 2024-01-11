@@ -14,8 +14,7 @@ namespace developmentKit::stepSequencer
     public:
         void Init();
         void Listen();
-        bool HasEvents();
-        NoteEvent GetEvent();
+        bool GetGate();
 
     private:
         Keys keys;

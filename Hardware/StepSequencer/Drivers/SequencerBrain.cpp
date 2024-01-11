@@ -1,6 +1,7 @@
 #include "stdint.h"
 #include "SequencerBrain.h"
 #include "NoteEvent.h"
+#include "Debug.h"
 
 namespace developmentKit::stepSequencer
 {
@@ -8,10 +9,10 @@ namespace developmentKit::stepSequencer
     {
         stepCount = 16;
         currentStep = 0;
-        stepInterval = 500;
-        tick = stepInterval - 1;
+        stepInterval = 500; // 500 is approx 120 bpm.
+        gateLength = stepInterval / 2;
+        tick = stepInterval;
         mode = STEP_SEQUENCER_MODE_STOP;
-        hasStepEvent = false;
         gateOn = false;
 
         steps[0].note = 0;
@@ -105,67 +106,44 @@ namespace developmentKit::stepSequencer
         return returnValue;
     }
 
+    void SequencerBrain::ActivateCurrentStep()
+    {
+        tick = stepInterval;
+        UpdateLedsForCurrentStep();
+
+        if (steps[currentStep].gate)
+        {
+            DEBUG("Open gate");
+            gateCount = 0;
+            gateOn = true;
+        }
+    }
+
     void SequencerBrain::Process(uint32_t currentProcessTimeUs)
     {
-        hasStepEvent = false;
-
-        if (mode == STEP_SEQUENCER_MODE_PLAY && tick++ >= stepInterval)
-        {
-            tick = 0;
-            UpdateLedsForCurrentStep();
-            currentStep = (currentStep + 1) % stepCount;
-
-            if (steps[currentStep].gate)
-            {
-                currentNoteEvent.type = STEP_SEQUENCER_NOTE_EVENT_TYPE_NOTE_ON;
-                currentNoteEvent.note = steps[currentStep].note;
-                currentNoteEvent.octaveDown = steps[currentStep].octaveDown;
-                currentNoteEvent.octaveUp = steps[currentStep].octaveUp;
-                currentNoteEvent.accent = steps[currentStep].accent;
-                currentNoteEvent.slide = steps[currentStep].slide;
-                //currentNoteEvent.gate = steps[currentStep].gate;
-                hasStepEvent = true;
-                gateCount = 0;
-                gateOn = true;
-            }
-        }
-
-        if (gateOn)
-        {
-            if (gateCount++ >= STEP_SEQUENCER_GATE_LENGTH)
-            {
-                if (!steps[currentStep].slide)
-                {
-                    gateOn = false;
-                    currentNoteEvent.type = STEP_SEQUENCER_NOTE_EVENT_TYPE_NOTE_OFF;
-                    hasStepEvent = true;
-                }
-
-                if (steps[currentStep].slide && mode != STEP_SEQUENCER_MODE_PLAY)
-                {
-                    gateOn = false;
-                    currentNoteEvent.type = STEP_SEQUENCER_NOTE_EVENT_TYPE_NOTE_OFF;
-                    hasStepEvent = true;
-                }
-            }
-        }
-
         if (lastKeyPress != STEP_SEQUENCER_NO_KEY_PRESS)
         {
             leds[lastKeyPress] = true;
 
             if (lastKeyPress == STEP_SEQUENCER_KEYS_PLAY)
             {
+                DEBUG("Play pressed");
+
                 currentStep = 0;
-                tick = stepInterval - 1;
+                tick = stepInterval;
+                ActivateCurrentStep();
 
                 if (mode == STEP_SEQUENCER_MODE_PLAY)
                 {
+                    DEBUG("Stopping");
+
                     mode = STEP_SEQUENCER_MODE_STOP;
                     // gateOn = false;
                 }
                 else if (mode == STEP_SEQUENCER_MODE_STOP)
                 {
+                    DEBUG("Playing");
+
                     mode = STEP_SEQUENCER_MODE_PLAY;
                 }
             }
@@ -227,6 +205,38 @@ namespace developmentKit::stepSequencer
 
                 UpdateLedsForCurrentStep();
             }
+
+            lastKeyPress = STEP_SEQUENCER_NO_KEY_PRESS;
+        }
+
+        DEBUG("Tick: " << tick << ", Mode: " << (uint16_t)mode);
+
+        if (mode == STEP_SEQUENCER_MODE_PLAY && --tick <= 0)
+        {
+            DEBUG("Processing tick: " << tick);
+
+            ActivateCurrentStep();
+
+            currentStep = (currentStep + 1) % stepCount;
+        }
+
+        if (gateOn)
+        {
+            // f (gateCount++ >= STEP_SEQUENCER_GATE_LENGTH)
+            if (tick < (stepInterval - gateLength))
+            {
+                DEBUG("Close gate");
+
+                if (!steps[currentStep].slide)
+                {
+                    gateOn = false;
+                }
+
+                if (steps[currentStep].slide && mode != STEP_SEQUENCER_MODE_PLAY)
+                {
+                    gateOn = false;
+                }
+            }
         }
     }
 
@@ -243,13 +253,48 @@ namespace developmentKit::stepSequencer
         return STEP_SEQUENCER_NOT_NOTE_KEY;
     }
 
-    bool SequencerBrain::HasStepEvent()
+    bool SequencerBrain::GetGate()
     {
-        return hasStepEvent;
+        return gateOn;
     }
 
-    NoteEvent SequencerBrain::GetCurrentStep()
+    void SequencerBrain::SetStepInterval(uint8_t newStepInterval)
     {
-        return currentNoteEvent;
+        stepInterval = newStepInterval;
+        gateLength = stepInterval / 2;
+
+        /*if (tick > stepInterval)
+        {
+            tick = stepInterval;
+        }*/
+        tick = 0;
+    }
+
+    void SequencerBrain::SetSteps(Step newSteps[16])
+    {
+        for (uint8_t stepIndex = 0; stepIndex < 16; stepIndex++)
+        {
+            steps[stepIndex].gate = newSteps[stepIndex].gate;
+            steps[stepIndex].note = newSteps[stepIndex].note;
+            steps[stepIndex].octaveDown = newSteps[stepIndex].octaveDown;
+            steps[stepIndex].octaveUp = newSteps[stepIndex].octaveUp;
+            steps[stepIndex].accent = newSteps[stepIndex].accent;
+            steps[stepIndex].slide = newSteps[stepIndex].slide;
+        }
+    }
+
+    uint8_t SequencerBrain::GetCurrentStepIndex()
+    {
+        return currentStep;
+    }
+
+    uint8_t SequencerBrain::GetMode()
+    {
+        return mode;
+    }
+
+    Step SequencerBrain::GetCurrentStep()
+    {
+        return steps[currentStep];
     }
 }

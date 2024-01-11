@@ -30,14 +30,9 @@ namespace developmentKit::stepSequencer
             leds.ScanNextColumn();
         }
     }
-
-    bool StepSequencer::HasEvents()
+    
+    bool StepSequencer::GetGate()
     {
-        return sequencerBrain.HasStepEvent();
-    }
-
-    NoteEvent StepSequencer::GetEvent()
-    {
-        return sequencerBrain.GetCurrentStep();
+        return sequencerBrain.GetGate();
     }
 }
