@@ -1,7 +1,5 @@
 #include "daisysp.h"
 #include "daisy_seed.h"
-#include "../../Drivers/Keys.h"
-#include "../../Drivers/Leds.h"
 #include "../../Drivers/NoteEvent.h"
 #include "../../Drivers/StepSequencer.h"
 
@@ -10,10 +8,7 @@ using namespace daisy;
 using namespace developmentKit::stepSequencer;
 
 static DaisySeed hardware;
-Keys keys;
-Leds leds;
 StepSequencer stepSequencer;
-uint32_t lastProcessTimeUs;
 Oscillator mainOsc;
 Adsr adsr;
 bool gate;
@@ -63,7 +58,7 @@ void InitAdsr(float sampleRate)
     adsr.Init(sampleRate);
     adsr.SetTime(ADSR_SEG_ATTACK, .01);
     adsr.SetTime(ADSR_SEG_DECAY, .1);
-    adsr.SetTime(ADSR_SEG_RELEASE, .2);
+    adsr.SetTime(ADSR_SEG_RELEASE, .05);
     adsr.SetSustainLevel(.2);
 }
 
@@ -87,15 +82,6 @@ void HandleStepMessage(NoteEvent noteEvent)
 
         slideOn = noteEvent.slide;
         accent = noteEvent.accent;
-
-        /*if(noteEvent.slide)
-        {
-            port.SetHtime(0.1);
-        }
-        else
-        {
-            port.SetHtime(0);
-        }*/
     }
     else if (noteEvent.type == STEP_SEQUENCER_NOTE_EVENT_TYPE_NOTE_OFF)
     {
@@ -111,14 +97,11 @@ int main(void)
     float sampleRate = hardware.AudioSampleRate();
     InitOscillator(sampleRate);
 
-    //https://github.com/moonfriendsynth/OscPocket-VA-Daisy-Pod/blob/main/vasynth.cpp
     float portamento = 0.08;
     port.Init(sampleRate, portamento);
     port.SetHtime(portamento);
 
     InitAdsr(sampleRate);
-    leds.Init();
-    keys.Init();
     stepSequencer.Init();
     hardware.StartAudio(AudioCallback);
     hardware.StartLog(false);
@@ -126,25 +109,12 @@ int main(void)
 
     while (1)
     {
-        uint32_t currentProcessTimeUs = System::GetUs();
+        stepSequencer.Listen();
 
-        if (currentProcessTimeUs - lastProcessTimeUs > STEP_SEQUENCER_PROCESS_INTERVAL_US)
+        if(stepSequencer.HasEvents())
         {
-            lastProcessTimeUs = currentProcessTimeUs;
-
-            uint8_t lastKeyPress = keys.ScanNextColumn(currentProcessTimeUs);
-            stepSequencer.SetKeys(lastKeyPress);
-            stepSequencer.Process(currentProcessTimeUs);
-            uint64_t ledStates = stepSequencer.GetLedStates();
-            leds.SetLeds(ledStates);
-            leds.ScanNextColumn();
-
-            if (stepSequencer.HasStepEvent())
-            {
-                NoteEvent noteEvent = stepSequencer.GetCurrentStep();
-                //hardware.PrintLine("type:%d, note: %d, oct-:%d, oct+:%d, acc:%d, sli:%d", noteEvent.type, noteEvent.note, noteEvent.octaveDown, noteEvent.octaveUp, noteEvent.accent, noteEvent.slide);
-                HandleStepMessage(noteEvent);
-            }
+            NoteEvent noteEvent = stepSequencer.GetEvent();
+            HandleStepMessage(noteEvent);
         }
     }
 }
