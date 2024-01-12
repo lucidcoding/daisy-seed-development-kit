@@ -1,7 +1,7 @@
 #include "stdint.h"
 #include "SequencerBrain.h"
 #include "NoteEvent.h"
-#include "Debug.h"
+#include "DEBUG.h"
 
 namespace developmentKit::stepSequencer
 {
@@ -108,19 +108,13 @@ namespace developmentKit::stepSequencer
 
     void SequencerBrain::ActivateCurrentStep()
     {
-        DEBUG("Activating step: " << (uint16_t)currentStep << ", gate: " << steps[currentStep].gate);
         tick = stepInterval;
         UpdateLedsForCurrentStep();
 
         if (steps[currentStep].gate)
         {
-            DEBUG("Open gate");
             gateCount = 0;
             gateOn = true;
-        }
-        else
-        {
-             DEBUG("No gate");
         }
     }
 
@@ -132,21 +126,14 @@ namespace developmentKit::stepSequencer
 
             if (lastKeyPress == STEP_SEQUENCER_KEYS_PLAY)
             {
-                DEBUG("Play pressed");
-
                 if (mode == STEP_SEQUENCER_MODE_PLAY)
                 {
-                    DEBUG("Stopping");
-
                     mode = STEP_SEQUENCER_MODE_STOP;
-                    // gateOn = false;
                 }
                 else if (mode == STEP_SEQUENCER_MODE_STOP)
                 {
-                    DEBUG("Playing");
                     currentStep = 0;
                     ActivateCurrentStep();
-
                     mode = STEP_SEQUENCER_MODE_PLAY;
                 }
             }
@@ -212,11 +199,8 @@ namespace developmentKit::stepSequencer
             lastKeyPress = STEP_SEQUENCER_NO_KEY_PRESS;
         }
 
-        DEBUG("Tick: " << tick << ", Mode: " << (uint16_t)mode);
-
-        if (mode == STEP_SEQUENCER_MODE_PLAY && --tick <= 0)
+        if (mode == STEP_SEQUENCER_MODE_PLAY && tick <= 0)
         {
-            DEBUG("Processing tick: " << tick);
             currentStep = (currentStep + 1) % stepCount;
             ActivateCurrentStep();
 
@@ -224,12 +208,8 @@ namespace developmentKit::stepSequencer
 
         if (gateOn)
         {
-            DEBUG("Gate on, when to stop:" << (stepInterval - gateLength));
-
-            if (tick < (stepInterval - gateLength))
+            if (tick <= (stepInterval - gateLength))
             {
-                DEBUG("Close gate");
-
                 if (!steps[currentStep].slide)
                 {
                     gateOn = false;
@@ -241,6 +221,8 @@ namespace developmentKit::stepSequencer
                 }
             }
         }
+
+        tick--;
     }
 
     uint8_t SequencerBrain::GetNoteFromKeyPressed(uint8_t keyPressed)
@@ -265,11 +247,6 @@ namespace developmentKit::stepSequencer
     {
         stepInterval = newStepInterval;
         gateLength = stepInterval / 2;
-
-        /*if (tick > stepInterval)
-        {
-            tick = stepInterval;
-        }*/
         tick = 0;
     }
 

@@ -51,7 +51,7 @@ void SetupSteps()
     steps[15].gate = false;
 }
 
-/*SCENARIO("Pressing Play sets mode to play")
+TEST_CASE("Pressing Play sets mode to play")
 {
     SequencerBrain sequencerBrain;
     sequencerBrain.Init();
@@ -64,7 +64,7 @@ void SetupSteps()
     REQUIRE(sequencerBrain.GetMode() == STEP_SEQUENCER_MODE_PLAY);
 }
 
-SCENARIO("Calling Process() without pressing play does not advance step")
+TEST_CASE("Calling Process() without pressing play does not advance step")
 {
     uint8_t currentStepIndex;
     SequencerBrain sequencerBrain;
@@ -82,7 +82,7 @@ SCENARIO("Calling Process() without pressing play does not advance step")
     REQUIRE(currentStepIndex == 0);
 }
 
-SCENARIO("Pressing play advances to first step")
+TEST_CASE("Pressing play advances to first step")
 {
     SequencerBrain sequencerBrain;
     sequencerBrain.Init();
@@ -91,7 +91,7 @@ SCENARIO("Pressing play advances to first step")
     sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
     REQUIRE(sequencerBrain.GetCurrentStepIndex() == 0);
 
-    for (uint8_t i = 0; i < 9; i++)
+    for (uint8_t i = 0; i < 10; i++)
     {
         sequencerBrain.Process(0);
     }
@@ -99,36 +99,28 @@ SCENARIO("Pressing play advances to first step")
     REQUIRE(sequencerBrain.GetCurrentStepIndex() == 0);
     sequencerBrain.Process(0);
     REQUIRE(sequencerBrain.GetCurrentStepIndex() == 1);
-}*/
-
-TEST_CASE("Pressing play switches on gate for specified time")
-{
-    SequencerBrain sequencerBrain;
-    sequencerBrain.Init();
-    sequencerBrain.SetStepInterval(10);
-    SetupSteps();
-    sequencerBrain.SetSteps(steps);
-    REQUIRE(!sequencerBrain.GetGate());
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
-    REQUIRE(!sequencerBrain.GetGate());
-    sequencerBrain.Process(0);
-    REQUIRE(sequencerBrain.GetGate());
-
-    for (uint8_t i = 0; i < 4; i++)
-    {
-        sequencerBrain.Process(0);
-    }
-
-    REQUIRE(sequencerBrain.GetGate());
-    sequencerBrain.Process(0);
-    REQUIRE(!sequencerBrain.GetGate());
 }
 
-TEST_CASE("Correct notes are played necessarily in the right order")
+TEST_CASE("Correct notes are played at each step")
 {
-    SequencerBrain sequencerBrain;
-    sequencerBrain.Init();
-    sequencerBrain.SetStepInterval(10);
+    const uint8_t expectedNotes[160] = {
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+        3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+        4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
+        7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+        8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
+        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+        10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+        11, 11, 11, 11, 11, 11, 11, 11, 11, 11,
+        12, 12, 12, 12, 12, 12, 12, 12, 12, 12,
+        13, 13, 13, 13, 13, 13, 13, 13, 13, 13,
+        14, 14, 14, 14, 14, 14, 14, 14, 14, 14,
+        15, 15, 15, 15, 15, 15, 15, 15, 15, 15};
+
     Step incrementingSteps[16];
 
     for (uint8_t i = 0; i < 16; i++)
@@ -141,21 +133,57 @@ TEST_CASE("Correct notes are played necessarily in the right order")
         incrementingSteps[i].slide = false;
     }
 
+    SequencerBrain sequencerBrain;
+    sequencerBrain.Init();
+    sequencerBrain.SetStepInterval(10);
     sequencerBrain.SetSteps(incrementingSteps);
     sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
 
-    for (uint8_t i = 0; i < 16; i++)
+    for (uint16_t i = 0; i < 160; i++)
     {
-        DEBUG("1: expecting: " << (uint16_t)i << ". getting: " << (uint16_t)sequencerBrain.GetCurrentStep().note);
-        REQUIRE(sequencerBrain.GetCurrentStep().note == i);
-
-        for (uint8_t j = 0; j < 9; j++)
-        {
-            sequencerBrain.Process(0);
-        }
-
-        DEBUG("2: expecting: " << (uint16_t)i << ". getting: " << (uint16_t)sequencerBrain.GetCurrentStep().note);
-        REQUIRE(sequencerBrain.GetCurrentStep().note == i);
         sequencerBrain.Process(0);
+
+        DYNAMIC_SECTION("Checking note for " << i)
+        {
+            REQUIRE(sequencerBrain.GetCurrentStep().note == expectedNotes[i]);
+        }
+    }
+}
+
+TEST_CASE("Correct gate is registered at each tick")
+{
+    const bool expectedGates[160] = {
+        1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+        1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+        1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+        1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+        1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+    SequencerBrain sequencerBrain;
+    sequencerBrain.Init();
+    sequencerBrain.SetStepInterval(10);
+    SetupSteps();
+    sequencerBrain.SetSteps(steps);
+    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
+
+    for (uint16_t i = 0; i < 160; i++)
+    {
+        sequencerBrain.Process(0);
+
+        DYNAMIC_SECTION("Checking gate for " << i)
+        {
+            REQUIRE(sequencerBrain.GetGate() == expectedGates[i]);
+        }
     }
 }
