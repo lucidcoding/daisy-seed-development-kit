@@ -90,7 +90,7 @@ namespace developmentKit::stepSequencer
         uint16_t tick;
         uint16_t stepInterval;
         void UpdateLedsForCurrentStep();
-        void StartStepRecording();
+        void OnRecordPressed();
         uint8_t mode;
         const uint8_t noteToLedLookup[STEP_SEQUENCER_NUMBER_OF_NOTE_KEYS] = {9, 0, 10, 1, 11, 12, 2, 13, 3, 14, 4, 15, 16};
         bool leds[STEP_SEQUENCER_NUMBER_OF_LEDS];
@@ -99,6 +99,14 @@ namespace developmentKit::stepSequencer
         bool gateOn;
         uint8_t gateLength;
         void ActivateCurrentStep();
+        void OnKeyPressed();
+        void OnPlayPressed();
+        void OnBackPressed();
+        void OnNextPressed();
+        void OnOctaveDownPressed();
+        void OnOctaveUpPressed();
+        void OnAccentPressed();
+        void OnSlidePressed();
     };
 }
 

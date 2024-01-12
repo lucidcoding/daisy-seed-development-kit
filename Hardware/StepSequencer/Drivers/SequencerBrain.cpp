@@ -82,13 +82,6 @@ namespace developmentKit::stepSequencer
         leds[STEP_SEQUENCER_LEDS_SLIDE] = step.slide;
     }
 
-    void SequencerBrain::StartStepRecording()
-    {
-        mode = STEP_SEQUENCER_MODE_STEP_REC;
-        currentStep = 0;
-        UpdateLedsForCurrentStep();
-    }
-
     void SequencerBrain::SetKeys(uint8_t keys)
     {
         lastKeyPress = keys;
@@ -118,50 +111,130 @@ namespace developmentKit::stepSequencer
         }
     }
 
-    void SequencerBrain::Process(uint32_t currentProcessTimeUs)
+    void SequencerBrain::OnPlayPressed()
+    {
+        if (mode == STEP_SEQUENCER_MODE_PLAY)
+        {
+            mode = STEP_SEQUENCER_MODE_STOP;
+        }
+        else if (mode == STEP_SEQUENCER_MODE_STOP)
+        {
+            currentStep = 0;
+            ActivateCurrentStep();
+            mode = STEP_SEQUENCER_MODE_PLAY;
+        }
+    }
+
+    void SequencerBrain::OnRecordPressed()
+    {
+        mode = STEP_SEQUENCER_MODE_STEP_REC;
+        currentStep = 0;
+        UpdateLedsForCurrentStep();
+    }
+
+    void SequencerBrain::OnBackPressed()
+    {
+        if (mode == STEP_SEQUENCER_MODE_STEP_REC)
+        {
+            if (currentStep > 0)
+            {
+                currentStep--;
+                UpdateLedsForCurrentStep();
+            }
+        }
+    }
+
+    void SequencerBrain::OnNextPressed()
+    {
+        if (lastKeyPress == STEP_SEQUENCER_MODE_STEP_REC)
+        {
+            if (currentStep < (stepCount - 1))
+            {
+                currentStep++;
+                UpdateLedsForCurrentStep();
+            }
+        }
+    }
+    void SequencerBrain::OnOctaveDownPressed()
+    {
+        if (mode == STEP_SEQUENCER_MODE_STEP_REC)
+        {
+            steps[currentStep].octaveDown = !steps[currentStep].octaveDown;
+            UpdateLedsForCurrentStep();
+        }
+    }
+
+    void SequencerBrain::OnOctaveUpPressed()
+    {
+        if (mode == STEP_SEQUENCER_MODE_STEP_REC)
+        {
+            steps[currentStep].octaveUp = !steps[currentStep].octaveUp;
+            UpdateLedsForCurrentStep();
+        }
+    }
+
+    void SequencerBrain::OnAccentPressed()
+    {
+        if (mode == STEP_SEQUENCER_MODE_STEP_REC)
+        {
+            steps[currentStep].accent = !steps[currentStep].accent;
+            UpdateLedsForCurrentStep();
+        }
+    }
+
+    void SequencerBrain::OnSlidePressed()
+    {
+        if (mode == STEP_SEQUENCER_MODE_STEP_REC)
+        {
+            steps[currentStep].slide = !steps[currentStep].slide;
+            UpdateLedsForCurrentStep();
+        }
+    }
+
+    void SequencerBrain::OnKeyPressed()
     {
         if (lastKeyPress != STEP_SEQUENCER_NO_KEY_PRESS)
         {
-            leds[lastKeyPress] = true;
+            // leds[lastKeyPress] = true;
 
             if (lastKeyPress == STEP_SEQUENCER_KEYS_PLAY)
             {
-                if (mode == STEP_SEQUENCER_MODE_PLAY)
-                {
-                    mode = STEP_SEQUENCER_MODE_STOP;
-                }
-                else if (mode == STEP_SEQUENCER_MODE_STOP)
-                {
-                    currentStep = 0;
-                    ActivateCurrentStep();
-                    mode = STEP_SEQUENCER_MODE_PLAY;
-                }
+                OnPlayPressed();
             }
 
             if (lastKeyPress == STEP_SEQUENCER_KEYS_REC)
             {
-                StartStepRecording();
+                OnRecordPressed();
             }
 
-            if (mode == STEP_SEQUENCER_MODE_STEP_REC)
+            if (lastKeyPress == STEP_SEQUENCER_KEYS_BACK)
             {
-                if (lastKeyPress == STEP_SEQUENCER_KEYS_BACK)
-                {
-                    if (currentStep > 0)
-                    {
-                        currentStep--;
-                        UpdateLedsForCurrentStep();
-                    }
-                }
+                OnBackPressed();
+            }
 
-                if (lastKeyPress == STEP_SEQUENCER_KEYS_NEXT)
-                {
-                    if (currentStep < (stepCount - 1))
-                    {
-                        currentStep++;
-                        UpdateLedsForCurrentStep();
-                    }
-                }
+            if (lastKeyPress == STEP_SEQUENCER_KEYS_NEXT)
+            {
+                OnNextPressed();
+            }
+
+            if (lastKeyPress == STEP_SEQUENCER_KEYS_OCTAVE_DOWN)
+            {
+                OnOctaveDownPressed();
+            }
+
+            if (lastKeyPress == STEP_SEQUENCER_KEYS_OCTAVE_UP)
+            {
+                OnOctaveUpPressed();
+            }
+
+            if (lastKeyPress == STEP_SEQUENCER_KEYS_ACCENT)
+            {
+                OnAccentPressed();
+            }
+
+            if (lastKeyPress == STEP_SEQUENCER_KEYS_SLIDE)
+            {
+                OnSlidePressed();
             }
 
             if (mode == STEP_SEQUENCER_MODE_STEP_REC)
@@ -173,37 +246,21 @@ namespace developmentKit::stepSequencer
                     steps[currentStep].note = note;
                 }
 
-                if (lastKeyPress == STEP_SEQUENCER_KEYS_OCTAVE_DOWN)
-                {
-                    steps[currentStep].octaveDown = !steps[currentStep].octaveDown;
-                }
-
-                if (lastKeyPress == STEP_SEQUENCER_KEYS_OCTAVE_UP)
-                {
-                    steps[currentStep].octaveUp = !steps[currentStep].octaveUp;
-                }
-
-                if (lastKeyPress == STEP_SEQUENCER_KEYS_ACCENT)
-                {
-                    steps[currentStep].accent = !steps[currentStep].accent;
-                }
-
-                if (lastKeyPress == STEP_SEQUENCER_KEYS_SLIDE)
-                {
-                    steps[currentStep].slide = !steps[currentStep].slide;
-                }
-
                 UpdateLedsForCurrentStep();
             }
 
             lastKeyPress = STEP_SEQUENCER_NO_KEY_PRESS;
         }
+    }
+
+    void SequencerBrain::Process(uint32_t currentProcessTimeUs)
+    {
+        OnKeyPressed();
 
         if (mode == STEP_SEQUENCER_MODE_PLAY && tick <= 0)
         {
             currentStep = (currentStep + 1) % stepCount;
             ActivateCurrentStep();
-
         }
 
         if (gateOn)
