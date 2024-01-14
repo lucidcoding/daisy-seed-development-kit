@@ -116,6 +116,7 @@ Step *GetExpectedProgrammedSteps()
     steps[11].gate = false;
     steps[12].note = 1;
     steps[12].gate = true;
+    steps[13].note = 1;
     steps[13].gate = false;
     steps[14].note = 0;
     steps[14].gate = true;
@@ -328,7 +329,6 @@ TEST_CASE("Entering notes in step record mode sets steps correctly")
     sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
 
-
     sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_G_SHARP);
     Advance(&sequencerBrain, 1);
     sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_SLIDE);
@@ -352,15 +352,12 @@ TEST_CASE("Entering notes in step record mode sets steps correctly")
     sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
 
-
-
     sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_E);
     Advance(&sequencerBrain, 1);
     sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_ACCENT);
     Advance(&sequencerBrain, 1);
     sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
-
     sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_D_SHARP);
     Advance(&sequencerBrain, 1);
     sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_OCTAVE_DOWN);
@@ -371,79 +368,31 @@ TEST_CASE("Entering notes in step record mode sets steps correctly")
     Advance(&sequencerBrain, 1);
     sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
-
     sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_D);
     Advance(&sequencerBrain, 1);
     sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
-
     sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_C);
     Advance(&sequencerBrain, 1);
     sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
-
-
 
     sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_C_SHARP);
     Advance(&sequencerBrain, 1);
     sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
-    
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_B);
+    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_C_SHARP);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_B);
+    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_C_SHARP);
     Advance(&sequencerBrain, 1);
     sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
-
     sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
-
     sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_C);
     Advance(&sequencerBrain, 1);
     sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
-
-    /*
-    static Step steps[16];
-        steps[0].note = 13;
-        steps[0].gate = true;
-        steps[1].note = 12;
-        steps[1].gate = true;
-        steps[2].note = 11;
-        steps[2].gate = true;
-        steps[3].note = 10;
-        steps[3].gate = true;
-        steps[4].note = 9;
-        steps[4].gate = true;
-        steps[4].slide = true;
-        steps[5].note = 8;
-        steps[5].gate = true;
-        steps[6].note = 7;
-        steps[6].gate = true;
-        steps[6].octaveDown = true;
-        steps[7].note = 6;
-        steps[7].gate = true;
-        steps[7].octaveUp = true;
-        steps[8].note = 5;
-        steps[8].gate = true;
-        steps[8].accent = true;
-        steps[9].note = 4;
-        steps[9].gate = true;
-        steps[9].octaveDown = true;
-        steps[9].accent = true;
-        steps[9].slide = true;
-        steps[10].note = 3;
-        steps[10].gate = true;
-        steps[11].gate = false;
-        steps[12].note = 2;
-        steps[12].gate = true;
-        steps[13].gate = false;
-        steps[14].note = 1;
-        steps[14].gate = true;
-        steps[15].gate = false;
-        return steps;
-        */
 
     Step *expectedSteps = GetExpectedProgrammedSteps();
     Step *actualSteps = sequencerBrain.GetSteps();
@@ -461,4 +410,27 @@ TEST_CASE("Entering notes in step record mode sets steps correctly")
             REQUIRE(actualSteps[i].accent == expectedSteps[i].accent);
         }
     }
+}
+
+TEST_CASE("Pressing play in the middle of step record mode starts playing from begining")
+{
+    SequencerBrain sequencerBrain = Setup();
+    sequencerBrain.SetSteps(GetIncrementingNoteSteps());
+    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_REC);
+    Advance(&sequencerBrain, 1);
+    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    Advance(&sequencerBrain, 1);
+    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    Advance(&sequencerBrain, 1);
+    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    Advance(&sequencerBrain, 1);
+    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    Advance(&sequencerBrain, 1);
+    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
+    Advance(&sequencerBrain, 1);
+    REQUIRE(sequencerBrain.GetMode() == STEP_SEQUENCER_MODE_PLAY);
+    REQUIRE(sequencerBrain.GetCurrentStepIndex() == 0);
+    REQUIRE(sequencerBrain.GetCurrentStep().note == 0);
+    Advance(&sequencerBrain, 10);
+    REQUIRE(sequencerBrain.GetCurrentStep().note == 1);
 }

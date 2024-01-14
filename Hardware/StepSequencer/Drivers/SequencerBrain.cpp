@@ -117,7 +117,7 @@ namespace developmentKit::stepSequencer
         {
             mode = STEP_SEQUENCER_MODE_STOP;
         }
-        else if (mode == STEP_SEQUENCER_MODE_STOP)
+        else if (mode == STEP_SEQUENCER_MODE_STOP || mode == STEP_SEQUENCER_MODE_STEP_REC)
         {
             currentStep = 0;
             ActivateCurrentStep();
@@ -200,7 +200,15 @@ namespace developmentKit::stepSequencer
 
             if (note != STEP_SEQUENCER_NOT_NOTE_KEY)
             {
-                steps[currentStep].note = note;
+                if (steps[currentStep].note == note)
+                {
+                    steps[currentStep].gate = !steps[currentStep].gate;
+                }
+                else
+                {
+                    steps[currentStep].gate = true;
+                    steps[currentStep].note = note;
+                }
             }
 
             UpdateLedsForCurrentStep();
@@ -347,7 +355,7 @@ namespace developmentKit::stepSequencer
         return steps[currentStep];
     }
 
-    Step* SequencerBrain::GetSteps()
+    Step *SequencerBrain::GetSteps()
     {
         return steps;
     }
