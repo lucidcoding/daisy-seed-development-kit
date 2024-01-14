@@ -81,6 +81,7 @@ namespace developmentKit::stepSequencer
         bool GetGate();
         void SetStepInterval(uint8_t newStepInterval);
         void SetSteps(Step newSteps[16]);
+        Step* GetSteps();
 
     private:
         uint8_t stepCount;
@@ -99,7 +100,6 @@ namespace developmentKit::stepSequencer
         bool gateOn;
         uint8_t gateLength;
         void ActivateCurrentStep();
-        void OnKeyPressed();
         void OnPlayPressed();
         void OnBackPressed();
         void OnNextPressed();
@@ -107,6 +107,9 @@ namespace developmentKit::stepSequencer
         void OnOctaveUpPressed();
         void OnAccentPressed();
         void OnSlidePressed();
+        void OnNoteKeyPressed();
+        void CheckForKeyPressEvent();
+        void CheckForClockEvent();
     };
 }
 
