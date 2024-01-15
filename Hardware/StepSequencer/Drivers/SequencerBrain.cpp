@@ -325,6 +325,11 @@ namespace developmentKit::stepSequencer
         return steps[currentStepIndex].slide;
     }
 
+    bool SequencerBrain::GetPreviousSlide()
+    {
+        return steps[(currentStepIndex - 1) % STEP_SEQUENCER_DEFAULT_STEP_COUNT].slide;
+    }
+
     void SequencerBrain::SetTicksPerStep(uint16_t setTicksPerStep)
     {
         ticksPerStep = setTicksPerStep;

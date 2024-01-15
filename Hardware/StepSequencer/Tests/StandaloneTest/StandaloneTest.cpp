@@ -81,5 +81,7 @@ int main(void)
         stepSequencer.Listen();
         gate = stepSequencer.GetGate();
         noteFreq = mtof(stepSequencer.GetNote());
+        slideOn = stepSequencer.GetPreviousSlide();
+        accent = stepSequencer.GetAccent();
     }
 }

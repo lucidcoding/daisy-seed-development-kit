@@ -74,6 +74,7 @@ namespace developmentKit::stepSequencer
         bool GetGate();
         bool GetAccent();
         bool GetSlide();
+        bool GetPreviousSlide();
         uint8_t GetNote();
         void SetTicksPerStep(uint16_t newStepInterval);
         uint64_t GetLedStates();

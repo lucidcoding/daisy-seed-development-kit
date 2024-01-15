@@ -15,6 +15,9 @@ namespace developmentKit::stepSequencer
         void Listen();
         bool GetGate();
         uint8_t GetNote();
+        bool GetAccent();
+        bool GetSlide();
+        bool GetPreviousSlide();
 
     private:
         Keys keys;

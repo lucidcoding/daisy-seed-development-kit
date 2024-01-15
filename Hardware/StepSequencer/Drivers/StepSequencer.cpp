@@ -29,7 +29,7 @@ namespace developmentKit::stepSequencer
             leds.ScanNextColumn();
         }
     }
-    
+
     bool StepSequencer::GetGate()
     {
         return sequencerBrain.GetGate();
@@ -38,5 +38,20 @@ namespace developmentKit::stepSequencer
     uint8_t StepSequencer::GetNote()
     {
         return sequencerBrain.GetNote();
+    }
+
+    bool StepSequencer::GetAccent()
+    {
+        return sequencerBrain.GetAccent();
+    }
+
+    bool StepSequencer::GetSlide()
+    {
+        return sequencerBrain.GetSlide();
+    }
+
+    bool StepSequencer::GetPreviousSlide()
+    {
+        return sequencerBrain.GetPreviousSlide();
     }
 }
