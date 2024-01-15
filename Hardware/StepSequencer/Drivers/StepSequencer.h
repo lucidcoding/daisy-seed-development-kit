@@ -15,6 +15,7 @@ namespace developmentKit::stepSequencer
         void Init();
         void Listen();
         bool GetGate();
+        uint8_t GetNote();
 
     private:
         Keys keys;

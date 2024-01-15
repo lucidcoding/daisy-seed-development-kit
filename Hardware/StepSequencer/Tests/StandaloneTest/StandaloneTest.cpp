@@ -56,7 +56,7 @@ void InitAdsr(float sampleRate)
     adsr.Init(sampleRate);
     adsr.SetTime(ADSR_SEG_ATTACK, .01);
     adsr.SetTime(ADSR_SEG_DECAY, .1);
-    adsr.SetTime(ADSR_SEG_RELEASE, .05);
+    adsr.SetTime(ADSR_SEG_RELEASE, .02);
     adsr.SetSustainLevel(.2);
 }
 
@@ -81,6 +81,6 @@ int main(void)
     {
         stepSequencer.Listen();
         gate = stepSequencer.GetGate();
-        noteFreq = mtof(60);
+        noteFreq = mtof(stepSequencer.GetNote());
     }
 }

@@ -124,6 +124,44 @@ Step *GetExpectedProgrammedSteps()
     return steps;
 }
 
+Step *GetVariedSteps()
+{
+    static Step steps[16];
+    steps[0].note = 0;
+    steps[0].gate = true;
+    steps[0].octaveUp = true;
+    steps[0].accent = false;
+    steps[0].slide = false;
+    steps[1].gate = false;
+    steps[2].note = 7;
+    steps[2].gate = true;
+    steps[2].slide = true;
+    steps[2].accent = true;
+    steps[3].note = 0;
+    steps[3].gate = true;
+    steps[3].accent = true;
+    steps[4].note = 3;
+    steps[4].gate = true;
+    steps[5].note = 0;
+    steps[5].gate = true;
+    steps[5].octaveDown = true;
+    steps[6].gate = false;
+    steps[7].note = 7;
+    steps[7].gate = true;
+    steps[8].note = 3;
+    steps[8].gate = true;
+    steps[9].gate = false;
+    steps[10].note = 0;
+    steps[10].gate = true;
+    steps[11].note = 1;
+    steps[11].gate = true;
+    steps[12].gate = false;
+    steps[13].gate = false;
+    steps[14].gate = false;
+    steps[15].gate = false;
+    return steps;
+}
+
 void Advance(SequencerBrain *sequencerBrain, uint8_t steps)
 {
     for (uint8_t i = 0; i < steps; i++)
@@ -434,3 +472,74 @@ TEST_CASE("Pressing play in the middle of step record mode starts playing from b
     Advance(&sequencerBrain, 10);
     REQUIRE(sequencerBrain.GetCurrentStep().note == 1);
 }
+
+TEST_CASE("Only LEDs for first step shown when started")
+{
+    SequencerBrain sequencerBrain = Setup();
+    sequencerBrain.SetSteps(GetVariedSteps());
+    uint64_t actualLedStates = sequencerBrain.GetLedStates();
+    uint64_t expectedLedStates = 0x00 | (1 << STEP_SEQUENCER_LEDS_C) | (1 << STEP_SEQUENCER_LEDS_OCTAVE_UP);
+    REQUIRE(actualLedStates == expectedLedStates);
+}
+
+TEST_CASE("Pressing PLAY turns PLAY LED on")
+{
+    SequencerBrain sequencerBrain = Setup();
+    sequencerBrain.SetSteps(GetVariedSteps());
+    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
+    Advance(&sequencerBrain, 1);
+    uint64_t actualLedStates = sequencerBrain.GetLedStates();
+    uint64_t expectedLedStates = 0x00 | (1 << STEP_SEQUENCER_LEDS_C) | (1 << STEP_SEQUENCER_LEDS_OCTAVE_UP) | (1 << STEP_SEQUENCER_LEDS_PLAY);
+    REQUIRE(actualLedStates == expectedLedStates);
+}
+
+TEST_CASE("Pressing play and advancing 2 steps turns play LED on and correct steps")
+{
+    SequencerBrain sequencerBrain = Setup();
+    sequencerBrain.SetSteps(GetVariedSteps());
+    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
+    Advance(&sequencerBrain, 21);
+    uint64_t actualLedStates = sequencerBrain.GetLedStates();
+    uint64_t expectedLedStates = 0x00 | (1 << STEP_SEQUENCER_LEDS_G) | (1 << STEP_SEQUENCER_LEDS_ACCENT) | (1 << STEP_SEQUENCER_LEDS_SLIDE) | (1 << STEP_SEQUENCER_LEDS_PLAY);
+    REQUIRE(actualLedStates == expectedLedStates);
+}
+
+TEST_CASE("Pressing PLAY twice turns PLAY LED off")
+{
+    SequencerBrain sequencerBrain = Setup();
+    sequencerBrain.SetSteps(GetVariedSteps());
+    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
+    Advance(&sequencerBrain, 1);
+    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
+    Advance(&sequencerBrain, 1);
+    uint64_t actualLedStates = sequencerBrain.GetLedStates();
+    uint64_t expectedLedStates = 0x00 | (1 << STEP_SEQUENCER_LEDS_C) | (1 << STEP_SEQUENCER_LEDS_OCTAVE_UP);
+    REQUIRE(actualLedStates == expectedLedStates);
+}
+
+TEST_CASE("Pressing REC turns REC LED on")
+{
+    SequencerBrain sequencerBrain = Setup();
+    sequencerBrain.SetSteps(GetVariedSteps());
+    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_REC);
+    Advance(&sequencerBrain, 1);
+    uint64_t actualLedStates = sequencerBrain.GetLedStates();
+    uint64_t expectedLedStates = 0x00 | (1 << STEP_SEQUENCER_LEDS_C) | (1 << STEP_SEQUENCER_LEDS_OCTAVE_UP) | (1 << STEP_SEQUENCER_LEDS_REC);
+    REQUIRE(actualLedStates == expectedLedStates);
+}
+
+TEST_CASE("Pressing REC and advancing 2 steps turns correct LEDs on")
+{
+    SequencerBrain sequencerBrain = Setup();
+    sequencerBrain.SetSteps(GetVariedSteps());
+    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_REC);
+    Advance(&sequencerBrain, 1);
+    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    Advance(&sequencerBrain, 1);
+    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    Advance(&sequencerBrain, 1);
+    uint64_t actualLedStates = sequencerBrain.GetLedStates();
+    uint64_t expectedLedStates = 0x00 | (1 << STEP_SEQUENCER_LEDS_G) | (1 << STEP_SEQUENCER_LEDS_ACCENT) | (1 << STEP_SEQUENCER_LEDS_SLIDE) | (1 << STEP_SEQUENCER_LEDS_REC);
+    REQUIRE(actualLedStates == expectedLedStates);
+}
+

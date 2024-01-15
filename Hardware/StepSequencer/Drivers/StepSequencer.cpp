@@ -35,4 +35,9 @@ namespace developmentKit::stepSequencer
     {
         return sequencerBrain.GetGate();
     }
+
+    uint8_t StepSequencer::GetNote()
+    {
+        return sequencerBrain.GetNote();
+    }
 }

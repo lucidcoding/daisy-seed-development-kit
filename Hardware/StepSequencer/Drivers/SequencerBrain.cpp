@@ -8,7 +8,7 @@ namespace developmentKit::stepSequencer
     void SequencerBrain::Init()
     {
         stepCount = 16;
-        currentStep = 0;
+        currentStepIndex = 0;
         stepInterval = 500; // 500 is approx 120 bpm.
         gateLength = stepInterval / 2;
         tick = stepInterval;
@@ -35,18 +35,18 @@ namespace developmentKit::stepSequencer
 
         steps[6].gate = false;
 
-        steps[7].note = 0;
+        steps[7].note = 7;
         steps[7].gate = true;
 
-        steps[8].note = 0;
+        steps[8].note = 7;
         steps[8].gate = true;
 
         steps[9].gate = false;
 
-        steps[10].note = 0;
+        steps[10].note = 7;
         steps[10].gate = true;
 
-        steps[11].note = 0;
+        steps[11].note = 12;
         steps[11].gate = true;
 
         /*steps[12].gate = false;
@@ -65,21 +65,55 @@ namespace developmentKit::stepSequencer
         steps[13].gate = false;
         steps[14].gate = false;
         steps[15].gate = false;
+        UpdateLeds();
     }
 
-    void SequencerBrain::UpdateLedsForCurrentStep()
+    void SequencerBrain::UpdateLeds()
     {
-        Step step = steps[currentStep];
+        Step step = steps[currentStepIndex];
 
-        for (uint8_t ledToSet = 0; ledToSet < 17; ledToSet++)
+        for (uint8_t ledToSet =STEP_SEQUENCER_LEDS_C_SHARP; ledToSet <= STEP_SEQUENCER_LEDS_A_SHARP; ledToSet++)
         {
-            leds[ledToSet] = (ledToSet == noteToLedLookup[step.note]);
+            if (steps[currentStepIndex].gate)
+            {
+                leds[ledToSet] = (ledToSet == noteToLedLookup[step.note]);
+            }
+        }
+
+        leds[STEP_SEQUENCER_LEDS_FUNC] = false;
+
+        if (mode == STEP_SEQUENCER_MODE_PLAY)
+        {
+            leds[STEP_SEQUENCER_LEDS_PLAY] = true;
+            leds[STEP_SEQUENCER_LEDS_REC] = false;
+        }
+        else if (mode == STEP_SEQUENCER_MODE_STEP_REC)
+        {
+            leds[STEP_SEQUENCER_LEDS_PLAY] = false;
+            leds[STEP_SEQUENCER_LEDS_REC] = true;
+        }
+        else if (mode == STEP_SEQUENCER_MODE_STOP)
+        {
+            leds[STEP_SEQUENCER_LEDS_PLAY] = false;
+            leds[STEP_SEQUENCER_LEDS_REC] = false;
+        }
+
+        leds[STEP_SEQUENCER_LEDS_MEMORY] = false;
+
+        for (uint8_t ledToSet = STEP_SEQUENCER_LEDS_C; ledToSet <= STEP_SEQUENCER_LEDS_C2; ledToSet++)
+        {
+            if (steps[currentStepIndex].gate)
+            {
+                leds[ledToSet] = (ledToSet == noteToLedLookup[step.note]);
+            }
         }
 
         leds[STEP_SEQUENCER_LEDS_OCTAVE_DOWN] = step.octaveDown;
         leds[STEP_SEQUENCER_LEDS_OCTAVE_UP] = step.octaveUp;
         leds[STEP_SEQUENCER_LEDS_ACCENT] = step.accent;
         leds[STEP_SEQUENCER_LEDS_SLIDE] = step.slide;
+        leds[STEP_SEQUENCER_LEDS_BACK] = false;
+        leds[STEP_SEQUENCER_LEDS_NEXT] = false;
     }
 
     void SequencerBrain::SetKeys(uint8_t keys)
@@ -93,6 +127,7 @@ namespace developmentKit::stepSequencer
 
         for (uint8_t ledIndex = 0; ledIndex < STEP_SEQUENCER_NUMBER_OF_LEDS; ledIndex++)
         {
+            //DEBUG("LED " << (uint16_t)ledIndex << " state: " << (leds[ledIndex] ? 0x01 : 0x00));
             returnValue = returnValue | ((leds[ledIndex] ? 0x01 : 0x00) << ledIndex);
         }
 
@@ -102,9 +137,9 @@ namespace developmentKit::stepSequencer
     void SequencerBrain::ActivateCurrentStep()
     {
         tick = stepInterval;
-        UpdateLedsForCurrentStep();
+        UpdateLeds();
 
-        if (steps[currentStep].gate)
+        if (steps[currentStepIndex].gate)
         {
             gateCount = 0;
             gateOn = true;
@@ -119,7 +154,7 @@ namespace developmentKit::stepSequencer
         }
         else if (mode == STEP_SEQUENCER_MODE_STOP || mode == STEP_SEQUENCER_MODE_STEP_REC)
         {
-            currentStep = 0;
+            currentStepIndex = 0;
             ActivateCurrentStep();
             mode = STEP_SEQUENCER_MODE_PLAY;
         }
@@ -128,18 +163,16 @@ namespace developmentKit::stepSequencer
     void SequencerBrain::OnRecordPressed()
     {
         mode = STEP_SEQUENCER_MODE_STEP_REC;
-        currentStep = 0;
-        UpdateLedsForCurrentStep();
+        currentStepIndex = 0;
     }
 
     void SequencerBrain::OnBackPressed()
     {
         if (mode == STEP_SEQUENCER_MODE_STEP_REC)
         {
-            if (currentStep > 0)
+            if (currentStepIndex > 0)
             {
-                currentStep--;
-                UpdateLedsForCurrentStep();
+                currentStepIndex--;
             }
         }
     }
@@ -148,10 +181,9 @@ namespace developmentKit::stepSequencer
     {
         if (mode == STEP_SEQUENCER_MODE_STEP_REC)
         {
-            if (currentStep < (stepCount - 1))
+            if (currentStepIndex < (stepCount - 1))
             {
-                currentStep++;
-                UpdateLedsForCurrentStep();
+                currentStepIndex++;
             }
         }
     }
@@ -160,8 +192,7 @@ namespace developmentKit::stepSequencer
     {
         if (mode == STEP_SEQUENCER_MODE_STEP_REC)
         {
-            steps[currentStep].octaveDown = !steps[currentStep].octaveDown;
-            UpdateLedsForCurrentStep();
+            steps[currentStepIndex].octaveDown = !steps[currentStepIndex].octaveDown;
         }
     }
 
@@ -169,8 +200,7 @@ namespace developmentKit::stepSequencer
     {
         if (mode == STEP_SEQUENCER_MODE_STEP_REC)
         {
-            steps[currentStep].octaveUp = !steps[currentStep].octaveUp;
-            UpdateLedsForCurrentStep();
+            steps[currentStepIndex].octaveUp = !steps[currentStepIndex].octaveUp;
         }
     }
 
@@ -178,8 +208,7 @@ namespace developmentKit::stepSequencer
     {
         if (mode == STEP_SEQUENCER_MODE_STEP_REC)
         {
-            steps[currentStep].accent = !steps[currentStep].accent;
-            UpdateLedsForCurrentStep();
+            steps[currentStepIndex].accent = !steps[currentStepIndex].accent;
         }
     }
 
@@ -187,8 +216,7 @@ namespace developmentKit::stepSequencer
     {
         if (mode == STEP_SEQUENCER_MODE_STEP_REC)
         {
-            steps[currentStep].slide = !steps[currentStep].slide;
-            UpdateLedsForCurrentStep();
+            steps[currentStepIndex].slide = !steps[currentStepIndex].slide;
         }
     }
 
@@ -200,18 +228,16 @@ namespace developmentKit::stepSequencer
 
             if (note != STEP_SEQUENCER_NOT_NOTE_KEY)
             {
-                if (steps[currentStep].note == note)
+                if (steps[currentStepIndex].note == note)
                 {
-                    steps[currentStep].gate = !steps[currentStep].gate;
+                    steps[currentStepIndex].gate = !steps[currentStepIndex].gate;
                 }
                 else
                 {
-                    steps[currentStep].gate = true;
-                    steps[currentStep].note = note;
+                    steps[currentStepIndex].gate = true;
+                    steps[currentStepIndex].note = note;
                 }
             }
-
-            UpdateLedsForCurrentStep();
         }
     }
 
@@ -263,6 +289,7 @@ namespace developmentKit::stepSequencer
             }
 
             lastKeyPress = STEP_SEQUENCER_NO_KEY_PRESS;
+            UpdateLeds();
         }
     }
 
@@ -270,7 +297,7 @@ namespace developmentKit::stepSequencer
     {
         if (mode == STEP_SEQUENCER_MODE_PLAY && tick <= 0)
         {
-            currentStep = (currentStep + 1) % stepCount;
+            currentStepIndex = (currentStepIndex + 1) % stepCount;
             ActivateCurrentStep();
         }
 
@@ -278,12 +305,12 @@ namespace developmentKit::stepSequencer
         {
             if (gateOn)
             {
-                if (!steps[currentStep].slide)
+                if (!steps[currentStepIndex].slide)
                 {
                     gateOn = false;
                 }
 
-                if (steps[currentStep].slide && mode != STEP_SEQUENCER_MODE_PLAY)
+                if (steps[currentStepIndex].slide && mode != STEP_SEQUENCER_MODE_PLAY)
                 {
                     gateOn = false;
                 }
@@ -320,6 +347,23 @@ namespace developmentKit::stepSequencer
         return gateOn;
     }
 
+    uint8_t SequencerBrain::GetNote()
+    {
+        uint8_t note = steps[currentStepIndex].note + 60;
+
+        if (steps[currentStepIndex].octaveDown)
+        {
+            note -= 12;
+        }
+
+        if (steps[currentStepIndex].octaveUp)
+        {
+            note += 12;
+        }
+
+        return note;
+    }
+
     void SequencerBrain::SetStepInterval(uint8_t newStepInterval)
     {
         stepInterval = newStepInterval;
@@ -338,11 +382,13 @@ namespace developmentKit::stepSequencer
             steps[stepIndex].accent = newSteps[stepIndex].accent;
             steps[stepIndex].slide = newSteps[stepIndex].slide;
         }
+
+        UpdateLeds();
     }
 
     uint8_t SequencerBrain::GetCurrentStepIndex()
     {
-        return currentStep;
+        return currentStepIndex;
     }
 
     uint8_t SequencerBrain::GetMode()
@@ -352,7 +398,7 @@ namespace developmentKit::stepSequencer
 
     Step SequencerBrain::GetCurrentStep()
     {
-        return steps[currentStep];
+        return steps[currentStepIndex];
     }
 
     Step *SequencerBrain::GetSteps()

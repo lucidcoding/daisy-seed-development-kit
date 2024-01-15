@@ -71,6 +71,8 @@ namespace developmentKit::stepSequencer
         void Init();
         void SetKeys(uint8_t keys);
         void Process(uint32_t currentProcessTimeUs);
+        bool GetGate();
+        uint8_t GetNote();
 
         // For testing only
         uint8_t GetCurrentStepIndex();
@@ -78,19 +80,18 @@ namespace developmentKit::stepSequencer
         uint8_t GetMode();
 
         uint64_t GetLedStates();
-        bool GetGate();
         void SetStepInterval(uint8_t newStepInterval);
         void SetSteps(Step newSteps[16]);
         Step* GetSteps();
 
     private:
         uint8_t stepCount;
-        uint8_t currentStep;
+        uint8_t currentStepIndex;
         Step steps[16];
         uint8_t lastKeyPress;
         uint16_t tick;
         uint16_t stepInterval;
-        void UpdateLedsForCurrentStep();
+        void UpdateLeds();
         void OnRecordPressed();
         uint8_t mode;
         const uint8_t noteToLedLookup[STEP_SEQUENCER_NUMBER_OF_NOTE_KEYS] = {9, 0, 10, 1, 11, 12, 2, 13, 3, 14, 4, 15, 16};
