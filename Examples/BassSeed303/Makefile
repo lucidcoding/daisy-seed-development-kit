@@ -1,5 +1,5 @@
 # Project Name
-TARGET = MonoSeed09
+TARGET = BassSeed303
 
 # Sources
 CPP_SOURCES = \
