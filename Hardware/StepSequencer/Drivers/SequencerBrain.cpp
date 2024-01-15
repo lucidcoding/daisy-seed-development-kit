@@ -1,6 +1,5 @@
 #include "stdint.h"
 #include "SequencerBrain.h"
-#include "NoteEvent.h"
 #include "DEBUG.h"
 
 namespace developmentKit::stepSequencer
@@ -8,11 +7,12 @@ namespace developmentKit::stepSequencer
     void SequencerBrain::Init()
     {
         currentStepIndex = 0;
-        stepInterval = 500; // 500 is approx 120 bpm.
-        gateLength = stepInterval / 2;
-        tick = stepInterval;
+        SetTicksPerStep(500);
+        /*ticksPerStep = 500; // 500 is approx 120 bpm.
+        ticksPerGate = ticksPerStep / 2;
+        tickCountdown = ticksPerStep;*/
         mode = STEP_SEQUENCER_MODE_STOP;
-        gateOn = false;
+        gate = false;
 
         for (uint8_t i = 0; i < 16; i++)
         {
@@ -88,13 +88,12 @@ namespace developmentKit::stepSequencer
 
     void SequencerBrain::ActivateCurrentStep()
     {
-        tick = stepInterval;
+        tickCountdown = ticksPerStep;
         UpdateLedStates();
 
         if (steps[currentStepIndex].gate)
         {
-            gateCount = 0;
-            gateOn = true;
+            gate = true;
         }
     }
 
@@ -247,35 +246,35 @@ namespace developmentKit::stepSequencer
 
     void SequencerBrain::CheckForClockEvent()
     {
-        if (mode == STEP_SEQUENCER_MODE_PLAY && tick <= 0)
+        if (mode == STEP_SEQUENCER_MODE_PLAY && tickCountdown <= 0)
         {
             currentStepIndex = (currentStepIndex + 1) % STEP_SEQUENCER_DEFAULT_STEP_COUNT;
             ActivateCurrentStep();
         }
 
-        if (tick <= (stepInterval - gateLength))
+        if (tickCountdown <= (ticksPerStep - ticksPerGate))
         {
-            if (gateOn)
+            if (gate)
             {
                 if (!steps[currentStepIndex].slide)
                 {
-                    gateOn = false;
+                    gate = false;
                 }
 
                 if (steps[currentStepIndex].slide && mode != STEP_SEQUENCER_MODE_PLAY)
                 {
-                    gateOn = false;
+                    gate = false;
                 }
             }
         }
 
-        if (tick > 0)
+        if (tickCountdown > 0)
         {
-            tick--;
+            tickCountdown--;
         }
     }
 
-    void SequencerBrain::Process(uint32_t currentProcessTimeUs)
+    void SequencerBrain::Process()
     {
         CheckForKeyPressEvent();
         CheckForClockEvent();
@@ -296,7 +295,7 @@ namespace developmentKit::stepSequencer
 
     bool SequencerBrain::GetGate()
     {
-        return gateOn;
+        return gate;
     }
 
     uint8_t SequencerBrain::GetNote()
@@ -316,11 +315,31 @@ namespace developmentKit::stepSequencer
         return note;
     }
 
-    void SequencerBrain::SetStepInterval(uint8_t newStepInterval)
+    bool SequencerBrain::GetAccent()
     {
-        stepInterval = newStepInterval;
-        gateLength = stepInterval / 2;
-        tick = 0;
+        return steps[currentStepIndex].accent;
+    }
+
+    bool SequencerBrain::GetSlide()
+    {
+        return steps[currentStepIndex].slide;
+    }
+
+    void SequencerBrain::SetTicksPerStep(uint16_t setTicksPerStep)
+    {
+        ticksPerStep = setTicksPerStep;
+        ticksPerGate = ticksPerStep / 2;
+        tickCountdown = ticksPerStep;
+    }
+
+    uint8_t SequencerBrain::GetCurrentStepIndex()
+    {
+        return currentStepIndex;
+    }
+
+    uint8_t SequencerBrain::GetMode()
+    {
+        return mode;
     }
 
     void SequencerBrain::SetSteps(Step newSteps[16])
@@ -336,21 +355,6 @@ namespace developmentKit::stepSequencer
         }
 
         UpdateLedStates();
-    }
-
-    uint8_t SequencerBrain::GetCurrentStepIndex()
-    {
-        return currentStepIndex;
-    }
-
-    uint8_t SequencerBrain::GetMode()
-    {
-        return mode;
-    }
-
-    Step SequencerBrain::GetCurrentStep()
-    {
-        return steps[currentStepIndex];
     }
 
     Step *SequencerBrain::GetSteps()

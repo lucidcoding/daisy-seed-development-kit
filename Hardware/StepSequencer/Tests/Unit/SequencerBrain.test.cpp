@@ -11,7 +11,7 @@ SequencerBrain Setup()
 {
     SequencerBrain sequencerBrain;
     sequencerBrain.Init();
-    sequencerBrain.SetStepInterval(10);
+    sequencerBrain.SetTicksPerStep(10);
     return sequencerBrain;
 }
 
@@ -166,7 +166,7 @@ void Advance(SequencerBrain *sequencerBrain, uint8_t steps)
 {
     for (uint8_t i = 0; i < steps; i++)
     {
-        sequencerBrain->Process(0);
+        sequencerBrain->Process();
     }
 }
 
@@ -175,7 +175,7 @@ TEST_CASE("Pressing Play sets mode to play")
     SequencerBrain sequencerBrain;
     sequencerBrain.Init();
     REQUIRE(sequencerBrain.GetMode() == STEP_SEQUENCER_MODE_STOP);
-    sequencerBrain.SetStepInterval(10);
+    sequencerBrain.SetTicksPerStep(10);
     Step *steps = GetGatedSteps();
     sequencerBrain.SetSteps(steps);
     sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
@@ -236,7 +236,7 @@ TEST_CASE("Correct notes are played at each step")
 
         DYNAMIC_SECTION("Checking note for " << i)
         {
-            REQUIRE(sequencerBrain.GetCurrentStep().note == expectedNotes[i]);
+            REQUIRE(sequencerBrain.GetSteps()[sequencerBrain.GetCurrentStepIndex()].note == expectedNotes[i]);
         }
     }
 }
@@ -468,9 +468,9 @@ TEST_CASE("Pressing play in the middle of step record mode starts playing from b
     Advance(&sequencerBrain, 1);
     REQUIRE(sequencerBrain.GetMode() == STEP_SEQUENCER_MODE_PLAY);
     REQUIRE(sequencerBrain.GetCurrentStepIndex() == 0);
-    REQUIRE(sequencerBrain.GetCurrentStep().note == 0);
+    REQUIRE(sequencerBrain.GetSteps()[sequencerBrain.GetCurrentStepIndex()].note == 0);
     Advance(&sequencerBrain, 10);
-    REQUIRE(sequencerBrain.GetCurrentStep().note == 1);
+    REQUIRE(sequencerBrain.GetSteps()[sequencerBrain.GetCurrentStepIndex()].note == 1);
 }
 
 TEST_CASE("Only LEDs for first step shown when started")

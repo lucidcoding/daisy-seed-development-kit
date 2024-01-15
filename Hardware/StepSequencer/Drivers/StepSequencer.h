@@ -4,7 +4,6 @@
 
 #include "Keys.h"
 #include "Leds.h"
-#include "NoteEvent.h"
 #include "SequencerBrain.h"
 
 namespace developmentKit::stepSequencer

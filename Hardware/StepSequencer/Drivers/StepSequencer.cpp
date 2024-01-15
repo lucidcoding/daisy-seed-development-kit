@@ -1,7 +1,6 @@
 #include "stdint.h"
 #include "Keys.h"
 #include "Leds.h"
-#include "NoteEvent.h"
 #include "SequencerBrain.h"
 #include "StepSequencer.h"
 
@@ -24,7 +23,7 @@ namespace developmentKit::stepSequencer
 
             uint8_t lastKeyPress = keys.ScanNextColumn(currentProcessTimeUs);
             sequencerBrain.SetLastKeyPress(lastKeyPress);
-            sequencerBrain.Process(currentProcessTimeUs);
+            sequencerBrain.Process();
             uint64_t ledStates = sequencerBrain.GetLedStates();
             leds.SetLeds(ledStates);
             leds.ScanNextColumn();

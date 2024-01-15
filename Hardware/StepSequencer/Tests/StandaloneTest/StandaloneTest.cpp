@@ -1,6 +1,5 @@
 #include "daisysp.h"
 #include "daisy_seed.h"
-#include "../../Drivers/NoteEvent.h"
 #include "../../Drivers/StepSequencer.h"
 
 using namespace daisysp;
