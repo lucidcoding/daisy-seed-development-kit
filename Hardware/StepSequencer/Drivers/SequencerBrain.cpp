@@ -327,7 +327,8 @@ namespace developmentKit::stepSequencer
 
     bool SequencerBrain::GetPreviousSlide()
     {
-        return steps[(currentStepIndex - 1) % STEP_SEQUENCER_DEFAULT_STEP_COUNT].slide;
+        uint8_t previousStepIndex = (currentStepIndex - 1) % STEP_SEQUENCER_DEFAULT_STEP_COUNT;
+        return steps[previousStepIndex].slide;
     }
 
     void SequencerBrain::SetTicksPerStep(uint16_t setTicksPerStep)

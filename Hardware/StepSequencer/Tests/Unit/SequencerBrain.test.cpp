@@ -555,3 +555,23 @@ TEST_CASE("Pressing REC and advancing to a step with no gate does not show note 
     uint64_t expectedLedStates = 0x00 | (1 << STEP_SEQUENCER_LEDS_REC);
     REQUIRE(actualLedStates == expectedLedStates);
 }
+
+TEST_CASE("GetPreviousSlide returns false if on first step and last step is not slide")
+{
+    SequencerBrain sequencerBrain = Setup();
+    sequencerBrain.SetSteps(GetClearedSteps());
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
+    Advance(&sequencerBrain, 1);
+    REQUIRE(sequencerBrain.GetPreviousSlide() == false);
+}
+
+TEST_CASE("GetPreviousSlide returns false if current step is slide but previous is not, and true if previous is")
+{
+    SequencerBrain sequencerBrain = Setup();
+    sequencerBrain.SetSteps(GetGatedSteps());
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
+    Advance(&sequencerBrain, 21);
+    REQUIRE(sequencerBrain.GetPreviousSlide() == false);
+    Advance(&sequencerBrain, 10);
+    REQUIRE(sequencerBrain.GetPreviousSlide() == true);
+}
