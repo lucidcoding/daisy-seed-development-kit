@@ -543,3 +543,15 @@ TEST_CASE("Pressing REC and advancing 2 steps turns correct LEDs on")
     REQUIRE(actualLedStates == expectedLedStates);
 }
 
+TEST_CASE("Pressing REC and advancing to a step with no gate does not show note LED")
+{
+    SequencerBrain sequencerBrain = Setup();
+    sequencerBrain.SetSteps(GetVariedSteps());
+    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_REC);
+    Advance(&sequencerBrain, 1);
+    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    Advance(&sequencerBrain, 1);
+    uint64_t actualLedStates = sequencerBrain.GetLedStates();
+    uint64_t expectedLedStates = 0x00 | (1 << STEP_SEQUENCER_LEDS_REC);
+    REQUIRE(actualLedStates == expectedLedStates);
+}

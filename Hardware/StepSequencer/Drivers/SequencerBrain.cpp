@@ -15,56 +15,16 @@ namespace developmentKit::stepSequencer
         mode = STEP_SEQUENCER_MODE_STOP;
         gateOn = false;
 
-        steps[0].note = 0;
-        steps[0].gate = true;
+        for (uint8_t i = 0; i < 16; i++)
+        {
+            steps[i].note = 0;
+            steps[i].gate = true;
+            steps[i].octaveDown = false;
+            steps[i].octaveUp = false;
+            steps[i].accent = false;
+            steps[i].slide = false;
+        }
 
-        steps[1].gate = false;
-
-        steps[2].note = 0;
-        steps[2].gate = true;
-        steps[2].slide = true;
-
-        steps[3].note = 0;
-        steps[3].gate = true;
-
-        steps[4].note = 0;
-        steps[4].gate = true;
-
-        steps[5].note = 0;
-        steps[5].gate = true;
-
-        steps[6].gate = false;
-
-        steps[7].note = 7;
-        steps[7].gate = true;
-
-        steps[8].note = 7;
-        steps[8].gate = true;
-
-        steps[9].gate = false;
-
-        steps[10].note = 7;
-        steps[10].gate = true;
-
-        steps[11].note = 12;
-        steps[11].gate = true;
-
-        /*steps[12].gate = false;
-
-        steps[13].note = 0;
-        steps[13].gate = true;
-
-        steps[14].note = 0;
-        steps[14].slide = true;
-        steps[14].gate = true;
-
-        steps[15].note = 0;
-        steps[15].gate = true;*/
-
-        steps[12].gate = false;
-        steps[13].gate = false;
-        steps[14].gate = false;
-        steps[15].gate = false;
         UpdateLeds();
     }
 
@@ -72,12 +32,9 @@ namespace developmentKit::stepSequencer
     {
         Step step = steps[currentStepIndex];
 
-        for (uint8_t ledToSet =STEP_SEQUENCER_LEDS_C_SHARP; ledToSet <= STEP_SEQUENCER_LEDS_A_SHARP; ledToSet++)
+        for (uint8_t ledToSet = STEP_SEQUENCER_LEDS_C_SHARP; ledToSet <= STEP_SEQUENCER_LEDS_A_SHARP; ledToSet++)
         {
-            if (steps[currentStepIndex].gate)
-            {
-                leds[ledToSet] = (ledToSet == noteToLedLookup[step.note]);
-            }
+            leds[ledToSet] = (ledToSet == noteToLedLookup[step.note]) && step.gate;
         }
 
         leds[STEP_SEQUENCER_LEDS_FUNC] = false;
@@ -102,10 +59,7 @@ namespace developmentKit::stepSequencer
 
         for (uint8_t ledToSet = STEP_SEQUENCER_LEDS_C; ledToSet <= STEP_SEQUENCER_LEDS_C2; ledToSet++)
         {
-            if (steps[currentStepIndex].gate)
-            {
-                leds[ledToSet] = (ledToSet == noteToLedLookup[step.note]);
-            }
+            leds[ledToSet] = (ledToSet == noteToLedLookup[step.note]) && step.gate;
         }
 
         leds[STEP_SEQUENCER_LEDS_OCTAVE_DOWN] = step.octaveDown;
@@ -127,7 +81,7 @@ namespace developmentKit::stepSequencer
 
         for (uint8_t ledIndex = 0; ledIndex < STEP_SEQUENCER_NUMBER_OF_LEDS; ledIndex++)
         {
-            //DEBUG("LED " << (uint16_t)ledIndex << " state: " << (leds[ledIndex] ? 0x01 : 0x00));
+            // DEBUG("LED " << (uint16_t)ledIndex << " state: " << (leds[ledIndex] ? 0x01 : 0x00));
             returnValue = returnValue | ((leds[ledIndex] ? 0x01 : 0x00) << ledIndex);
         }
 
