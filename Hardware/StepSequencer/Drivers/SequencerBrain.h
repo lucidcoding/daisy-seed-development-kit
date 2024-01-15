@@ -6,6 +6,7 @@
 #define STEP_SEQUENCER_NUMBER_OF_NOTE_KEYS 13
 #define STEP_SEQUENCER_NO_KEY_PRESS 255
 #define STEP_SEQUENCER_NOT_NOTE_KEY 255
+#define STEP_SEQUENCER_DEFAULT_STEP_COUNT 16
 
 #define STEP_SEQUENCER_MODE_STOP 0
 #define STEP_SEQUENCER_MODE_PLAY 1
@@ -69,7 +70,7 @@ namespace developmentKit::stepSequencer
     {
     public:
         void Init();
-        void SetKeys(uint8_t keys);
+        void SetLastKeyPress(uint8_t keys);
         void Process(uint32_t currentProcessTimeUs);
         bool GetGate();
         uint8_t GetNote();
@@ -81,21 +82,20 @@ namespace developmentKit::stepSequencer
 
         uint64_t GetLedStates();
         void SetStepInterval(uint8_t newStepInterval);
-        void SetSteps(Step newSteps[16]);
+        void SetSteps(Step newSteps[STEP_SEQUENCER_DEFAULT_STEP_COUNT]);
         Step* GetSteps();
 
     private:
-        uint8_t stepCount;
         uint8_t currentStepIndex;
-        Step steps[16];
+        Step steps[STEP_SEQUENCER_DEFAULT_STEP_COUNT];
         uint8_t lastKeyPress;
         uint16_t tick;
         uint16_t stepInterval;
-        void UpdateLeds();
+        void UpdateLedStates();
         void OnRecordPressed();
         uint8_t mode;
         const uint8_t noteToLedLookup[STEP_SEQUENCER_NUMBER_OF_NOTE_KEYS] = {9, 0, 10, 1, 11, 12, 2, 13, 3, 14, 4, 15, 16};
-        bool leds[STEP_SEQUENCER_NUMBER_OF_LEDS];
+        bool ledStates[STEP_SEQUENCER_NUMBER_OF_LEDS];
         uint8_t GetNoteFromKeyPressed(uint8_t keyPressed);
         uint8_t gateCount;
         bool gateOn;

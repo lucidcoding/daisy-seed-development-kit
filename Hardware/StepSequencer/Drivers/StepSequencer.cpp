@@ -23,7 +23,7 @@ namespace developmentKit::stepSequencer
             lastProcessTimeUs = currentProcessTimeUs;
 
             uint8_t lastKeyPress = keys.ScanNextColumn(currentProcessTimeUs);
-            sequencerBrain.SetKeys(lastKeyPress);
+            sequencerBrain.SetLastKeyPress(lastKeyPress);
             sequencerBrain.Process(currentProcessTimeUs);
             uint64_t ledStates = sequencerBrain.GetLedStates();
             leds.SetLeds(ledStates);

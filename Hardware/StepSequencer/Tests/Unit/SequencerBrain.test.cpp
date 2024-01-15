@@ -178,7 +178,7 @@ TEST_CASE("Pressing Play sets mode to play")
     sequencerBrain.SetStepInterval(10);
     Step *steps = GetGatedSteps();
     sequencerBrain.SetSteps(steps);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
     REQUIRE(sequencerBrain.GetMode() == STEP_SEQUENCER_MODE_STOP);
     Advance(&sequencerBrain, 1);
     REQUIRE(sequencerBrain.GetMode() == STEP_SEQUENCER_MODE_PLAY);
@@ -198,7 +198,7 @@ TEST_CASE("Pressing play advances to first step")
 {
     SequencerBrain sequencerBrain = Setup();
     sequencerBrain.SetSteps(GetGatedSteps());
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
     REQUIRE(sequencerBrain.GetCurrentStepIndex() == 0);
     Advance(&sequencerBrain, 10);
     REQUIRE(sequencerBrain.GetCurrentStepIndex() == 0);
@@ -228,7 +228,7 @@ TEST_CASE("Correct notes are played at each step")
 
     SequencerBrain sequencerBrain = Setup();
     sequencerBrain.SetSteps(GetIncrementingNoteSteps());
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
 
     for (uint16_t i = 0; i < 160; i++)
     {
@@ -263,7 +263,7 @@ TEST_CASE("Correct gate is registered at each tick")
 
     SequencerBrain sequencerBrain = Setup();
     sequencerBrain.SetSteps(GetGatedSteps());
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
 
     for (uint16_t i = 0; i < 160; i++)
     {
@@ -280,9 +280,9 @@ TEST_CASE("Pressing stop mid gate closes gate after current has finished")
 {
     SequencerBrain sequencerBrain = Setup();
     sequencerBrain.SetSteps(GetGatedSteps());
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
     Advance(&sequencerBrain, 3);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
     Advance(&sequencerBrain, 2);
     REQUIRE(sequencerBrain.GetGate());
 
@@ -297,9 +297,9 @@ TEST_CASE("Pressing stop after gate keeps gate closed")
 {
     SequencerBrain sequencerBrain = Setup();
     sequencerBrain.SetSteps(GetGatedSteps());
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
     Advance(&sequencerBrain, 6);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
 
     for (uint16_t i = 0; i < 30; i++)
     {
@@ -312,9 +312,9 @@ TEST_CASE("Pressing stop mid long gate closes gate immediately")
 {
     SequencerBrain sequencerBrain = Setup();
     sequencerBrain.SetSteps(GetGatedSteps());
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
     Advance(&sequencerBrain, 28);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
     Advance(&sequencerBrain, 2);
 
     for (uint16_t i = 0; i < 20; i++)
@@ -328,7 +328,7 @@ TEST_CASE("Pressing record in stop mode puts it into step record mode")
 {
     SequencerBrain sequencerBrain = Setup();
     sequencerBrain.SetSteps(GetGatedSteps());
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_REC);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_REC);
     Advance(&sequencerBrain, 1);
     REQUIRE(sequencerBrain.GetMode() == STEP_SEQUENCER_MODE_STEP_REC);
 }
@@ -337,9 +337,9 @@ TEST_CASE("Pressing record in play mode puts it into step record mode")
 {
     SequencerBrain sequencerBrain = Setup();
     sequencerBrain.SetSteps(GetGatedSteps());
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_REC);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_REC);
     Advance(&sequencerBrain, 1);
     REQUIRE(sequencerBrain.GetMode() == STEP_SEQUENCER_MODE_STEP_REC);
 }
@@ -348,88 +348,88 @@ TEST_CASE("Entering notes in step record mode sets steps correctly")
 {
     SequencerBrain sequencerBrain = Setup();
     sequencerBrain.SetSteps(GetClearedSteps());
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_REC);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_REC);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_C2);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_C2);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_B);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_B);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_A_SHARP);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_A_SHARP);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_A);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_A);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
-    Advance(&sequencerBrain, 1);
-
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_G_SHARP);
-    Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_SLIDE);
-    Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
-    Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_G);
-    Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
-    Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_F_SHARP);
-    Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_OCTAVE_DOWN);
-    Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
-    Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_F);
-    Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_OCTAVE_UP);
-    Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
 
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_E);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_G_SHARP);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_ACCENT);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_SLIDE);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_D_SHARP);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_G);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_OCTAVE_DOWN);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_ACCENT);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_F_SHARP);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_SLIDE);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_OCTAVE_DOWN);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_D);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_F);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_OCTAVE_UP);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_C);
-    Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
 
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_C_SHARP);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_E);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_ACCENT);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_C_SHARP);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_C_SHARP);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_D_SHARP);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_OCTAVE_DOWN);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_ACCENT);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_C);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_SLIDE);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    Advance(&sequencerBrain, 1);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_D);
+    Advance(&sequencerBrain, 1);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    Advance(&sequencerBrain, 1);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_C);
+    Advance(&sequencerBrain, 1);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    Advance(&sequencerBrain, 1);
+
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_C_SHARP);
+    Advance(&sequencerBrain, 1);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    Advance(&sequencerBrain, 1);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_C_SHARP);
+    Advance(&sequencerBrain, 1);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_C_SHARP);
+    Advance(&sequencerBrain, 1);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    Advance(&sequencerBrain, 1);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    Advance(&sequencerBrain, 1);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_C);
+    Advance(&sequencerBrain, 1);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
 
     Step *expectedSteps = GetExpectedProgrammedSteps();
@@ -454,17 +454,17 @@ TEST_CASE("Pressing play in the middle of step record mode starts playing from b
 {
     SequencerBrain sequencerBrain = Setup();
     sequencerBrain.SetSteps(GetIncrementingNoteSteps());
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_REC);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_REC);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
     Advance(&sequencerBrain, 1);
     REQUIRE(sequencerBrain.GetMode() == STEP_SEQUENCER_MODE_PLAY);
     REQUIRE(sequencerBrain.GetCurrentStepIndex() == 0);
@@ -486,7 +486,7 @@ TEST_CASE("Pressing PLAY turns PLAY LED on")
 {
     SequencerBrain sequencerBrain = Setup();
     sequencerBrain.SetSteps(GetVariedSteps());
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
     Advance(&sequencerBrain, 1);
     uint64_t actualLedStates = sequencerBrain.GetLedStates();
     uint64_t expectedLedStates = 0x00 | (1 << STEP_SEQUENCER_LEDS_C) | (1 << STEP_SEQUENCER_LEDS_OCTAVE_UP) | (1 << STEP_SEQUENCER_LEDS_PLAY);
@@ -497,7 +497,7 @@ TEST_CASE("Pressing play and advancing 2 steps turns play LED on and correct ste
 {
     SequencerBrain sequencerBrain = Setup();
     sequencerBrain.SetSteps(GetVariedSteps());
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
     Advance(&sequencerBrain, 21);
     uint64_t actualLedStates = sequencerBrain.GetLedStates();
     uint64_t expectedLedStates = 0x00 | (1 << STEP_SEQUENCER_LEDS_G) | (1 << STEP_SEQUENCER_LEDS_ACCENT) | (1 << STEP_SEQUENCER_LEDS_SLIDE) | (1 << STEP_SEQUENCER_LEDS_PLAY);
@@ -508,9 +508,9 @@ TEST_CASE("Pressing PLAY twice turns PLAY LED off")
 {
     SequencerBrain sequencerBrain = Setup();
     sequencerBrain.SetSteps(GetVariedSteps());
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_PLAY);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
     Advance(&sequencerBrain, 1);
     uint64_t actualLedStates = sequencerBrain.GetLedStates();
     uint64_t expectedLedStates = 0x00 | (1 << STEP_SEQUENCER_LEDS_C) | (1 << STEP_SEQUENCER_LEDS_OCTAVE_UP);
@@ -521,7 +521,7 @@ TEST_CASE("Pressing REC turns REC LED on")
 {
     SequencerBrain sequencerBrain = Setup();
     sequencerBrain.SetSteps(GetVariedSteps());
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_REC);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_REC);
     Advance(&sequencerBrain, 1);
     uint64_t actualLedStates = sequencerBrain.GetLedStates();
     uint64_t expectedLedStates = 0x00 | (1 << STEP_SEQUENCER_LEDS_C) | (1 << STEP_SEQUENCER_LEDS_OCTAVE_UP) | (1 << STEP_SEQUENCER_LEDS_REC);
@@ -532,11 +532,11 @@ TEST_CASE("Pressing REC and advancing 2 steps turns correct LEDs on")
 {
     SequencerBrain sequencerBrain = Setup();
     sequencerBrain.SetSteps(GetVariedSteps());
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_REC);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_REC);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
     uint64_t actualLedStates = sequencerBrain.GetLedStates();
     uint64_t expectedLedStates = 0x00 | (1 << STEP_SEQUENCER_LEDS_G) | (1 << STEP_SEQUENCER_LEDS_ACCENT) | (1 << STEP_SEQUENCER_LEDS_SLIDE) | (1 << STEP_SEQUENCER_LEDS_REC);
@@ -547,9 +547,9 @@ TEST_CASE("Pressing REC and advancing to a step with no gate does not show note 
 {
     SequencerBrain sequencerBrain = Setup();
     sequencerBrain.SetSteps(GetVariedSteps());
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_REC);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_REC);
     Advance(&sequencerBrain, 1);
-    sequencerBrain.SetKeys(STEP_SEQUENCER_KEYS_NEXT);
+    sequencerBrain.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
     Advance(&sequencerBrain, 1);
     uint64_t actualLedStates = sequencerBrain.GetLedStates();
     uint64_t expectedLedStates = 0x00 | (1 << STEP_SEQUENCER_LEDS_REC);
