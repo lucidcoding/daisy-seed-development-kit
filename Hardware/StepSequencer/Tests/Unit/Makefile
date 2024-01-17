@@ -11,8 +11,8 @@
  
 test:
 	g++ -lstdc++ -o StepSequencerTests -DTESTING \
-		SequencerBrain.test.cpp \
-		../../Drivers/SequencerBrain.cpp 
+		Controller.test.cpp \
+		../../Drivers/Controller.cpp 
 
 clean:
 	rm -f rm -fR build

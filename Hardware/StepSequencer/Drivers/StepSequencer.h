@@ -4,7 +4,7 @@
 
 #include "Keys.h"
 #include "Leds.h"
-#include "SequencerBrain.h"
+#include "Controller.h"
 
 namespace developmentKit::stepSequencer
 {
@@ -22,7 +22,7 @@ namespace developmentKit::stepSequencer
     private:
         Keys keys;
         Leds leds;
-        SequencerBrain sequencerBrain;
+        Controller controller;
         uint32_t lastProcessTimeUs;
     };
 }

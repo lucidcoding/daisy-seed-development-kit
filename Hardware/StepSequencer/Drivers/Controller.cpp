@@ -1,10 +1,10 @@
 #include "stdint.h"
-#include "SequencerBrain.h"
+#include "Controller.h"
 #include "DEBUG.h"
 
 namespace developmentKit::stepSequencer
 {
-    void SequencerBrain::Init()
+    void Controller::Init()
     {
         currentStepIndex = 0;
         SetTicksPerStep(500);
@@ -28,7 +28,7 @@ namespace developmentKit::stepSequencer
         UpdateLedStates();
     }
 
-    void SequencerBrain::UpdateLedStates()
+    void Controller::UpdateLedStates()
     {
         Step step = steps[currentStepIndex];
 
@@ -70,12 +70,12 @@ namespace developmentKit::stepSequencer
         ledStates[STEP_SEQUENCER_LEDS_NEXT] = false;
     }
 
-    void SequencerBrain::SetLastKeyPress(uint8_t newLastKeyPress)
+    void Controller::SetLastKeyPress(uint8_t newLastKeyPress)
     {
         lastKeyPress = newLastKeyPress;
     }
 
-    uint64_t SequencerBrain::GetLedStates()
+    uint64_t Controller::GetLedStates()
     {
         uint64_t returnValue = 0x00;
 
@@ -87,7 +87,7 @@ namespace developmentKit::stepSequencer
         return returnValue;
     }
 
-    void SequencerBrain::ActivateCurrentStep()
+    void Controller::ActivateCurrentStep()
     {
         tickCountdown = ticksPerStep;
         UpdateLedStates();
@@ -98,7 +98,7 @@ namespace developmentKit::stepSequencer
         }
     }
 
-    void SequencerBrain::OnPlayPressed()
+    void Controller::OnPlayPressed()
     {
         if (mode == STEP_SEQUENCER_MODE_PLAY)
         {
@@ -112,13 +112,13 @@ namespace developmentKit::stepSequencer
         }
     }
 
-    void SequencerBrain::OnRecordPressed()
+    void Controller::OnRecordPressed()
     {
         mode = STEP_SEQUENCER_MODE_STEP_REC;
         currentStepIndex = 0;
     }
 
-    void SequencerBrain::OnBackPressed()
+    void Controller::OnBackPressed()
     {
         if (mode == STEP_SEQUENCER_MODE_STEP_REC)
         {
@@ -129,7 +129,7 @@ namespace developmentKit::stepSequencer
         }
     }
 
-    void SequencerBrain::OnNextPressed()
+    void Controller::OnNextPressed()
     {
         if (mode == STEP_SEQUENCER_MODE_STEP_REC)
         {
@@ -140,7 +140,7 @@ namespace developmentKit::stepSequencer
         }
     }
 
-    void SequencerBrain::OnOctaveDownPressed()
+    void Controller::OnOctaveDownPressed()
     {
         if (mode == STEP_SEQUENCER_MODE_STEP_REC)
         {
@@ -148,7 +148,7 @@ namespace developmentKit::stepSequencer
         }
     }
 
-    void SequencerBrain::OnOctaveUpPressed()
+    void Controller::OnOctaveUpPressed()
     {
         if (mode == STEP_SEQUENCER_MODE_STEP_REC)
         {
@@ -156,7 +156,7 @@ namespace developmentKit::stepSequencer
         }
     }
 
-    void SequencerBrain::OnAccentPressed()
+    void Controller::OnAccentPressed()
     {
         if (mode == STEP_SEQUENCER_MODE_STEP_REC)
         {
@@ -164,7 +164,7 @@ namespace developmentKit::stepSequencer
         }
     }
 
-    void SequencerBrain::OnSlidePressed()
+    void Controller::OnSlidePressed()
     {
         if (mode == STEP_SEQUENCER_MODE_STEP_REC)
         {
@@ -172,7 +172,7 @@ namespace developmentKit::stepSequencer
         }
     }
 
-    void SequencerBrain::OnNoteKeyPressed()
+    void Controller::OnNoteKeyPressed()
     {
         if (mode == STEP_SEQUENCER_MODE_STEP_REC)
         {
@@ -193,7 +193,7 @@ namespace developmentKit::stepSequencer
         }
     }
 
-    void SequencerBrain::CheckForKeyPressEvent()
+    void Controller::CheckForKeyPressEvent()
     {
         if (lastKeyPress != STEP_SEQUENCER_NO_KEY_PRESS)
         {
@@ -245,7 +245,7 @@ namespace developmentKit::stepSequencer
         }
     }
 
-    void SequencerBrain::CheckForClockEvent()
+    void Controller::CheckForClockEvent()
     {
         if (mode == STEP_SEQUENCER_MODE_PLAY && tickCountdown <= 0)
         {
@@ -275,13 +275,13 @@ namespace developmentKit::stepSequencer
         }
     }
 
-    void SequencerBrain::Process()
+    void Controller::Process()
     {
         CheckForKeyPressEvent();
         CheckForClockEvent();
     }
 
-    uint8_t SequencerBrain::GetNoteFromKeyPressed(uint8_t keyPressed)
+    uint8_t Controller::GetNoteFromKeyPressed(uint8_t keyPressed)
     {
         for (uint8_t currentIndex = 0; currentIndex < STEP_SEQUENCER_NUMBER_OF_NOTE_KEYS; currentIndex++)
         {
@@ -294,12 +294,12 @@ namespace developmentKit::stepSequencer
         return STEP_SEQUENCER_NOT_NOTE_KEY;
     }
 
-    bool SequencerBrain::GetGate()
+    bool Controller::GetGate()
     {
         return gate;
     }
 
-    uint8_t SequencerBrain::GetNote()
+    uint8_t Controller::GetNote()
     {
         uint8_t note = steps[currentStepIndex].note + 60;
 
@@ -316,40 +316,40 @@ namespace developmentKit::stepSequencer
         return note;
     }
 
-    bool SequencerBrain::GetAccent()
+    bool Controller::GetAccent()
     {
         return steps[currentStepIndex].accent;
     }
 
-    bool SequencerBrain::GetSlide()
+    bool Controller::GetSlide()
     {
         return steps[currentStepIndex].slide;
     }
 
-    bool SequencerBrain::GetPreviousSlide()
+    bool Controller::GetPreviousSlide()
     {
         uint8_t previousStepIndex = (currentStepIndex - 1) % STEP_SEQUENCER_DEFAULT_STEP_COUNT;
         return steps[previousStepIndex].slide;
     }
 
-    void SequencerBrain::SetTicksPerStep(uint16_t setTicksPerStep)
+    void Controller::SetTicksPerStep(uint16_t setTicksPerStep)
     {
         ticksPerStep = setTicksPerStep;
         ticksPerGate = ticksPerStep / 2;
         tickCountdown = ticksPerStep;
     }
 
-    uint8_t SequencerBrain::GetCurrentStepIndex()
+    uint8_t Controller::GetCurrentStepIndex()
     {
         return currentStepIndex;
     }
 
-    uint8_t SequencerBrain::GetMode()
+    uint8_t Controller::GetMode()
     {
         return mode;
     }
 
-    void SequencerBrain::SetSteps(Step newSteps[16])
+    void Controller::SetSteps(Step newSteps[16])
     {
         for (uint8_t stepIndex = 0; stepIndex < 16; stepIndex++)
         {
@@ -364,7 +364,7 @@ namespace developmentKit::stepSequencer
         UpdateLedStates();
     }
 
-    Step *SequencerBrain::GetSteps()
+    Step *Controller::GetSteps()
     {
         return steps;
     }

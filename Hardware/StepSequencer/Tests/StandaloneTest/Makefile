@@ -6,7 +6,7 @@ CPP_SOURCES = \
 	StandaloneTest.cpp \
 	../../Drivers/Keys.cpp \
 	../../Drivers/Leds.cpp \
-	../../SequencerBrain.cpp \
+	../../Controller.cpp \
 	../../StepSequencer.cpp
 
 # Core location, and generic Makefile.

@@ -1,7 +1,7 @@
 #include "stdint.h"
 #include "Keys.h"
 #include "Leds.h"
-#include "SequencerBrain.h"
+#include "Controller.h"
 #include "StepSequencer.h"
 
 namespace developmentKit::stepSequencer
@@ -10,7 +10,7 @@ namespace developmentKit::stepSequencer
     {
         leds.Init();
         keys.Init();
-        sequencerBrain.Init();
+        controller.Init();
     }
 
     void StepSequencer::Listen()
@@ -22,9 +22,9 @@ namespace developmentKit::stepSequencer
             lastProcessTimeUs = currentProcessTimeUs;
 
             uint8_t lastKeyPress = keys.ScanNextColumn(currentProcessTimeUs);
-            sequencerBrain.SetLastKeyPress(lastKeyPress);
-            sequencerBrain.Process();
-            uint64_t ledStates = sequencerBrain.GetLedStates();
+            controller.SetLastKeyPress(lastKeyPress);
+            controller.Process();
+            uint64_t ledStates = controller.GetLedStates();
             leds.SetLeds(ledStates);
             leds.ScanNextColumn();
         }
@@ -32,26 +32,26 @@ namespace developmentKit::stepSequencer
 
     bool StepSequencer::GetGate()
     {
-        return sequencerBrain.GetGate();
+        return controller.GetGate();
     }
 
     uint8_t StepSequencer::GetNote()
     {
-        return sequencerBrain.GetNote();
+        return controller.GetNote();
     }
 
     bool StepSequencer::GetAccent()
     {
-        return sequencerBrain.GetAccent();
+        return controller.GetAccent();
     }
 
     bool StepSequencer::GetSlide()
     {
-        return sequencerBrain.GetSlide();
+        return controller.GetSlide();
     }
 
     bool StepSequencer::GetPreviousSlide()
     {
-        return sequencerBrain.GetPreviousSlide();
+        return controller.GetPreviousSlide();
     }
 }

@@ -65,7 +65,7 @@
 
 namespace developmentKit::stepSequencer
 {
-    class SequencerBrain
+    class Controller
     {
     public:
         void Init();

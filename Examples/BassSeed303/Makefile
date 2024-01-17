@@ -7,7 +7,7 @@ CPP_SOURCES = \
 	SynthEngine.cpp \
 	../../Hardware/StepSequencer/Drivers/Keys.cpp \
 	../../Hardware/StepSequencer/Drivers/Leds.cpp \
-	../../Hardware/StepSequencer/Drivers/SequencerBrain.cpp \
+	../../Hardware/StepSequencer/Drivers/Controller.cpp \
 	../../Hardware/StepSequencer/Drivers/StepSequencer.cpp
 
 # Core location, and generic Makefile.
