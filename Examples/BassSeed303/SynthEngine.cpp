@@ -5,7 +5,6 @@ namespace developmentKit::bassSeed303
     void SynthEngine::Init(float sampleRate)
     {
         InitOscillator(sampleRate);
-        InitPort(sampleRate);
         InitAdsr(sampleRate);
     }
 
@@ -14,17 +13,7 @@ namespace developmentKit::bassSeed303
         float oscillatorOut, adsrOut, portamentoOut;
         adsrOut = adsr.Process(gate);
         mainOsc.SetAmp(adsrOut / 10 * (accent ? 1 : 0.7));
-        portamentoOut = port.Process(noteFreq);
-
-        if(slide)
-        {
-            mainOsc.SetFreq(portamentoOut);
-        }
-        else
-        {
-            mainOsc.SetFreq(noteFreq);
-        }
-        
+        mainOsc.SetFreq(noteFreq);
         oscillatorOut = mainOsc.Process();
         *voiceLeft = oscillatorOut;
         *voiceRight = oscillatorOut;
@@ -64,12 +53,5 @@ namespace developmentKit::bassSeed303
         adsr.SetTime(ADSR_SEG_DECAY, .1);
         adsr.SetTime(ADSR_SEG_RELEASE, .02);
         adsr.SetSustainLevel(.2);
-    }
-
-    void SynthEngine::InitPort(float sampleRate)
-    {
-        float portamento = 0.08;
-        port.Init(sampleRate, portamento);
-        port.SetHtime(portamento);
     }
 }

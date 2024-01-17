@@ -40,11 +40,9 @@ int main(void)
         stepSequencer.Listen();
         bool gate = stepSequencer.GetGate();
         float noteFreq = mtof(stepSequencer.GetNote());
-        bool slide = stepSequencer.GetPreviousSlide();
         bool accent = stepSequencer.GetAccent();
         synthEngine.SetGate(gate);
         synthEngine.SetNoteFreq(noteFreq);
-        synthEngine.SetSlide(slide);
         synthEngine.SetAccent(accent);
     }
 }

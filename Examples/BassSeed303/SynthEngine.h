@@ -32,7 +32,6 @@ namespace developmentKit::bassSeed303
         bool accent;
         void InitOscillator(float);
         void InitAdsr(float);
-        void InitPort(float);
     };
 }
 

@@ -8,6 +8,7 @@ namespace developmentKit::stepSequencer
     {
         currentStepIndex = 0;
         SetTicksPerStep(500);
+        //SetTicksPerStep(2000);
         /*ticksPerStep = 500; // 500 is approx 120 bpm.
         ticksPerGate = ticksPerStep / 2;
         tickCountdown = ticksPerStep;*/
