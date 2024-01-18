@@ -21,8 +21,8 @@ namespace developmentKit::stepSequencer
         {
             lastProcessTimeUs = currentProcessTimeUs;
 
-            uint8_t lastKeyPress = keys.ScanNextColumn(currentProcessTimeUs);
-            controller.SetLastKeyPress(lastKeyPress);
+            uint32_t lastKeyPress = keys.ScanNextColumn(currentProcessTimeUs);
+            controller.SetKeyState(lastKeyPress);
             controller.Process();
             uint64_t ledStates = controller.GetLedStates();
             leds.SetLeds(ledStates);

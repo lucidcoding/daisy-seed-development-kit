@@ -8,7 +8,7 @@ namespace developmentKit::stepSequencer
     {
         currentStepIndex = 0;
         SetTicksPerStep(500);
-        //SetTicksPerStep(2000);
+        // SetTicksPerStep(2000);
         /*ticksPerStep = 500; // 500 is approx 120 bpm.
         ticksPerGate = ticksPerStep / 2;
         tickCountdown = ticksPerStep;*/
@@ -70,9 +70,9 @@ namespace developmentKit::stepSequencer
         ledStates[STEP_SEQUENCER_LEDS_NEXT] = false;
     }
 
-    void Controller::SetLastKeyPress(uint8_t newLastKeyPress)
+    void Controller::SetKeyState(uint32_t newLastKeyPress)
     {
-        lastKeyPress = newLastKeyPress;
+        keyState = newLastKeyPress;
     }
 
     uint64_t Controller::GetLedStates()
@@ -172,11 +172,11 @@ namespace developmentKit::stepSequencer
         }
     }
 
-    void Controller::OnNoteKeyPressed()
+    void Controller::OnNoteKeyPressed(uint8_t keyIndex)
     {
         if (mode == STEP_SEQUENCER_MODE_STEP_REC)
         {
-            uint8_t note = GetNoteFromKeyPressed(lastKeyPress);
+            uint8_t note = GetNoteFromKeyPressed(keyIndex);
 
             if (note != STEP_SEQUENCER_NOT_NOTE_KEY)
             {
@@ -195,53 +195,61 @@ namespace developmentKit::stepSequencer
 
     void Controller::CheckForKeyPressEvent()
     {
-        if (lastKeyPress != STEP_SEQUENCER_NO_KEY_PRESS)
+        if (keyState != STEP_SEQUENCER_NO_KEY_PRESS)
         {
-            switch (lastKeyPress)
+            for (uint8_t keyIndex = 0; keyIndex < STEP_SEQUENCER_NUMBER_OF_KEYS; keyIndex++)
             {
-            case STEP_SEQUENCER_KEYS_PLAY:
-                OnPlayPressed();
-                break;
-            case STEP_SEQUENCER_KEYS_REC:
-                OnRecordPressed();
-                break;
-            case STEP_SEQUENCER_KEYS_BACK:
-                OnBackPressed();
-                break;
-            case STEP_SEQUENCER_KEYS_NEXT:
-                OnNextPressed();
-                break;
-            case STEP_SEQUENCER_KEYS_OCTAVE_DOWN:
-                OnOctaveDownPressed();
-                break;
-            case STEP_SEQUENCER_KEYS_OCTAVE_UP:
-                OnOctaveUpPressed();
-                break;
-            case STEP_SEQUENCER_KEYS_ACCENT:
-                OnAccentPressed();
-                break;
-            case STEP_SEQUENCER_KEYS_SLIDE:
-                OnSlidePressed();
-                break;
-            case STEP_SEQUENCER_KEYS_C:
-            case STEP_SEQUENCER_KEYS_C_SHARP:
-            case STEP_SEQUENCER_KEYS_D:
-            case STEP_SEQUENCER_KEYS_D_SHARP:
-            case STEP_SEQUENCER_KEYS_E:
-            case STEP_SEQUENCER_KEYS_F:
-            case STEP_SEQUENCER_KEYS_F_SHARP:
-            case STEP_SEQUENCER_KEYS_G:
-            case STEP_SEQUENCER_KEYS_G_SHARP:
-            case STEP_SEQUENCER_KEYS_A:
-            case STEP_SEQUENCER_KEYS_A_SHARP:
-            case STEP_SEQUENCER_KEYS_B:
-            case STEP_SEQUENCER_KEYS_C2:
-                OnNoteKeyPressed();
-                break;
-            }
+                bool keyIsPressed = (keyState & (1 << keyIndex)) > 0;
 
-            lastKeyPress = STEP_SEQUENCER_NO_KEY_PRESS;
-            UpdateLedStates();
+                if (keyIsPressed)
+                {
+                    switch (keyIndex)
+                    {
+                    case STEP_SEQUENCER_KEYS_PLAY:
+                        OnPlayPressed();
+                        break;
+                    case STEP_SEQUENCER_KEYS_REC:
+                        OnRecordPressed();
+                        break;
+                    case STEP_SEQUENCER_KEYS_BACK:
+                        OnBackPressed();
+                        break;
+                    case STEP_SEQUENCER_KEYS_NEXT:
+                        OnNextPressed();
+                        break;
+                    case STEP_SEQUENCER_KEYS_OCTAVE_DOWN:
+                        OnOctaveDownPressed();
+                        break;
+                    case STEP_SEQUENCER_KEYS_OCTAVE_UP:
+                        OnOctaveUpPressed();
+                        break;
+                    case STEP_SEQUENCER_KEYS_ACCENT:
+                        OnAccentPressed();
+                        break;
+                    case STEP_SEQUENCER_KEYS_SLIDE:
+                        OnSlidePressed();
+                        break;
+                    case STEP_SEQUENCER_KEYS_C:
+                    case STEP_SEQUENCER_KEYS_C_SHARP:
+                    case STEP_SEQUENCER_KEYS_D:
+                    case STEP_SEQUENCER_KEYS_D_SHARP:
+                    case STEP_SEQUENCER_KEYS_E:
+                    case STEP_SEQUENCER_KEYS_F:
+                    case STEP_SEQUENCER_KEYS_F_SHARP:
+                    case STEP_SEQUENCER_KEYS_G:
+                    case STEP_SEQUENCER_KEYS_G_SHARP:
+                    case STEP_SEQUENCER_KEYS_A:
+                    case STEP_SEQUENCER_KEYS_A_SHARP:
+                    case STEP_SEQUENCER_KEYS_B:
+                    case STEP_SEQUENCER_KEYS_C2:
+                        OnNoteKeyPressed(keyIndex);
+                        break;
+                    }
+
+                    keyState = keyState && ~(1 << keyIndex);
+                    UpdateLedStates();
+                }
+            }
         }
     }
 

@@ -17,7 +17,7 @@ namespace developmentKit::stepSequencer
     {
     public:
         void Init();
-        uint8_t ScanNextColumn(uint32_t currentProcessTimeUs);
+        uint32_t ScanNextColumn(uint32_t currentProcessTimeUs);
 
     private:
         Mcp23017 mcp;
@@ -34,6 +34,8 @@ namespace developmentKit::stepSequencer
         bool stableState[24];
         bool lastState[24];
         uint32_t lastDebounceTime[24];
+        uint32_t lastKeyState;
+        uint32_t stableKeyState;
     };
 }
 

@@ -178,7 +178,7 @@ TEST_CASE("Pressing Play sets mode to play")
     controller.SetTicksPerStep(10);
     Step *steps = GetGatedSteps();
     controller.SetSteps(steps);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_PLAY);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_MODE_STOP);
     Advance(&controller, 1);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_MODE_PLAY);
@@ -198,7 +198,7 @@ TEST_CASE("Pressing play advances to first step")
 {
     Controller controller = Setup();
     controller.SetSteps(GetGatedSteps());
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_PLAY);
     REQUIRE(controller.GetCurrentStepIndex() == 0);
     Advance(&controller, 10);
     REQUIRE(controller.GetCurrentStepIndex() == 0);
@@ -228,7 +228,7 @@ TEST_CASE("Correct notes are played at each step")
 
     Controller controller = Setup();
     controller.SetSteps(GetIncrementingNoteSteps());
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_PLAY);
 
     for (uint16_t i = 0; i < 160; i++)
     {
@@ -263,7 +263,7 @@ TEST_CASE("Correct gate is registered at each tick")
 
     Controller controller = Setup();
     controller.SetSteps(GetGatedSteps());
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_PLAY);
 
     for (uint16_t i = 0; i < 160; i++)
     {
@@ -280,9 +280,9 @@ TEST_CASE("Pressing stop mid gate closes gate after current has finished")
 {
     Controller controller = Setup();
     controller.SetSteps(GetGatedSteps());
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_PLAY);
     Advance(&controller, 3);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_PLAY);
     Advance(&controller, 2);
     REQUIRE(controller.GetGate());
 
@@ -297,9 +297,9 @@ TEST_CASE("Pressing stop after gate keeps gate closed")
 {
     Controller controller = Setup();
     controller.SetSteps(GetGatedSteps());
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_PLAY);
     Advance(&controller, 6);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_PLAY);
 
     for (uint16_t i = 0; i < 30; i++)
     {
@@ -312,9 +312,9 @@ TEST_CASE("Pressing stop mid long gate closes gate immediately")
 {
     Controller controller = Setup();
     controller.SetSteps(GetGatedSteps());
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_PLAY);
     Advance(&controller, 28);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_PLAY);
     Advance(&controller, 2);
 
     for (uint16_t i = 0; i < 20; i++)
@@ -328,7 +328,7 @@ TEST_CASE("Pressing record in stop mode puts it into step record mode")
 {
     Controller controller = Setup();
     controller.SetSteps(GetGatedSteps());
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_REC);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_REC);
     Advance(&controller, 1);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_MODE_STEP_REC);
 }
@@ -337,9 +337,9 @@ TEST_CASE("Pressing record in play mode puts it into step record mode")
 {
     Controller controller = Setup();
     controller.SetSteps(GetGatedSteps());
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_PLAY);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_REC);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_REC);
     Advance(&controller, 1);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_MODE_STEP_REC);
 }
@@ -348,88 +348,88 @@ TEST_CASE("Entering notes in step record mode sets steps correctly")
 {
     Controller controller = Setup();
     controller.SetSteps(GetClearedSteps());
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_REC);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_REC);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_C2);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_C2);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_NEXT);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_B);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_B);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_NEXT);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_A_SHARP);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_A_SHARP);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_NEXT);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_A);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_A);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
-    Advance(&controller, 1);
-
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_G_SHARP);
-    Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_SLIDE);
-    Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
-    Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_G);
-    Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
-    Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_F_SHARP);
-    Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_OCTAVE_DOWN);
-    Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
-    Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_F);
-    Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_OCTAVE_UP);
-    Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_NEXT);
     Advance(&controller, 1);
 
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_E);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_G_SHARP);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_ACCENT);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_SLIDE);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_NEXT);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_D_SHARP);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_G);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_OCTAVE_DOWN);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_NEXT);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_ACCENT);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_F_SHARP);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_SLIDE);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_OCTAVE_DOWN);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_NEXT);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_D);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_F);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_OCTAVE_UP);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_C);
-    Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_NEXT);
     Advance(&controller, 1);
 
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_C_SHARP);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_E);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_ACCENT);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_C_SHARP);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_NEXT);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_C_SHARP);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_D_SHARP);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_OCTAVE_DOWN);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_ACCENT);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_C);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_SLIDE);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_NEXT);
+    Advance(&controller, 1);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_D);
+    Advance(&controller, 1);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_NEXT);
+    Advance(&controller, 1);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_C);
+    Advance(&controller, 1);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_NEXT);
+    Advance(&controller, 1);
+
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_C_SHARP);
+    Advance(&controller, 1);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_NEXT);
+    Advance(&controller, 1);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_C_SHARP);
+    Advance(&controller, 1);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_C_SHARP);
+    Advance(&controller, 1);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_NEXT);
+    Advance(&controller, 1);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_NEXT);
+    Advance(&controller, 1);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_C);
+    Advance(&controller, 1);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_NEXT);
     Advance(&controller, 1);
 
     Step *expectedSteps = GetExpectedProgrammedSteps();
@@ -454,17 +454,17 @@ TEST_CASE("Pressing play in the middle of step record mode starts playing from b
 {
     Controller controller = Setup();
     controller.SetSteps(GetIncrementingNoteSteps());
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_REC);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_REC);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_NEXT);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_NEXT);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_NEXT);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_NEXT);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_PLAY);
     Advance(&controller, 1);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_MODE_PLAY);
     REQUIRE(controller.GetCurrentStepIndex() == 0);
@@ -486,7 +486,7 @@ TEST_CASE("Pressing PLAY turns PLAY LED on")
 {
     Controller controller = Setup();
     controller.SetSteps(GetVariedSteps());
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_PLAY);
     Advance(&controller, 1);
     uint64_t actualLedStates = controller.GetLedStates();
     uint64_t expectedLedStates = 0x00 | (1 << STEP_SEQUENCER_LEDS_C) | (1 << STEP_SEQUENCER_LEDS_OCTAVE_UP) | (1 << STEP_SEQUENCER_LEDS_PLAY);
@@ -497,7 +497,7 @@ TEST_CASE("Pressing play and advancing 2 steps turns play LED on and correct ste
 {
     Controller controller = Setup();
     controller.SetSteps(GetVariedSteps());
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_PLAY);
     Advance(&controller, 21);
     uint64_t actualLedStates = controller.GetLedStates();
     uint64_t expectedLedStates = 0x00 | (1 << STEP_SEQUENCER_LEDS_G) | (1 << STEP_SEQUENCER_LEDS_ACCENT) | (1 << STEP_SEQUENCER_LEDS_SLIDE) | (1 << STEP_SEQUENCER_LEDS_PLAY);
@@ -508,9 +508,9 @@ TEST_CASE("Pressing PLAY twice turns PLAY LED off")
 {
     Controller controller = Setup();
     controller.SetSteps(GetVariedSteps());
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_PLAY);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_PLAY);
     Advance(&controller, 1);
     uint64_t actualLedStates = controller.GetLedStates();
     uint64_t expectedLedStates = 0x00 | (1 << STEP_SEQUENCER_LEDS_C) | (1 << STEP_SEQUENCER_LEDS_OCTAVE_UP);
@@ -521,7 +521,7 @@ TEST_CASE("Pressing REC turns REC LED on")
 {
     Controller controller = Setup();
     controller.SetSteps(GetVariedSteps());
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_REC);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_REC);
     Advance(&controller, 1);
     uint64_t actualLedStates = controller.GetLedStates();
     uint64_t expectedLedStates = 0x00 | (1 << STEP_SEQUENCER_LEDS_C) | (1 << STEP_SEQUENCER_LEDS_OCTAVE_UP) | (1 << STEP_SEQUENCER_LEDS_REC);
@@ -532,11 +532,11 @@ TEST_CASE("Pressing REC and advancing 2 steps turns correct LEDs on")
 {
     Controller controller = Setup();
     controller.SetSteps(GetVariedSteps());
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_REC);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_REC);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_NEXT);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_NEXT);
     Advance(&controller, 1);
     uint64_t actualLedStates = controller.GetLedStates();
     uint64_t expectedLedStates = 0x00 | (1 << STEP_SEQUENCER_LEDS_G) | (1 << STEP_SEQUENCER_LEDS_ACCENT) | (1 << STEP_SEQUENCER_LEDS_SLIDE) | (1 << STEP_SEQUENCER_LEDS_REC);
@@ -547,9 +547,9 @@ TEST_CASE("Pressing REC and advancing to a step with no gate does not show note 
 {
     Controller controller = Setup();
     controller.SetSteps(GetVariedSteps());
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_REC);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_REC);
     Advance(&controller, 1);
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_NEXT);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_NEXT);
     Advance(&controller, 1);
     uint64_t actualLedStates = controller.GetLedStates();
     uint64_t expectedLedStates = 0x00 | (1 << STEP_SEQUENCER_LEDS_REC);
@@ -560,7 +560,7 @@ TEST_CASE("GetPreviousSlide returns false if on first step and last step is not 
 {
     Controller controller = Setup();
     controller.SetSteps(GetClearedSteps());
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_PLAY);
     Advance(&controller, 1);
     REQUIRE(controller.GetPreviousSlide() == false);
 }
@@ -569,7 +569,7 @@ TEST_CASE("GetPreviousSlide returns false if current step is slide but previous 
 {
     Controller controller = Setup();
     controller.SetSteps(GetGatedSteps());
-    controller.SetLastKeyPress(STEP_SEQUENCER_KEYS_PLAY);
+    controller.SetKeyState(1 << STEP_SEQUENCER_KEYS_PLAY);
     Advance(&controller, 21);
     REQUIRE(controller.GetPreviousSlide() == false);
     Advance(&controller, 10);

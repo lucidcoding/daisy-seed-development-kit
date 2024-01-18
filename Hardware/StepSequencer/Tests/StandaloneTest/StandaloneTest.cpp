@@ -6,82 +6,59 @@ using namespace daisysp;
 using namespace daisy;
 using namespace developmentKit::stepSequencer;
 
+#define LED_COUNT 23
+#define PROCESS_INTERVAL_US 250
+#define LED_CHANGE_STEPS 4000
+
 static DaisySeed hardware;
-StepSequencer stepSequencer;
-Oscillator mainOsc;
-Adsr adsr;
-bool gate;
-Port port;
-float noteFreq;
-bool slideOn;
-bool accent;
+Keys keys;
+Leds leds;
+u_int8_t ledIndex;
+u_int16_t ledChangeCountdown;
+uint32_t lastProcessTimeUs;
 
 static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
                           AudioHandle::InterleavingOutputBuffer out,
                           size_t size)
 {
-    float oscillatorOut, adsrOut, portamentoOut;
-
-    for (size_t i = 0; i < size; i += 2)
-    {
-        adsrOut = adsr.Process(gate);
-        mainOsc.SetAmp(adsrOut / 10 * (accent ? 1 : 0.7));
-        portamentoOut = port.Process(noteFreq);
-        
-        if(slideOn)
-        {
-            mainOsc.SetFreq(portamentoOut);
-        }
-        else
-        {
-            mainOsc.SetFreq(noteFreq);
-        }
-        
-        oscillatorOut = mainOsc.Process();
-        out[i] = oscillatorOut;
-        out[i + 1] = oscillatorOut;
-    }
-}
-
-void InitOscillator(float sampleRate)
-{
-    mainOsc.Init(sampleRate);
-    mainOsc.SetWaveform(Oscillator::WAVE_SAW);
-    mainOsc.SetAmp(0.5);
-}
-
-void InitAdsr(float sampleRate)
-{
-    adsr.Init(sampleRate);
-    adsr.SetTime(ADSR_SEG_ATTACK, .01);
-    adsr.SetTime(ADSR_SEG_DECAY, .1);
-    adsr.SetTime(ADSR_SEG_RELEASE, .02);
-    adsr.SetSustainLevel(.2);
 }
 
 int main(void)
 {
     hardware.Configure();
     hardware.Init();
+    leds.Init();
+    keys.Init();
     float sampleRate = hardware.AudioSampleRate();
-    InitOscillator(sampleRate);
-
-    float portamento = 0.08;
-    port.Init(sampleRate, portamento);
-    port.SetHtime(portamento);
-
-    InitAdsr(sampleRate);
-    stepSequencer.Init();
-    hardware.StartAudio(AudioCallback);
+    //hardware.StartAudio(AudioCallback);
     hardware.StartLog(false);
     hardware.PrintLine("Starting...");
+    ledIndex = 0;
+    ledChangeCountdown = LED_CHANGE_STEPS;
 
     while (1)
     {
-        stepSequencer.Listen();
-        gate = stepSequencer.GetGate();
-        noteFreq = mtof(stepSequencer.GetNote());
-        slideOn = stepSequencer.GetPreviousSlide();
-        accent = stepSequencer.GetAccent();
+        uint32_t currentProcessTimeUs = System::GetUs();
+
+        if (currentProcessTimeUs - lastProcessTimeUs > PROCESS_INTERVAL_US)
+        {
+            lastProcessTimeUs = currentProcessTimeUs;
+
+            ledChangeCountdown = (ledChangeCountdown - 1) % LED_CHANGE_STEPS;
+
+            if (ledChangeCountdown == 0)
+            {
+                ledIndex = (ledIndex + 1) % LED_COUNT;
+            }
+
+            leds.SetLeds(0x00 | (1 << ledIndex));
+            leds.ScanNextColumn();
+            uint32_t lastKeyPress = keys.ScanNextColumn(currentProcessTimeUs);
+
+            if (lastKeyPress != STEP_SEQUENCER_NO_KEY_PRESS)
+            {
+                hardware.PrintLine("Key press: %d", lastKeyPress);
+            }
+        }
     }
 }

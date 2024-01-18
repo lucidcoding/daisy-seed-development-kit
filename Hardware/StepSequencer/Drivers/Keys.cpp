@@ -20,11 +20,12 @@ namespace developmentKit::stepSequencer
         mcp.PortMode(MCPPort::A, 0xFF, 0xFF);
         mcp.PortMode(MCPPort::B, 0x00);
         mcp.WritePort(MCPPort::B, 0xFF);
+        lastKeyState = 0;
     }
 
-    uint8_t Keys::ScanNextColumn(uint32_t currentProcessTimeUs)
+    uint32_t Keys::ScanNextColumn(uint32_t currentProcessTimeUs)
     {
-        uint64_t returnValue = 255;
+        uint32_t returnValue = 255;
         uint8_t columnPin = columnPins[columnPinIndex];
         mcp.WritePort(MCPPort::B, ~(0x01 << (columnPin - 8)));
         mcp.Read();
@@ -35,7 +36,7 @@ namespace developmentKit::stepSequencer
 
             if (switchIndex != 255) // Unused
             {
-                uint8_t inputPin = inputPins[inputPinIndex];
+                /*uint8_t inputPin = inputPins[inputPinIndex];
                 bool currentState = mcp.GetPin(inputPin) == 255 ? false : true;
 
                 if (currentState != lastState[switchIndex])
@@ -61,7 +62,43 @@ namespace developmentKit::stepSequencer
                     }
                 }
 
-                lastState[switchIndex] = currentState;
+                lastState[switchIndex] = currentState;*/
+
+                uint8_t inputPin = inputPins[inputPinIndex];
+                uint8_t currentIndividualState = mcp.GetPin(inputPin) == 255 ? 0 : 1;
+                uint8_t lastIndivdualState = (lastKeyState & (1 << switchIndex)) > 0 ? 1 : 0;
+
+                if (currentIndividualState != lastIndivdualState)
+                {
+                    lastDebounceTime[switchIndex] = currentProcessTimeUs;
+                }
+
+                if ((currentProcessTimeUs - lastDebounceTime[switchIndex]) > STEP_SEQUENCER_DEBOUNCE_TIME)
+                {
+                    uint8_t stableIndividualState = (stableKeyState & (1 << switchIndex)) > 0 ? 1 : 0;
+                    if (currentIndividualState != stableIndividualState)
+                    {
+                        if (currentIndividualState == 1)
+                        {
+                            stableKeyState = stableKeyState | (1 << switchIndex);
+                        }
+                        else
+                        {
+                            stableKeyState = stableKeyState & ~(1 << switchIndex);
+                        }
+
+                        returnValue = stableKeyState;
+                    }
+                }
+
+                if (currentIndividualState == 1)
+                {
+                    lastKeyState = lastKeyState | (1 << switchIndex);
+                }
+                else
+                {
+                    lastKeyState = lastKeyState & ~(1 << switchIndex);
+                }
             }
         }
 

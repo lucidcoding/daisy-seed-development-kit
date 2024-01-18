@@ -4,6 +4,7 @@
 #define STEP_SEQUENCER_PROCESS_INTERVAL_US 250
 #define STEP_SEQUENCER_NUMBER_OF_LEDS 23
 #define STEP_SEQUENCER_NUMBER_OF_NOTE_KEYS 13
+#define STEP_SEQUENCER_NUMBER_OF_KEYS 23
 #define STEP_SEQUENCER_NO_KEY_PRESS 255
 #define STEP_SEQUENCER_NOT_NOTE_KEY 255
 #define STEP_SEQUENCER_DEFAULT_STEP_COUNT 16
@@ -69,7 +70,7 @@ namespace developmentKit::stepSequencer
     {
     public:
         void Init();
-        void SetLastKeyPress(uint8_t keys);
+        void SetKeyState(uint32_t keys);
         void Process();
         bool GetGate();
         bool GetAccent();
@@ -88,7 +89,7 @@ namespace developmentKit::stepSequencer
         Step steps[STEP_SEQUENCER_DEFAULT_STEP_COUNT];
         uint8_t currentStepIndex;
         uint8_t mode;
-        uint8_t lastKeyPress;
+        uint32_t keyState;
         uint16_t tickCountdown;
         uint16_t ticksPerStep;
         uint8_t ticksPerGate;
@@ -106,7 +107,7 @@ namespace developmentKit::stepSequencer
         void OnOctaveUpPressed();
         void OnAccentPressed();
         void OnSlidePressed();
-        void OnNoteKeyPressed();
+        void OnNoteKeyPressed(uint8_t keyIndex);
         void CheckForKeyPressEvent();
         void CheckForClockEvent();
     };
