@@ -5,8 +5,8 @@
   (paper "A4")
 
   (title_block
-    (title "Daisy Seed Development Kit Step Sequencer")
-    (date "2024-01-17")
+    (title "Daisy Seed Development Kit Step Sequencer Interface")
+    (date "2024-01-22")
     (rev "2.0")
   )
 

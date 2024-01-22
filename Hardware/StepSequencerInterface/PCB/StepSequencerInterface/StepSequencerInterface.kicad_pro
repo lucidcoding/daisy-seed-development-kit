@@ -239,7 +239,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "StepSequencer.kicad_pro",
+    "filename": "StepSequencerInterface.kicad_pro",
     "version": 1
   },
   "net_settings": {

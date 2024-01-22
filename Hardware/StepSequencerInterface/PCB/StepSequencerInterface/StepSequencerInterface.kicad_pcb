@@ -6,9 +6,9 @@
 
   (paper "A4")
   (title_block
-    (title "Daisy Seed Development Kit Step Sequencer")
-    (date "2023-12-03")
-    (rev "1.0")
+    (title "Daisy Seed Development Kit Step Sequencer Interface")
+    (date "2024-01-22")
+    (rev "2.0")
   )
 
   (layers
@@ -2511,9 +2511,9 @@
     (fp_line (start -1.5 5.75) (end -1.5 -1.25) (layer "F.CrtYd") (width 0.05) (tstamp d9471685-e4b8-4e4c-b2a8-5812c29777fb))
     (fp_line (start -1.25 -1.5) (end 7.75 -1.5) (layer "F.CrtYd") (width 0.05) (tstamp ffae4238-4589-413f-b4f4-4f6a9eb25977))
     (fp_line (start 6.25 5.25) (end 0.25 5.25) (layer "F.Fab") (width 0.1) (tstamp 19c7c589-8f9c-49b1-992a-aa9697c8afd9))
-    (fp_line (start 0.25 5.25) (end 0.25 -0.75) (layer "F.Fab") (width 0.1) (tstamp 6fc8babb-26e4-439b-a5a5-0afd3f5d5176))
-    (fp_line (start 3.25 -0.75) (end 6.25 -0.75) (layer "F.Fab") (width 0.1) (tstamp 8f5be78d-2b2c-4e29-9904-bba40d5749ad))
-    (fp_line (start 0.25 -0.75) (end 3.25 -0.75) (layer "F.Fab") (width 0.1) (tstamp 92c55b08-050e-4f30-b34e-4b75caedf179))
+    (fp_line (start 0.25 5.25) (end 0.25 -0.75) (layer "F.Fab") (width 0.1) (tstamp 328427ae-624d-4ad5-9eae-c7dba1277b8f))
+    (fp_line (start 0.25 -0.75) (end 3.25 -0.75) (layer "F.Fab") (width 0.1) (tstamp 414df5d7-f19b-4687-a4de-327c40e73e20))
+    (fp_line (start 3.25 -0.75) (end 6.25 -0.75) (layer "F.Fab") (width 0.1) (tstamp 7cd22ddf-b7a3-4ab8-89e3-a5e58213159b))
     (fp_line (start 6.25 -0.75) (end 6.25 5.25) (layer "F.Fab") (width 0.1) (tstamp c9bd58bf-b369-445b-8753-848600c1fbc3))
     (fp_circle (center 3.25 2.25) (end 1.25 2.5) (layer "F.Fab") (width 0.1) (fill none) (tstamp 42531455-25d1-4f89-bede-37224382ba5a))
     (pad "1" thru_hole circle (at 0 0) (size 2 2) (drill 1.1) (layers *.Cu *.Mask)
@@ -3661,6 +3661,9 @@
   )
   (gr_text "OCT+" (at 142.24 98.084) (layer "F.SilkS") (tstamp d5db9feb-3719-42af-afab-0c81eba2f671)
     (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (gr_text "STEP SEQUENCER INTERFACE" (at 168.91 72.43) (layer "F.SilkS") (tstamp d86ee7d3-b7d0-400c-a7d2-6d9a947e3d7b)
+    (effects (font (size 1 1) (thickness 0.15)) (justify right))
   )
   (gr_text "BACK" (at 154.94 117.134) (layer "F.SilkS") (tstamp d8be1ba2-08b3-4c0d-b88c-7aca58b30b2a)
     (effects (font (size 1 1) (thickness 0.15)))
