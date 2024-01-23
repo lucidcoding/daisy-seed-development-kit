@@ -6,6 +6,7 @@ CPP_SOURCES = \
 	StandaloneTest.cpp \
 	../../Drivers/Keys.cpp \
 	../../Drivers/Leds.cpp \
+	../../StepSequencerInterface.cpp \
 	../../Controller.cpp \
 	../../StepSequencer.cpp
 

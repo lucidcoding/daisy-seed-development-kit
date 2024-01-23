@@ -2,8 +2,7 @@
 #ifndef STEP_SEQUENCER_H
 #define STEP_SEQUENCER_H
 
-#include "Keys.h"
-#include "Leds.h"
+#include "StepSequencerInterface.h"
 #include "Controller.h"
 
 namespace developmentKit::stepSequencer
@@ -20,8 +19,7 @@ namespace developmentKit::stepSequencer
         bool GetPreviousSlide();
 
     private:
-        Keys keys;
-        Leds leds;
+        StepSequencerInterface stepSequencerInterface;
         Controller controller;
         uint32_t lastProcessTimeUs;
     };

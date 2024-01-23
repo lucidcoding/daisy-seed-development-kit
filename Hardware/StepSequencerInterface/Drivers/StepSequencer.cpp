@@ -8,8 +8,7 @@ namespace developmentKit::stepSequencer
 {
     void StepSequencer::Init()
     {
-        leds.Init();
-        keys.Init();
+        stepSequencerInterface.Init();
         controller.Init();
     }
 
@@ -21,12 +20,11 @@ namespace developmentKit::stepSequencer
         {
             lastProcessTimeUs = currentProcessTimeUs;
 
-            uint32_t lastKeyPress = keys.ScanNextColumn(currentProcessTimeUs);
+            uint32_t lastKeyPress = stepSequencerInterface.ScanNextKeysColumn(currentProcessTimeUs);
             controller.SetKeyState(lastKeyPress);
             controller.Process();
             uint64_t ledStates = controller.GetLedStates();
-            leds.SetLeds(ledStates);
-            leds.ScanNextColumn();
+            stepSequencerInterface.ScanNextLedsColumn(ledStates);
         }
     }
 

@@ -1,0 +1,27 @@
+#pragma once
+#ifndef STEP_SEQUENCER_INTERFACE_H
+#define STEP_SEQUENCER_INTERFACE_H
+
+#include "Keys.h"
+#include "Leds.h"
+
+#define STEP_SEQUENCER_INTERFACE_DEBOUNCE_TIME 1000
+
+namespace developmentKit::stepSequencer
+{
+    using namespace daisysp;
+    using namespace daisy;
+
+    class StepSequencerInterface
+    {
+    public:
+        void Init();
+        uint32_t ScanNextKeysColumn(uint32_t currentProcessTimeUs);
+        void ScanNextLedsColumn(uint64_t newLedsState);
+    private:
+        Keys keys;
+        Leds leds;
+    };
+}
+
+#endif

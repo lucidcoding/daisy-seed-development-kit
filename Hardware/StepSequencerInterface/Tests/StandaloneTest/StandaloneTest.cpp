@@ -1,6 +1,7 @@
 #include "daisysp.h"
 #include "daisy_seed.h"
 #include "../../Drivers/StepSequencer.h"
+#include "../../Drivers/StepSequencerInterface.h";
 
 using namespace daisysp;
 using namespace daisy;
@@ -11,8 +12,9 @@ using namespace developmentKit::stepSequencer;
 #define LED_CHANGE_STEPS 4000
 
 static DaisySeed hardware;
-Keys keys;
-Leds leds;
+//Keys keys;
+//Leds leds;
+StepSequencerInterface stepSequencerInterface;
 u_int8_t ledIndex;
 u_int16_t ledChangeCountdown;
 uint32_t lastProcessTimeUs;
@@ -27,8 +29,9 @@ int main(void)
 {
     hardware.Configure();
     hardware.Init();
-    leds.Init();
-    keys.Init();
+    //leds.Init();
+    //keys.Init();
+    stepSequencerInterface.Init();
     float sampleRate = hardware.AudioSampleRate();
     //hardware.StartAudio(AudioCallback);
     hardware.StartLog(false);
@@ -51,9 +54,11 @@ int main(void)
                 ledIndex = (ledIndex + 1) % LED_COUNT;
             }
 
-            leds.SetLeds(0x00 | (1 << ledIndex));
-            leds.ScanNextColumn();
-            uint32_t lastKeyPress = keys.ScanNextColumn(currentProcessTimeUs);
+            //leds.SetLeds(0x00 | (1 << ledIndex));
+            //leds.ScanNextColumn();
+            stepSequencerInterface.ScanNextLedsColumn(0x00 | (1 << ledIndex));
+            //uint32_t lastKeyPress = keys.ScanNextColumn(currentProcessTimeUs);
+            uint32_t lastKeyPress = stepSequencerInterface.ScanNextKeysColumn(currentProcessTimeUs);
 
             if (lastKeyPress != STEP_SEQUENCER_NO_KEY_PRESS)
             {
