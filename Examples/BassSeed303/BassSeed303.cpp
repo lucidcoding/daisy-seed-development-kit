@@ -1,7 +1,7 @@
 #include "daisysp.h"
 #include "daisy_seed.h"
 #include "SynthEngine.h"
-#include "../../Hardware/StepSequencer/Drivers/StepSequencer.h"
+#include "../../Hardware/StepSequencerInterface/Drivers/StepSequencer.h"
 
 using namespace daisysp;
 using namespace daisy;
