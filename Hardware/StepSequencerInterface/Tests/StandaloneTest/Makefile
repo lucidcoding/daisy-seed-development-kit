@@ -7,8 +7,8 @@ CPP_SOURCES = \
 	../../Drivers/Keys.cpp \
 	../../Drivers/Leds.cpp \
 	../../StepSequencerInterface.cpp \
-	../../Controller.cpp \
-	../../StepSequencer.cpp
+	../../Drivers/Controller.cpp \
+	../../Drivers/StepSequencer.cpp
 
 # Core location, and generic Makefile.
 SYSTEM_FILES_DIR = $(LIBDAISY_DIR)/core
