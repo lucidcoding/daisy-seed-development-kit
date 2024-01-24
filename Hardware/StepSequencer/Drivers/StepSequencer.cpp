@@ -51,4 +51,9 @@ namespace developmentKit::stepSequencer
     {
         return controller.GetPreviousSlide();
     }
+
+    void StepSequencer::SetTempo(uint8_t newTempo)
+    {
+        controller.SetTempo(newTempo);
+    }
 }

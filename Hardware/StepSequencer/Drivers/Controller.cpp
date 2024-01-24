@@ -83,6 +83,11 @@ namespace developmentKit::stepSequencer
         return returnValue;
     }
 
+    void Controller::SetTempo(uint8_t newTempo)
+    {
+        SetTicksPerStep(500 - newTempo);
+    }
+
     void Controller::ActivateCurrentStep()
     {
         tickCountdown = ticksPerStep;

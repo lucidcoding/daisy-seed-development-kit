@@ -79,12 +79,14 @@ namespace developmentKit::stepSequencer
         uint8_t GetNote();
         void SetTicksPerStep(uint16_t newStepInterval);
         uint64_t GetLedState();
+        void SetTempo(uint8_t newTempo);
 
         // For testing only
         uint8_t GetCurrentStepIndex();
         uint8_t GetMode();
         void SetSteps(Step newSteps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT]);
         Step* GetSteps();
+        
     private:
         Step steps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT];
         uint8_t currentStepIndex;

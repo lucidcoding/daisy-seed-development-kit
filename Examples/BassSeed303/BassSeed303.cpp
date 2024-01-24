@@ -40,6 +40,23 @@ static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
     }
 }
 
+void InitPotentiometerArray()
+{
+    potentiometerArray.seed = &hardware;
+    potentiometerArray.Init();
+}
+
+void InitParameters(float sampleRate)
+{
+    masterVolumeParam.Init(potentiometerArray.analogControl[0], 0, 1.0f, Parameter::LINEAR);
+    cutOffFrequencyParam.Init(potentiometerArray.analogControl[1], 0, sampleRate / 3, Parameter::LINEAR);
+    resonanceParam.Init(potentiometerArray.analogControl[2], 0, 1.0f, Parameter::LINEAR);
+    decayParam.Init(potentiometerArray.analogControl[3], 0.025f, 1.0f, Parameter::LINEAR);
+    envelopeModulationParam.Init(potentiometerArray.analogControl[4], 0, 1.0f, Parameter::LINEAR);
+    accentLevelParam.Init(potentiometerArray.analogControl[5], 0, 1.0f, Parameter::LINEAR);
+    tempoParam.Init(potentiometerArray.analogControl[6], 0, 240.0f, Parameter::LINEAR);
+}
+
 int main(void)
 {
     hardware.Configure();
@@ -47,25 +64,14 @@ int main(void)
     float sampleRate = hardware.AudioSampleRate();
     synthEngine.Init(sampleRate);
     stepSequencer.Init();
-
-    potentiometerArray.seed = &hardware;
-    potentiometerArray.Init();
-    masterVolumeParam.Init(potentiometerArray.analogControl[0], 0, 1.0f, Parameter::LINEAR);
-    cutOffFrequencyParam.Init(potentiometerArray.analogControl[1], 0, sampleRate / 3, Parameter::LINEAR);
-    resonanceParam.Init(potentiometerArray.analogControl[2], 0, 1.0f, Parameter::LINEAR);
-    decayParam.Init(potentiometerArray.analogControl[3], 0.025f, 1.0f, Parameter::LINEAR);
-    envelopeModulationParam.Init(potentiometerArray.analogControl[4], 0, 1.0f, Parameter::LINEAR);
-    accentLevelParam.Init(potentiometerArray.analogControl[5], 0, 1.0f, Parameter::LINEAR);
-    tempoParam.Init(potentiometerArray.analogControl[5], 0, 240.0f, Parameter::LINEAR);
-
+    InitPotentiometerArray();
+    InitParameters(sampleRate);
     hardware.adc.Start();
-
-
-
     hardware.StartAudio(AudioCallback);
 
     while (1)
     {
+        //stepSequencer.SetTempo(tempoParam.Process());
         stepSequencer.Listen();
         synthEngine.SetGate(stepSequencer.GetGate());
         synthEngine.SetNoteFrequency(mtof(stepSequencer.GetNote()));

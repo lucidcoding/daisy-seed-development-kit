@@ -19,6 +19,7 @@ namespace developmentKit::stepSequencer
         bool GetAccent();
         bool GetSlide();
         bool GetPreviousSlide();
+        void SetTempo(uint8_t newTempo);
 
     private:
         Interface interface;
