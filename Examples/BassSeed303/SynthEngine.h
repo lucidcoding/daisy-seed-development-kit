@@ -18,20 +18,34 @@ namespace developmentKit::bassSeed303
         void Init(float);
         void Process(float *, float *);
         void SetGate(bool);
-        void SetNoteFreq(float);
+        void SetNoteFrequency(float);
         void SetSlide(bool);
         void SetAccent(bool);
+        void SetVolume(float);
+        void SetCutOffFreq(float);
+        void setResonance(float);
+        void setEnvelopeModulation(float);
+        void setDecay(float);
+        void setAccentLevel(float);
 
     private:
         Oscillator mainOsc;
         Adsr adsr;
-        Port port;
+        Svf svf;
+        float maxCutoffFrequency;
         bool gate;
-        float noteFreq;
+        float noteFrequency;
         bool slide;
         bool accent;
+        float volume;
+        float cutOffFrequency;
+        float resonance;
+        float envelopeModulation;
+        float decay;
+        float accentLevel;
         void InitOscillator(float);
         void InitAdsr(float);
+        void InitSvf(float);
     };
 }
 

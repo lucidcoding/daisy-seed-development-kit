@@ -1,21 +1,35 @@
 #include "daisysp.h"
 #include "daisy_seed.h"
 #include "SynthEngine.h"
+#include "../../Hardware/PotentiometerArray/PotentiometerArray.h"
 #include "../../Hardware/StepSequencer/Drivers/StepSequencer.h"
 
 using namespace daisysp;
 using namespace daisy;
+//using namespace developmentKit;
 using namespace developmentKit::stepSequencer;
 using namespace developmentKit::bassSeed303;
 
 static DaisySeed hardware;
 StepSequencer stepSequencer;
 SynthEngine synthEngine;
+developmentKit::PotentiometerArray potentiometerArray;
+
+Parameter masterVolumeParam, cutOffFrequencyParam, resonanceParam, envelopeModulationParam, decayParam, accentLevelParam, tempoParam;
 
 static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
                           AudioHandle::InterleavingOutputBuffer out,
                           size_t size)
 {
+    potentiometerArray.Process();
+
+    synthEngine.SetVolume(masterVolumeParam.Process());
+    synthEngine.SetCutOffFreq(cutOffFrequencyParam.Process());
+    synthEngine.setResonance(resonanceParam.Process());
+    synthEngine.setEnvelopeModulation(envelopeModulationParam.Process());
+    synthEngine.setDecay(decayParam.Process());
+    synthEngine.setAccentLevel(accentLevelParam.Process());
+
     float voiceLeft, voiceRight;
 
     for (size_t i = 0; i < size; i += 2)
@@ -33,13 +47,28 @@ int main(void)
     float sampleRate = hardware.AudioSampleRate();
     synthEngine.Init(sampleRate);
     stepSequencer.Init();
+
+    potentiometerArray.seed = &hardware;
+    potentiometerArray.Init();
+    masterVolumeParam.Init(potentiometerArray.analogControl[0], 0, 1.0f, Parameter::LINEAR);
+    cutOffFrequencyParam.Init(potentiometerArray.analogControl[1], 0, sampleRate / 3, Parameter::LINEAR);
+    resonanceParam.Init(potentiometerArray.analogControl[2], 0, 1.0f, Parameter::LINEAR);
+    decayParam.Init(potentiometerArray.analogControl[3], 0.025f, 1.0f, Parameter::LINEAR);
+    envelopeModulationParam.Init(potentiometerArray.analogControl[4], 0, 1.0f, Parameter::LINEAR);
+    accentLevelParam.Init(potentiometerArray.analogControl[5], 0, 1.0f, Parameter::LINEAR);
+    tempoParam.Init(potentiometerArray.analogControl[5], 0, 240.0f, Parameter::LINEAR);
+
+    hardware.adc.Start();
+
+
+
     hardware.StartAudio(AudioCallback);
 
     while (1)
     {
         stepSequencer.Listen();
         synthEngine.SetGate(stepSequencer.GetGate());
-        synthEngine.SetNoteFreq(mtof(stepSequencer.GetNote()));
+        synthEngine.SetNoteFrequency(mtof(stepSequencer.GetNote()));
         synthEngine.SetAccent(stepSequencer.GetAccent());
     }
 }
