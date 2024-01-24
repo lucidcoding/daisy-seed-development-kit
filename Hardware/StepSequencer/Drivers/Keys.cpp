@@ -1,12 +1,7 @@
 #include "Keys.h"
-#include "daisysp.h"
-#include "daisy_seed.h"
 
 namespace developmentKit::stepSequencer
 {
-    using namespace daisysp;
-    using namespace daisy;
-
     void Keys::Init()
     {
         Mcp23017::Config config;
@@ -25,7 +20,7 @@ namespace developmentKit::stepSequencer
 
     uint32_t Keys::ScanNextColumn(uint32_t currentProcessTimeUs)
     {
-        uint32_t returnValue = 255;
+        uint32_t returnValue = STEP_SEQUENCER_KEYS_NO_KEY_PRESS;
         uint8_t columnPin = columnPins[columnPinIndex];
         mcp.WritePort(MCPPort::B, ~(0x01 << (columnPin - 8)));
         mcp.Read();
@@ -34,36 +29,8 @@ namespace developmentKit::stepSequencer
         {
             uint8_t switchIndex = switchLookup[columnPinIndex][inputPinIndex];
 
-            if (switchIndex != 255) // Unused
+            if (switchIndex != STEP_SEQUENCER_KEYS_NO_KEY_PRESS) 
             {
-                /*uint8_t inputPin = inputPins[inputPinIndex];
-                bool currentState = mcp.GetPin(inputPin) == 255 ? false : true;
-
-                if (currentState != lastState[switchIndex])
-                {
-                    lastDebounceTime[switchIndex] = currentProcessTimeUs;
-                }
-
-                if ((currentProcessTimeUs - lastDebounceTime[switchIndex]) > STEP_SEQUENCER_DEBOUNCE_TIME)
-                {
-                    if (currentState != stableState[switchIndex])
-                    {
-                        stableState[switchIndex] = currentState;
-                        lastState[switchIndex] = currentState;
-
-                        if (stableState[switchIndex] == true)
-                        {
-                            returnValue = switchIndex;
-                        }
-                        else
-                        {
-                            // Handle switch off here.
-                        }
-                    }
-                }
-
-                lastState[switchIndex] = currentState;*/
-
                 uint8_t inputPin = inputPins[inputPinIndex];
                 uint8_t currentIndividualState = mcp.GetPin(inputPin) == 255 ? 0 : 1;
                 uint8_t lastIndivdualState = (lastKeyState & (1 << switchIndex)) > 0 ? 1 : 0;
@@ -73,7 +40,7 @@ namespace developmentKit::stepSequencer
                     lastDebounceTime[switchIndex] = currentProcessTimeUs;
                 }
 
-                if ((currentProcessTimeUs - lastDebounceTime[switchIndex]) > STEP_SEQUENCER_DEBOUNCE_TIME)
+                if ((currentProcessTimeUs - lastDebounceTime[switchIndex]) > STEP_SEQUENCER_KEYS_DEBOUNCE_TIME)
                 {
                     uint8_t stableIndividualState = (stableKeyState & (1 << switchIndex)) > 0 ? 1 : 0;
                     if (currentIndividualState != stableIndividualState)

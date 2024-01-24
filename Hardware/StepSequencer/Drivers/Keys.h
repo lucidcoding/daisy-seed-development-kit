@@ -6,7 +6,8 @@
 #include "daisy_seed.h"
 #include "dev/mcp23x17.h"
 
-#define STEP_SEQUENCER_DEBOUNCE_TIME 1000
+#define STEP_SEQUENCER_KEYS_DEBOUNCE_TIME 1000
+#define STEP_SEQUENCER_KEYS_NO_KEY_PRESS 255
 
 namespace developmentKit::stepSequencer
 {

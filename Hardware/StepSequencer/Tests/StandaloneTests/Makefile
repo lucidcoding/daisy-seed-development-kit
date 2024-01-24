@@ -1,12 +1,12 @@
 # Project Name
-TARGET = StandaloneTest
+TARGET = Interface.test
 
 # Sources
 CPP_SOURCES = \
-	StandaloneTest.cpp \
+	Interface.test.cpp \
 	../../Drivers/Keys.cpp \
 	../../Drivers/Leds.cpp \
-	../../StepSequencerInterface.cpp \
+	../../Interface.cpp \
 	../../Drivers/Controller.cpp \
 	../../Drivers/StepSequencer.cpp
 

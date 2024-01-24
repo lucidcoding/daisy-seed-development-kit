@@ -10,7 +10,7 @@ namespace developmentKit::bassSeed303
 
     void SynthEngine::Process(float *voiceLeft, float *voiceRight)
     {
-        float oscillatorOut, adsrOut, portamentoOut;
+        float oscillatorOut, adsrOut;
         adsrOut = adsr.Process(gate);
         mainOsc.SetAmp(adsrOut / 10 * (accent ? 1 : 0.7));
         mainOsc.SetFreq(noteFreq);

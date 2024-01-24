@@ -1,12 +1,7 @@
 #include "Leds.h"
-#include "daisysp.h"
-#include "daisy_seed.h"
 
 namespace developmentKit::stepSequencer
 {
-    using namespace daisysp;
-    using namespace daisy;
-
     void Leds::Init()
     {
         Mcp23017::Config config;
@@ -23,17 +18,14 @@ namespace developmentKit::stepSequencer
         mcp.WritePort(MCPPort::B, 0x00);
     }
 
-    void Leds::SetLed(uint8_t ledIndex, bool state)
-    {
-        ledStates[ledIndex] = state;
-    }
-
-    void Leds::SetLeds(uint64_t states)
+    void Leds::SetLeds(uint64_t state)
     {
         for(uint8_t ledIndex = 0; ledIndex < 64; ledIndex ++)
         {
-            ledStates[ledIndex] = (((states >> ledIndex) & 0x01) == 0x01);
+            states[ledIndex] = (((state >> ledIndex) & 0x01) == 0x01);
         }
+
+        ScanNextColumn();
     }
 
     void Leds::ScanNextColumn()
@@ -50,7 +42,7 @@ namespace developmentKit::stepSequencer
 
             uint8_t ledIndex = ledLookup[currentColumnIndex][currentRowIndex];
 
-            if (ledIndex != 255 && ledStates[ledIndex])
+            if (ledIndex != 255 && states[ledIndex])
             {
                 portAValue = portAValue | (0x01 << currentRowPin);
             }

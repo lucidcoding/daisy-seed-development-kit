@@ -8,7 +8,7 @@ namespace developmentKit::stepSequencer
 {
     void StepSequencer::Init()
     {
-        stepSequencerInterface.Init();
+        interface.Init();
         controller.Init();
     }
 
@@ -19,12 +19,11 @@ namespace developmentKit::stepSequencer
         if (currentProcessTimeUs - lastProcessTimeUs > STEP_SEQUENCER_PROCESS_INTERVAL_US)
         {
             lastProcessTimeUs = currentProcessTimeUs;
-
-            uint32_t lastKeyPress = stepSequencerInterface.ScanNextKeysColumn(currentProcessTimeUs);
-            controller.SetKeyState(lastKeyPress);
+            uint32_t keyState = interface.ScanNextKeysColumn(currentProcessTimeUs);
+            controller.SetKeyState(keyState);
             controller.Process();
-            uint64_t ledStates = controller.GetLedStates();
-            stepSequencerInterface.ScanNextLedsColumn(ledStates);
+            uint64_t ledState = controller.GetLedState();
+            interface.ScanNextLedsColumn(ledState);
         }
     }
 

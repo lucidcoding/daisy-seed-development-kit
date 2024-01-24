@@ -5,14 +5,12 @@
 #include "Keys.h"
 #include "Leds.h"
 
-#define STEP_SEQUENCER_INTERFACE_DEBOUNCE_TIME 1000
-
 namespace developmentKit::stepSequencer
 {
     using namespace daisysp;
     using namespace daisy;
 
-    class StepSequencerInterface
+    class Interface
     {
     public:
         void Init();

@@ -2,7 +2,9 @@
 #ifndef STEP_SEQUENCER_H
 #define STEP_SEQUENCER_H
 
-#include "StepSequencerInterface.h"
+#define STEP_SEQUENCER_PROCESS_INTERVAL_US 250
+
+#include "Interface.h"
 #include "Controller.h"
 
 namespace developmentKit::stepSequencer
@@ -19,7 +21,7 @@ namespace developmentKit::stepSequencer
         bool GetPreviousSlide();
 
     private:
-        StepSequencerInterface stepSequencerInterface;
+        Interface interface;
         Controller controller;
         uint32_t lastProcessTimeUs;
     };

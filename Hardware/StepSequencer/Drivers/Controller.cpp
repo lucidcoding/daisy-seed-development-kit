@@ -8,11 +8,7 @@ namespace developmentKit::stepSequencer
     {
         currentStepIndex = 0;
         SetTicksPerStep(500);
-        // SetTicksPerStep(2000);
-        /*ticksPerStep = 500; // 500 is approx 120 bpm.
-        ticksPerGate = ticksPerStep / 2;
-        tickCountdown = ticksPerStep;*/
-        mode = STEP_SEQUENCER_MODE_STOP;
+        mode = STEP_SEQUENCER_CONTROLLER_MODE_STOP;
         gate = false;
 
         for (uint8_t i = 0; i < 16; i++)
@@ -32,42 +28,42 @@ namespace developmentKit::stepSequencer
     {
         Step step = steps[currentStepIndex];
 
-        for (uint8_t ledToSet = STEP_SEQUENCER_LEDS_C_SHARP; ledToSet <= STEP_SEQUENCER_LEDS_A_SHARP; ledToSet++)
+        for (uint8_t ledToSet = STEP_SEQUENCER_CONTROLLER_LEDS_C_SHARP; ledToSet <= STEP_SEQUENCER_CONTROLLER_LEDS_A_SHARP; ledToSet++)
         {
             ledStates[ledToSet] = (ledToSet == noteToLedLookup[step.note]) && step.gate;
         }
 
-        ledStates[STEP_SEQUENCER_LEDS_FUNC] = false;
+        ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_FUNC] = false;
 
-        if (mode == STEP_SEQUENCER_MODE_PLAY)
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY)
         {
-            ledStates[STEP_SEQUENCER_LEDS_PLAY] = true;
-            ledStates[STEP_SEQUENCER_LEDS_REC] = false;
+            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_PLAY] = true;
+            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_REC] = false;
         }
-        else if (mode == STEP_SEQUENCER_MODE_STEP_REC)
+        else if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
         {
-            ledStates[STEP_SEQUENCER_LEDS_PLAY] = false;
-            ledStates[STEP_SEQUENCER_LEDS_REC] = true;
+            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_PLAY] = false;
+            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_REC] = true;
         }
-        else if (mode == STEP_SEQUENCER_MODE_STOP)
+        else if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STOP)
         {
-            ledStates[STEP_SEQUENCER_LEDS_PLAY] = false;
-            ledStates[STEP_SEQUENCER_LEDS_REC] = false;
+            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_PLAY] = false;
+            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_REC] = false;
         }
 
-        ledStates[STEP_SEQUENCER_LEDS_MEMORY] = false;
+        ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_MEMORY] = false;
 
-        for (uint8_t ledToSet = STEP_SEQUENCER_LEDS_C; ledToSet <= STEP_SEQUENCER_LEDS_C2; ledToSet++)
+        for (uint8_t ledToSet = STEP_SEQUENCER_CONTROLLER_LEDS_C; ledToSet <= STEP_SEQUENCER_CONTROLLER_LEDS_C2; ledToSet++)
         {
             ledStates[ledToSet] = (ledToSet == noteToLedLookup[step.note]) && step.gate;
         }
 
-        ledStates[STEP_SEQUENCER_LEDS_OCTAVE_DOWN] = step.octaveDown;
-        ledStates[STEP_SEQUENCER_LEDS_OCTAVE_UP] = step.octaveUp;
-        ledStates[STEP_SEQUENCER_LEDS_ACCENT] = step.accent;
-        ledStates[STEP_SEQUENCER_LEDS_SLIDE] = step.slide;
-        ledStates[STEP_SEQUENCER_LEDS_BACK] = false;
-        ledStates[STEP_SEQUENCER_LEDS_NEXT] = false;
+        ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_DOWN] = step.octaveDown;
+        ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_UP] = step.octaveUp;
+        ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_ACCENT] = step.accent;
+        ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_SLIDE] = step.slide;
+        ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_BACK] = false;
+        ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_NEXT] = false;
     }
 
     void Controller::SetKeyState(uint32_t newLastKeyPress)
@@ -75,11 +71,11 @@ namespace developmentKit::stepSequencer
         keyState = newLastKeyPress;
     }
 
-    uint64_t Controller::GetLedStates()
+    uint64_t Controller::GetLedState()
     {
         uint64_t returnValue = 0x00;
 
-        for (uint8_t ledIndex = 0; ledIndex < STEP_SEQUENCER_NUMBER_OF_LEDS; ledIndex++)
+        for (uint8_t ledIndex = 0; ledIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS; ledIndex++)
         {
             returnValue = returnValue | ((ledStates[ledIndex] ? 0x01 : 0x00) << ledIndex);
         }
@@ -100,27 +96,27 @@ namespace developmentKit::stepSequencer
 
     void Controller::OnPlayPressed()
     {
-        if (mode == STEP_SEQUENCER_MODE_PLAY)
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY)
         {
-            mode = STEP_SEQUENCER_MODE_STOP;
+            mode = STEP_SEQUENCER_CONTROLLER_MODE_STOP;
         }
-        else if (mode == STEP_SEQUENCER_MODE_STOP || mode == STEP_SEQUENCER_MODE_STEP_REC)
+        else if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STOP || mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
         {
             currentStepIndex = 0;
             ActivateCurrentStep();
-            mode = STEP_SEQUENCER_MODE_PLAY;
+            mode = STEP_SEQUENCER_CONTROLLER_MODE_PLAY;
         }
     }
 
     void Controller::OnRecordPressed()
     {
-        mode = STEP_SEQUENCER_MODE_STEP_REC;
+        mode = STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC;
         currentStepIndex = 0;
     }
 
     void Controller::OnBackPressed()
     {
-        if (mode == STEP_SEQUENCER_MODE_STEP_REC)
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
         {
             if (currentStepIndex > 0)
             {
@@ -131,9 +127,9 @@ namespace developmentKit::stepSequencer
 
     void Controller::OnNextPressed()
     {
-        if (mode == STEP_SEQUENCER_MODE_STEP_REC)
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
         {
-            if (currentStepIndex < (STEP_SEQUENCER_DEFAULT_STEP_COUNT - 1))
+            if (currentStepIndex < (STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT - 1))
             {
                 currentStepIndex++;
             }
@@ -142,7 +138,7 @@ namespace developmentKit::stepSequencer
 
     void Controller::OnOctaveDownPressed()
     {
-        if (mode == STEP_SEQUENCER_MODE_STEP_REC)
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
         {
             steps[currentStepIndex].octaveDown = !steps[currentStepIndex].octaveDown;
         }
@@ -150,7 +146,7 @@ namespace developmentKit::stepSequencer
 
     void Controller::OnOctaveUpPressed()
     {
-        if (mode == STEP_SEQUENCER_MODE_STEP_REC)
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
         {
             steps[currentStepIndex].octaveUp = !steps[currentStepIndex].octaveUp;
         }
@@ -158,7 +154,7 @@ namespace developmentKit::stepSequencer
 
     void Controller::OnAccentPressed()
     {
-        if (mode == STEP_SEQUENCER_MODE_STEP_REC)
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
         {
             steps[currentStepIndex].accent = !steps[currentStepIndex].accent;
         }
@@ -166,7 +162,7 @@ namespace developmentKit::stepSequencer
 
     void Controller::OnSlidePressed()
     {
-        if (mode == STEP_SEQUENCER_MODE_STEP_REC)
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
         {
             steps[currentStepIndex].slide = !steps[currentStepIndex].slide;
         }
@@ -174,11 +170,11 @@ namespace developmentKit::stepSequencer
 
     void Controller::OnNoteKeyPressed(uint8_t keyIndex)
     {
-        if (mode == STEP_SEQUENCER_MODE_STEP_REC)
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
         {
             uint8_t note = GetNoteFromKeyPressed(keyIndex);
 
-            if (note != STEP_SEQUENCER_NOT_NOTE_KEY)
+            if (note != STEP_SEQUENCER_CONTROLLER_NOT_NOTE_KEY)
             {
                 if (steps[currentStepIndex].note == note)
                 {
@@ -195,9 +191,9 @@ namespace developmentKit::stepSequencer
 
     void Controller::CheckForKeyPressEvent()
     {
-        if (keyState != STEP_SEQUENCER_NO_KEY_PRESS)
+        if (keyState != STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS)
         {
-            for (uint8_t keyIndex = 0; keyIndex < STEP_SEQUENCER_NUMBER_OF_KEYS; keyIndex++)
+            for (uint8_t keyIndex = 0; keyIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_KEYS; keyIndex++)
             {
                 bool keyIsPressed = (keyState & (1 << keyIndex)) > 0;
 
@@ -205,43 +201,43 @@ namespace developmentKit::stepSequencer
                 {
                     switch (keyIndex)
                     {
-                    case STEP_SEQUENCER_KEYS_PLAY:
+                    case STEP_SEQUENCER_CONTROLLER_KEYS_PLAY:
                         OnPlayPressed();
                         break;
-                    case STEP_SEQUENCER_KEYS_REC:
+                    case STEP_SEQUENCER_CONTROLLER_KEYS_REC:
                         OnRecordPressed();
                         break;
-                    case STEP_SEQUENCER_KEYS_BACK:
+                    case STEP_SEQUENCER_CONTROLLER_KEYS_BACK:
                         OnBackPressed();
                         break;
-                    case STEP_SEQUENCER_KEYS_NEXT:
+                    case STEP_SEQUENCER_CONTROLLER_KEYS_NEXT:
                         OnNextPressed();
                         break;
-                    case STEP_SEQUENCER_KEYS_OCTAVE_DOWN:
+                    case STEP_SEQUENCER_CONTROLLER_KEYS_OCTAVE_DOWN:
                         OnOctaveDownPressed();
                         break;
-                    case STEP_SEQUENCER_KEYS_OCTAVE_UP:
+                    case STEP_SEQUENCER_CONTROLLER_KEYS_OCTAVE_UP:
                         OnOctaveUpPressed();
                         break;
-                    case STEP_SEQUENCER_KEYS_ACCENT:
+                    case STEP_SEQUENCER_CONTROLLER_KEYS_ACCENT:
                         OnAccentPressed();
                         break;
-                    case STEP_SEQUENCER_KEYS_SLIDE:
+                    case STEP_SEQUENCER_CONTROLLER_KEYS_SLIDE:
                         OnSlidePressed();
                         break;
-                    case STEP_SEQUENCER_KEYS_C:
-                    case STEP_SEQUENCER_KEYS_C_SHARP:
-                    case STEP_SEQUENCER_KEYS_D:
-                    case STEP_SEQUENCER_KEYS_D_SHARP:
-                    case STEP_SEQUENCER_KEYS_E:
-                    case STEP_SEQUENCER_KEYS_F:
-                    case STEP_SEQUENCER_KEYS_F_SHARP:
-                    case STEP_SEQUENCER_KEYS_G:
-                    case STEP_SEQUENCER_KEYS_G_SHARP:
-                    case STEP_SEQUENCER_KEYS_A:
-                    case STEP_SEQUENCER_KEYS_A_SHARP:
-                    case STEP_SEQUENCER_KEYS_B:
-                    case STEP_SEQUENCER_KEYS_C2:
+                    case STEP_SEQUENCER_CONTROLLER_KEYS_C:
+                    case STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP:
+                    case STEP_SEQUENCER_CONTROLLER_KEYS_D:
+                    case STEP_SEQUENCER_CONTROLLER_KEYS_D_SHARP:
+                    case STEP_SEQUENCER_CONTROLLER_KEYS_E:
+                    case STEP_SEQUENCER_CONTROLLER_KEYS_F:
+                    case STEP_SEQUENCER_CONTROLLER_KEYS_F_SHARP:
+                    case STEP_SEQUENCER_CONTROLLER_KEYS_G:
+                    case STEP_SEQUENCER_CONTROLLER_KEYS_G_SHARP:
+                    case STEP_SEQUENCER_CONTROLLER_KEYS_A:
+                    case STEP_SEQUENCER_CONTROLLER_KEYS_A_SHARP:
+                    case STEP_SEQUENCER_CONTROLLER_KEYS_B:
+                    case STEP_SEQUENCER_CONTROLLER_KEYS_C2:
                         OnNoteKeyPressed(keyIndex);
                         break;
                     }
@@ -255,9 +251,9 @@ namespace developmentKit::stepSequencer
 
     void Controller::CheckForClockEvent()
     {
-        if (mode == STEP_SEQUENCER_MODE_PLAY && tickCountdown <= 0)
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY && tickCountdown <= 0)
         {
-            currentStepIndex = (currentStepIndex + 1) % STEP_SEQUENCER_DEFAULT_STEP_COUNT;
+            currentStepIndex = (currentStepIndex + 1) % STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT;
             ActivateCurrentStep();
         }
 
@@ -270,7 +266,7 @@ namespace developmentKit::stepSequencer
                     gate = false;
                 }
 
-                if (steps[currentStepIndex].slide && mode != STEP_SEQUENCER_MODE_PLAY)
+                if (steps[currentStepIndex].slide && mode != STEP_SEQUENCER_CONTROLLER_MODE_PLAY)
                 {
                     gate = false;
                 }
@@ -291,7 +287,7 @@ namespace developmentKit::stepSequencer
 
     uint8_t Controller::GetNoteFromKeyPressed(uint8_t keyPressed)
     {
-        for (uint8_t currentIndex = 0; currentIndex < STEP_SEQUENCER_NUMBER_OF_NOTE_KEYS; currentIndex++)
+        for (uint8_t currentIndex = 0; currentIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_NOTE_KEYS; currentIndex++)
         {
             if (noteToLedLookup[currentIndex] == keyPressed)
             {
@@ -299,7 +295,7 @@ namespace developmentKit::stepSequencer
             }
         }
 
-        return STEP_SEQUENCER_NOT_NOTE_KEY;
+        return STEP_SEQUENCER_CONTROLLER_NOT_NOTE_KEY;
     }
 
     bool Controller::GetGate()
@@ -336,7 +332,7 @@ namespace developmentKit::stepSequencer
 
     bool Controller::GetPreviousSlide()
     {
-        uint8_t previousStepIndex = (currentStepIndex - 1) % STEP_SEQUENCER_DEFAULT_STEP_COUNT;
+        uint8_t previousStepIndex = (currentStepIndex - 1) % STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT;
         return steps[previousStepIndex].slide;
     }
 

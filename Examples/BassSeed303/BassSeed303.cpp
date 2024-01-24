@@ -1,7 +1,7 @@
 #include "daisysp.h"
 #include "daisy_seed.h"
 #include "SynthEngine.h"
-#include "../../Hardware/StepSequencerInterface/Drivers/StepSequencer.h"
+#include "../../Hardware/StepSequencer/Drivers/StepSequencer.h"
 
 using namespace daisysp;
 using namespace daisy;
@@ -38,11 +38,8 @@ int main(void)
     while (1)
     {
         stepSequencer.Listen();
-        bool gate = stepSequencer.GetGate();
-        float noteFreq = mtof(stepSequencer.GetNote());
-        bool accent = stepSequencer.GetAccent();
-        synthEngine.SetGate(gate);
-        synthEngine.SetNoteFreq(noteFreq);
-        synthEngine.SetAccent(accent);
+        synthEngine.SetGate(stepSequencer.GetGate());
+        synthEngine.SetNoteFreq(mtof(stepSequencer.GetNote()));
+        synthEngine.SetAccent(stepSequencer.GetAccent());
     }
 }

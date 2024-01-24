@@ -6,7 +6,7 @@
 
   (paper "A4")
   (title_block
-    (title "Daisy Seed Development Kit Step Sequencer Interface")
+    (title "Daisy Seed Development Kit Step Sequencer")
     (date "2024-01-22")
     (rev "2.0")
   )
@@ -3662,7 +3662,7 @@
   (gr_text "OCT+" (at 142.24 98.084) (layer "F.SilkS") (tstamp d5db9feb-3719-42af-afab-0c81eba2f671)
     (effects (font (size 1 1) (thickness 0.15)))
   )
-  (gr_text "STEP SEQUENCER INTERFACE" (at 168.91 72.43) (layer "F.SilkS") (tstamp d86ee7d3-b7d0-400c-a7d2-6d9a947e3d7b)
+  (gr_text "STEP SEQUENCER" (at 168.91 72.43) (layer "F.SilkS") (tstamp d86ee7d3-b7d0-400c-a7d2-6d9a947e3d7b)
     (effects (font (size 1 1) (thickness 0.15)) (justify right))
   )
   (gr_text "BACK" (at 154.94 117.134) (layer "F.SilkS") (tstamp d8be1ba2-08b3-4c0d-b88c-7aca58b30b2a)
