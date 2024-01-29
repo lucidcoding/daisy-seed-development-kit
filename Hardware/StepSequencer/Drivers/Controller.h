@@ -63,21 +63,24 @@
 
 #include "stdint.h"
 #include "Step.h"
+#include "daisy_seed.h"
 
 namespace developmentKit::stepSequencer
 {
+    using namespace daisy;
+
     class Controller
     {
     public:
         void Init();
         void SetKeyState(uint32_t keys);
-        void Process();
+        void Process(uint32_t currentProcessTimeUs);
         bool GetGate();
         bool GetAccent();
         bool GetSlide();
         bool GetPreviousSlide();
         uint8_t GetNote();
-        void SetTicksPerStep(uint16_t newStepInterval);
+        void SetStepTime(uint32_t newStepTimeUs);
         uint64_t GetLedState();
         void SetTempo(uint8_t newTempo);
 
@@ -85,16 +88,17 @@ namespace developmentKit::stepSequencer
         uint8_t GetCurrentStepIndex();
         uint8_t GetMode();
         void SetSteps(Step newSteps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT]);
-        Step* GetSteps();
-        
+        Step *GetSteps();
+        DaisySeed *hardware;
+
     private:
         Step steps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT];
         uint8_t currentStepIndex;
         uint8_t mode;
         uint32_t keyState;
-        uint16_t tickCountdown;
-        uint16_t ticksPerStep;
-        uint8_t ticksPerGate;
+        uint32_t stepTimeUs;
+        uint32_t gateTimeUs;
+        uint32_t lastStepTimeUs;
         bool gate;
         bool ledStates[STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS];
         const uint8_t noteToLedLookup[STEP_SEQUENCER_CONTROLLER_NUMBER_OF_NOTE_KEYS] = {9, 0, 10, 1, 11, 12, 2, 13, 3, 14, 4, 15, 16};
@@ -111,7 +115,7 @@ namespace developmentKit::stepSequencer
         void OnSlidePressed();
         void OnNoteKeyPressed(uint8_t keyIndex);
         void CheckForKeyPressEvent();
-        void CheckForClockEvent();
+        void CheckForClockEvent(uint32_t currentProcessTimeUs);
     };
 }
 

@@ -20,56 +20,60 @@ namespace developmentKit::stepSequencer
 
     uint32_t Keys::ScanNextColumn(uint32_t currentProcessTimeUs)
     {
-        uint32_t returnValue = STEP_SEQUENCER_KEYS_NO_KEY_PRESS;
-        uint8_t columnPin = columnPins[columnPinIndex];
-        mcp.WritePort(MCPPort::B, ~(0x01 << (columnPin - 8)));
-        mcp.Read();
-
-        for (uint8_t inputPinIndex = 0; inputPinIndex < 4; inputPinIndex++)
+        if (currentProcessTimeUs - lastProcessTimeUs > 250)
         {
-            uint8_t switchIndex = switchLookup[columnPinIndex][inputPinIndex];
+            lastProcessTimeUs = currentProcessTimeUs;
+            uint32_t returnValue = STEP_SEQUENCER_KEYS_NO_KEY_PRESS;
+            uint8_t columnPin = columnPins[columnPinIndex];
+            mcp.WritePort(MCPPort::B, ~(0x01 << (columnPin - 8)));
+            mcp.Read();
 
-            if (switchIndex != STEP_SEQUENCER_KEYS_NO_KEY_PRESS) 
+            for (uint8_t inputPinIndex = 0; inputPinIndex < 4; inputPinIndex++)
             {
-                uint8_t inputPin = inputPins[inputPinIndex];
-                uint8_t currentIndividualState = mcp.GetPin(inputPin) == 255 ? 0 : 1;
-                uint8_t lastIndivdualState = (lastKeyState & (1 << switchIndex)) > 0 ? 1 : 0;
+                uint8_t switchIndex = switchLookup[columnPinIndex][inputPinIndex];
 
-                if (currentIndividualState != lastIndivdualState)
+                if (switchIndex != STEP_SEQUENCER_KEYS_NO_KEY_PRESS)
                 {
-                    lastDebounceTime[switchIndex] = currentProcessTimeUs;
-                }
+                    uint8_t inputPin = inputPins[inputPinIndex];
+                    uint8_t currentIndividualState = mcp.GetPin(inputPin) == 255 ? 0 : 1;
+                    uint8_t lastIndivdualState = (lastKeyState & (1 << switchIndex)) > 0 ? 1 : 0;
 
-                if ((currentProcessTimeUs - lastDebounceTime[switchIndex]) > STEP_SEQUENCER_KEYS_DEBOUNCE_TIME)
-                {
-                    uint8_t stableIndividualState = (stableKeyState & (1 << switchIndex)) > 0 ? 1 : 0;
-                    if (currentIndividualState != stableIndividualState)
+                    if (currentIndividualState != lastIndivdualState)
                     {
-                        if (currentIndividualState == 1)
-                        {
-                            stableKeyState = stableKeyState | (1 << switchIndex);
-                        }
-                        else
-                        {
-                            stableKeyState = stableKeyState & ~(1 << switchIndex);
-                        }
+                        lastDebounceTime[switchIndex] = currentProcessTimeUs;
+                    }
 
-                        returnValue = stableKeyState;
+                    if ((currentProcessTimeUs - lastDebounceTime[switchIndex]) > STEP_SEQUENCER_KEYS_DEBOUNCE_TIME)
+                    {
+                        uint8_t stableIndividualState = (stableKeyState & (1 << switchIndex)) > 0 ? 1 : 0;
+                        if (currentIndividualState != stableIndividualState)
+                        {
+                            if (currentIndividualState == 1)
+                            {
+                                stableKeyState = stableKeyState | (1 << switchIndex);
+                            }
+                            else
+                            {
+                                stableKeyState = stableKeyState & ~(1 << switchIndex);
+                            }
+
+                            returnValue = stableKeyState;
+                        }
+                    }
+
+                    if (currentIndividualState == 1)
+                    {
+                        lastKeyState = lastKeyState | (1 << switchIndex);
+                    }
+                    else
+                    {
+                        lastKeyState = lastKeyState & ~(1 << switchIndex);
                     }
                 }
-
-                if (currentIndividualState == 1)
-                {
-                    lastKeyState = lastKeyState | (1 << switchIndex);
-                }
-                else
-                {
-                    lastKeyState = lastKeyState & ~(1 << switchIndex);
-                }
             }
-        }
 
-        columnPinIndex = (columnPinIndex + 1) % 6;
-        return returnValue;
+            columnPinIndex = (columnPinIndex + 1) % 6;
+            return returnValue;
+        }
     }
 }

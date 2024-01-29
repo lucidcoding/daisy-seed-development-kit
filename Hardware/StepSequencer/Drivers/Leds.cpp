@@ -18,38 +18,41 @@ namespace developmentKit::stepSequencer
         mcp.WritePort(MCPPort::B, 0x00);
     }
 
-    void Leds::SetLeds(uint64_t state)
+    void Leds::SetLeds(uint64_t state, uint32_t currentProcessTimeUs)
     {
-        for(uint8_t ledIndex = 0; ledIndex < 64; ledIndex ++)
+        for (uint8_t ledIndex = 0; ledIndex < 64; ledIndex++)
         {
             states[ledIndex] = (((state >> ledIndex) & 0x01) == 0x01);
         }
 
-        ScanNextColumn();
+        ScanNextColumn(currentProcessTimeUs);
     }
 
-    void Leds::ScanNextColumn()
+    void Leds::ScanNextColumn(uint32_t currentProcessTimeUs)
     {
-        mcp.WritePort(MCPPort::A, 0x00);
-        uint8_t currentColumnPin = columnPins[currentColumnIndex];
-        mcp.WritePort(MCPPort::B, ~(0x01 << (currentColumnPin - 8)));
-
-        uint8_t portAValue = 0x00 << currentColumnPin;
-
-        for (uint8_t currentRowIndex = 0; currentRowIndex < 4; currentRowIndex++)
+        if (currentProcessTimeUs - lastProcessTimeUs > 250)
         {
-            uint8_t currentRowPin = rowPins[currentRowIndex];
+            lastProcessTimeUs = currentProcessTimeUs;
+            mcp.WritePort(MCPPort::A, 0x00);
+            uint8_t currentColumnPin = columnPins[currentColumnIndex];
+            mcp.WritePort(MCPPort::B, ~(0x01 << (currentColumnPin - 8)));
 
-            uint8_t ledIndex = ledLookup[currentColumnIndex][currentRowIndex];
+            uint8_t portAValue = 0x00 << currentColumnPin;
 
-            if (ledIndex != 255 && states[ledIndex])
+            for (uint8_t currentRowIndex = 0; currentRowIndex < 4; currentRowIndex++)
             {
-                portAValue = portAValue | (0x01 << currentRowPin);
-            }
-        }
+                uint8_t currentRowPin = rowPins[currentRowIndex];
 
-        
-        mcp.WritePort(MCPPort::A, portAValue);
-        currentColumnIndex = (currentColumnIndex + 1) % 6;
+                uint8_t ledIndex = ledLookup[currentColumnIndex][currentRowIndex];
+
+                if (ledIndex != 255 && states[ledIndex])
+                {
+                    portAValue = portAValue | (0x01 << currentRowPin);
+                }
+            }
+
+            mcp.WritePort(MCPPort::A, portAValue);
+            currentColumnIndex = (currentColumnIndex + 1) % 6;
+        }
     }
 }

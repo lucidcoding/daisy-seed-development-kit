@@ -69,6 +69,12 @@ int main(void)
     hardware.adc.Start();
     hardware.StartAudio(AudioCallback);
 
+    
+    hardware.StartLog(false);
+    hardware.PrintLine("Starting...");
+
+    stepSequencer.controller.hardware = &hardware;
+    
     while (1)
     {
         //stepSequencer.SetTempo(tempoParam.Process());

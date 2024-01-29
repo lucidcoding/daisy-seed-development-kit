@@ -16,8 +16,8 @@ namespace developmentKit::stepSequencer
         return keys.ScanNextColumn(currentProcessTimeUs);
     }
 
-    void Interface::ScanNextLedsColumn(uint64_t newLedState)
+    void Interface::ScanNextLedsColumn(uint64_t newLedState, uint32_t currentProcessTimeUs)
     {
-        leds.SetLeds(newLedState);
+        leds.SetLeds(newLedState, currentProcessTimeUs);
     }
 }

@@ -15,7 +15,7 @@ namespace developmentKit::stepSequencer
     {
     public:
         void Init();
-        void SetLeds(uint64_t states);
+        void SetLeds(uint64_t states, uint32_t currentProcessTimeUs);
 
     private:
         Mcp23017 mcp;
@@ -30,7 +30,8 @@ namespace developmentKit::stepSequencer
             {19, 7, 3, 14},
             {18, 6, 4, 15},
             {17, 5, 255, 16}};
-        void ScanNextColumn();
+        uint32_t lastProcessTimeUs;
+        void ScanNextColumn(uint32_t currentProcessTimeUs);
     };
 }
 

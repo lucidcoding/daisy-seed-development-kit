@@ -14,7 +14,6 @@ static DaisySeed hardware;
 Interface interface;
 u_int8_t ledIndex;
 u_int16_t ledChangeCountdown;
-uint32_t lastProcessTimeUs;
 
 static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
                           AudioHandle::InterleavingOutputBuffer out,
@@ -36,24 +35,19 @@ int main(void)
     while (1)
     {
         uint32_t currentProcessTimeUs = System::GetUs();
+        ledChangeCountdown = (ledChangeCountdown - 1) % LED_CHANGE_STEPS;
 
-        if (currentProcessTimeUs - lastProcessTimeUs > PROCESS_INTERVAL_US)
+        if (ledChangeCountdown == 0)
         {
-            lastProcessTimeUs = currentProcessTimeUs;
-            ledChangeCountdown = (ledChangeCountdown - 1) % LED_CHANGE_STEPS;
+            ledIndex = (ledIndex + 1) % LED_COUNT;
+        }
 
-            if (ledChangeCountdown == 0)
-            {
-                ledIndex = (ledIndex + 1) % LED_COUNT;
-            }
+        interface.ScanNextLedsColumn(0x00 | (1 << ledIndex), currentProcessTimeUs);
+        uint32_t lastKeyPress = interface.ScanNextKeysColumn(currentProcessTimeUs);
 
-            interface.ScanNextLedsColumn(0x00 | (1 << ledIndex));
-            uint32_t lastKeyPress = interface.ScanNextKeysColumn(currentProcessTimeUs);
-
-            if (lastKeyPress != STEP_SEQUENCER_KEYS_NO_KEY_PRESS)
-            {
-                hardware.PrintLine("Key press: %d", lastKeyPress);
-            }
+        if (lastKeyPress != STEP_SEQUENCER_KEYS_NO_KEY_PRESS)
+        {
+            hardware.PrintLine("Key press: %d", lastKeyPress);
         }
     }
 }

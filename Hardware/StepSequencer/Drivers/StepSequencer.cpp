@@ -15,16 +15,11 @@ namespace developmentKit::stepSequencer
     void StepSequencer::Listen()
     {
         uint32_t currentProcessTimeUs = System::GetUs();
-
-        if (currentProcessTimeUs - lastProcessTimeUs > STEP_SEQUENCER_PROCESS_INTERVAL_US)
-        {
-            lastProcessTimeUs = currentProcessTimeUs;
-            uint32_t keyState = interface.ScanNextKeysColumn(currentProcessTimeUs);
-            controller.SetKeyState(keyState);
-            controller.Process();
-            uint64_t ledState = controller.GetLedState();
-            interface.ScanNextLedsColumn(ledState);
-        }
+        uint32_t keyState = interface.ScanNextKeysColumn(currentProcessTimeUs);
+        controller.SetKeyState(keyState);
+        controller.Process(currentProcessTimeUs);
+        uint64_t ledState = controller.GetLedState();
+        interface.ScanNextLedsColumn(ledState, currentProcessTimeUs);
     }
 
     bool StepSequencer::GetGate()

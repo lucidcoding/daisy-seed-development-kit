@@ -11,7 +11,7 @@ Controller Setup()
 {
     Controller controller;
     controller.Init();
-    controller.SetTicksPerStep(10);
+    controller.SetStepTime(10);
     return controller;
 }
 
@@ -166,7 +166,7 @@ void Advance(Controller *controller, uint8_t steps)
 {
     for (uint8_t i = 0; i < steps; i++)
     {
-        controller->Process();
+        controller->Process(1);
     }
 }
 
@@ -175,7 +175,7 @@ TEST_CASE("Pressing Play sets mode to play")
     Controller controller;
     controller.Init();
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_STOP);
-    controller.SetTicksPerStep(10);
+    controller.SetStepTime(10);
     Step *steps = GetGatedSteps();
     controller.SetSteps(steps);
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);

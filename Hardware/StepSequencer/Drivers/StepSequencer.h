@@ -20,11 +20,10 @@ namespace developmentKit::stepSequencer
         bool GetSlide();
         bool GetPreviousSlide();
         void SetTempo(uint8_t newTempo);
+        Controller controller;
 
     private:
         Interface interface;
-        Controller controller;
-        uint32_t lastProcessTimeUs;
     };
 }
 
