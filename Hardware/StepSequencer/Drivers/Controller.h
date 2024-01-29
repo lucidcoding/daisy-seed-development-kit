@@ -72,7 +72,7 @@ namespace developmentKit::stepSequencer
     class Controller
     {
     public:
-        void Init();
+        void Init(uint32_t newTicksPerUs);
         void SetKeyState(uint32_t keys);
         void Process(uint32_t currentProcessTimeUs);
         bool GetGate();
@@ -98,7 +98,8 @@ namespace developmentKit::stepSequencer
         uint32_t keyState;
         uint32_t stepTimeUs;
         uint32_t gateTimeUs;
-        uint32_t lastStepTimeUs;
+        uint32_t lastTicks;
+        uint32_t ticksPerUs;
         bool gate;
         bool ledStates[STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS];
         const uint8_t noteToLedLookup[STEP_SEQUENCER_CONTROLLER_NUMBER_OF_NOTE_KEYS] = {9, 0, 10, 1, 11, 12, 2, 13, 3, 14, 4, 15, 16};

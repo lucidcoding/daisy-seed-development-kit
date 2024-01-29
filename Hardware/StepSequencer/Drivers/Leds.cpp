@@ -16,6 +16,7 @@ namespace developmentKit::stepSequencer
         mcp.PortMode(MCPPort::B, 0x00);
         mcp.WritePort(MCPPort::A, 0x00);
         mcp.WritePort(MCPPort::B, 0x00);
+        ticksPerUs = System::GetTickFreq() / 1000000;
     }
 
     void Leds::SetLeds(uint64_t state, uint32_t currentProcessTimeUs)
@@ -28,11 +29,11 @@ namespace developmentKit::stepSequencer
         ScanNextColumn(currentProcessTimeUs);
     }
 
-    void Leds::ScanNextColumn(uint32_t currentProcessTimeUs)
+    void Leds::ScanNextColumn(uint32_t currentTicks)
     {
-        if (currentProcessTimeUs - lastProcessTimeUs > 250)
+        if (currentTicks - lastTicks > (250 * ticksPerUs))
         {
-            lastProcessTimeUs = currentProcessTimeUs;
+            lastTicks = currentTicks;
             mcp.WritePort(MCPPort::A, 0x00);
             uint8_t currentColumnPin = columnPins[currentColumnIndex];
             mcp.WritePort(MCPPort::B, ~(0x01 << (currentColumnPin - 8)));

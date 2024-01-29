@@ -7,10 +7,11 @@ namespace developmentKit::stepSequencer
 {
     using namespace daisy;
 
-    void Controller::Init()
+    void Controller::Init(uint32_t newTicksPerUs)
     {
+        ticksPerUs = newTicksPerUs;
         currentStepIndex = 0;
-        SetStepTime(2000000);
+        SetStepTime(1000000);
         mode = STEP_SEQUENCER_CONTROLLER_MODE_STOP;
         gate = false;
 
@@ -259,14 +260,11 @@ namespace developmentKit::stepSequencer
         }
     }
 
-    void Controller::CheckForClockEvent(uint32_t currentProcessTimeUs)
+    void Controller::CheckForClockEvent(uint32_t currentTicks)
     {
-        uint32_t timeSinceLastStepUs = (currentProcessTimeUs - lastStepTimeUs);
-        timeSinceLastStepUs = timeSinceLastStepUs < 0 ? 0 - timeSinceLastStepUs : timeSinceLastStepUs;
-
-        if (gate && timeSinceLastStepUs >= gateTimeUs)
+        if (gate && (currentTicks - lastTicks) >= (gateTimeUs* ticksPerUs))
         {
-            hardware->PrintLine("Gate end: currentProcessTimeUs:%u, lastStepTimeUs:%u, diff:%u", currentProcessTimeUs, lastStepTimeUs, timeSinceLastStepUs);
+            hardware->PrintLine("Gate end: currentProcessTimeUs:%u, lastStepTimeUs:%u, diff:%u", currentTicks, lastTicks, (currentTicks - lastTicks));
 
             if (!steps[currentStepIndex].slide)
             {
@@ -279,13 +277,12 @@ namespace developmentKit::stepSequencer
             }
         }
 
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY && timeSinceLastStepUs >= stepTimeUs)
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY && (currentTicks - lastTicks) > (stepTimeUs * ticksPerUs))
         {
-            hardware->PrintLine("Gate start: currentProcessTimeUs:%u, lastStepTimeUs:%u, diff:%u", currentProcessTimeUs, lastStepTimeUs, timeSinceLastStepUs);
-
+            hardware->PrintLine("Gate start: currentProcessTimeUs:%u, lastStepTimeUs:%u, diff:%u", currentTicks, lastTicks, (currentTicks - lastTicks));
+            lastTicks = currentTicks;
             currentStepIndex = (currentStepIndex + 1) % STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT;
             ActivateCurrentStep();
-            lastStepTimeUs = currentProcessTimeUs;
         }
     }
 

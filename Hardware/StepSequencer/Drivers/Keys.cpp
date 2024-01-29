@@ -16,14 +16,15 @@ namespace developmentKit::stepSequencer
         mcp.PortMode(MCPPort::B, 0x00);
         mcp.WritePort(MCPPort::B, 0xFF);
         lastKeyState = 0;
+        ticksPerUs = System::GetTickFreq() / 1000000;
     }
 
-    uint32_t Keys::ScanNextColumn(uint32_t currentProcessTimeUs)
+    uint32_t Keys::ScanNextColumn(uint32_t currentTicks)
     {
-        if (currentProcessTimeUs - lastProcessTimeUs > 250)
+        uint32_t returnValue = STEP_SEQUENCER_KEYS_NO_KEY_PRESS;
+        if (currentTicks - lastTicks > (250 * ticksPerUs))
         {
-            lastProcessTimeUs = currentProcessTimeUs;
-            uint32_t returnValue = STEP_SEQUENCER_KEYS_NO_KEY_PRESS;
+            lastTicks = currentTicks;
             uint8_t columnPin = columnPins[columnPinIndex];
             mcp.WritePort(MCPPort::B, ~(0x01 << (columnPin - 8)));
             mcp.Read();
@@ -40,10 +41,10 @@ namespace developmentKit::stepSequencer
 
                     if (currentIndividualState != lastIndivdualState)
                     {
-                        lastDebounceTime[switchIndex] = currentProcessTimeUs;
+                        lastDebounceTime[switchIndex] = currentTicks;
                     }
 
-                    if ((currentProcessTimeUs - lastDebounceTime[switchIndex]) > STEP_SEQUENCER_KEYS_DEBOUNCE_TIME)
+                    if ((currentTicks - lastDebounceTime[switchIndex]) > STEP_SEQUENCER_KEYS_DEBOUNCE_TIME)
                     {
                         uint8_t stableIndividualState = (stableKeyState & (1 << switchIndex)) > 0 ? 1 : 0;
                         if (currentIndividualState != stableIndividualState)
@@ -73,7 +74,7 @@ namespace developmentKit::stepSequencer
             }
 
             columnPinIndex = (columnPinIndex + 1) % 6;
-            return returnValue;
         }
+        return returnValue;
     }
 }

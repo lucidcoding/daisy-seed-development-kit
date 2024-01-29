@@ -30,8 +30,9 @@ namespace developmentKit::stepSequencer
             {19, 7, 3, 14},
             {18, 6, 4, 15},
             {17, 5, 255, 16}};
-        uint32_t lastProcessTimeUs;
+        uint32_t lastTicks;
         void ScanNextColumn(uint32_t currentProcessTimeUs);
+        uint32_t ticksPerUs;
     };
 }
 

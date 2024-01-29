@@ -9,17 +9,17 @@ namespace developmentKit::stepSequencer
     void StepSequencer::Init()
     {
         interface.Init();
-        controller.Init();
+        controller.Init(System::GetTickFreq() / 1000000);
     }
 
     void StepSequencer::Listen()
     {
-        uint32_t currentProcessTimeUs = System::GetUs();
-        uint32_t keyState = interface.ScanNextKeysColumn(currentProcessTimeUs);
+        uint32_t currentTicks = System::GetTick();
+        uint32_t keyState = interface.ScanNextKeysColumn(currentTicks);
         controller.SetKeyState(keyState);
-        controller.Process(currentProcessTimeUs);
+        controller.Process(System::GetTick());
         uint64_t ledState = controller.GetLedState();
-        interface.ScanNextLedsColumn(ledState, currentProcessTimeUs);
+        interface.ScanNextLedsColumn(ledState, currentTicks);
     }
 
     bool StepSequencer::GetGate()

@@ -37,7 +37,8 @@ namespace developmentKit::stepSequencer
         uint32_t lastDebounceTime[24];
         uint32_t lastKeyState;
         uint32_t stableKeyState;
-        uint32_t lastProcessTimeUs;
+        uint32_t lastTicks;
+        uint32_t ticksPerUs;
     };
 }
 
