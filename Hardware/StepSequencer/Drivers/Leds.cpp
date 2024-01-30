@@ -27,7 +27,7 @@ namespace developmentKit::stepSequencer
 
     void Leds::ScanNextColumn(uint32_t currentTicks)
     {
-        if (currentTicks - lastTicks > (250 * ticksPerUs))
+        if (currentTicks - lastTicks > (STEP_SEQUENCER_LEDS_SCAN_INTERVAL_US * ticksPerUs))
         {
             lastTicks = currentTicks;
             mcp.WritePort(MCPPort::A, 0x00);

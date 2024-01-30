@@ -2,6 +2,8 @@
 #ifndef STEP_SEQUENCER_LEDS_H
 #define STEP_SEQUENCER_LEDS_H
 
+#define STEP_SEQUENCER_LEDS_SCAN_INTERVAL_US 250
+
 #include "daisysp.h"
 #include "daisy_seed.h"
 #include "dev/mcp23x17.h"
