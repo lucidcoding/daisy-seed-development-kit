@@ -6,7 +6,7 @@
 #include "daisy_seed.h"
 #include "dev/mcp23x17.h"
 
-#define STEP_SEQUENCER_KEYS_SCAN_INTERVAL_US 250
+#define STEP_SEQUENCER_KEYS_SCAN_INTERVAL_US 350
 #define STEP_SEQUENCER_KEYS_NUMBER_OF_KEYS 23
 #define STEP_SEQUENCER_KEYS_NUMBER_OF_COLUMNS 6
 #define STEP_SEQUENCER_KEYS_NUMBER_OF_ROWS 4
@@ -39,6 +39,7 @@ namespace developmentKit::stepSequencer
         uint32_t state;
         uint32_t lastTicks;
         uint32_t ticksPerUs;
+        uint8_t debounceBuffer[STEP_SEQUENCER_KEYS_NUMBER_OF_KEYS];
     };
 }
 
