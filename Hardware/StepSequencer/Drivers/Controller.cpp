@@ -1,12 +1,9 @@
 #include "stdint.h"
 #include "Controller.h"
 #include "Debug.h"
-#include "daisy_seed.h"
 
 namespace developmentKit::stepSequencer
 {
-    using namespace daisy;
-
     void Controller::Init(uint32_t newTicksPerUs)
     {
         ticksPerUs = newTicksPerUs;
@@ -73,6 +70,7 @@ namespace developmentKit::stepSequencer
     void Controller::SetKeyState(uint32_t newLastKeyPress)
     {
         keyState = newLastKeyPress;
+        CheckForKeyPressEvent();
     }
 
     uint64_t Controller::GetLedState()
@@ -89,12 +87,20 @@ namespace developmentKit::stepSequencer
 
     void Controller::SetTempo(uint8_t newTempo)
     {
-        SetStepTime(500 - newTempo);
+        if (newTempo != tempo)
+        {
+            tempo = newTempo;
+            uint16_t stepsPerMinute = newTempo * 4;
+            float stepsPerSecond = stepsPerMinute / 60;
+            float stepsPerUs = stepsPerSecond / 1000000;
+            float usPerStep = 1 / stepsPerUs;
+            uint32_t intUsPerStep = (uint32_t)usPerStep;
+            SetStepTime(intUsPerStep);
+        }
     }
 
     void Controller::ActivateCurrentStep()
     {
-        // tickCountdown = ticksPerStep;
         UpdateLedStates();
 
         if (steps[currentStepIndex].gate)
@@ -202,8 +208,6 @@ namespace developmentKit::stepSequencer
     {
         if (keyState != STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS)
         {
-            hardware->PrintLine("Key press...");
-
             for (uint8_t keyIndex = 0; keyIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_KEYS; keyIndex++)
             {
                 bool keyIsPressed = (keyState & (1 << keyIndex)) > 0;
@@ -264,8 +268,6 @@ namespace developmentKit::stepSequencer
     {
         if (gate && (currentTicks - lastTicks) >= (gateTimeUs * ticksPerUs))
         {
-            hardware->PrintLine("Gate end: currentProcessTimeUs:%u, lastStepTimeUs:%u, diff:%u", currentTicks, lastTicks, (currentTicks - lastTicks));
-
             if (!steps[currentStepIndex].slide)
             {
                 gate = false;
@@ -277,9 +279,8 @@ namespace developmentKit::stepSequencer
             }
         }
 
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY && (currentTicks - lastTicks) > (stepTimeUs * ticksPerUs))
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY && (currentTicks - lastTicks) >= (stepTimeUs * ticksPerUs))
         {
-            hardware->PrintLine("Gate start: currentProcessTimeUs:%u, lastStepTimeUs:%u, diff:%u", currentTicks, lastTicks, (currentTicks - lastTicks));
             lastTicks = currentTicks;
             currentStepIndex = (currentStepIndex + 1) % STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT;
             ActivateCurrentStep();
@@ -288,7 +289,6 @@ namespace developmentKit::stepSequencer
 
     void Controller::Process(uint32_t currentProcessTimeUs)
     {
-        CheckForKeyPressEvent();
         CheckForClockEvent(currentProcessTimeUs);
     }
 
@@ -339,7 +339,7 @@ namespace developmentKit::stepSequencer
 
     bool Controller::GetPreviousSlide()
     {
-        uint8_t previousStepIndex = (currentStepIndex - 1) % STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT;
+        uint8_t previousStepIndex = (currentStepIndex + STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT - 1) % STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT;
         return steps[previousStepIndex].slide;
     }
 
@@ -347,16 +347,6 @@ namespace developmentKit::stepSequencer
     {
         stepTimeUs = newStepTimeUs;
         gateTimeUs = stepTimeUs / 2;
-    }
-
-    uint8_t Controller::GetCurrentStepIndex()
-    {
-        return currentStepIndex;
-    }
-
-    uint8_t Controller::GetMode()
-    {
-        return mode;
     }
 
     void Controller::SetSteps(Step newSteps[16])
@@ -372,10 +362,5 @@ namespace developmentKit::stepSequencer
         }
 
         UpdateLedStates();
-    }
-
-    Step *Controller::GetSteps()
-    {
-        return steps;
     }
 }

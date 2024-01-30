@@ -68,16 +68,10 @@ int main(void)
     InitParameters(sampleRate);
     hardware.adc.Start();
     hardware.StartAudio(AudioCallback);
-
-    
-    hardware.StartLog(false);
-    hardware.PrintLine("Starting...");
-
-    stepSequencer.controller.hardware = &hardware;
     
     while (1)
     {
-        //stepSequencer.SetTempo(tempoParam.Process());
+        stepSequencer.SetTempo(tempoParam.Process());
         stepSequencer.Listen();
         synthEngine.SetGate(stepSequencer.GetGate());
         synthEngine.SetNoteFrequency(mtof(stepSequencer.GetNote()));
