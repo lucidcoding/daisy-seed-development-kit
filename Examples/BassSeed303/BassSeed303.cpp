@@ -6,7 +6,6 @@
 
 using namespace daisysp;
 using namespace daisy;
-//using namespace developmentKit;
 using namespace developmentKit::stepSequencer;
 using namespace developmentKit::bassSeed303;
 

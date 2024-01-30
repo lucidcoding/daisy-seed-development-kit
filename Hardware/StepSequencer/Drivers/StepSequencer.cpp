@@ -14,7 +14,6 @@ namespace developmentKit::stepSequencer
 
     void StepSequencer::Listen()
     {
-        uint32_t currentTicks = System::GetTick();
         uint32_t keyState = interface.ScanKeys(System::GetTick());
         controller.SetKeyState(keyState);
         controller.Process(System::GetTick());
