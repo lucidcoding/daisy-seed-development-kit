@@ -70,24 +70,24 @@ namespace developmentKit::stepSequencer
     {
     public:
         void Init(uint32_t);
-        void SetKeyState(uint32_t keys);
-        void Process(uint32_t currentProcessTimeUs);
+        void SetKeyState(uint32_t);
+        void Process(uint32_t);
         bool GetGate();
         bool GetAccent();
         bool GetSlide();
         bool GetPreviousSlide();
         uint8_t GetNote();
-        void SetStepTime(uint32_t newStepTimeUs);
+        void SetStepTime(uint32_t);
         uint64_t GetLedState();
-        void SetTempo(uint8_t newTempo);
+        void SetTempo(uint8_t);
 
         // For testing only
         uint8_t GetCurrentStepIndex() { return currentStepIndex; }
         uint8_t GetMode() { return mode; }
         void SetSteps(Step newSteps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT]);
         Step *GetSteps() { return steps; }
-        uint32_t GetLastTicks() { return lastTicks; }
-        void SetLastTicks(uint32_t newLastTicks) { lastTicks = newLastTicks; }
+        uint32_t GetLastTicks() { return lastStepStartTicks; }
+        void SetLastTicks(uint32_t newLastTicks) { lastStepStartTicks = newLastTicks; }
 
     private:
         Step steps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT];
@@ -96,14 +96,15 @@ namespace developmentKit::stepSequencer
         uint32_t keyState;
         uint32_t stepTimeUs;
         uint32_t gateTimeUs;
-        uint32_t lastTicks;
         uint32_t ticksPerUs;
+        uint32_t lastStepStartTicks;
         uint8_t tempo;
         bool gate;
+        bool playJustPressed;
         bool ledStates[STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS];
         const uint8_t noteToLedLookup[STEP_SEQUENCER_CONTROLLER_NUMBER_OF_NOTE_KEYS] = {9, 0, 10, 1, 11, 12, 2, 13, 3, 14, 4, 15, 16};
         void UpdateLedStates();
-        uint8_t GetNoteFromKeyPressed(uint8_t keyPressed);
+        uint8_t GetNoteFromKeyPressed(uint8_t);
         void ActivateCurrentStep();
         void OnPlayPressed();
         void OnRecordPressed();
@@ -113,9 +114,9 @@ namespace developmentKit::stepSequencer
         void OnOctaveUpPressed();
         void OnAccentPressed();
         void OnSlidePressed();
-        void OnNoteKeyPressed(uint8_t keyIndex);
+        void OnNoteKeyPressed(uint8_t);
         void CheckForKeyPressEvent();
-        void CheckForClockEvent(uint32_t currentProcessTimeUs);
+        void CheckForClockEvent(uint32_t);
     };
 }
 

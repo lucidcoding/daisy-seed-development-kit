@@ -11,6 +11,7 @@ namespace developmentKit::stepSequencer
         SetStepTime(1000000);
         mode = STEP_SEQUENCER_CONTROLLER_MODE_STOP;
         gate = false;
+        playJustPressed = false;
 
         for (uint8_t i = 0; i < 16; i++)
         {
@@ -120,6 +121,7 @@ namespace developmentKit::stepSequencer
             currentStepIndex = 0;
             ActivateCurrentStep();
             mode = STEP_SEQUENCER_CONTROLLER_MODE_PLAY;
+            playJustPressed = true;
         }
     }
 
@@ -266,7 +268,13 @@ namespace developmentKit::stepSequencer
 
     void Controller::CheckForClockEvent(uint32_t currentTicks)
     {
-        if (gate && (currentTicks - lastTicks) >= (gateTimeUs * ticksPerUs))
+        if(playJustPressed)
+        {
+            playJustPressed = false;
+            lastStepStartTicks = currentTicks;
+        }
+
+        if (gate && (currentTicks - lastStepStartTicks) >= (gateTimeUs * ticksPerUs))
         {
             if (!steps[currentStepIndex].slide)
             {
@@ -279,9 +287,9 @@ namespace developmentKit::stepSequencer
             }
         }
 
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY && (currentTicks - lastTicks) >= (stepTimeUs * ticksPerUs))
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY && (currentTicks - lastStepStartTicks) >= (stepTimeUs * ticksPerUs))
         {
-            lastTicks = currentTicks;
+            lastStepStartTicks = currentTicks;
             currentStepIndex = (currentStepIndex + 1) % STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT;
             ActivateCurrentStep();
         }
