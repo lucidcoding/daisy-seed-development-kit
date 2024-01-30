@@ -14,8 +14,8 @@ namespace developmentKit::stepSequencer
     {
     public:
         void Init();
-        uint32_t ScanNextKeysColumn(uint32_t currentProcessTimeUs);
-        void ScanNextLedsColumn(uint64_t newLedsState, uint32_t currentProcessTimeUs);
+        uint32_t ScanKeys(uint32_t);
+        void ScanLeds(uint64_t, uint32_t);
     private:
         Keys keys;
         Leds leds;

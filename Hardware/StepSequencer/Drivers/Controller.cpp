@@ -262,7 +262,7 @@ namespace developmentKit::stepSequencer
 
     void Controller::CheckForClockEvent(uint32_t currentTicks)
     {
-        if (gate && (currentTicks - lastTicks) >= (gateTimeUs* ticksPerUs))
+        if (gate && (currentTicks - lastTicks) >= (gateTimeUs * ticksPerUs))
         {
             hardware->PrintLine("Gate end: currentProcessTimeUs:%u, lastStepTimeUs:%u, diff:%u", currentTicks, lastTicks, (currentTicks - lastTicks));
 

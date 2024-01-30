@@ -19,36 +19,32 @@ namespace developmentKit::stepSequencer
         ticksPerUs = System::GetTickFreq() / 1000000;
     }
 
-    void Leds::SetLeds(uint64_t newState, uint32_t currentProcessTimeUs)
+    void Leds::Scan(uint64_t newState, uint32_t currentTicks)
     {
         state = newState;
-        ScanNextColumn(currentProcessTimeUs);
-    }
 
-    void Leds::ScanNextColumn(uint32_t currentTicks)
-    {
         if (currentTicks - lastTicks > (STEP_SEQUENCER_LEDS_SCAN_INTERVAL_US * ticksPerUs))
         {
             lastTicks = currentTicks;
-            mcp.WritePort(MCPPort::A, 0x00);
+            mcp.WritePort(MCPPort::A, 0);
             uint8_t currentColumnPin = columnPins[currentColumnIndex];
-            mcp.WritePort(MCPPort::B, ~(0x01 << (currentColumnPin - 8)));
-            uint8_t portAValue = 0x00 << currentColumnPin;
+            mcp.WritePort(MCPPort::B, ~(1 << (currentColumnPin - 8)));
+            uint8_t portAValue = 0 << currentColumnPin;
 
-            for (uint8_t currentRowIndex = 0; currentRowIndex < 4; currentRowIndex++)
+            for (uint8_t currentRowIndex = 0; currentRowIndex < STEP_SEQUENCER_LEDS_NUMBER_OF_ROWS; currentRowIndex++)
             {
                 uint8_t currentRowPin = rowPins[currentRowIndex];
                 uint8_t ledIndex = ledLookup[currentColumnIndex][currentRowIndex];
-                uint8_t ledState = (state >> ledIndex) & 0x01;
+                uint8_t ledState = (state >> ledIndex) & 1;
 
-                if (ledIndex != 255 && ledState == 1)
+                if (ledIndex != STEP_SEQUENCER_LEDS_NOT_USED && ledState == 1)
                 {
-                    portAValue = portAValue | (0x01 << currentRowPin);
+                    portAValue = portAValue | (1 << currentRowPin);
                 }
             }
 
             mcp.WritePort(MCPPort::A, portAValue);
-            currentColumnIndex = (currentColumnIndex + 1) % 6;
+            currentColumnIndex = (currentColumnIndex + 1) % STEP_SEQUENCER_LEDS_NUMBER_OF_COLUMNS;
         }
     }
 }

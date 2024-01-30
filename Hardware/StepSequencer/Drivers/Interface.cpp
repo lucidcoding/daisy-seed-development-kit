@@ -11,13 +11,13 @@ namespace developmentKit::stepSequencer
         keys.Init();
     }
 
-    uint32_t Interface::ScanNextKeysColumn(uint32_t currentProcessTimeUs)
+    uint32_t Interface::ScanKeys(uint32_t currentProcessTimeUs)
     {
         return keys.ScanNextColumn(currentProcessTimeUs);
     }
 
-    void Interface::ScanNextLedsColumn(uint64_t newLedState, uint32_t currentProcessTimeUs)
+    void Interface::ScanLeds(uint64_t newLedState, uint32_t currentProcessTimeUs)
     {
-        leds.SetLeds(newLedState, currentProcessTimeUs);
+        leds.Scan(newLedState, currentProcessTimeUs);
     }
 }

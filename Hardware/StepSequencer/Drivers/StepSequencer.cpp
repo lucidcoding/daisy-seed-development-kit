@@ -15,11 +15,11 @@ namespace developmentKit::stepSequencer
     void StepSequencer::Listen()
     {
         uint32_t currentTicks = System::GetTick();
-        uint32_t keyState = interface.ScanNextKeysColumn(currentTicks);
+        uint32_t keyState = interface.ScanKeys(currentTicks);
         controller.SetKeyState(keyState);
         controller.Process(System::GetTick());
         uint64_t ledState = controller.GetLedState();
-        interface.ScanNextLedsColumn(ledState, currentTicks);
+        interface.ScanLeds(ledState, currentTicks);
     }
 
     bool StepSequencer::GetGate()

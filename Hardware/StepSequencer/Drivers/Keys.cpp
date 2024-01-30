@@ -15,66 +15,50 @@ namespace developmentKit::stepSequencer
         mcp.PortMode(MCPPort::A, 0xFF, 0xFF);
         mcp.PortMode(MCPPort::B, 0x00);
         mcp.WritePort(MCPPort::B, 0xFF);
-        lastKeyState = 0;
+        state = 0;
         ticksPerUs = System::GetTickFreq() / 1000000;
     }
 
     uint32_t Keys::ScanNextColumn(uint32_t currentTicks)
     {
         uint32_t returnValue = STEP_SEQUENCER_KEYS_NO_KEY_PRESS;
-        if (currentTicks - lastTicks > (250 * ticksPerUs))
+
+        if (currentTicks - lastTicks > (STEP_SEQUENCER_KEYS_SCAN_INTERVAL_US * ticksPerUs))
         {
             lastTicks = currentTicks;
-            uint8_t columnPin = columnPins[columnPinIndex];
-            mcp.WritePort(MCPPort::B, ~(0x01 << (columnPin - 8)));
+            uint8_t columnPin = columnPins[currentColumnIndex];
+            mcp.WritePort(MCPPort::B, ~(1 << (columnPin - 8)));
             mcp.Read();
 
-            for (uint8_t inputPinIndex = 0; inputPinIndex < 4; inputPinIndex++)
+            for (uint8_t rowIndex = 0; rowIndex < STEP_SEQUENCER_KEYS_NUMBER_OF_ROWS; rowIndex++)
             {
-                uint8_t switchIndex = switchLookup[columnPinIndex][inputPinIndex];
+                uint8_t keyIndex = keyLookup[currentColumnIndex][rowIndex];
 
-                if (switchIndex != STEP_SEQUENCER_KEYS_NO_KEY_PRESS)
+                if (keyIndex != STEP_SEQUENCER_KEYS_NOT_USED)
                 {
-                    uint8_t inputPin = inputPins[inputPinIndex];
-                    uint8_t currentIndividualState = mcp.GetPin(inputPin) == 255 ? 0 : 1;
-                    uint8_t lastIndivdualState = (lastKeyState & (1 << switchIndex)) > 0 ? 1 : 0;
+                    uint8_t rowPin = rowPins[rowIndex];
+                    uint8_t currentIndividualState = mcp.GetPin(rowPin) == STEP_SEQUENCER_KEYS_NO_KEY_PRESS ? 0 : 1;
+                    uint8_t lastIndivdualState = (state & (1 << keyIndex)) > 0 ? 1 : 0;
 
                     if (currentIndividualState != lastIndivdualState)
                     {
-                        lastDebounceTime[switchIndex] = currentTicks;
-                    }
-
-                    if ((currentTicks - lastDebounceTime[switchIndex]) > STEP_SEQUENCER_KEYS_DEBOUNCE_TIME)
-                    {
-                        uint8_t stableIndividualState = (stableKeyState & (1 << switchIndex)) > 0 ? 1 : 0;
-                        if (currentIndividualState != stableIndividualState)
+                        if (currentIndividualState == 1)
                         {
-                            if (currentIndividualState == 1)
-                            {
-                                stableKeyState = stableKeyState | (1 << switchIndex);
-                            }
-                            else
-                            {
-                                stableKeyState = stableKeyState & ~(1 << switchIndex);
-                            }
-
-                            returnValue = stableKeyState;
+                            state = state | (1 << keyIndex);
                         }
-                    }
+                        else
+                        {
+                            state = state & ~(1 << keyIndex);
+                        }
 
-                    if (currentIndividualState == 1)
-                    {
-                        lastKeyState = lastKeyState | (1 << switchIndex);
-                    }
-                    else
-                    {
-                        lastKeyState = lastKeyState & ~(1 << switchIndex);
+                        returnValue = state;
                     }
                 }
             }
 
-            columnPinIndex = (columnPinIndex + 1) % 6;
+            currentColumnIndex = (currentColumnIndex + 1) % STEP_SEQUENCER_KEYS_NUMBER_OF_COLUMNS;
         }
+
         return returnValue;
     }
 }
