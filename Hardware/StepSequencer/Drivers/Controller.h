@@ -77,11 +77,11 @@ namespace developmentKit::stepSequencer
         bool GetSlide();
         bool GetPreviousSlide();
         uint8_t GetNote();
-        void SetStepTime(uint32_t);
         uint64_t GetLedState();
         void SetTempo(uint8_t);
 
         // For testing only
+        void SetStepTime(uint32_t);
         uint8_t GetCurrentStepIndex() { return currentStepIndex; }
         uint8_t GetMode() { return mode; }
         void SetSteps(Step newSteps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT]);
@@ -93,7 +93,6 @@ namespace developmentKit::stepSequencer
         Step steps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT];
         uint8_t currentStepIndex;
         uint8_t mode;
-        uint32_t keyState;
         uint32_t stepTimeUs;
         uint32_t gateTimeUs;
         uint32_t ticksPerUs;
@@ -115,7 +114,6 @@ namespace developmentKit::stepSequencer
         void OnAccentPressed();
         void OnSlidePressed();
         void OnNoteKeyPressed(uint8_t);
-        void CheckForKeyPressEvent();
         void CheckForClockEvent(uint32_t);
     };
 }

@@ -68,12 +68,6 @@ namespace developmentKit::stepSequencer
         ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_NEXT] = false;
     }
 
-    void Controller::SetKeyState(uint32_t newLastKeyPress)
-    {
-        keyState = newLastKeyPress;
-        CheckForKeyPressEvent();
-    }
-
     uint64_t Controller::GetLedState()
     {
         uint64_t returnValue = 0x00;
@@ -206,7 +200,7 @@ namespace developmentKit::stepSequencer
         }
     }
 
-    void Controller::CheckForKeyPressEvent()
+    void Controller::SetKeyState(uint32_t keyState)
     {
         if (keyState != STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS)
         {
