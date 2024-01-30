@@ -19,13 +19,9 @@ namespace developmentKit::stepSequencer
         ticksPerUs = System::GetTickFreq() / 1000000;
     }
 
-    void Leds::SetLeds(uint64_t state, uint32_t currentProcessTimeUs)
+    void Leds::SetLeds(uint64_t newState, uint32_t currentProcessTimeUs)
     {
-        for (uint8_t ledIndex = 0; ledIndex < 64; ledIndex++)
-        {
-            states[ledIndex] = (((state >> ledIndex) & 0x01) == 0x01);
-        }
-
+        state = newState;
         ScanNextColumn(currentProcessTimeUs);
     }
 
@@ -37,16 +33,15 @@ namespace developmentKit::stepSequencer
             mcp.WritePort(MCPPort::A, 0x00);
             uint8_t currentColumnPin = columnPins[currentColumnIndex];
             mcp.WritePort(MCPPort::B, ~(0x01 << (currentColumnPin - 8)));
-
             uint8_t portAValue = 0x00 << currentColumnPin;
 
             for (uint8_t currentRowIndex = 0; currentRowIndex < 4; currentRowIndex++)
             {
                 uint8_t currentRowPin = rowPins[currentRowIndex];
-
                 uint8_t ledIndex = ledLookup[currentColumnIndex][currentRowIndex];
+                uint8_t ledState = (state >> ledIndex) & 0x01;
 
-                if (ledIndex != 255 && states[ledIndex])
+                if (ledIndex != 255 && ledState == 1)
                 {
                     portAValue = portAValue | (0x01 << currentRowPin);
                 }

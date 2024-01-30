@@ -19,7 +19,7 @@ namespace developmentKit::stepSequencer
 
     private:
         Mcp23017 mcp;
-        bool states[64];
+        uint64_t state;
         uint8_t currentColumnIndex;
         uint8_t columnPins[6] = {8, 9, 10, 11, 12, 13};
         uint8_t rowPins[4] = {1, 4, 5, 6};
@@ -31,8 +31,8 @@ namespace developmentKit::stepSequencer
             {18, 6, 4, 15},
             {17, 5, 255, 16}};
         uint32_t lastTicks;
-        void ScanNextColumn(uint32_t currentProcessTimeUs);
         uint32_t ticksPerUs;
+        void ScanNextColumn(uint32_t currentProcessTimeUs);
     };
 }
 
