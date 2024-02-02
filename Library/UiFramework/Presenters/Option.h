@@ -1,0 +1,20 @@
+#pragma once
+#ifndef OPTION_H
+#define OPTION_H
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+namespace developmentKit::library::uiFramework::presenters
+{
+    class Option
+    {
+    public:
+        string title;
+        unsigned int value;
+    };
+}
+
+#endif
