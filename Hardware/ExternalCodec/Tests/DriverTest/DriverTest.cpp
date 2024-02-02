@@ -4,7 +4,7 @@
 
 using namespace daisy;
 using namespace daisysp;
-using namespace developmentKit;
+using namespace developmentKit::hardware::externalCodec::drivers;
 
 DaisySeed hardware;
 ExternalCodec externalCodec;

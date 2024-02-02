@@ -1,10 +1,10 @@
 #include "daisysp.h"
 #include "daisy_seed.h"
-#include "../../PotentiometerArray.h"
+#include "../../Drivers/PotentiometerArray.h"
 
 using namespace daisysp;
 using namespace daisy;
-using namespace developmentKit;
+using namespace developmentKit::hardware::potentiometerArray::drivers;
 
 static DaisySeed hardware;
 PotentiometerArray potentiometerArray;

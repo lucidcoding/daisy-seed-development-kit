@@ -3,7 +3,7 @@
 #include "Leds.h"
 #include "Interface.h"
 
-namespace developmentKit::stepSequencer
+namespace developmentKit::hardware::stepSequencer::drivers
 {
     void Interface::Init()
     {

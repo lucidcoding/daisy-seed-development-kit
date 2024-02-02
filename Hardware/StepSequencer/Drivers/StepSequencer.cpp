@@ -4,7 +4,7 @@
 #include "Controller.h"
 #include "StepSequencer.h"
 
-namespace developmentKit::stepSequencer
+namespace developmentKit::hardware::stepSequencer::drivers
 {
     void StepSequencer::Init()
     {

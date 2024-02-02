@@ -4,7 +4,7 @@
 #include "dev/codec_ak4556.h"
 #include "dev/codec_wm8731.h"
 
-namespace developmentKit
+namespace developmentKit::hardware::externalCodec::drivers
 {
     using namespace daisysp;
     using namespace daisy;

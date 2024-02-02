@@ -4,7 +4,7 @@
 
 #include "stdint.h"
 
-namespace developmentKit::stepSequencer
+namespace developmentKit::hardware::stepSequencer::drivers
 {
     class Step
     {

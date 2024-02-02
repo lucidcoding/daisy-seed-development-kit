@@ -5,7 +5,7 @@
 #include "daisysp.h"
 #include "daisy_seed.h"
 
-namespace developmentKit
+namespace developmentKit::hardware::externalCodec::drivers
 {
     using namespace daisysp;
     using namespace daisy;

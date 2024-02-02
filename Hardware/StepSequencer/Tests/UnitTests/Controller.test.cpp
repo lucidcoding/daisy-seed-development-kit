@@ -7,7 +7,8 @@
 #include "../../Drivers/Step.h"
 #include "stdint.h"
 
-using namespace developmentKit::stepSequencer;
+using namespace developmentKit::hardware::stepSequencer::drivers;
+
 uint32_t currentTicks;
 
 Controller Setup()

@@ -1,13 +1,13 @@
 #include "daisysp.h"
 #include "daisy_seed.h"
-#include "../../Hardware/PotentiometerArray/PotentiometerArray.h"
+#include "../../Hardware/PotentiometerArray/Drivers/PotentiometerArray.h"
 
 #define MIN_PULSE_WIDTH 0.05f
 #define MIDI_CHANNEL 0
 
 using namespace daisysp;
 using namespace daisy;
-using namespace developmentKit;
+using namespace developmentKit::hardware::potentiometerArray::drivers;
 
 static DaisySeed hardware;
 PotentiometerArray potentiometerArray;

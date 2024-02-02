@@ -5,7 +5,7 @@
 #include "Keys.h"
 #include "Leds.h"
 
-namespace developmentKit::stepSequencer
+namespace developmentKit::hardware::stepSequencer::drivers
 {
     using namespace daisysp;
     using namespace daisy;

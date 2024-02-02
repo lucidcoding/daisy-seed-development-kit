@@ -64,7 +64,7 @@
 #include "stdint.h"
 #include "Step.h"
 
-namespace developmentKit::stepSequencer
+namespace developmentKit::hardware::stepSequencer::drivers
 {
     class Controller
     {

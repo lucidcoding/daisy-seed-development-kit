@@ -7,7 +7,7 @@
 #include "Interface.h"
 #include "Controller.h"
 
-namespace developmentKit::stepSequencer
+namespace developmentKit::hardware::stepSequencer::drivers
 {
     class StepSequencer
     {

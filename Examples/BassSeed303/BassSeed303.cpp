@@ -1,18 +1,19 @@
 #include "daisysp.h"
 #include "daisy_seed.h"
 #include "SynthEngine.h"
-#include "../../Hardware/PotentiometerArray/PotentiometerArray.h"
+#include "../../Hardware/PotentiometerArray/Drivers/PotentiometerArray.h"
 #include "../../Hardware/StepSequencer/Drivers/StepSequencer.h"
 
 using namespace daisysp;
 using namespace daisy;
-using namespace developmentKit::stepSequencer;
+using namespace developmentKit::hardware::potentiometerArray::drivers;
+using namespace developmentKit::hardware::stepSequencer::drivers;
 using namespace developmentKit::bassSeed303;
 
 static DaisySeed hardware;
 StepSequencer stepSequencer;
 SynthEngine synthEngine;
-developmentKit::PotentiometerArray potentiometerArray;
+PotentiometerArray potentiometerArray;
 
 Parameter masterVolumeParam, cutOffFrequencyParam, resonanceParam, envelopeModulationParam, decayParam, accentLevelParam, tempoParam;
 

@@ -1,6 +1,6 @@
 #include "Leds.h"
 
-namespace developmentKit::stepSequencer
+namespace developmentKit::hardware::stepSequencer::drivers
 {
     void Leds::Init()
     {

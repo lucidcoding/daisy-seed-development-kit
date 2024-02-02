@@ -2,7 +2,7 @@
 #include "daisysp.h"
 #include "daisy_seed.h"
 
-namespace developmentKit
+namespace developmentKit::hardware::potentiometerArray::drivers
 {
     using namespace daisysp;
     using namespace daisy;

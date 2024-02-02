@@ -13,7 +13,7 @@
 #define STEP_SEQUENCER_KEYS_NO_KEY_PRESS 255
 #define STEP_SEQUENCER_KEYS_NOT_USED 255
 
-namespace developmentKit::stepSequencer
+namespace developmentKit::hardware::stepSequencer::drivers
 {
     using namespace daisysp;
     using namespace daisy;

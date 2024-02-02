@@ -2,7 +2,7 @@
 #include "Controller.h"
 #include "Debug.h"
 
-namespace developmentKit::stepSequencer
+namespace developmentKit::hardware::stepSequencer::drivers
 {
     void Controller::Init(uint32_t newTicksPerUs)
     {

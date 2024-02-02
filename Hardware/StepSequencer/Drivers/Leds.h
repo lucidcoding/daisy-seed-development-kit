@@ -11,7 +11,7 @@
 #include "daisy_seed.h"
 #include "dev/mcp23x17.h"
 
-namespace developmentKit::stepSequencer
+namespace developmentKit::hardware::stepSequencer::drivers
 {
     using namespace daisysp;
     using namespace daisy;

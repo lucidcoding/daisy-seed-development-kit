@@ -1,6 +1,6 @@
 #include "Keys.h"
 
-namespace developmentKit::stepSequencer
+namespace developmentKit::hardware::stepSequencer::drivers
 {
     void Keys::Init()
     {
