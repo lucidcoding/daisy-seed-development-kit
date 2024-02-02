@@ -21,7 +21,9 @@ namespace developmentKit::library::uiFramework
         ListPageView *listPageView = new ListPageView(display);
         parameters = prmParameters;
         ListPage *home = new ListPage(listPageView);
-        ListPage *settings = new ListPage(listPageView);
+        ListPage *oscillator = new ListPage(listPageView);
+        oscillator->AddItem(new NumericSettingsPageItem("Level", oscillator, 0, 255, 0.0f, 0.1f, NumericSettingsPageItem::LINEAR, &(parameters->level)));
+        /*ListPage *settings = new ListPage(listPageView);
         settings->AddItem(new NavigationPageItem("Back...", home, this));
         settings->AddItem(new NumericSettingsPageItem("Test1", settings));
         settings->AddItem(new NumericSettingsPageItem("Test2", settings));
@@ -32,9 +34,10 @@ namespace developmentKit::library::uiFramework
         optionsSettingsPageItem->AddOption("Opt3", 3);
         settings->AddItem(optionsSettingsPageItem);
         settings->AddItem(new NumericSettingsPageItem("Test5", settings));
-        settings->AddItem(new NumericSettingsPageItem("Test6", settings));
-        home->AddItem(new NavigationPageItem("Global settings...", settings, this));
-        home->AddItem(new NavigationPageItem("Globals...", settings, this));
+        settings->AddItem(new NumericSettingsPageItem("Test6", settings));*/
+        home->AddItem(new NavigationPageItem("Oscillator...", oscillator, this));
+        /*home->AddItem(new NavigationPageItem("Global settings...", settings, this));
+        home->AddItem(new NavigationPageItem("Globals...", settings, this));*/
         currentPage = home;
     }
 

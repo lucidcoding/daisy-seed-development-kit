@@ -54,6 +54,6 @@ namespace developmentKit::library::uiFramework::presenters
 
     PageItemType OptionsSettingsPageItem::GetType()
     {
-        return PageItemType::OptionsSettingsPageItem;
+        return PageItemType::OPTIONS_SETTINGS_PAGE_ITEM;
     }
 }

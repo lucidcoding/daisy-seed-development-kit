@@ -14,7 +14,15 @@ namespace developmentKit::library::uiFramework::presenters
     class NumericSettingsPageItem : public SettingsPageItem
     {
     public:
-        NumericSettingsPageItem(string prmTitle, ListPage *prmParent);
+        enum Curve
+        {
+            LINEAR, 
+            EXPONENTIAL, 
+            LOGARITHMIC, 
+            CUBE,    
+            LAST,  
+        };
+        NumericSettingsPageItem(string prmTitle, ListPage *prmParent, int prmDisplayMin, int prmDisplayMax, float prmOutputMin, float prmOutputMax, Curve prmCurve, float *prmTarget);
         void Increment();
         void Decrement();
         string GetValue();
@@ -22,9 +30,14 @@ namespace developmentKit::library::uiFramework::presenters
         PageItemType GetType();
 
     private:
-        unsigned int *target;
+        float *target;
         unsigned int value;
         string title;
+        int displayMin;
+        int displayMax;
+        float outputMin;
+        float outputMax;
+        Curve curve;
     };
 }
 

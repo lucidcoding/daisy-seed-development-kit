@@ -35,6 +35,6 @@ namespace developmentKit::library::uiFramework::presenters
 
     PageItemType NavigationPageItem::GetType()
     {
-        return PageItemType::NavigationPageItem;
+        return PageItemType::NAVIGATION_PAGE_ITEM;
     }
 }

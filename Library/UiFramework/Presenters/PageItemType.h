@@ -5,9 +5,9 @@
 // Seems to run into trouble if this is declared inside the presenters namespace?
 enum PageItemType
 {
-    NavigationPageItem,
-    NumericSettingsPageItem,
-    OptionsSettingsPageItem
+    NAVIGATION_PAGE_ITEM,
+    NUMERIC_SETTINGS_PAGE_ITEM,
+    OPTIONS_SETTINGS_PAGE_ITEM
 };
 
 #endif

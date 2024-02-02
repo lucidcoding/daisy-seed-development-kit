@@ -17,6 +17,7 @@ static DaisySeed hardware;
 OledDisplay<SSD130xI2c128x64Driver> hardwareDisplay;
 Parameters parameters;
 Display display = Display(&hardwareDisplay, &parameters);
+
 Encoder encoder;
 Oscillator osc;
 Adsr adsr;
@@ -30,11 +31,11 @@ static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
                           size_t size)
 {
     ProcessEncoder();
+    float level = parameters.level;
 
     float osc_out, env_out;
     for(size_t i = 0; i < size; i += 2)
-    {
-        // When the metro ticks, trigger the envelope to start.
+    {        // When the metro ticks, trigger the envelope to start.
         if(tick.Process())
         {
             gate = !gate;
@@ -42,7 +43,7 @@ static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
 
         // Use envelope to control the amplitude of the oscillator.
         env_out = adsr.Process(gate);
-        osc.SetAmp(env_out);
+        osc.SetAmp(env_out * parameters.level);
         osc_out = osc.Process();
 
         out[i]  = osc_out;
@@ -127,5 +128,7 @@ int main(void)
     while (1)
     {
         UpdateDisplay();
+        hardware.PrintLine("parameters.level:%3.5f", parameters.level);
+        System::Delay(1000);
     }
 }

@@ -6,23 +6,26 @@ using namespace std;
 
 namespace developmentKit::library::uiFramework::presenters
 {
-    NumericSettingsPageItem::NumericSettingsPageItem(string prmTitle, ListPage *prmParent)
+    NumericSettingsPageItem::NumericSettingsPageItem(string prmTitle, ListPage *prmParent, int prmDisplayMin, int prmDisplayMax, float prmOutputMin, float prmOutputMax, Curve prmCurve, float* prmTarget)
     {
         title = prmTitle;
         parent = prmParent;
         value = 0;
+        target = prmTarget;
     }
 
     void NumericSettingsPageItem::Increment()
     {
         value++;
         //*target = value;
+        *target = (float)value / 255.0f;
     }
 
     void NumericSettingsPageItem::Decrement()
     {
         value--;
         //*target = value;
+        *target = (float)value / 255.0f;
     }
 
     string NumericSettingsPageItem::GetValue()
@@ -39,6 +42,6 @@ namespace developmentKit::library::uiFramework::presenters
 
     PageItemType NumericSettingsPageItem::GetType()
     {
-        return PageItemType::NumericSettingsPageItem;
+        return PageItemType::NUMERIC_SETTINGS_PAGE_ITEM;
     }
 }

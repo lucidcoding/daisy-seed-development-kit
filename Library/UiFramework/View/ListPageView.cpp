@@ -37,7 +37,7 @@ namespace developmentKit::library::uiFramework::view
             strcpy(title, pageItem->GetTitle().c_str());
             int startPosition = (rowHeight * i) - offset;
 
-            if (pageItem->GetType() == PageItemType::NumericSettingsPageItem || pageItem->GetType() == PageItemType::OptionsSettingsPageItem)
+            if (pageItem->GetType() == PageItemType::NUMERIC_SETTINGS_PAGE_ITEM || pageItem->GetType() == PageItemType::OPTIONS_SETTINGS_PAGE_ITEM)
             {
                 SettingsPageItem *settingsPageItem = static_cast<SettingsPageItem *>(pageItem);
 

@@ -15,6 +15,7 @@ namespace developmentKit::library::uiFramework::model
         unsigned int value2;
         unsigned int value3;
         unsigned int effectType;
+        float level;
 
     private:
     };
