@@ -107,17 +107,17 @@ static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
 void InitOscillator(float sampleRate)
 {
     oscillator.Init(sampleRate);
-    oscillator.SetWaveform(Oscillator::WAVE_SAW);
-    oscillator.SetAmp(0.25f);
-    oscillator.SetFreq(220);
+    oscillator.SetWaveform(Oscillator::WAVE_SQUARE);
+    oscillator.SetAmp(0.125f);
+    oscillator.SetFreq(mtof(64));
 }
 
 void InitAdsr(float sampleRate)
 {
     adsr.Init(sampleRate);
-    adsr.SetTime(ADSR_SEG_ATTACK, .01);
-    adsr.SetTime(ADSR_SEG_DECAY, .05);
-    adsr.SetTime(ADSR_SEG_RELEASE, .1);
+    adsr.SetTime(ADSR_SEG_ATTACK, 0.0f);
+    adsr.SetTime(ADSR_SEG_DECAY, 0.125f);
+    adsr.SetTime(ADSR_SEG_RELEASE, 0.125f);
     adsr.SetSustainLevel(.01);
 }
 
@@ -173,7 +173,7 @@ void InitDisplay()
     adsrListPage->AddItem(new NavigationPageItem("Back...", home, &display));
     NumericSettingsPageItem *attackSettingsPageItem = new NumericSettingsPageItem("Attack", adsrListPage, 0, 127, 0);
     adsrListPage->AddItem(attackSettingsPageItem);
-    NumericSettingsPageItem *decaySettingsPageItem = new NumericSettingsPageItem("Delay", adsrListPage, 0, 127, 12);
+    NumericSettingsPageItem *decaySettingsPageItem = new NumericSettingsPageItem("Decay", adsrListPage, 0, 127, 32);
     adsrListPage->AddItem(decaySettingsPageItem);
     NumericSettingsPageItem *sustainSettingsPageItem = new NumericSettingsPageItem("Sustain", adsrListPage, 0, 127, 16);
     adsrListPage->AddItem(sustainSettingsPageItem);
