@@ -13,16 +13,18 @@ namespace developmentKit::library::uiFramework::view
     using namespace developmentKit::library::uiFramework::presenters;
     using namespace daisy;
 
-    class ListPageView
+    class ListPageView : public View
     {
     public:
         ListPageView() {}
         ~ListPageView() {}
         ListPageView(OledDisplay<SSD130xI2c128x64Driver> *prmDisplay);
-        void Paint(ListPage *listPage);
+        void SetListPage(ListPage *prmListPage);
+        void Paint();
 
     private:
         OledDisplay<SSD130xI2c128x64Driver> *display;
+        ListPage *listPage;
     };
 }
 

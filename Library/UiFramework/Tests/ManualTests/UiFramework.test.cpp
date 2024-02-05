@@ -150,12 +150,15 @@ void InitEncoder(float sampleRate)
 void InitDisplay()
 {
     // Setup view and home page.
-    ListPageView *listPageView = new ListPageView(&oledDisplay);
-    ListPage *home = new ListPage(listPageView);
+    ListPageView *homeListPageView = new ListPageView(&oledDisplay);
+    ListPage *homeListPage = new ListPage(homeListPageView);
+    homeListPageView->SetListPage(homeListPage);
 
     // Setup oscillator page and add to home page.
-    ListPage *oscillatorListPage = new ListPage(listPageView);
-    oscillatorListPage->AddItem(new NavigationPageItem("Back...", home, &display));
+    ListPageView *oscillatorListPageView = new ListPageView(&oledDisplay);
+    ListPage *oscillatorListPage = new ListPage(oscillatorListPageView);
+    oscillatorListPageView->SetListPage(oscillatorListPage);
+    oscillatorListPage->AddItem(new NavigationPageItem("Back...", homeListPage, &display));
     NumericSettingsPageItem *levelSettingsPageItem = new NumericSettingsPageItem("Level", oscillatorListPage, 0, 127, 16);
     oscillatorListPage->AddItem(levelSettingsPageItem);
     NumericSettingsPageItem *noteSettingsPageItem = new NumericSettingsPageItem("Note", oscillatorListPage, 0, 127, 64);
@@ -166,11 +169,13 @@ void InitDisplay()
     waveformSettingsPageItem->AddOption("Saw", Oscillator::WAVE_SAW);
     waveformSettingsPageItem->AddOption("Squ", Oscillator::WAVE_SQUARE);
     oscillatorListPage->AddItem(waveformSettingsPageItem);
-    home->AddItem(new NavigationPageItem("Oscillator...", oscillatorListPage, &display));
+    homeListPage->AddItem(new NavigationPageItem("Oscillator...", oscillatorListPage, &display));
 
     // Setup envelope page and add to home page.
-    ListPage *adsrListPage = new ListPage(listPageView);
-    adsrListPage->AddItem(new NavigationPageItem("Back...", home, &display));
+    ListPageView *adsrListPageView = new ListPageView(&oledDisplay);
+    ListPage *adsrListPage = new ListPage(adsrListPageView);
+    adsrListPageView->SetListPage(adsrListPage);
+    adsrListPage->AddItem(new NavigationPageItem("Back...", homeListPage, &display));
     NumericSettingsPageItem *attackSettingsPageItem = new NumericSettingsPageItem("Attack", adsrListPage, 0, 127, 0);
     adsrListPage->AddItem(attackSettingsPageItem);
     NumericSettingsPageItem *decaySettingsPageItem = new NumericSettingsPageItem("Decay", adsrListPage, 0, 127, 32);
@@ -179,11 +184,11 @@ void InitDisplay()
     adsrListPage->AddItem(sustainSettingsPageItem);
     NumericSettingsPageItem *releaseSettingsPageItem = new NumericSettingsPageItem("Release", adsrListPage, 0, 127, 16);
     adsrListPage->AddItem(releaseSettingsPageItem);
-    home->AddItem(new NavigationPageItem("Envelope...", adsrListPage, &display));
+    homeListPage->AddItem(new NavigationPageItem("Envelope...", adsrListPage, &display));
 
     // Set display home page and current page.
-    display.SetHomePage(home);
-    display.SetCurrentPage(home);
+    display.SetHomePage(homeListPage);
+    display.SetCurrentPage(homeListPage);
 
     // Tie parameters to values from settings page items.
     levelParameter.Init(levelSettingsPageItem, 0.0f, 1.0f, UiParameter::LINEAR);

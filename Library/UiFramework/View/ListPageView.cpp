@@ -15,10 +15,14 @@ namespace developmentKit::library::uiFramework::view
         display = prmDisplay;
     }
 
-    void ListPageView::Paint(ListPage *listPage)
+    void ListPageView::SetListPage(ListPage *prmListPage)
+    {
+        listPage = prmListPage;
+    }
+
+    void ListPageView::Paint()
     {
         const int rowHeight = 12;
-        // const int rowWidth = 128;
         display->Fill(false);
         char title[25];
 

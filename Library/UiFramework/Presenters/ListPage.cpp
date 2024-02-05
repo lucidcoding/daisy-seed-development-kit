@@ -1,11 +1,11 @@
 #include "ListPage.h"
 #include "PageItem.h"
 #include "Page.h"
-#include "../View/ListPageView.h"
+#include "../View/View.h"
 
 namespace developmentKit::library::uiFramework::presenters
 {
-    ListPage::ListPage(ListPageView *prmView)
+    ListPage::ListPage(View *prmView)
     {
         currentIndex = 0;
         itemSelected = false;
@@ -79,6 +79,6 @@ namespace developmentKit::library::uiFramework::presenters
 
     void ListPage::Paint()
     {
-        view->Paint(this);
+        view->Paint();
     }
 }

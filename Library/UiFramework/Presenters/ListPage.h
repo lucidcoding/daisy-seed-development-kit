@@ -6,13 +6,9 @@
 #include <vector>
 #include "PageItem.h"
 #include "Page.h"
+#include "../View/View.h"
 
 using namespace std;
-
-namespace developmentKit::library::uiFramework::view
-{
-    class ListPageView;
-}
 
 namespace developmentKit::library::uiFramework::presenters
 {
@@ -21,7 +17,7 @@ namespace developmentKit::library::uiFramework::presenters
     class ListPage : public Page
     {
     public:
-        ListPage(ListPageView *prmView);
+        ListPage(View *prmView);
         ~ListPage() {}
         virtual void Increment();
         virtual void Decrement();
@@ -38,7 +34,7 @@ namespace developmentKit::library::uiFramework::presenters
         vector<PageItem *> items;
         unsigned int currentIndex;
         bool itemSelected;
-        ListPageView *view;
+        View *view;
     };
 }
 
