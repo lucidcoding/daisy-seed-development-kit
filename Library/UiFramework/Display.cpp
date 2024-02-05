@@ -4,14 +4,10 @@
 #include "./Presenters/OptionsSettingsPageItem.h"
 #include "./Presenters/Option.h"
 #include "./Presenters/ListPage.h"
-#include "./View/ListPageView.h"
-#include "daisy_seed.h"
-#include "dev/oled_ssd130x.h"
 
 namespace developmentKit::library::uiFramework
 {
     using namespace developmentKit::library::uiFramework::presenters;
-    using namespace daisy;
 
     void Display::Increment()
     {

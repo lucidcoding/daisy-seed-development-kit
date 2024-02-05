@@ -3,15 +3,12 @@
 #define DISPLAY_H
 
 #include "./Presenters/Page.h"
-#include "daisy_seed.h"
-#include "dev/oled_ssd130x.h"
 #include <string>
 #include <vector>
 
 namespace developmentKit::library::uiFramework
 {
     using namespace developmentKit::library::uiFramework::presenters;
-    using namespace daisy;
 
     class Display
     {
