@@ -10,6 +10,8 @@ namespace developmentKit::library::uiFramework::presenters
     class Page
     {
     public:
+        Page() {}
+        ~Page() {}
         virtual void Increment() = 0;
         virtual void Decrement() = 0;
         virtual void Select() = 0;

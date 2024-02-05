@@ -22,6 +22,7 @@ namespace developmentKit::library::uiFramework::presenters
     {
     public:
         ListPage(ListPageView *prmView);
+        ~ListPage() {}
         virtual void Increment();
         virtual void Decrement();
         virtual void Select();

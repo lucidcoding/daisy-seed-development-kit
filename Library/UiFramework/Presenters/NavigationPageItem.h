@@ -4,10 +4,8 @@
 
 #include <string>
 #include <vector>
-//#include "../Display.h"
 #include "Page.h"
 #include "PageItem.h"
-#include "PageItemType.h"
 
 using namespace std;
 
@@ -22,6 +20,7 @@ namespace developmentKit::library::uiFramework::presenters
     {
     public:
         NavigationPageItem(string prmTitle, Page *prmNext, Display *prmRoot);
+        ~NavigationPageItem() {}
         void Increment();
         void Decrement();
         void Select();

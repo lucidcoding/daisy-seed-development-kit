@@ -12,6 +12,8 @@ namespace developmentKit::library::uiFramework::presenters
     class Option
     {
     public:
+        Option() {}
+        ~Option() {}
         string title;
         unsigned int value;
     };

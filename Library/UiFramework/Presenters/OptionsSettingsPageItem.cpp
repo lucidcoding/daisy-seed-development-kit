@@ -1,13 +1,12 @@
 #include "OptionsSettingsPageItem.h"
 #include "Option.h"
-#include "PageItemType.h"
 #include <string>
 
 using namespace std;
 
 namespace developmentKit::library::uiFramework::presenters
 {
-    OptionsSettingsPageItem::OptionsSettingsPageItem(string prmTitle, /*unsigned int *prmTarget,*/ ListPage *prmParent)
+    OptionsSettingsPageItem::OptionsSettingsPageItem(string prmTitle, ListPage *prmParent)
     {
         title = prmTitle;
         currentIndex = 0;
@@ -20,8 +19,6 @@ namespace developmentKit::library::uiFramework::presenters
         {
             currentIndex++;
         }
-
-        *target = options[currentIndex].value;
     }
 
     void OptionsSettingsPageItem::Decrement()
@@ -30,11 +27,9 @@ namespace developmentKit::library::uiFramework::presenters
         {
             currentIndex--;
         }
-
-        *target = options[currentIndex].value;
     }
 
-    string OptionsSettingsPageItem::GetValue()
+    string OptionsSettingsPageItem::GetValueAsString()
     {
         return options[currentIndex].title;
     }
@@ -52,8 +47,13 @@ namespace developmentKit::library::uiFramework::presenters
         return title;
     }
 
-    PageItemType OptionsSettingsPageItem::GetType()
+    PageItem::PageItemType OptionsSettingsPageItem::GetType()
     {
         return PageItemType::OPTIONS_SETTINGS_PAGE_ITEM;
+    }
+
+    unsigned int OptionsSettingsPageItem::GetValue()
+    {
+        return options[currentIndex].value;
     }
 }

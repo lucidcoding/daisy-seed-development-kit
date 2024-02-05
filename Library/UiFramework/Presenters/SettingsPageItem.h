@@ -5,7 +5,6 @@
 #include <string>
 #include "ListPage.h"
 #include "PageItem.h"
-#include "PageItemType.h"
 
 using namespace std;
 
@@ -14,11 +13,13 @@ namespace developmentKit::library::uiFramework::presenters
     class SettingsPageItem : public PageItem
     {
     public:
+    SettingsPageItem() {}
+    ~SettingsPageItem(){}
         virtual void Increment() = 0;
         virtual void Decrement() = 0;
         void Select();
         virtual string GetTitle() = 0;
-        virtual string GetValue() = 0;
+        virtual string GetValueAsString() = 0;
         virtual PageItemType GetType() = 0;
 
     private:

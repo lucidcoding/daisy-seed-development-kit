@@ -5,7 +5,6 @@
 //#include "ListPage.h"
 #include "SettingsPageItem.h"
 #include "Option.h"
-#include "PageItemType.h"
 #include <string>
 #include <vector>
 
@@ -16,17 +15,18 @@ namespace developmentKit::library::uiFramework::presenters
     class OptionsSettingsPageItem : public SettingsPageItem
     {
     public:
-        OptionsSettingsPageItem(string prmTitle, /*unsigned int *prmTarget,*/ ListPage *prmParent);
+        OptionsSettingsPageItem(string prmTitle, ListPage *prmParent);
+        ~OptionsSettingsPageItem() {}
         void Increment();
         void Decrement();
-        string GetValue();
+        string GetValueAsString();
         void AddOption(string title, int value);
         string GetTitle();
         PageItemType GetType();
+        unsigned int GetValue();
 
     private:
         string title;
-        unsigned int *target;
         vector<Option> options;
         unsigned int currentIndex;
     };

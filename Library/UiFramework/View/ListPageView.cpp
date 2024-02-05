@@ -4,7 +4,6 @@
 #include "ListPageView.h"
 #include "../Presenters/ListPage.h"
 #include "../Presenters/SettingsPageItem.h"
-#include "../Presenters/PageItemType.h"
 
 namespace developmentKit::library::uiFramework::view
 {
@@ -37,7 +36,7 @@ namespace developmentKit::library::uiFramework::view
             strcpy(title, pageItem->GetTitle().c_str());
             int startPosition = (rowHeight * i) - offset;
 
-            if (pageItem->GetType() == PageItemType::NUMERIC_SETTINGS_PAGE_ITEM || pageItem->GetType() == PageItemType::OPTIONS_SETTINGS_PAGE_ITEM)
+            if (pageItem->GetType() == PageItem::PageItemType::NUMERIC_SETTINGS_PAGE_ITEM || pageItem->GetType() == PageItem::PageItemType::OPTIONS_SETTINGS_PAGE_ITEM)
             {
                 SettingsPageItem *settingsPageItem = static_cast<SettingsPageItem *>(pageItem);
 
@@ -54,7 +53,7 @@ namespace developmentKit::library::uiFramework::view
                 display->SetCursor(1, startPosition + 2);
                 display->WriteString(title, Font_7x10, !hasFocus || listPage->GetItemSelected());
                 display->SetCursor(100, startPosition + 2);
-                display->WriteString(settingsPageItem->GetValue().c_str(), Font_7x10, !hasFocus);
+                display->WriteString(settingsPageItem->GetValueAsString().c_str(), Font_7x10, !hasFocus);
             }
             else
             {

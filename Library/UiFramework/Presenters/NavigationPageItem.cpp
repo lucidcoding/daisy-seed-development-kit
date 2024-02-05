@@ -1,6 +1,5 @@
 #include "../Display.h"
 #include "NavigationPageItem.h"
-#include "PageItemType.h"
 #include <string>
 
 namespace developmentKit::library::uiFramework::presenters
@@ -33,7 +32,7 @@ namespace developmentKit::library::uiFramework::presenters
         root->SetCurrentPage(next);
     }
 
-    PageItemType NavigationPageItem::GetType()
+    PageItem::PageItemType NavigationPageItem::GetType()
     {
         return PageItemType::NAVIGATION_PAGE_ITEM;
     }

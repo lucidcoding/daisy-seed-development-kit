@@ -8,19 +8,16 @@
 #include "daisysp.h"
 #include "dev/oled_ssd130x.h"
 
-/*namespace ui::presenters
-{
-    class ListPage : public Page {};
-}*/
-
 namespace developmentKit::library::uiFramework::view
 {
     using namespace developmentKit::library::uiFramework::presenters;
     using namespace daisy;
 
-    class ListPageView 
+    class ListPageView
     {
     public:
+        ListPageView() {}
+        ~ListPageView() {}
         ListPageView(OledDisplay<SSD130xI2c128x64Driver> *prmDisplay);
         void Paint(ListPage *listPage);
 

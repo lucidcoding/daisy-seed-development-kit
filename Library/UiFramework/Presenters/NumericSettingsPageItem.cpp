@@ -1,34 +1,36 @@
 #include "NumericSettingsPageItem.h"
-#include "PageItemType.h"
 #include <string>
 
 using namespace std;
 
 namespace developmentKit::library::uiFramework::presenters
 {
-    NumericSettingsPageItem::NumericSettingsPageItem(string prmTitle, ListPage *prmParent, int prmDisplayMin, int prmDisplayMax, float prmOutputMin, float prmOutputMax, Curve prmCurve, float* prmTarget)
+    NumericSettingsPageItem::NumericSettingsPageItem(string prmTitle, ListPage *prmParent, int prmMin, int prmMax, int prmDefault)
     {
         title = prmTitle;
         parent = prmParent;
-        value = 0;
-        target = prmTarget;
+        value = prmDefault;
+        min = prmMin;
+        max = prmMax;
     }
 
     void NumericSettingsPageItem::Increment()
     {
-        value++;
-        //*target = value;
-        *target = (float)value / 255.0f;
+        if (value < max)
+        {
+            value++;
+        }
     }
 
     void NumericSettingsPageItem::Decrement()
     {
-        value--;
-        //*target = value;
-        *target = (float)value / 255.0f;
+        if (value > min)
+        {
+            value--;
+        }
     }
 
-    string NumericSettingsPageItem::GetValue()
+    string NumericSettingsPageItem::GetValueAsString()
     {
         char buffer[6];
         sprintf(buffer, "%d", value);
@@ -40,8 +42,23 @@ namespace developmentKit::library::uiFramework::presenters
         return title;
     }
 
-    PageItemType NumericSettingsPageItem::GetType()
+    PageItem::PageItemType NumericSettingsPageItem::GetType()
     {
         return PageItemType::NUMERIC_SETTINGS_PAGE_ITEM;
+    }
+
+    int NumericSettingsPageItem::GetValue()
+    {
+        return value;
+    }
+
+    int NumericSettingsPageItem::GetMin()
+    {
+        return min;
+    }
+
+    int NumericSettingsPageItem::GetMax()
+    {
+        return max;
     }
 }

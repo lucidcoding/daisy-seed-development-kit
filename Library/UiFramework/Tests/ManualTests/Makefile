@@ -11,7 +11,8 @@ CPP_SOURCES = \
 	../../Presenters/SettingsPageItem.cpp \
 	../../Presenters/NumericSettingsPageItem.cpp \
 	../../Presenters/OptionsSettingsPageItem.cpp \
-	../../Presenters/ListPage.cpp 
+	../../Presenters/ListPage.cpp \
+	../../Utilities/UiParameter.cpp
 	
 # Core location, and generic Makefile.
 SYSTEM_FILES_DIR = $(LIBDAISY_DIR)/core

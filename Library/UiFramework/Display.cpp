@@ -1,6 +1,5 @@
 #include "Display.h"
 #include "./Model/Parameters.h"
-#include "./Presenters/PageItemType.h"
 #include "./Presenters/NavigationPageItem.h"
 #include "./Presenters/NumericSettingsPageItem.h"
 #include "./Presenters/OptionsSettingsPageItem.h"
@@ -15,31 +14,6 @@ namespace developmentKit::library::uiFramework
     using namespace developmentKit::library::uiFramework::model;
     using namespace developmentKit::library::uiFramework::presenters;
     using namespace daisy;
-
-    Display::Display(OledDisplay<SSD130xI2c128x64Driver> *display, Parameters *prmParameters)
-    {
-        ListPageView *listPageView = new ListPageView(display);
-        parameters = prmParameters;
-        ListPage *home = new ListPage(listPageView);
-        ListPage *oscillator = new ListPage(listPageView);
-        oscillator->AddItem(new NumericSettingsPageItem("Level", oscillator, 0, 255, 0.0f, 0.1f, NumericSettingsPageItem::LINEAR, &(parameters->level)));
-        /*ListPage *settings = new ListPage(listPageView);
-        settings->AddItem(new NavigationPageItem("Back...", home, this));
-        settings->AddItem(new NumericSettingsPageItem("Test1", settings));
-        settings->AddItem(new NumericSettingsPageItem("Test2", settings));
-        settings->AddItem(new NumericSettingsPageItem("Test3", settings));
-        OptionsSettingsPageItem *optionsSettingsPageItem = new OptionsSettingsPageItem("Test4", settings);
-        optionsSettingsPageItem->AddOption("Opt1", 1);
-        optionsSettingsPageItem->AddOption("Opt2", 2);
-        optionsSettingsPageItem->AddOption("Opt3", 3);
-        settings->AddItem(optionsSettingsPageItem);
-        settings->AddItem(new NumericSettingsPageItem("Test5", settings));
-        settings->AddItem(new NumericSettingsPageItem("Test6", settings));*/
-        home->AddItem(new NavigationPageItem("Oscillator...", oscillator, this));
-        /*home->AddItem(new NavigationPageItem("Global settings...", settings, this));
-        home->AddItem(new NavigationPageItem("Globals...", settings, this));*/
-        currentPage = home;
-    }
 
     void Display::Increment()
     {
@@ -64,6 +38,11 @@ namespace developmentKit::library::uiFramework
     void Display::SetCurrentPage(Page *newCurrentPage)
     {
         currentPage = newCurrentPage;
+    }
+
+    void Display::SetHomePage(Page *newHomePage)
+    {
+        homePage = newHomePage;
     }
 
     void Display::Paint()

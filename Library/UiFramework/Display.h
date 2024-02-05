@@ -18,13 +18,15 @@ namespace developmentKit::library::uiFramework
     class Display
     {
     public:
-        Display(OledDisplay<SSD130xI2c128x64Driver> *display, Parameters *prmParameters);
+        Display() {}
+        ~Display () {}
         void Increment();
         void Decrement();
         void Select();
         void SetPage(Page *newPage);
         Page *GetCurrentPage();
         void SetCurrentPage(Page *newCurrentPage);
+        void SetHomePage(Page *newHomePage);
         void Paint();
 
     private:
