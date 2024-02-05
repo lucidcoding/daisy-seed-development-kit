@@ -8,8 +8,6 @@
 
 namespace developmentKit::library::uiFramework::utilities
 {
-    using namespace developmentKit::library::uiFramework::presenters;
-
     class UiParameter
     {
     public:
@@ -21,11 +19,11 @@ namespace developmentKit::library::uiFramework::utilities
             CUBE,
             LAST,
         };
-        void Init(NumericSettingsPageItem *prmNumericSettingsPageItem, float prmMin, float prmMax, Curve prmCurve);
+        void Init(UiParameterProvider *prmNumericSettingsPageItem, float prmMin, float prmMax, Curve prmCurve);
         float Process();
 
     private:
-        NumericSettingsPageItem *numericSettingsPageItem;
+        UiParameterProvider *uiParameterProvider;
         float min, max;
         float lMin, lMax; 
         Curve curve;

@@ -5,12 +5,15 @@
 #include <string>
 #include <vector>
 #include "SettingsPageItem.h"
+#include "../Utilities/UiParameterProvider.h"
 
 using namespace std;
 
 namespace developmentKit::library::uiFramework::presenters
 {
-    class NumericSettingsPageItem : public SettingsPageItem
+    using namespace developmentKit::library::uiFramework::utilities;
+
+    class NumericSettingsPageItem : public SettingsPageItem, public UiParameterProvider
     {
     public:
         NumericSettingsPageItem(string prmTitle, ListPage *prmParent, int prmMin, int prmMax, int prmDefault);

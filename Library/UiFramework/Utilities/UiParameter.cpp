@@ -1,14 +1,11 @@
 #include "UiParameter.h"
-#include "../Presenters/NumericSettingsPageItem.h"
 #include <math.h>
 
 namespace developmentKit::library::uiFramework::utilities
 {
-    using namespace developmentKit::library::uiFramework::presenters;
-
-    void UiParameter::Init(NumericSettingsPageItem *prmNumericSettingsPageItem, float prmMin, float prmMax, Curve prmCurve)
+    void UiParameter::Init(UiParameterProvider *prmUiParameterProvider, float prmMin, float prmMax, Curve prmCurve)
     {
-        numericSettingsPageItem = prmNumericSettingsPageItem;
+        uiParameterProvider = prmUiParameterProvider;
         min = prmMin;
         max = prmMax;
         curve = prmCurve;
@@ -18,9 +15,9 @@ namespace developmentKit::library::uiFramework::utilities
 
     float UiParameter::Process()
     {
-        float displayValue = (float)numericSettingsPageItem->GetValue();
-        float displayMin = (float)numericSettingsPageItem->GetMin();
-        float displayMax = (float)numericSettingsPageItem->GetMax();
+        float displayValue = (float)uiParameterProvider->GetValue();
+        float displayMin = (float)uiParameterProvider->GetMin();
+        float displayMax = (float)uiParameterProvider->GetMax();
         float valueFactor = (displayValue / (displayMax - displayMin)) - (displayMin / (displayMax - displayMin));
 
         switch (curve)
