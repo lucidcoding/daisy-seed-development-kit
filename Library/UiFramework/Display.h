@@ -2,7 +2,6 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
-#include "./Model/Parameters.h"
 #include "./Presenters/Page.h"
 #include "daisy_seed.h"
 #include "dev/oled_ssd130x.h"
@@ -11,7 +10,6 @@
 
 namespace developmentKit::library::uiFramework
 {
-    using namespace developmentKit::library::uiFramework::model;
     using namespace developmentKit::library::uiFramework::presenters;
     using namespace daisy;
 
@@ -31,7 +29,6 @@ namespace developmentKit::library::uiFramework
 
     private:
         Page *homePage;
-        Parameters *parameters;
         Page *currentPage;
     };
 }

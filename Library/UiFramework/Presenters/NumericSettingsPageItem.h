@@ -7,10 +7,9 @@
 #include "SettingsPageItem.h"
 #include "../Utilities/UiParameterProvider.h"
 
-using namespace std;
-
 namespace developmentKit::library::uiFramework::presenters
 {
+    using namespace std;
     using namespace developmentKit::library::uiFramework::utilities;
 
     class NumericSettingsPageItem : public SettingsPageItem, public UiParameterProvider

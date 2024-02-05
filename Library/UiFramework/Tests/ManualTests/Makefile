@@ -5,7 +5,6 @@ TARGET = Interface.test
 CPP_SOURCES = \
 	UiFramework.test.cpp  \
 	../../Display.cpp \
-	../../Model/Parameters.cpp\
 	../../View/ListPageView.cpp \
 	../../Presenters/NavigationPageItem.cpp \
 	../../Presenters/SettingsPageItem.cpp \

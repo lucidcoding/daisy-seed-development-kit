@@ -4,11 +4,6 @@
 
 #include "../Presenters/Page.h"
 
-/*namespace ui::presenters
-{
-    class Page;
-}*/
-
 namespace developmentKit::library::uiFramework::view
 {
     using namespace developmentKit::library::uiFramework::presenters;

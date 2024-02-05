@@ -1,5 +1,4 @@
 #include "Display.h"
-#include "./Model/Parameters.h"
 #include "./Presenters/NavigationPageItem.h"
 #include "./Presenters/NumericSettingsPageItem.h"
 #include "./Presenters/OptionsSettingsPageItem.h"
@@ -11,7 +10,6 @@
 
 namespace developmentKit::library::uiFramework
 {
-    using namespace developmentKit::library::uiFramework::model;
     using namespace developmentKit::library::uiFramework::presenters;
     using namespace daisy;
 

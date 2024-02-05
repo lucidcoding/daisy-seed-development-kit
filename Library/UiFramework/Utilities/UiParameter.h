@@ -19,7 +19,7 @@ namespace developmentKit::library::uiFramework::utilities
             CUBE,
             LAST,
         };
-        void Init(UiParameterProvider *prmNumericSettingsPageItem, float prmMin, float prmMax, Curve prmCurve);
+        void Init(UiParameterProvider *prmUiParameterProvider, float prmMin, float prmMax, Curve prmCurve);
         float Process();
 
     private:
