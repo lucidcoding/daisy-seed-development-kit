@@ -4,9 +4,9 @@
 
 using namespace daisysp;
 using namespace daisy;
-using namespace developmentKit::stepSequencer;
+using namespace developmentKit::hardware::stepSequencer::drivers;
 
-#define LED_COUNT 23
+#define LED_COUNT 35
 #define PROCESS_INTERVAL_US 250
 #define LED_CHANGE_STEPS 4000
 
@@ -42,7 +42,7 @@ int main(void)
             ledIndex = (ledIndex + 1) % LED_COUNT;
         }
 
-        interface.ScanLeds(0 | (1 << ledIndex), currentTicks);
+        interface.ScanLeds(((uint64_t)1 << ledIndex), currentTicks);
         uint32_t lastKeyPress =  interface.ScanKeys(currentTicks);
 
         if (lastKeyPress != STEP_SEQUENCER_KEYS_NO_KEY_PRESS)

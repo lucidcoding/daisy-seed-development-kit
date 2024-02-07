@@ -5,7 +5,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
     void Keys::Init()
     {
         Mcp23017::Config config;
-        config.transport_config.i2c_address = 0x20;
+        config.transport_config.i2c_address = 0x21;
         config.transport_config.i2c_config.periph = I2CHandle::Config::Peripheral::I2C_1;
         config.transport_config.i2c_config.speed = I2CHandle::Config::Speed::I2C_1MHZ;
         config.transport_config.i2c_config.mode = I2CHandle::Config::Mode::I2C_MASTER;
@@ -32,21 +32,22 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
             for (uint8_t rowIndex = 0; rowIndex < STEP_SEQUENCER_KEYS_NUMBER_OF_ROWS; rowIndex++)
             {
-                uint8_t keyIndex = keyLookup[currentColumnIndex][rowIndex];
+                uint8_t keyNumber = keyLookup[currentColumnIndex][rowIndex];
+                uint8_t keyIndex = keyNumber - 1;
 
-                if (keyIndex != STEP_SEQUENCER_KEYS_NOT_USED)
+                if (keyNumber != STEP_SEQUENCER_KEYS_NOT_USED)
                 {
                     uint8_t rowPin = rowPins[rowIndex];
                     uint8_t currentIndividualState = mcp.GetPin(rowPin) == STEP_SEQUENCER_KEYS_NO_KEY_PRESS ? 0 : 1;
                     uint8_t lastIndivdualState = (state & (1 << keyIndex)) > 0 ? 1 : 0;
-                    debounceBuffer[keyIndex] = (debounceBuffer[keyIndex] << 1) | currentIndividualState;
+                    debounceBuffer[keyNumber] = (debounceBuffer[keyNumber] << 1) | currentIndividualState;
 
-                    if (lastIndivdualState == 0 && debounceBuffer[keyIndex] == 0xFF)
+                    if (lastIndivdualState == 0 && debounceBuffer[keyNumber] == 0xFF)
                     {
                         state = state | (1 << keyIndex);
                         returnValue = state;
                     }
-                    else if (lastIndivdualState == 1 && debounceBuffer[keyIndex] == 0x00)
+                    else if (lastIndivdualState == 1 && debounceBuffer[keyNumber] == 0x00)
                     {
                         state = state & ~(1 << keyIndex);
                         returnValue = state;

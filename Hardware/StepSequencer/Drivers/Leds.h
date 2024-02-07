@@ -27,14 +27,14 @@ namespace developmentKit::hardware::stepSequencer::drivers
         uint64_t state;
         uint8_t currentColumnIndex;
         uint8_t columnPins[STEP_SEQUENCER_LEDS_NUMBER_OF_COLUMNS] = {8, 9, 10, 11, 12, 13};
-        uint8_t rowPins[STEP_SEQUENCER_LEDS_NUMBER_OF_ROWS] = {1, 4, 5, 6};
+        uint8_t rowPins[STEP_SEQUENCER_LEDS_NUMBER_OF_ROWS] = {5, 6, 7, 4, 3, 2};
         uint8_t ledLookup[STEP_SEQUENCER_LEDS_NUMBER_OF_COLUMNS][STEP_SEQUENCER_LEDS_NUMBER_OF_ROWS] = {
-            {22, 10, 0, 11},
-            {21, 9, 1, 12},
-            {20, 8, 2, 13},
-            {19, 7, 3, 14},
-            {18, 6, 4, 15},
-            {17, 5, STEP_SEQUENCER_LEDS_NOT_USED, 16}};
+            {18, 29, 30, 4, 2, STEP_SEQUENCER_LEDS_NOT_USED},
+            {19, 28, 31, 7, 1, 17},
+            {20, 27, 32, 9, 3, 15},
+            {21, 26, 33, 11, 5, 13},
+            {22, 25, 34, 14, 6, 12},
+            {23, 24, 35, 16, 8, 10}};
         uint32_t lastTicks;
         uint32_t ticksPerUs;
     };

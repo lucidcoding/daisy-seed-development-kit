@@ -27,15 +27,15 @@ namespace developmentKit::hardware::stepSequencer::drivers
     private:
         Mcp23017 mcp;
         uint8_t currentColumnIndex;
-        uint8_t columnPins[STEP_SEQUENCER_KEYS_NUMBER_OF_COLUMNS] = {8, 9, 10, 11, 12, 13};
-        uint8_t rowPins[STEP_SEQUENCER_KEYS_NUMBER_OF_ROWS] = {0, 2, 3, 7};
+        uint8_t columnPins[STEP_SEQUENCER_KEYS_NUMBER_OF_COLUMNS] = {13, 12, 11, 10, 9, 8};
+        uint8_t rowPins[STEP_SEQUENCER_KEYS_NUMBER_OF_ROWS] = {4, 5, 6, 7};
         uint8_t keyLookup[STEP_SEQUENCER_KEYS_NUMBER_OF_COLUMNS][STEP_SEQUENCER_KEYS_NUMBER_OF_ROWS] = {
-            {10, 11, 22, 0},
-            {9, 12, 21, 1},
-            {8, 13, 20, 2},
-            {7, 14, 19, 3},
-            {6, 15, 18, 4},
-            {5, 16, 17, STEP_SEQUENCER_KEYS_NOT_USED}};
+            {19, 5, 6, STEP_SEQUENCER_KEYS_NOT_USED},
+            {18, 3, 8, 20},
+            {16, 1, 10, 21},
+            {14, 2, 12, 23},
+            {11, 4, 13, 22},
+            {9, 7, 15, 17}};
         uint32_t state;
         uint32_t lastTicks;
         uint32_t ticksPerUs;
