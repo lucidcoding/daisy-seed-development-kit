@@ -35,12 +35,16 @@ namespace developmentKit::hardware::stepSequencer::drivers
             {
                 uint8_t currentRowPin = rowPins[currentRowIndex];
                 uint8_t ledNumber = ledLookup[currentColumnIndex][currentRowIndex];
-                uint8_t ledIndex = ledNumber - 1;
-                uint8_t ledState = (state >> ledIndex) & 1;
 
-                if (ledNumber != STEP_SEQUENCER_LEDS_NOT_USED && ledState == 1)
+                if (ledNumber != STEP_SEQUENCER_LEDS_NOT_USED)
                 {
-                    portAValue = portAValue | (1 << currentRowPin);
+                    uint8_t ledIndex = ledNumber - 1;
+                    uint8_t ledState = (state >> ledIndex) & 1;
+
+                    if (ledState == 1)
+                    {
+                        portAValue = portAValue | (1 << currentRowPin);
+                    }
                 }
             }
 
