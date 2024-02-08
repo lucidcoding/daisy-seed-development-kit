@@ -29,12 +29,12 @@ namespace developmentKit::hardware::stepSequencer::drivers
         uint8_t columnPins[STEP_SEQUENCER_LEDS_NUMBER_OF_COLUMNS] = {8, 9, 10, 11, 12, 13};
         uint8_t rowPins[STEP_SEQUENCER_LEDS_NUMBER_OF_ROWS] = {5, 6, 7, 4, 3, 2};
         uint8_t ledLookup[STEP_SEQUENCER_LEDS_NUMBER_OF_COLUMNS][STEP_SEQUENCER_LEDS_NUMBER_OF_ROWS] = {
-            {18, 29, 30, 4, 2, STEP_SEQUENCER_LEDS_NOT_USED},
-            {19, 28, 31, 7, 1, 17},
-            {20, 27, 32, 9, 3, 15},
-            {21, 26, 33, 11, 5, 13},
-            {22, 25, 34, 14, 6, 12},
-            {23, 24, 35, 16, 8, 10}};
+            {17, 28, 29, 3, 1, STEP_SEQUENCER_LEDS_NOT_USED},
+            {18, 27, 30, 6, 0, 16},
+            {19, 26, 31, 8, 2, 14},
+            {20, 25, 32, 10, 4, 12},
+            {21, 24, 33, 13, 5, 11},
+            {22, 23, 34, 15, 7, 9}};
         uint32_t lastTicks;
         uint32_t ticksPerUs;
     };

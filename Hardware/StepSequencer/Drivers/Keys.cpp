@@ -32,11 +32,10 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
             for (uint8_t rowIndex = 0; rowIndex < STEP_SEQUENCER_KEYS_NUMBER_OF_ROWS; rowIndex++)
             {
-                uint8_t keyNumber = keyLookup[currentColumnIndex][rowIndex];
+                uint8_t keyIndex = keyLookup[currentColumnIndex][rowIndex];
 
-                if (keyNumber != STEP_SEQUENCER_KEYS_NOT_USED)
+                if (keyIndex != STEP_SEQUENCER_KEYS_NOT_USED)
                 {
-                    uint8_t keyIndex = keyNumber - 1;
                     uint8_t rowPin = rowPins[rowIndex];
                     uint8_t currentIndividualState = mcp.GetPin(rowPin) == STEP_SEQUENCER_KEYS_NO_KEY_PRESS ? 0 : 1;
                     uint8_t lastIndivdualState = (state & (1 << keyIndex)) > 0 ? 1 : 0;

@@ -30,12 +30,12 @@ namespace developmentKit::hardware::stepSequencer::drivers
         uint8_t columnPins[STEP_SEQUENCER_KEYS_NUMBER_OF_COLUMNS] = {13, 12, 11, 10, 9, 8};
         uint8_t rowPins[STEP_SEQUENCER_KEYS_NUMBER_OF_ROWS] = {4, 5, 6, 7};
         uint8_t keyLookup[STEP_SEQUENCER_KEYS_NUMBER_OF_COLUMNS][STEP_SEQUENCER_KEYS_NUMBER_OF_ROWS] = {
-            {19, 5, 6, STEP_SEQUENCER_KEYS_NOT_USED},
-            {18, 3, 8, 20},
-            {16, 1, 10, 21},
-            {14, 2, 12, 23},
-            {11, 4, 13, 22},
-            {9, 7, 15, 17}};
+            {18, 4, 5, STEP_SEQUENCER_KEYS_NOT_USED},
+            {17, 2, 7, 19},
+            {15, 0, 9, 20},
+            {13, 1, 11, 22},
+            {10, 3, 12, 21},
+            {8, 6, 14, 16}};
         uint32_t state;
         uint32_t lastTicks;
         uint32_t ticksPerUs;
