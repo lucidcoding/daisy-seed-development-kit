@@ -35,8 +35,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
             ledStates[ledToSet] = (ledToSet == noteToLedLookup[step.note]) && step.gate;
         }
 
-        ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_FUNC] = false;
-
         if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY)
         {
             ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_PLAY] = true;
@@ -52,8 +50,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
             ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_PLAY] = false;
             ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_REC] = false;
         }
-
-        ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_MEMORY] = false;
 
         for (uint8_t ledToSet = STEP_SEQUENCER_CONTROLLER_LEDS_C; ledToSet <= STEP_SEQUENCER_CONTROLLER_LEDS_C2; ledToSet++)
         {

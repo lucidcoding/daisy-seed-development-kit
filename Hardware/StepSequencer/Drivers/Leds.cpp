@@ -5,7 +5,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
     void Leds::Init()
     {
         Mcp23017::Config config;
-        config.transport_config.i2c_address = 0x20;
+        config.transport_config.i2c_address = STEP_SEQUENCER_LEDS_I2C_ADDRESS;
         config.transport_config.i2c_config.periph = I2CHandle::Config::Peripheral::I2C_1;
         config.transport_config.i2c_config.speed = I2CHandle::Config::Speed::I2C_1MHZ;
         config.transport_config.i2c_config.mode = I2CHandle::Config::Mode::I2C_MASTER;
