@@ -16,8 +16,11 @@ Metro metro;
 bool gate;
 PotentiometerArray potentiometerArray;
 uint8_t displayValues[16];
+float initialKnobPosition[16];
 float actualValuesSet1[16];
 float actualValuesSet2[16];
+bool caughtValue[16];
+uint8_t knobMode = 1; // 0 = Direct, 1 = Catch
 
 void ProcessControls()
 {
@@ -26,11 +29,32 @@ void ProcessControls()
         float division = 1.0f / 256.0f;
         float hysteresisBand = division / 4.0f;
         float rawValue = potentiometerArray.analogControl[i].GetRawFloat();
-        uint8_t newDisplayValue = rawValue * 256;
+
+        if (knobMode == 0)
+        {
+            if (abs(initialKnobPosition[i] - rawValue) > division)
+            {
+                caughtValue[i] = true;
+            }
+        }
+        else
+        {
+            if ((initialKnobPosition[i] > actualValuesSet1[i] && rawValue < actualValuesSet1[i]) || (initialKnobPosition[i] < actualValuesSet1[i] && rawValue > actualValuesSet1[i]))
+            {
+                caughtValue[i] = true;
+            }
+        }
+
+        if (caughtValue[i])
+        {
+            actualValuesSet1[i] = rawValue;
+        }
+
+        uint8_t newDisplayValue = actualValuesSet1[i] * 256;
 
         // if new value is only one more and raw value is towrds the lower end of the new value
 
-        if ((newDisplayValue == displayValues[i] + 1) && rawValue > (division * (displayValues[i] + 1)) + hysteresisBand)
+        if ((newDisplayValue == displayValues[i] + 1) && actualValuesSet1[i] > (division * (displayValues[i] + 1)) + hysteresisBand)
         {
             displayValues[i] = newDisplayValue;
         }
@@ -38,7 +62,7 @@ void ProcessControls()
         {
             displayValues[i] = newDisplayValue;
         }
-        else if ((newDisplayValue == displayValues[i] - 1) && rawValue < (division * displayValues[i]) - hysteresisBand)
+        else if ((newDisplayValue == displayValues[i] - 1) && actualValuesSet1[i] < (division * displayValues[i]) - hysteresisBand)
         {
             displayValues[i] = newDisplayValue;
         }
@@ -46,6 +70,11 @@ void ProcessControls()
         {
             displayValues[i] = newDisplayValue;
         }
+
+        /*if(caughtValue[i])
+        {
+            actualValuesSet1[i] = rawValue;
+        }*/
     }
 }
 
@@ -119,7 +148,7 @@ void UpdateDisplay()
         char buffer[50];
         sprintf(buffer, "%d", displayValues[i]);
         driver.DrawRect(Rectangle(x, y, cellWidth, cellHeight), COLOR_WHITE);
-        driver.WriteStringAligned(buffer, Font_11x18, Rectangle(x, y, cellWidth, cellHeight - 11), Alignment::centered, COLOR_WHITE);
+        driver.WriteStringAligned(buffer, Font_11x18, Rectangle(x, y, cellWidth, cellHeight - 11), Alignment::centered, caughtValue[i] ? COLOR_WHITE : COLOR_GRAY);
         driver.WriteStringAligned("VALUE", Font_6x8, Rectangle(x, y + cellHeight - 25, cellWidth, 25), Alignment::centered, COLOR_WHITE);
     }
 
@@ -132,7 +161,8 @@ void InitControls()
 
     for (uint8_t i = 0; i < 16; i++)
     {
-        displayValues[i] = potentiometerArray.analogControl[i].GetRawFloat() * 256;
+        initialKnobPosition[i] = potentiometerArray.analogControl[i].GetRawFloat();
+        displayValues[i] = initialKnobPosition[i] * 256;
     }
 }
 
@@ -142,6 +172,7 @@ void InitValueSets()
     {
         actualValuesSet1[i] = 0.1;
         actualValuesSet2[i] = 0.7;
+        caughtValue[i] = false;
     }
 }
 
@@ -161,7 +192,8 @@ int main(void)
     hw.StartAudio(AudioCallback);
 
     uint32_t lastTicksRefresh = System::GetTick();
-    uint32_t lastTicksMove = System::GetTick();
+    uint32_t lastTicksRefreshDisplay = System::GetTick();
+    uint32_t lastTicksRShowValues = System::GetTick();
     const uint32_t ticksPerUs = System::GetTickFreq() / 1000000;
 
     for (;;)
@@ -172,6 +204,12 @@ int main(void)
         {
             lastTicksRefresh = currentTicks;
             UpdateDisplay();
+        }
+
+        if (currentTicks - lastTicksRShowValues > (1000000 * ticksPerUs))
+        {
+            lastTicksRShowValues = currentTicks;
+            hw.PrintLine("P0: %3.5f\tP1: %3.5f\tP2: %3.5f\tP3: %3.5f\t", actualValuesSet1[0], actualValuesSet1[1], actualValuesSet1[2], actualValuesSet1[3]);
         }
     }
 }
