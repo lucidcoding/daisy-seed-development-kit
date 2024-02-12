@@ -4,7 +4,7 @@
 #include "../../Display.h"
 #include "../../Utilities/UiParameter.h"
 #include "../../Presenters/ListPage.h"
-#include "../../View/ListPageView.h"
+#include "../../View/ListPageSsd1306I2cView.h"
 #include "../../Presenters/NavigationPageItem.h"
 #include "../../Presenters/OptionsSettingsPageItem.h"
 
@@ -150,14 +150,11 @@ void InitEncoder(float sampleRate)
 void InitDisplay()
 {
     // Setup view and home page.
-    ListPageView *homeListPageView = new ListPageView(&oledDisplay);
-    ListPage *homeListPage = new ListPage(homeListPageView);
-    homeListPageView->SetListPage(homeListPage);
+    ListPageSsd1306I2cView *listPageView = new ListPageSsd1306I2cView(&oledDisplay);
+    ListPage *homeListPage = new ListPage(listPageView);
 
     // Setup oscillator page and add to home page.
-    ListPageView *oscillatorListPageView = new ListPageView(&oledDisplay);
-    ListPage *oscillatorListPage = new ListPage(oscillatorListPageView);
-    oscillatorListPageView->SetListPage(oscillatorListPage);
+    ListPage *oscillatorListPage = new ListPage(listPageView);
     oscillatorListPage->AddItem(new NavigationPageItem("Back...", homeListPage, &display));
     NumericSettingsPageItem *levelSettingsPageItem = new NumericSettingsPageItem("Level", oscillatorListPage, 0, 127, 16);
     oscillatorListPage->AddItem(levelSettingsPageItem);
@@ -172,9 +169,7 @@ void InitDisplay()
     homeListPage->AddItem(new NavigationPageItem("Oscillator...", oscillatorListPage, &display));
 
     // Setup envelope page and add to home page.
-    ListPageView *adsrListPageView = new ListPageView(&oledDisplay);
-    ListPage *adsrListPage = new ListPage(adsrListPageView);
-    adsrListPageView->SetListPage(adsrListPage);
+    ListPage *adsrListPage = new ListPage(listPageView);
     adsrListPage->AddItem(new NavigationPageItem("Back...", homeListPage, &display));
     NumericSettingsPageItem *attackSettingsPageItem = new NumericSettingsPageItem("Attack", adsrListPage, 0, 127, 0);
     adsrListPage->AddItem(attackSettingsPageItem);

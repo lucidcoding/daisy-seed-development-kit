@@ -7,7 +7,7 @@ test:
 		../../Presenters/NavigationPageItem.cpp \
 		../../Presenters/NumericSettingsPageItem.cpp \
 		../../Presenters/OptionsSettingsPageItem.cpp \
-		../../Presenters/SettingsPageItem.cpp
+		../../Presenters/SettingsPageItem.cpp 
 
 clean:
 	rm -f rm -fR build

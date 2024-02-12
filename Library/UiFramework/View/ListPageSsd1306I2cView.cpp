@@ -1,7 +1,7 @@
 #include <string>
 #include "daisy_seed.h"
 #include "daisysp.h"
-#include "ListPageView.h"
+#include "ListPageSsd1306I2cView.h"
 #include "../Presenters/ListPage.h"
 #include "../Presenters/SettingsPageItem.h"
 
@@ -10,18 +10,14 @@ namespace developmentKit::library::uiFramework::view
     using namespace std;
     using namespace developmentKit::library::uiFramework::presenters;
 
-    ListPageView::ListPageView(OledDisplay<SSD130xI2c128x64Driver> *prmDisplay)
+    ListPageSsd1306I2cView::ListPageSsd1306I2cView(OledDisplay<SSD130xI2c128x64Driver> *prmDisplay)
     {
         display = prmDisplay;
     }
 
-    void ListPageView::SetListPage(ListPage *prmListPage)
+    void ListPageSsd1306I2cView::Paint(Page *page)
     {
-        listPage = prmListPage;
-    }
-
-    void ListPageView::Paint()
-    {
+        ListPage *listPage = static_cast<ListPage *>(page);
         const int rowHeight = 12;
         display->Fill(false);
         char title[25];

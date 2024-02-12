@@ -13,7 +13,7 @@ namespace developmentKit::library::uiFramework::tests
     public:
         MockView() {}
         ~MockView() {}
-        void Paint() {}
+        void Paint(Page *page) {}
 
     private:
     };

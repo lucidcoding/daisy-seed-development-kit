@@ -79,6 +79,6 @@ namespace developmentKit::library::uiFramework::presenters
 
     void ListPage::Paint()
     {
-        view->Paint();
+        view->Paint(this);
     }
 }

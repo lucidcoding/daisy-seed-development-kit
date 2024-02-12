@@ -11,7 +11,7 @@ namespace developmentKit::library::uiFramework::view
     class View
     {
     public:
-        virtual void Paint() = 0;
+        virtual void Paint(Page *page) = 0;
 
     private:
     };
