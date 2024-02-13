@@ -1,6 +1,6 @@
 #pragma once
-#ifndef LIST_PAGE_VIEW_H
-#define LIST_PAGE_VIEW_H
+#ifndef LIST_PAGE_SSD1306_I2C_VIEW_H
+#define LIST_PAGE_SSD1306_I2C_VIEW_H
 
 #include "View.h"
 #include "../Presenters/ListPage.h"

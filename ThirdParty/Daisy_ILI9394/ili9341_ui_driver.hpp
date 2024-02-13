@@ -1,4 +1,6 @@
 #pragma once
+#ifndef ILI9341_UI_DRIVER_HPP
+#define ILI9341_UI_DRIVER_HPP
 
 #include <cstring>
 
@@ -1098,3 +1100,5 @@ class UiDriver
 
     uint16_t fps = 0;
 };
+
+#endif

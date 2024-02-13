@@ -67,6 +67,6 @@ namespace developmentKit::library::uiFramework::view
             }
         }
 
-        display->Update();
+        // display->Update();
     }
 }

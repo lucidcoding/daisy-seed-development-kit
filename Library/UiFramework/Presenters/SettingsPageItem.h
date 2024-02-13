@@ -13,8 +13,8 @@ namespace developmentKit::library::uiFramework::presenters
     class SettingsPageItem : public PageItem
     {
     public:
-    SettingsPageItem() {}
-    ~SettingsPageItem(){}
+        SettingsPageItem() {}
+        ~SettingsPageItem() {}
         virtual void Increment() = 0;
         virtual void Decrement() = 0;
         void Select();
@@ -23,6 +23,7 @@ namespace developmentKit::library::uiFramework::presenters
         virtual PageItemType GetType() = 0;
 
     private:
+    
     protected:
         ListPage *parent;
     };
