@@ -1,6 +1,6 @@
 #include "daisy_seed.h"
 #include "daisysp.h"
-#include "../../Packages/Daisy_ILI9394/ili9341_ui_driver.cpp"
+#include "../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.cpp"
 #include "../../Hardware/PotentiometerArray/Drivers/PotentiometerArray.h"
 
 using namespace daisy;
