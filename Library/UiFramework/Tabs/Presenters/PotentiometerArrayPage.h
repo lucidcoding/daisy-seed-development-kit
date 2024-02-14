@@ -1,12 +1,12 @@
 #pragma once
-#ifndef TAB_PAGE_H
-#define TAB_PAGE_H
+#ifndef POTENTIOMETER_ARRAY_PAGE_H
+#define POTENTIOMETER_ARRAY_PAGE_H
 
 #include <string>
 #include <vector>
 #include "Page.h"
-#include "TabPageItem.h"
 #include "../View/View.h"
+#include "PotentiometerArrayPageItem.h"
 
 using namespace std;
 
@@ -14,26 +14,21 @@ namespace developmentKit::library::uiFramework::tabs::presenters
 {
     using namespace developmentKit::library::uiFramework::tabs::view;
     
-    class TabPage : public Page
+    class PotentiometerArrayPage : public Page
     {
     public:
-        TabPage(View *prmView);
-        ~TabPage() {}
+        PotentiometerArrayPage(View *prmView);
+        ~PotentiometerArrayPage() {}
         virtual void Increment();
         virtual void Decrement();
-        virtual void Select();
         virtual void SetPotentiometerValue(uint8_t index, float value);
-        TabPageItem *GetItem(uint8_t index);
-        void AddItem(TabPageItem *item);
-        uint8_t ItemsCount();
-        uint8_t GetCurrentIndex();
+        void Select();
         void Paint();
+        PotentiometerArrayPageItem * GetItem(uint8_t index);
 
     private:
-        vector<TabPageItem *> items;
-        uint8_t currentIndex;
-        bool itemSelected;
         View *view;
+        PotentiometerArrayPageItem items[16];
     };
 }
 

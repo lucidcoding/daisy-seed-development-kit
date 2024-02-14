@@ -18,26 +18,59 @@ namespace developmentKit::library::uiFramework::tabs::view
 
     void TabPageIli9341View::Paint(Page *page)
     {
-        
-        displayHardware->Fill(COLOR_BLACK);
-        displayHardware->WriteString("TEST 3", 0, 14, Font_16x26, COLOR_WHITE);
-
-        /*TabPage *tabPage = static_cast<TabPage *>(page);
-        const uint8_t x = 0;
-        const uint8_t y = 0;
-        const uint8_t width = 320;
-        const uint8_t height = 240;
-        const uint8_t rowHeight = 12;
-        const uint8_t maxRows = height / rowHeight;
-        const uint16_t valueWidth = width / 4;
+        TabPage *tabPage = static_cast<TabPage *>(page);
+        const uint16_t x = 0;
+        const uint16_t y = 0;
+        const uint16_t width = 320;
+        const uint16_t height = 240;
+        const uint16_t tabWidth = 60;
+        const uint16_t tabHeight = 12;
+        const uint16_t tabSlopeOffset = 5;
         const FontDef fontDef = Font_7x10;
+        const uint8_t maxTabs = width / tabWidth;
         displayHardware->Fill(COLOR_BLACK);
         char title[25];
-        TabPageItem *tabPageItem = tabPage->GetItem(0);
-        strcpy(title, tabPageItem->GetTitle().c_str());
-        
-        displayHardware->WriteString(title, x + 1, 14, fontDef, COLOR_WHITE);*/
+        uint8_t selectedIndex = tabPage->GetCurrentIndex();
+        displayHardware->DrawLine(0, tabHeight, width, tabHeight, COLOR_WHITE);
 
-        //displayHardware->Update();
+        uint8_t tabsToShow;
+
+        if (tabPage->ItemsCount() <= maxTabs)
+        {
+            tabsToShow = tabPage->ItemsCount();
+        }
+        else if (tabPage->GetCurrentIndex() == tabPage->ItemsCount() - 1)
+        {
+            tabsToShow = maxTabs;
+        }
+        else
+        {
+            tabsToShow = maxTabs + 1;
+        }
+
+        uint8_t startTab = tabPage->GetCurrentIndex() < maxTabs ? 0 : tabPage->GetCurrentIndex() - maxTabs + 1;
+
+        for (uint8_t visibleTabIndex = 0; visibleTabIndex < tabsToShow; visibleTabIndex++)
+        {
+            uint8_t currentIndex = startTab + visibleTabIndex;
+            TabPageItem *tabPageItem = tabPage->GetItem(currentIndex);
+            strcpy(title, tabPageItem->GetTitle().c_str());
+            uint16_t xOffset = visibleTabIndex * tabWidth;
+
+            displayHardware->DrawLine(xOffset, 1, xOffset, tabHeight, COLOR_WHITE);
+            displayHardware->DrawLine(xOffset + 1, 0, xOffset + tabWidth - tabSlopeOffset - 1, 0, COLOR_WHITE);
+            displayHardware->DrawLine(xOffset + tabWidth - tabSlopeOffset, 0, xOffset + tabWidth, tabHeight, COLOR_WHITE);
+            displayHardware->WriteString(title, xOffset + 5, 2, fontDef, COLOR_WHITE);
+
+            if (currentIndex == selectedIndex)
+            {
+                displayHardware->DrawLine(xOffset + 1, tabHeight, xOffset + tabWidth - 1, tabHeight, COLOR_BLACK);
+                tabPageItem->GetContent()->Paint();
+            }
+        }
+
+        displayHardware->DrawLine(0, tabHeight, 0, height - 1, COLOR_WHITE);
+        displayHardware->DrawLine(0, height - 1, width - 1, height - 1, COLOR_WHITE);
+        displayHardware->DrawLine(width - 1, tabHeight - 1, width - 1, height - 1, COLOR_WHITE);
     }
 }

@@ -13,10 +13,23 @@ namespace developmentKit::library::uiFramework::tabs::presenters
 
     void TabPage::Increment()
     {
+        if (currentIndex < items.size() - 1)
+        {
+            currentIndex++;
+        }
     }
 
     void TabPage::Decrement()
     {
+        if (currentIndex > 0)
+        {
+            currentIndex--;
+        }
+    }
+
+    void TabPage::SetPotentiometerValue(uint8_t index, float value)
+    {
+        items[currentIndex]->GetContent()->SetPotentiometerValue(index, value);
     }
 
     void TabPage::Select()
@@ -33,9 +46,18 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         items.push_back(item);
     }
 
+    uint8_t TabPage::ItemsCount()
+    {
+        return items.size();
+    }
+
+    uint8_t TabPage::GetCurrentIndex()
+    {
+        return currentIndex;
+    }
+
     void TabPage::Paint()
     {
         view->Paint(this);
-        //items[currentIndex]->GetContent()->Paint();
     }
 }

@@ -24,6 +24,11 @@ namespace developmentKit::library::uiFramework::tabs
         currentPage->Select();
     }
 
+    void Display::SetPotentiometerValue(uint8_t index, float value)
+    {
+        currentPage->SetPotentiometerValue(index, value);
+    }
+
     Page *Display::GetCurrentPage()
     {
         return currentPage;

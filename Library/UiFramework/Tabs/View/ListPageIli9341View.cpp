@@ -36,7 +36,7 @@ namespace developmentKit::library::uiFramework::tabs::view
         const uint8_t maxRows = height / rowHeight;
         const uint16_t valueWidth = width / 4;
         const FontDef fontDef = Font_7x10;
-        displayHardware->Fill(COLOR_BLACK);
+        displayHardware->FillRect(Rectangle(x, y, width, height), COLOR_BLACK);
         char title[25];
         uint8_t rowsToShow = listPage->ItemsCount() <= maxRows ? listPage->ItemsCount() : maxRows;
         uint8_t startRow = listPage->GetCurrentIndex() < maxRows ? 0 : listPage->GetCurrentIndex() - maxRows +1;
@@ -55,12 +55,12 @@ namespace developmentKit::library::uiFramework::tabs::view
 
                 if (hasFocus && !listPage->GetItemSelected())
                 {
-                    displayHardware->FillRect(Rectangle(x, startPosition, width, rowHeight - 1), COLOR_WHITE);
+                    displayHardware->FillRect(Rectangle(x, startPosition, width, rowHeight - 1), COLOR_BLUE);
                 }
 
                 if (hasFocus && listPage->GetItemSelected())
                 {
-                    displayHardware->FillRect(Rectangle(x + width - valueWidth, startPosition, valueWidth, rowHeight - 1), COLOR_WHITE);
+                    displayHardware->FillRect(Rectangle(x + width - valueWidth, startPosition, valueWidth, rowHeight - 1), COLOR_BLUE);
                 }
 
                 displayHardware->WriteString(title, x + 1, startPosition + 2, fontDef, !hasFocus || listPage->GetItemSelected() ? COLOR_WHITE : COLOR_BLACK);
@@ -70,7 +70,7 @@ namespace developmentKit::library::uiFramework::tabs::view
             {
                 if (hasFocus)
                 {
-                    displayHardware->FillRect(Rectangle(x, startPosition, width, rowHeight - 1), COLOR_WHITE);
+                    displayHardware->FillRect(Rectangle(x, startPosition, width, rowHeight - 1), COLOR_BLUE);
                 }
 
                 displayHardware->WriteString(title, x + 1, startPosition + 2, fontDef, !hasFocus ? COLOR_WHITE : COLOR_BLACK);

@@ -6,11 +6,8 @@
 #include "../../Presenters/ListPage.h"
 #include "../../View/ListPageSsd1306I2cView.h"
 #include "../../View/ListPageIli9341View.h"
-#include "../../View/TabPageIli9341View.h"
 #include "../../Presenters/NavigationPageItem.h"
 #include "../../Presenters/OptionsSettingsPageItem.h"
-#include "../../Presenters/TabPageItem.h"
-#include "../../Presenters/TabPage.h"
 #include "../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
 
 #define PIN_I2C_SCL 8
@@ -49,8 +46,6 @@ OptionsSettingsPageItem *waveformSettingsPageItem;
 void UpdateDisplay()
 {
     display.Paint();
-    // oledDisplay.Update();
-    // tftDisplay.Update();
 }
 
 void ProcessEncoder()
@@ -165,7 +160,7 @@ void InitDisplay()
 {
     // Setup view and home page.
     // ListPageSsd1306I2cView *listPageView = new ListPageSsd1306I2cView(&oledDisplay);
-    //ListPageIli9341View *listPageView = new ListPageIli9341View(&tftDisplay);
+    // ListPageIli9341View *listPageView = new ListPageIli9341View(&tftDisplay);
     ListPageIli9341View *listPageView = new ListPageIli9341View(&tftDisplay, 20, 20, 280, 200);
     ListPage *homeListPage = new ListPage(listPageView);
 
@@ -218,33 +213,6 @@ void InitDisplay()
     releaseParameter.Init(releaseSettingsPageItem, 0.0f, 1.0f, UiParameter::LINEAR);
 }
 
-
-void InitTabbedDisplay()
-{
-    // Setup view and home page.
-    // ListPageSsd1306I2cView *listPageView = new ListPageSsd1306I2cView(&oledDisplay);
-    //ListPageIli9341View *listPageView = new ListPageIli9341View(&tftDisplay);
-    TabPageIli9341View *tabPageView = new TabPageIli9341View(&tftDisplay);
-    ListPageIli9341View *listPageView = new ListPageIli9341View(&tftDisplay, 20, 20, 280, 200);
-    TabPage *tabPage = new TabPage(tabPageView);
-    ListPage *listPage = new ListPage(listPageView);
-
-    // Other pages
-    char title[25];
-    for (uint8_t i = 0; i < 25; i++)
-    {   
-        sprintf(title, "Filler %d...", i);
-        listPage->AddItem(new NavigationPageItem(title, new ListPage(listPageView), &display));
-    }
-
-    tabPage->AddItem(new TabPageItem("PAGE 1", listPage));
-
-    // Set display home page and current page.
-    display.SetHomePage(tabPage);
-    display.SetCurrentPage(tabPage);
-
-}
-
 int main(void)
 {
     hardware.Configure();
@@ -257,7 +225,6 @@ int main(void)
     InitTftDisplay();
     InitEncoder(sampleRate);
     InitDisplay();
-    //InitTabbedDisplay();
     hardware.StartAudio(AudioCallback);
 
     UpdateDisplay();

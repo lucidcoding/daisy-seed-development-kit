@@ -22,6 +22,7 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         virtual void Increment();
         virtual void Decrement();
         virtual void Select();
+        virtual void SetPotentiometerValue(uint8_t index, float value);
         PageItem *GetItem(unsigned int index);
         void AddItem(PageItem *pageItem);
         unsigned int ItemsCount();

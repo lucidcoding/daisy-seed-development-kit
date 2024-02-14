@@ -18,6 +18,7 @@ namespace developmentKit::library::uiFramework::tabs
         void Increment();
         void Decrement();
         void Select();
+        void SetPotentiometerValue(uint8_t index, float value);
         void SetPage(Page *newPage);
         Page *GetCurrentPage();
         void SetCurrentPage(Page *newCurrentPage);

@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN // This tells Catch to provide a main() - only do this in one cpp file
 #include "MockUiParameterProvider.h"
 #include "MockView.h"
-#include "../../../../ThirdParty/catch.hpp"
+#include "../../../../../ThirdParty/catch.hpp"
 #include "../../Display.h"
 #include "../../Presenters/ListPage.h"
 #include "../../Presenters/NavigationPageItem.h"
