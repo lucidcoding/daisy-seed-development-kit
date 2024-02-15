@@ -1,6 +1,7 @@
 test:
 	g++ -lstdc++ -o Main.test.exe -DTESTING \
-		Main.test.cpp \
+		UiParameter.test.cpp \
+		ListPage.test.cpp \
 		TabPage.test.cpp \
 		../../Display.cpp \
 		../../Utilities/UiParameter.cpp \

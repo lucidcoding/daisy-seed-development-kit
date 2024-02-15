@@ -31,12 +31,12 @@ using namespace developmentKit::hardware::potentiometerArray::drivers;
 
 static DaisySeed hardware;
 Encoder encoder;
-Oscillator oscillator;
+static Oscillator oscillator;
 Adsr adsr;
 Metro metro;
 bool gate;
-OledDisplay<SSD130xI2c128x64Driver> oledDisplay;
-UiDriver tftDisplay;
+static OledDisplay<SSD130xI2c128x64Driver> oledDisplay;
+static UiDriver tftDisplay;
 PotentiometerArray potentiometerArray;
 Display display;
 
@@ -51,6 +51,9 @@ UiParameter
 PotentiometerArrayPage *potentiometerArrayPage1;
 PotentiometerArrayPage *potentiometerArrayPage2;
 // OptionsSettingsPageItem *waveformSettingsPageItem;
+
+TabPageIli9341View tabPageView(&tftDisplay);
+TabPage tabPage1(&tabPageView);
 
 void UpdateDisplay()
 {
@@ -183,10 +186,8 @@ void InitDisplay()
     // Setup view and home page.
     // ListPageSsd1306I2cView *listPageView = new ListPageSsd1306I2cView(&oledDisplay);
     // ListPageIli9341View *listPageView = new ListPageIli9341View(&tftDisplay);
-    TabPageIli9341View *tabPageView = new TabPageIli9341View(&tftDisplay);
     PotentiometerArrayPageIli9341View *potentiometerArrayPageIli9341View = new PotentiometerArrayPageIli9341View(&tftDisplay, 12, 22, 296, 210);
     ListPageIli9341View *listPageView = new ListPageIli9341View(&tftDisplay, 0, 13, 320, 227);
-    TabPage *tabPage1 = new TabPage(tabPageView);
     potentiometerArrayPage1 = new PotentiometerArrayPage(potentiometerArrayPageIli9341View);
     potentiometerArrayPage2 = new PotentiometerArrayPage(potentiometerArrayPageIli9341View);
     ListPage *listPage1 = new ListPage(listPageView);
@@ -205,20 +206,20 @@ void InitDisplay()
         listPage3->AddItem(new NavigationPageItem(title, new ListPage(listPageView), &display));
     }
 
-    tabPage1->AddItem(new TabPageItem("PAGE 0", potentiometerArrayPage1));
-    tabPage1->AddItem(new TabPageItem("PAGE 1", potentiometerArrayPage2));
-    tabPage1->AddItem(new TabPageItem("PAGE 2", listPage1));
-    tabPage1->AddItem(new TabPageItem("PAGE 3", listPage2));
-    tabPage1->AddItem(new TabPageItem("PAGE 4", listPage3));
-    tabPage1->AddItem(new TabPageItem("PAGE 5", new ListPage(listPageView)));
-    tabPage1->AddItem(new TabPageItem("PAGE 6", new ListPage(listPageView)));
-    tabPage1->AddItem(new TabPageItem("PAGE 7", new ListPage(listPageView)));
-    tabPage1->AddItem(new TabPageItem("PAGE 8", new ListPage(listPageView)));
-    tabPage1->AddItem(new TabPageItem("PAGE 9", new ListPage(listPageView)));
+    tabPage1.AddItem(new TabPageItem("PAGE 0", potentiometerArrayPage1));
+    tabPage1.AddItem(new TabPageItem("PAGE 1", potentiometerArrayPage2));
+    tabPage1.AddItem(new TabPageItem("PAGE 2", listPage1));
+    tabPage1.AddItem(new TabPageItem("PAGE 3", listPage2));
+    tabPage1.AddItem(new TabPageItem("PAGE 4", listPage3));
+    tabPage1.AddItem(new TabPageItem("PAGE 5", new ListPage(listPageView)));
+    tabPage1.AddItem(new TabPageItem("PAGE 6", new ListPage(listPageView)));
+    tabPage1.AddItem(new TabPageItem("PAGE 7", new ListPage(listPageView)));
+    tabPage1.AddItem(new TabPageItem("PAGE 8", new ListPage(listPageView)));
+    tabPage1.AddItem(new TabPageItem("PAGE 9", new ListPage(listPageView)));
 
     // Set display home page and current page.
-    display.SetHomePage(tabPage1);
-    display.SetCurrentPage(tabPage1);
+    display.SetHomePage(&tabPage1);
+    display.SetCurrentPage(&tabPage1);
 }
 
 int main(void)
