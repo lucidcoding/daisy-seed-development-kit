@@ -21,6 +21,14 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         items[index].SetRawValue(value);
     }
 
+    void PotentiometerArrayPage::SetPotentiometerValues(float *values)
+    {
+        for(uint8_t i = 0; i < 16; i++)
+        {
+            items[i].SetRawValue(values[i]);
+        }
+    }
+
     void PotentiometerArrayPage::Select()
     {
     }

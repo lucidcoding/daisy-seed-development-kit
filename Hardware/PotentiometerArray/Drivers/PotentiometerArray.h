@@ -25,6 +25,7 @@ namespace developmentKit::hardware::potentiometerArray::drivers
         void Poll();
         DaisySeed *seed;
         AnalogControl analogControl[POTENTIOMETER_COUNT];
+        float *GetValues();
 
     private:
         const uint8_t inputToIndexMapping[2][8] = {{1, 2, 3, 0, 4, 7, 5, 6}, {10, 9, 8, 11, 12, 15, 13, 14}};

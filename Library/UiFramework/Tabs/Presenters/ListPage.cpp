@@ -47,6 +47,11 @@ namespace developmentKit::library::uiFramework::tabs::presenters
 
     }
 
+    void ListPage::SetPotentiometerValues(float *values)
+    {
+
+    }
+
     void ListPage::Select()
     {
         items[currentIndex]->Select();

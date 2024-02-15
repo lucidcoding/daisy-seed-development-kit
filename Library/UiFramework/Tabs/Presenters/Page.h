@@ -16,6 +16,7 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         virtual void Decrement() = 0;
         virtual void Select() = 0;
         virtual void SetPotentiometerValue(uint8_t index, float value) = 0;
+        virtual void SetPotentiometerValues(float *values);
         virtual void Paint() = 0;
 
     private:

@@ -67,32 +67,34 @@ void ProcessEncoder()
     if (encoderIncrement == 1)
     {
         display.Increment();
-        //UpdateDisplay();
+        // UpdateDisplay();
     }
 
     if (encoderIncrement == -1)
     {
         display.Decrement();
-        //UpdateDisplay();
+        // UpdateDisplay();
     }
 
     if (encoder.RisingEdge())
     {
         display.Select();
-        //UpdateDisplay();
+        // UpdateDisplay();
     }
 }
 
 void ProcessPotentiometerArray()
 {
     potentiometerArray.Process();
+    float values[16];
+    //float *values = potentiometerArray.GetValues();
 
     for (uint8_t i = 0; i < 16; i++)
     {
-        float rawValue = potentiometerArray.analogControl[i].GetRawFloat();
-        display.SetPotentiometerValue(i, rawValue);
-        //potentiometerArrayPage1->GetItem(i)->SetRawValue(rawValue);
+        values[i] = potentiometerArray.analogControl[i].GetRawFloat();
     }
+
+    display.SetPotentiometerValues(values);
 }
 
 static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
@@ -180,7 +182,7 @@ void InitDisplay()
 {
     // Setup view and home page.
     // ListPageSsd1306I2cView *listPageView = new ListPageSsd1306I2cView(&oledDisplay);
-    //ListPageIli9341View *listPageView = new ListPageIli9341View(&tftDisplay);
+    // ListPageIli9341View *listPageView = new ListPageIli9341View(&tftDisplay);
     TabPageIli9341View *tabPageView = new TabPageIli9341View(&tftDisplay);
     PotentiometerArrayPageIli9341View *potentiometerArrayPageIli9341View = new PotentiometerArrayPageIli9341View(&tftDisplay, 12, 22, 296, 210);
     ListPageIli9341View *listPageView = new ListPageIli9341View(&tftDisplay, 0, 13, 320, 227);
@@ -194,7 +196,7 @@ void InitDisplay()
     // Other pages
     char title[25];
     for (uint8_t i = 0; i < 25; i++)
-    {   
+    {
         sprintf(title, "Page 1, %d...", i);
         listPage1->AddItem(new NavigationPageItem(title, new ListPage(listPageView), &display));
         sprintf(title, "Page 2, %d...", i);
@@ -256,11 +258,11 @@ int main(void)
         if (currentTicks - lastTicksRShowValues > (1000000 * ticksPerUs))
         {
             lastTicksRShowValues = currentTicks;
-            hardware.PrintLine("P0: %3.5f\tP1: %3.5f\tP2: %3.5f\tP3: %3.5f\t", 
-                potentiometerArray.analogControl[0].GetRawFloat(),
-                potentiometerArray.analogControl[1].GetRawFloat(), 
-                potentiometerArray.analogControl[2].GetRawFloat(), 
-                potentiometerArray.analogControl[3].GetRawFloat());
+            hardware.PrintLine("P0: %3.5f\tP1: %3.5f\tP2: %3.5f\tP3: %3.5f\t",
+                               potentiometerArray.analogControl[0].GetRawFloat(),
+                               potentiometerArray.analogControl[1].GetRawFloat(),
+                               potentiometerArray.analogControl[2].GetRawFloat(),
+                               potentiometerArray.analogControl[3].GetRawFloat());
         }
     }
 }

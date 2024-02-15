@@ -31,4 +31,16 @@ namespace developmentKit::hardware::potentiometerArray::drivers
             }
         }
     }
+
+    float *PotentiometerArray::GetValues()
+    {
+        float values[16];
+
+        for (int i = 0; i < POTENTIOMETER_COUNT; i++)
+        {
+            values[i] = analogControl[i].GetRawFloat();
+        }
+
+        return values;
+    }
 }

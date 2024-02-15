@@ -32,6 +32,11 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         items[currentIndex]->GetContent()->SetPotentiometerValue(index, value);
     }
 
+    void TabPage::SetPotentiometerValues(float *values)
+    {
+        items[currentIndex]->GetContent()->SetPotentiometerValues(values);
+    }
+
     void TabPage::Select()
     {
     }
