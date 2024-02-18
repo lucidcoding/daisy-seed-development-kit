@@ -27,6 +27,13 @@ namespace developmentKit::library::uiFramework::tabs::presenters
                     knobPositionAndOutputValueSynced = true;
                 }
             }
+            else
+            {
+                if ((initialKnobPosition > outputValue && currentKnobPosition < outputValue) || (initialKnobPosition < outputValue && currentKnobPosition > outputValue))
+                {
+                    knobPositionAndOutputValueSynced = true;
+                }
+            }
         }
 
         if (firstUpdateSinceFocus)
@@ -95,5 +102,10 @@ namespace developmentKit::library::uiFramework::tabs::presenters
     bool PotentiometerArrayPageItem::GetKnobPositionAndOutputValueSynced()
     {
         return knobPositionAndOutputValueSynced;
+    }
+
+    void PotentiometerArrayPageItem::SetKnobMode(KnobMode prmKnobMode)
+    {
+        knobMode = prmKnobMode;
     }
 }

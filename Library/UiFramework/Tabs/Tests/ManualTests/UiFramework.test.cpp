@@ -193,7 +193,9 @@ void InitDisplay()
     ListPage listPage3(&listPageView);
 
     potentiometerArrayPage1.SetOutputValues(initialValues);
+    potentiometerArrayPage1.SetKnobMode(PotentiometerArrayPageItem::CATCH);
     potentiometerArrayPage2.SetOutputValues(initialValues);
+    potentiometerArrayPage2.SetKnobMode(PotentiometerArrayPageItem::CATCH);
 
     // Other pages
     char title[25];

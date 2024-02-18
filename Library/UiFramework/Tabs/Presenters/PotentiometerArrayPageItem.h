@@ -30,6 +30,7 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         int16_t GetDisplayValue();
         void SetFocus();
         bool GetKnobPositionAndOutputValueSynced();
+        void SetKnobMode(KnobMode prmKnobMode);
 
         // Testing only
         float GetInitialKnobPosition() { return initialKnobPosition; }

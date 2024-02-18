@@ -62,6 +62,32 @@ TEST_CASE("Changing knob position will change output value in direct mode if mov
     REQUIRE(item.GetKnobPositionAndOutputValueSynced() == true);
 }
 
+TEST_CASE("Changing knob position will not change output value in catch mode if not moved past inital value")
+{
+    MockView view;
+    PotentiometerArrayPageItem item;
+    item.SetKnobMode(PotentiometerArrayPageItem::CATCH);
+    item.SetOutputValue(0.1f);
+    item.SetFocus();
+    item.SetCurrentKnobPosition(0.5f);
+    item.SetCurrentKnobPosition(0.15f);
+    REQUIRE(item.GetOutputValue() == 0.1f);
+    REQUIRE(item.GetKnobPositionAndOutputValueSynced() == false);
+}
+
+TEST_CASE("Changing knob position will change output value in catch mode if moved past inital value")
+{
+    MockView view;
+    PotentiometerArrayPageItem item;
+    item.SetKnobMode(PotentiometerArrayPageItem::CATCH);
+    item.SetOutputValue(0.1f);
+    item.SetFocus();
+    item.SetCurrentKnobPosition(0.5f);
+    item.SetCurrentKnobPosition(0.05f);
+    REQUIRE(item.GetOutputValue() == 0.05f);
+    REQUIRE(item.GetKnobPositionAndOutputValueSynced() == true);
+}
+
 TEST_CASE("Setting focus when knob position is near output value registers item as in sync")
 {
     MockView view;

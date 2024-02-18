@@ -58,4 +58,12 @@ namespace developmentKit::library::uiFramework::tabs::presenters
     {
         return &(items[index]);
     }
+
+    void PotentiometerArrayPage::SetKnobMode(PotentiometerArrayPageItem::KnobMode prmKnobMode)
+    {
+        for (uint8_t i = 0; i < 16; i++)
+        {
+            items[i].SetKnobMode(prmKnobMode);
+        }
+    }
 }

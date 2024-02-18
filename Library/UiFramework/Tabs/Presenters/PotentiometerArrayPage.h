@@ -28,6 +28,7 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         void SetOutputValues(float *values);
         void Paint();
         PotentiometerArrayPageItem * GetItem(uint8_t index);
+        void SetKnobMode(PotentiometerArrayPageItem::KnobMode prmKnobMode);
 
     private:
         View *view;
