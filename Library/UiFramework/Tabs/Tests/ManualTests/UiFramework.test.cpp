@@ -187,12 +187,10 @@ void InitDisplay()
 {
     float initialValues[16] = {0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f};
     // Setup view and home page.
-    // ListPageSsd1306I2cView *listPageView = new ListPageSsd1306I2cView(&oledDisplay);
-    // ListPageIli9341View *listPageView = new ListPageIli9341View(&tftDisplay);
-    ListPageIli9341View *listPageView = new ListPageIli9341View(&tftDisplay, 0, 13, 320, 227);
-    ListPage *listPage1 = new ListPage(listPageView);
-    ListPage *listPage2 = new ListPage(listPageView);
-    ListPage *listPage3 = new ListPage(listPageView);
+    ListPageIli9341View listPageView(&tftDisplay, 0, 13, 320, 227);
+    ListPage listPage1(&listPageView);
+    ListPage listPage2(&listPageView);
+    ListPage listPage3(&listPageView);
 
     potentiometerArrayPage1.SetOutputValues(initialValues);
     potentiometerArrayPage2.SetOutputValues(initialValues);
@@ -202,23 +200,23 @@ void InitDisplay()
     for (uint8_t i = 0; i < 25; i++)
     {
         sprintf(title, "Page 1, %d...", i);
-        listPage1->AddItem(new NavigationPageItem(title, new ListPage(listPageView), &display));
+        listPage1.AddItem(new NavigationPageItem(title, new ListPage(&listPageView), &display));
         sprintf(title, "Page 2, %d...", i);
-        listPage2->AddItem(new NavigationPageItem(title, new ListPage(listPageView), &display));
+        listPage2.AddItem(new NavigationPageItem(title, new ListPage(&listPageView), &display));
         sprintf(title, "Page 3, %d...", i);
-        listPage3->AddItem(new NavigationPageItem(title, new ListPage(listPageView), &display));
+        listPage3.AddItem(new NavigationPageItem(title, new ListPage(&listPageView), &display));
     }
 
     tabPage1.AddItem(new TabPageItem("PAGE 0", &potentiometerArrayPage1));
     tabPage1.AddItem(new TabPageItem("PAGE 1", &potentiometerArrayPage2));
-    tabPage1.AddItem(new TabPageItem("PAGE 2", listPage1));
-    tabPage1.AddItem(new TabPageItem("PAGE 3", listPage2));
-    tabPage1.AddItem(new TabPageItem("PAGE 4", listPage3));
-    tabPage1.AddItem(new TabPageItem("PAGE 5", new ListPage(listPageView)));
-    tabPage1.AddItem(new TabPageItem("PAGE 6", new ListPage(listPageView)));
-    tabPage1.AddItem(new TabPageItem("PAGE 7", new ListPage(listPageView)));
-    tabPage1.AddItem(new TabPageItem("PAGE 8", new ListPage(listPageView)));
-    tabPage1.AddItem(new TabPageItem("PAGE 9", new ListPage(listPageView)));
+    tabPage1.AddItem(new TabPageItem("PAGE 2", &listPage1));
+    tabPage1.AddItem(new TabPageItem("PAGE 3", &listPage2));
+    tabPage1.AddItem(new TabPageItem("PAGE 4", &listPage3));
+    tabPage1.AddItem(new TabPageItem("PAGE 5", new ListPage(&listPageView)));
+    tabPage1.AddItem(new TabPageItem("PAGE 6", new ListPage(&listPageView)));
+    tabPage1.AddItem(new TabPageItem("PAGE 7", new ListPage(&listPageView)));
+    tabPage1.AddItem(new TabPageItem("PAGE 8", new ListPage(&listPageView)));
+    tabPage1.AddItem(new TabPageItem("PAGE 9", new ListPage(&listPageView)));
 
     // Set display home page and current page.
     display.SetHomePage(&tabPage1);

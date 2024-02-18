@@ -8,7 +8,7 @@ using namespace developmentKit::library::uiFramework::tabs;
 using namespace developmentKit::library::uiFramework::tabs::presenters;
 using namespace developmentKit::library::uiFramework::tabs::tests;
 
-TEST_CASE("Calling SetPotentiometerValues when syncronised updates display values correctly")
+TEST_CASE("Calling SetPotentiometerValues with default range when syncronised updates display values correctly")
 {
     MockView view;
     PotentiometerArrayPageItem item;
@@ -92,7 +92,20 @@ TEST_CASE("Incrementing value by less than hysteresis band does not increase sca
     REQUIRE(item.GetDisplayValue() == 10);
     item.SetCurrentKnobPosition(0.04296875f);
     REQUIRE(item.GetDisplayValue() == 10);
-    //item.SetCurrentKnobPosition(0.04303075f);
     item.SetCurrentKnobPosition(0.04396875f);
     REQUIRE(item.GetDisplayValue() == 11);
+}
+
+TEST_CASE("Decrementing value by less than hysteresis band does not decrease scaled value")
+{
+    MockView view;
+    PotentiometerArrayPageItem item;
+    item.SetFocus();
+    item.SetCurrentKnobPosition(0.0f);
+    item.SetCurrentKnobPosition(0.0390625f);
+    REQUIRE(item.GetDisplayValue() == 10);
+    item.SetCurrentKnobPosition(0.0388625f);
+    REQUIRE(item.GetDisplayValue() == 10);
+    item.SetCurrentKnobPosition(0.0380625f);
+    REQUIRE(item.GetDisplayValue() == 9);
 }
