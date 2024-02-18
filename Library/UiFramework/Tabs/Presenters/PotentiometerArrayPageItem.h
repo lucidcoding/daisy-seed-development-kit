@@ -44,6 +44,8 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         bool knobPositionAndOutputValueSynced = false;
         const float amountToRegisterForSync = 0.004f;
         bool firstUpdateSinceFocus = true;
+        float division = 1.0f / 256.0f;
+        float hysteresisBand = division / 4.0f;
     };
 }
 

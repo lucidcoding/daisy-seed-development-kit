@@ -19,6 +19,7 @@ TEST_CASE("Calling SetPotentiometerValues when syncronised updates display value
     REQUIRE(item.GetDisplayValue() == 128);
     item.SetCurrentKnobPosition(0.999f);
     REQUIRE(item.GetDisplayValue() == 255);
+    item.SetCurrentKnobPosition(0.0f);
     item.SetCurrentKnobPosition(1.0f);
     REQUIRE(item.GetDisplayValue() == 256);
 }
@@ -81,3 +82,17 @@ TEST_CASE("Setting focus when knob position is not near output value registers i
     REQUIRE(item.GetKnobPositionAndOutputValueSynced() == false);
 }
 
+TEST_CASE("Incrementing value by less than hysteresis band does not increase scaled value")
+{
+    MockView view;
+    PotentiometerArrayPageItem item;
+    item.SetFocus();
+    item.SetCurrentKnobPosition(0.0f);
+    item.SetCurrentKnobPosition(0.0390625f);
+    REQUIRE(item.GetDisplayValue() == 10);
+    item.SetCurrentKnobPosition(0.04296875f);
+    REQUIRE(item.GetDisplayValue() == 10);
+    //item.SetCurrentKnobPosition(0.04303075f);
+    item.SetCurrentKnobPosition(0.04396875f);
+    REQUIRE(item.GetDisplayValue() == 11);
+}

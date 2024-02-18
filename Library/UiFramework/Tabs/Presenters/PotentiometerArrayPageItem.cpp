@@ -45,6 +45,29 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         {
             outputValue = currentKnobPosition;
         }
+
+        // if new value is only one more and raw value is towrds the lower end of the new value
+        int16_t newDisplayValue = outputValue * 256;
+
+        if ((newDisplayValue == displayValue + 1) && outputValue > (division * (float)(displayValue + 1)) + hysteresisBand)
+        {
+            displayValue = newDisplayValue;
+        }
+        else if (newDisplayValue > displayValue + 1)
+        {
+            displayValue = newDisplayValue;
+        }
+        else if ((newDisplayValue == displayValue - 1) && outputValue < (float)(division * displayValue) - hysteresisBand)
+        {
+            displayValue = newDisplayValue;
+        }
+        else if (newDisplayValue < displayValue - 1)
+        {
+            displayValue = newDisplayValue;
+        }
+
+        // displayValue = outputValue * 256;
+
         firstUpdateSinceFocus = false;
     }
 
@@ -60,7 +83,7 @@ namespace developmentKit::library::uiFramework::tabs::presenters
 
     int16_t PotentiometerArrayPageItem::GetDisplayValue()
     {
-        return outputValue * 256;
+        return displayValue;
     }
 
     void PotentiometerArrayPageItem::SetFocus()
