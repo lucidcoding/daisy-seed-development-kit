@@ -43,6 +43,7 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         KnobMode knobMode = DIRECT;
         bool knobPositionAndOutputValueSynced = false;
         const float amountToRegisterForSync = 0.004f;
+        bool firstUpdateSinceFocus = true;
     };
 }
 

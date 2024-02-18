@@ -9,30 +9,43 @@ namespace developmentKit::library::uiFramework::tabs::presenters
     }
 
     void PotentiometerArrayPageItem::SetCurrentKnobPosition(float prmCurrentKnobPosiiton)
-    { 
+    {
         currentKnobPosition = prmCurrentKnobPosiiton;
 
-        if(!initialKnobPositionSet)
+        if (!initialKnobPositionSet)
         {
             initialKnobPosition = prmCurrentKnobPosiiton;
             initialKnobPositionSet = true;
         }
 
-        if(!knobPositionAndOutputValueSynced)
+        if (!knobPositionAndOutputValueSynced)
         {
-            if(knobMode == DIRECT)
+            if (knobMode == DIRECT)
             {
-                if(abs(currentKnobPosition - initialKnobPosition) > amountToRegisterForSync)
+                if (abs(currentKnobPosition - initialKnobPosition) > amountToRegisterForSync)
                 {
                     knobPositionAndOutputValueSynced = true;
                 }
             }
         }
 
-        if(knobPositionAndOutputValueSynced)
+        if (firstUpdateSinceFocus)
+        {
+            if (abs(currentKnobPosition - outputValue) > amountToRegisterForSync)
+            {
+                knobPositionAndOutputValueSynced = false;
+            }
+            else
+            {
+                knobPositionAndOutputValueSynced = true;
+            }
+        }
+
+        if (knobPositionAndOutputValueSynced)
         {
             outputValue = currentKnobPosition;
         }
+        firstUpdateSinceFocus = false;
     }
 
     void PotentiometerArrayPageItem::SetOutputValue(float prmOutputValue)
@@ -53,7 +66,7 @@ namespace developmentKit::library::uiFramework::tabs::presenters
     void PotentiometerArrayPageItem::SetFocus()
     {
         initialKnobPositionSet = false;
-        knobPositionAndOutputValueSynced = false;
+        firstUpdateSinceFocus = true;
     }
 
     bool PotentiometerArrayPageItem::GetKnobPositionAndOutputValueSynced()
