@@ -30,6 +30,7 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         unsigned int GetCurrentIndex();
         bool GetItemSelected();
         void ToggleItemSelected();
+        void SetFocus() {}
         void Paint();
 
     private:

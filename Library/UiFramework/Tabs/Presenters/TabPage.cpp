@@ -17,6 +17,8 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         {
             currentIndex++;
         }
+
+        items[currentIndex]->GetContent()->SetFocus();
     }
 
     void TabPage::Decrement()
@@ -25,6 +27,8 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         {
             currentIndex--;
         }
+        
+        items[currentIndex]->GetContent()->SetFocus();
     }
 
     void TabPage::SetPotentiometerValue(uint8_t index, float value)

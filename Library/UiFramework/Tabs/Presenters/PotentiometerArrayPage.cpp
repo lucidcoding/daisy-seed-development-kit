@@ -18,19 +18,35 @@ namespace developmentKit::library::uiFramework::tabs::presenters
 
     void PotentiometerArrayPage::SetPotentiometerValue(uint8_t index, float value)
     {
-        items[index].SetRawValue(value);
+        items[index].SetCurrentKnobPosition(value);
     }
 
     void PotentiometerArrayPage::SetPotentiometerValues(float *values)
     {
-        for(uint8_t i = 0; i < 16; i++)
+        for (uint8_t i = 0; i < 16; i++)
         {
-            items[i].SetRawValue(values[i]);
+            items[i].SetCurrentKnobPosition(values[i]);
         }
     }
 
     void PotentiometerArrayPage::Select()
     {
+    }
+
+    void PotentiometerArrayPage::SetFocus()
+    {
+        for (uint8_t i = 0; i < 16; i++)
+        {
+            items[i].SetFocus();
+        }
+    }
+
+    void PotentiometerArrayPage::SetOutputValues(float *values)
+    {
+        for (uint8_t i = 0; i < 16; i++)
+        {
+            items[i].SetOutputValue(values[i]);
+        }
     }
 
     void PotentiometerArrayPage::Paint()

@@ -3,13 +3,17 @@ test:
 		UiParameter.test.cpp \
 		ListPage.test.cpp \
 		TabPage.test.cpp \
+		PotentiometerArrayPage.test.cpp \
+		PotentiometerArrayPageItem.test.cpp \
 		../../Display.cpp \
 		../../Utilities/UiParameter.cpp \
 		../../Presenters/ListPage.cpp \
 		../../Presenters/NavigationPageItem.cpp \
 		../../Presenters/NumericSettingsPageItem.cpp \
 		../../Presenters/OptionsSettingsPageItem.cpp \
-		../../Presenters/SettingsPageItem.cpp 
+		../../Presenters/SettingsPageItem.cpp \
+		../../Presenters/PotentiometerArrayPage.cpp \
+		../../Presenters/PotentiometerArrayPageItem.cpp 
 
 clean:
 	rm -f rm -fR build

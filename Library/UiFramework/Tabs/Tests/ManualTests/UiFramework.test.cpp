@@ -48,8 +48,10 @@ UiParameter
     sustainParameter,
     releaseParameter;
 
-PotentiometerArrayPage *potentiometerArrayPage1;
-PotentiometerArrayPage *potentiometerArrayPage2;
+
+PotentiometerArrayPageIli9341View potentiometerArrayPageIli9341View(&tftDisplay, 12, 22, 296, 210);
+PotentiometerArrayPage potentiometerArrayPage1(&potentiometerArrayPageIli9341View);
+PotentiometerArrayPage potentiometerArrayPage2(&potentiometerArrayPageIli9341View);
 // OptionsSettingsPageItem *waveformSettingsPageItem;
 
 TabPageIli9341View tabPageView(&tftDisplay);
@@ -90,7 +92,7 @@ void ProcessPotentiometerArray()
 {
     potentiometerArray.Process();
     float values[16];
-    //float *values = potentiometerArray.GetValues();
+    // float *values = potentiometerArray.GetValues();
 
     for (uint8_t i = 0; i < 16; i++)
     {
@@ -183,16 +185,17 @@ void InitEncoder(float sampleRate)
 
 void InitDisplay()
 {
+    float initialValues[16] = {0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f};
     // Setup view and home page.
     // ListPageSsd1306I2cView *listPageView = new ListPageSsd1306I2cView(&oledDisplay);
     // ListPageIli9341View *listPageView = new ListPageIli9341View(&tftDisplay);
-    PotentiometerArrayPageIli9341View *potentiometerArrayPageIli9341View = new PotentiometerArrayPageIli9341View(&tftDisplay, 12, 22, 296, 210);
     ListPageIli9341View *listPageView = new ListPageIli9341View(&tftDisplay, 0, 13, 320, 227);
-    potentiometerArrayPage1 = new PotentiometerArrayPage(potentiometerArrayPageIli9341View);
-    potentiometerArrayPage2 = new PotentiometerArrayPage(potentiometerArrayPageIli9341View);
     ListPage *listPage1 = new ListPage(listPageView);
     ListPage *listPage2 = new ListPage(listPageView);
     ListPage *listPage3 = new ListPage(listPageView);
+
+    potentiometerArrayPage1.SetOutputValues(initialValues);
+    potentiometerArrayPage2.SetOutputValues(initialValues);
 
     // Other pages
     char title[25];
@@ -206,8 +209,8 @@ void InitDisplay()
         listPage3->AddItem(new NavigationPageItem(title, new ListPage(listPageView), &display));
     }
 
-    tabPage1.AddItem(new TabPageItem("PAGE 0", potentiometerArrayPage1));
-    tabPage1.AddItem(new TabPageItem("PAGE 1", potentiometerArrayPage2));
+    tabPage1.AddItem(new TabPageItem("PAGE 0", &potentiometerArrayPage1));
+    tabPage1.AddItem(new TabPageItem("PAGE 1", &potentiometerArrayPage2));
     tabPage1.AddItem(new TabPageItem("PAGE 2", listPage1));
     tabPage1.AddItem(new TabPageItem("PAGE 3", listPage2));
     tabPage1.AddItem(new TabPageItem("PAGE 4", listPage3));
@@ -238,7 +241,7 @@ int main(void)
     hardware.adc.Start();
     hardware.StartAudio(AudioCallback);
 
-    UpdateDisplay();
+    // UpdateDisplay();
 
     uint32_t lastTicksRefresh = System::GetTick();
     uint32_t lastTicksRefreshDisplay = System::GetTick();

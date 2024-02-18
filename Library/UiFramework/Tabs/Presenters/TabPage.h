@@ -28,6 +28,7 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         void AddItem(TabPageItem *item);
         uint8_t ItemsCount();
         uint8_t GetCurrentIndex();
+        void SetFocus() {}
         void Paint();
 
     private:

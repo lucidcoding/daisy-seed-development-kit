@@ -12,22 +12,37 @@ using namespace std;
 namespace developmentKit::library::uiFramework::tabs::presenters
 {
     using namespace developmentKit::library::uiFramework::tabs::view;
-    
-    class PotentiometerArrayPageItem 
+
+    class PotentiometerArrayPageItem
     {
     public:
+        enum KnobMode
+        {
+            DIRECT,
+            CATCH
+        };
         PotentiometerArrayPageItem() {}
         ~PotentiometerArrayPageItem() {}
-        void SetInitialValue(float prmInitialValue);
-        void SetRawValue(float prmRawValue);
+        void SetInitialKnobPosition(float prmInitialValue);
+        void SetOutputValue(float prmOutputValue);
+        void SetCurrentKnobPosition(float prmCurrentKnobPosiiton);
+        float GetOutputValue();
         int16_t GetDisplayValue();
-        //void Paint();
+        void SetFocus();
+        bool GetKnobPositionAndOutputValueSynced();
+
+        // Testing only
+        float GetInitialKnobPosition() { return initialKnobPosition; }
 
     private:
-        //View *view;
-        float initialValue;
-        float rawValue;
+        bool initialKnobPositionSet;
+        float initialKnobPosition;
+        float currentKnobPosition;
+        float outputValue;
         int16_t displayValue;
+        KnobMode knobMode = DIRECT;
+        bool knobPositionAndOutputValueSynced = false;
+        const float amountToRegisterForSync = 0.004f;
     };
 }
 

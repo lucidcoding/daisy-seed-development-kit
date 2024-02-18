@@ -24,6 +24,8 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         virtual void SetPotentiometerValue(uint8_t index, float value);
         virtual void SetPotentiometerValues(float *values);
         void Select();
+        void SetFocus();
+        void SetOutputValues(float *values);
         void Paint();
         PotentiometerArrayPageItem * GetItem(uint8_t index);
 

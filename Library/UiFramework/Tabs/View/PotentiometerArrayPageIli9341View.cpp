@@ -50,7 +50,8 @@ namespace developmentKit::library::uiFramework::tabs::view
             
             //sprintf(buffer, "%d", 240 + i);
             sprintf(buffer, "%d", item->GetDisplayValue());
-            displayHardware->WriteStringAligned(buffer, Font_11x18, Rectangle(xOffset, yOffset, cellWidth, cellHeight - 11), Alignment::centered, COLOR_GRAY);
+            uint8_t valueColor = item->GetKnobPositionAndOutputValueSynced() ? COLOR_WHITE : COLOR_GRAY;
+            displayHardware->WriteStringAligned(buffer, Font_11x18, Rectangle(xOffset, yOffset, cellWidth, cellHeight - 11), Alignment::centered, valueColor);
             displayHardware->WriteStringAligned("VALUE", Font_6x8, Rectangle(xOffset, yOffset + cellHeight - 25, cellWidth, 25), Alignment::centered, COLOR_WHITE);
         }
     }
