@@ -6,7 +6,6 @@ namespace developmentKit::library::uiFramework::tabs::presenters
     PotentiometerArrayPageItem::PotentiometerArrayPageItem()
     {
         SetScaledRange(0, 255);
-        scaler = NULL;
     }
 
     void PotentiometerArrayPageItem::SetInitialKnobPosition(float prmInitialValue)
@@ -60,16 +59,7 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         }
 
         // if new value is only one more and raw value is towrds the lower end of the new value
-        int16_t newDisplayValue;
-
-        if( scaler != NULL)
-        {
-            newDisplayValue = scaler->Scale(outputValue);
-        }
-        else
-        {
-            newDisplayValue = outputValue * 256;
-        }
+        int16_t newDisplayValue = scaler.Scale(outputValue);
 
         if ((newDisplayValue == displayValue + 1) && outputValue > (division * (float)(displayValue + 1)) + hysteresisBand)
         {
@@ -125,16 +115,8 @@ namespace developmentKit::library::uiFramework::tabs::presenters
 
     void PotentiometerArrayPageItem::SetScaledRange(int16_t prmMinScaledValue, int16_t prmMaxScaledValue)
     {
-        minScaledValue = prmMinScaledValue;
-        maxScaledValue = prmMaxScaledValue;
-        division = 1.0f / (float)(maxScaledValue - minScaledValue + 1);
+        scaler.Init(prmMinScaledValue, prmMaxScaledValue);
+        division = scaler.GetDivision();
         hysteresisBand = division / 4.0f;
-    }
-
-    void PotentiometerArrayPageItem::SetScaler(FloatToIntScaler *prmScaler)
-    {
-        scaler = prmScaler;
-        division = scaler->GetDivision();
-        hysteresisBand = 0.001;// division / 4.0f;
     }
 }

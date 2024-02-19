@@ -39,10 +39,6 @@ public:
     void Paint();
 
 private:
-    FloatToIntScaler standardSignedScaler;
-    FloatToIntScaler standardUnsignedScaler;
-    FloatToIntScaler signedScaler24;
-    FloatToIntScaler optionsScaler4Pole;
     UiDriver tftDisplay;
     TabPageIli9341View tabPageView;
     PotentiometerArrayPageIli9341View potentiometerArrayPageIli9341View;

@@ -3,13 +3,10 @@
 #include "../../../../../ThirdParty/catch.hpp"
 #include "../../Display.h"
 #include "../../Presenters/PotentiometerArrayPageItem.h"
-#include "../../../../Utilities/Scaling/FloatToIntScaler.h"
 
 using namespace developmentKit::library::uiFramework::tabs;
 using namespace developmentKit::library::uiFramework::tabs::presenters;
 using namespace developmentKit::library::uiFramework::tabs::tests;
-using namespace developmentKit::library::utilities::scaling;
-
 
 TEST_CASE("Calling SetPotentiometerValues with default range when syncronised updates display values correctly")
 {
@@ -31,10 +28,7 @@ TEST_CASE("Calling SetPotentiometerValues with custom positive zero minimum rang
 {
     MockView view;
     PotentiometerArrayPageItem item;
-    // item.SetScaledRange(0, 100);
-    FloatToIntScaler scaler;
-    scaler.Init(0, 100, FloatToIntScaler::Curve::LINEAR);
-    item.SetScaler(&scaler);
+    item.SetScaledRange(0, 100);
     item.SetFocus();
     item.SetCurrentKnobPosition(0.0f);
     REQUIRE(item.GetDisplayValue() == 0);
@@ -48,10 +42,7 @@ TEST_CASE("Calling SetPotentiometerValues with custom positive non-zero minimum 
 {
     MockView view;
     PotentiometerArrayPageItem item;
-    //item.SetScaledRange(50, 100);
-    FloatToIntScaler scaler;
-    scaler.Init(50, 100, FloatToIntScaler::Curve::LINEAR);
-    item.SetScaler(&scaler);
+    item.SetScaledRange(50, 100);
     item.SetFocus();
     item.SetCurrentKnobPosition(0.0f);
     REQUIRE(item.GetDisplayValue() == 50);
@@ -65,10 +56,7 @@ TEST_CASE("Calling SetPotentiometerValues with custom negative minimum range whe
 {
     MockView view;
     PotentiometerArrayPageItem item;
-    //item.SetScaledRange(-24, 24);
-    FloatToIntScaler scaler;
-    scaler.Init(-24, 24, FloatToIntScaler::Curve::LINEAR);
-    item.SetScaler(&scaler);
+    item.SetScaledRange(-24, 24);
     item.SetFocus();
     item.SetCurrentKnobPosition(0.0f);
     REQUIRE(item.GetDisplayValue() == -24);

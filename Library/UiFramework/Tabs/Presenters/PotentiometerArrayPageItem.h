@@ -6,14 +6,14 @@
 #include <vector>
 #include "Page.h"
 #include "../View/View.h"
-#include "../../../Utilities/Scaling/FloatToIntScaler.h"
+#include "../../Shared/Scaling/PotentiometerToDisplayValueScaler.h"
 
 using namespace std;
 
 namespace developmentKit::library::uiFramework::tabs::presenters
 {
     using namespace developmentKit::library::uiFramework::tabs::view;
-    using namespace developmentKit::library::utilities::scaling;
+    using namespace developmentKit::library::uiFramework::shared::scaling;
 
     class PotentiometerArrayPageItem
     {
@@ -34,7 +34,6 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         bool GetKnobPositionAndOutputValueSynced();
         void SetKnobMode(KnobMode prmKnobMode);
         void SetScaledRange(int16_t prmMinScaledValue, int16_t prmMaxScaledValue);
-        void SetScaler(FloatToIntScaler *prmScaler);
 
     private:
         bool initialKnobPositionSet;
@@ -50,7 +49,7 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         bool firstUpdateSinceFocus = true;
         float division;
         float hysteresisBand;
-        FloatToIntScaler *scaler;
+        PotentiometerToDisplayValueScaler scaler;
     };
 }
 

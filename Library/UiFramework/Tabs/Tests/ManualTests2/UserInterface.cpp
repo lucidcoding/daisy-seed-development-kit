@@ -13,7 +13,6 @@
 #include "../../Presenters/TabPageItem.h"
 #include "../../Presenters/TabPage.h"
 #include "../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
-#include "../../../../Utilities/Scaling/FloatToIntScaler.h"
 
 using namespace daisysp;
 using namespace daisy;
@@ -32,19 +31,14 @@ UserInterface::UserInterface() :
 
 void UserInterface::Init()
 {
-    standardSignedScaler.Init(-127, 127, FloatToIntScaler::Curve::LINEAR);
-    standardUnsignedScaler.Init(0, 255, FloatToIntScaler::Curve::LINEAR);
-    signedScaler24.Init(-24, 24, FloatToIntScaler::Curve::LINEAR);
-    optionsScaler4Pole.Init(0, 3, FloatToIntScaler::Curve::LINEAR);
-
     tftDisplay.Init();
     potentiometerArrayPageIli9341View.SetSize(12, 22, 296, 210);
 
-    oscLevelPotentiometerArrayPageItem.SetScaler(&standardSignedScaler);
+    oscLevelPotentiometerArrayPageItem.SetScaledRange(0, 255);
     oscillatorPotentiometerArrayPage.SetItem(0, &oscLevelPotentiometerArrayPageItem);
-    oscCoarseTunePotentiometerArrayPageItem.SetScaler(&signedScaler24);
+    oscCoarseTunePotentiometerArrayPageItem.SetScaledRange(-127, 127);
     oscillatorPotentiometerArrayPage.SetItem(1, &oscCoarseTunePotentiometerArrayPageItem);
-    oscWaveShapePotentiometerArrayPageItem.SetScaler(&optionsScaler4Pole);
+    oscWaveShapePotentiometerArrayPageItem.SetScaledRange(0, 3);
     oscillatorPotentiometerArrayPage.SetItem(2, &oscWaveShapePotentiometerArrayPageItem);
     oscillatorTabPageItem.Init("OSC", &oscillatorPotentiometerArrayPage);
     tabPage.AddItem(&oscillatorTabPageItem);
