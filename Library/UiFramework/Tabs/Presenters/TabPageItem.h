@@ -13,8 +13,10 @@ namespace developmentKit::library::uiFramework::tabs::presenters
     class TabPageItem
     {
     public:
+        TabPageItem() {}
         TabPageItem(string prmTitle, Page *prmContent);
         ~TabPageItem() {}
+        void Init(string prmTitle, Page *prmContent);
         /*virtual void Increment();
         virtual void Decrement();
         virtual void Select();*/

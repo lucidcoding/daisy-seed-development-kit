@@ -29,6 +29,14 @@ namespace developmentKit::library::uiFramework::tabs::view
         height = prmHeight;
     }
 
+    void PotentiometerArrayPageIli9341View::SetSize(uint16_t prmX, uint16_t prmY, uint16_t prmWidth, uint16_t prmHeight)
+    {
+        x = prmX;
+        y = prmY;
+        width = prmWidth;
+        height = prmHeight;
+    }
+
     void PotentiometerArrayPageIli9341View::Paint(Page *page)
     {
         PotentiometerArrayPage *potentiometerArrayPage = static_cast<PotentiometerArrayPage *>(page);

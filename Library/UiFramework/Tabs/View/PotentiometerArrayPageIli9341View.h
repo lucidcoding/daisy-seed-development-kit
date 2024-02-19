@@ -18,6 +18,7 @@ namespace developmentKit::library::uiFramework::tabs::view
         ~PotentiometerArrayPageIli9341View() {}
         PotentiometerArrayPageIli9341View(UiDriver *prmDisplayHardware);
         PotentiometerArrayPageIli9341View(UiDriver *prmDisplayHardware, uint16_t prmX, uint16_t prmY, uint16_t prmWidth, uint16_t prmHeight);
+        void SetSize(uint16_t prmX, uint16_t prmY, uint16_t prmWidth, uint16_t prmHeight);
         void Paint(Page *page);
 
     private:

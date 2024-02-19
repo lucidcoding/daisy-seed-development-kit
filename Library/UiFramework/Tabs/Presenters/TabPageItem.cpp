@@ -10,6 +10,12 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         content = prmContent;
     }
 
+    void TabPageItem::Init(string prmTitle, Page *prmContent)
+    {
+        title = prmTitle;
+        content = prmContent;
+    }
+
     Page *TabPageItem::GetContent()
     {
         return content;
