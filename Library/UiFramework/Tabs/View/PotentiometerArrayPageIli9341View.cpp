@@ -43,24 +43,28 @@ namespace developmentKit::library::uiFramework::tabs::view
         const uint16_t cellHeight = height / 4;
         const uint16_t cellWidth = width / 4;
 
-        //displayHardware->DrawRect(Rectangle(0, 0, 319, 239), COLOR_WHITE);
-        //displayHardware->DrawRect(Rectangle(0, 0, menuWidth, 239), COLOR_WHITE);
+        // displayHardware->DrawRect(Rectangle(0, 0, 319, 239), COLOR_WHITE);
+        // displayHardware->DrawRect(Rectangle(0, 0, menuWidth, 239), COLOR_WHITE);
 
         for (uint8_t i = 0; i < 16; i++)
         {
             PotentiometerArrayPageItem *item = potentiometerArrayPage->GetItem(i);
-            int16_t xOffset = ((i % 4) * cellWidth) + x;
-            int16_t yOffset = ((i / 4) * cellHeight) + y;
-            char buffer[50];
-            //sprintf(buffer, "%d", displayValues[i]);
-            //displayHardware->DrawRect(Rectangle(x, y, cellWidth, cellHeight), COLOR_WHITE);
-            //displayHardware->WriteStringAligned(buffer, Font_11x18, Rectangle(x, y, cellWidth, cellHeight - 11), Alignment::centered, caughtValue[i] ? COLOR_WHITE : COLOR_GRAY);
-            
-            //sprintf(buffer, "%d", 240 + i);
-            sprintf(buffer, "%d", item->GetDisplayValue());
-            uint8_t valueColor = item->GetKnobPositionAndOutputValueSynced() ? COLOR_WHITE : COLOR_GRAY;
-            displayHardware->WriteStringAligned(buffer, Font_11x18, Rectangle(xOffset, yOffset, cellWidth, cellHeight - 11), Alignment::centered, valueColor);
-            displayHardware->WriteStringAligned("VALUE", Font_6x8, Rectangle(xOffset, yOffset + cellHeight - 25, cellWidth, 25), Alignment::centered, COLOR_WHITE);
+
+            if (item != NULL)
+            {
+                int16_t xOffset = ((i % 4) * cellWidth) + x;
+                int16_t yOffset = ((i / 4) * cellHeight) + y;
+                char buffer[50];
+                // sprintf(buffer, "%d", displayValues[i]);
+                // displayHardware->DrawRect(Rectangle(x, y, cellWidth, cellHeight), COLOR_WHITE);
+                // displayHardware->WriteStringAligned(buffer, Font_11x18, Rectangle(x, y, cellWidth, cellHeight - 11), Alignment::centered, caughtValue[i] ? COLOR_WHITE : COLOR_GRAY);
+
+                // sprintf(buffer, "%d", 240 + i);
+                sprintf(buffer, "%d", item->GetDisplayValue());
+                uint8_t valueColor = item->GetKnobPositionAndOutputValueSynced() ? COLOR_WHITE : COLOR_GRAY;
+                displayHardware->WriteStringAligned(buffer, Font_11x18, Rectangle(xOffset, yOffset, cellWidth, cellHeight - 11), Alignment::centered, valueColor);
+                displayHardware->WriteStringAligned("VALUE", Font_6x8, Rectangle(xOffset, yOffset + cellHeight - 25, cellWidth, 25), Alignment::centered, COLOR_WHITE);
+            }
         }
     }
 }

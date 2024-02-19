@@ -13,7 +13,7 @@ using namespace std;
 namespace developmentKit::library::uiFramework::tabs::presenters
 {
     using namespace developmentKit::library::uiFramework::tabs::view;
-    
+
     class PotentiometerArrayPage : public Page
     {
     public:
@@ -27,12 +27,13 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         void SetFocus();
         void SetOutputValues(float *values);
         void Paint();
-        PotentiometerArrayPageItem * GetItem(uint8_t index);
+        PotentiometerArrayPageItem *GetItem(uint8_t index);
+        void SetItem(uint8_t index, PotentiometerArrayPageItem *item);
         void SetKnobMode(PotentiometerArrayPageItem::KnobMode prmKnobMode);
 
     private:
         View *view;
-        PotentiometerArrayPageItem items[16];
+        PotentiometerArrayPageItem *items[16];
     };
 }
 

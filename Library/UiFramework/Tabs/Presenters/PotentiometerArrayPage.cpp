@@ -6,6 +6,11 @@ namespace developmentKit::library::uiFramework::tabs::presenters
     PotentiometerArrayPage::PotentiometerArrayPage(View *prmView)
     {
         view = prmView;
+
+        for (uint8_t index = 0; index < 16; index++)
+        {
+            items[index] = NULL;
+        }
     }
 
     void PotentiometerArrayPage::Increment()
@@ -18,14 +23,20 @@ namespace developmentKit::library::uiFramework::tabs::presenters
 
     void PotentiometerArrayPage::SetPotentiometerValue(uint8_t index, float value)
     {
-        items[index].SetCurrentKnobPosition(value);
+        if (items[index] != NULL)
+        {
+            items[index]->SetCurrentKnobPosition(value);
+        }
     }
 
     void PotentiometerArrayPage::SetPotentiometerValues(float *values)
     {
-        for (uint8_t i = 0; i < 16; i++)
+        for (uint8_t index = 0; index < 16; index++)
         {
-            items[i].SetCurrentKnobPosition(values[i]);
+            if (items[index] != NULL)
+            {
+                items[index]->SetCurrentKnobPosition(values[index]);
+            }
         }
     }
 
@@ -35,17 +46,23 @@ namespace developmentKit::library::uiFramework::tabs::presenters
 
     void PotentiometerArrayPage::SetFocus()
     {
-        for (uint8_t i = 0; i < 16; i++)
+        for (uint8_t index = 0; index < 16; index++)
         {
-            items[i].SetFocus();
+            if (items[index] != NULL)
+            {
+                items[index]->SetFocus();
+            }
         }
     }
 
     void PotentiometerArrayPage::SetOutputValues(float *values)
     {
-        for (uint8_t i = 0; i < 16; i++)
+        for (uint8_t index = 0; index < 16; index++)
         {
-            items[i].SetOutputValue(values[i]);
+            if (items[index] != NULL)
+            {
+                items[index]->SetOutputValue(values[index]);
+            }
         }
     }
 
@@ -56,14 +73,22 @@ namespace developmentKit::library::uiFramework::tabs::presenters
 
     PotentiometerArrayPageItem *PotentiometerArrayPage::GetItem(uint8_t index)
     {
-        return &(items[index]);
+        return items[index];
+    }
+
+    void PotentiometerArrayPage::SetItem(uint8_t index, PotentiometerArrayPageItem *item)
+    {
+        items[index] = item;
     }
 
     void PotentiometerArrayPage::SetKnobMode(PotentiometerArrayPageItem::KnobMode prmKnobMode)
     {
-        for (uint8_t i = 0; i < 16; i++)
+        for (uint8_t index = 0; index < 16; index++)
         {
-            items[i].SetKnobMode(prmKnobMode);
+            if (items[index] != NULL)
+            {
+                items[index]->SetKnobMode(prmKnobMode);
+            }
         }
     }
 }

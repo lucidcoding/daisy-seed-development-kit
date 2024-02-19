@@ -47,17 +47,17 @@ void ProcessEncoder()
 
     if (encoderIncrement == 1)
     {
-        //display.Increment();
+        userInterface.Increment();
     }
 
     if (encoderIncrement == -1)
     {
-        //display.Decrement();
+        userInterface.Decrement();
     }
 
     if (encoder.RisingEdge())
     {
-        //display.Select();
+        userInterface.Select();
     }
 }
 
@@ -71,7 +71,7 @@ void ProcessPotentiometerArray()
         values[i] = potentiometerArray.analogControl[i].GetRawFloat();
     }
 
-    //display.SetPotentiometerValues(values);
+    userInterface.SetPotentiometerValues(values);
 }
 
 static void AudioCallback(AudioHandle::InterleavingInputBuffer in,

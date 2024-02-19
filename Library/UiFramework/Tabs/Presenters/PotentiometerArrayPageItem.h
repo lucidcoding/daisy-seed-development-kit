@@ -6,12 +6,14 @@
 #include <vector>
 #include "Page.h"
 #include "../View/View.h"
+#include "../../../Utilities/Scaling/FloatToIntScaler.h"
 
 using namespace std;
 
 namespace developmentKit::library::uiFramework::tabs::presenters
 {
     using namespace developmentKit::library::uiFramework::tabs::view;
+    using namespace developmentKit::library::utilities::scaling;
 
     class PotentiometerArrayPageItem
     {
@@ -21,7 +23,7 @@ namespace developmentKit::library::uiFramework::tabs::presenters
             DIRECT,
             CATCH
         };
-        PotentiometerArrayPageItem() {}
+        PotentiometerArrayPageItem();
         ~PotentiometerArrayPageItem() {}
         void SetInitialKnobPosition(float prmInitialValue);
         void SetOutputValue(float prmOutputValue);
@@ -31,6 +33,8 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         void SetFocus();
         bool GetKnobPositionAndOutputValueSynced();
         void SetKnobMode(KnobMode prmKnobMode);
+        void SetScaledRange(int16_t prmMinScaledValue, int16_t prmMaxScaledValue);
+        void SetScaler(FloatToIntScaler *prmScaler);
 
     private:
         bool initialKnobPositionSet;
@@ -38,12 +42,15 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         float currentKnobPosition;
         float outputValue;
         int16_t displayValue;
+        int16_t minScaledValue;
+        int16_t maxScaledValue;
         KnobMode knobMode = DIRECT;
         bool knobPositionAndOutputValueSynced = false;
         const float amountToRegisterForSync = 0.004f;
         bool firstUpdateSinceFocus = true;
-        float division = 1.0f / 256.0f;
-        float hysteresisBand = division / 4.0f;
+        float division;
+        float hysteresisBand;
+        FloatToIntScaler *scaler;
     };
 }
 

@@ -3,10 +3,13 @@
 #include "../../../../../ThirdParty/catch.hpp"
 #include "../../Display.h"
 #include "../../Presenters/PotentiometerArrayPageItem.h"
+#include "../../../../Utilities/Scaling/FloatToIntScaler.h"
 
 using namespace developmentKit::library::uiFramework::tabs;
 using namespace developmentKit::library::uiFramework::tabs::presenters;
 using namespace developmentKit::library::uiFramework::tabs::tests;
+using namespace developmentKit::library::utilities::scaling;
+
 
 TEST_CASE("Calling SetPotentiometerValues with default range when syncronised updates display values correctly")
 {
@@ -22,6 +25,57 @@ TEST_CASE("Calling SetPotentiometerValues with default range when syncronised up
     item.SetCurrentKnobPosition(0.0f);
     item.SetCurrentKnobPosition(1.0f);
     REQUIRE(item.GetDisplayValue() == 256);
+}
+
+TEST_CASE("Calling SetPotentiometerValues with custom positive zero minimum range when syncronised updates display values correctly")
+{
+    MockView view;
+    PotentiometerArrayPageItem item;
+    // item.SetScaledRange(0, 100);
+    FloatToIntScaler scaler;
+    scaler.Init(0, 100, FloatToIntScaler::Curve::LINEAR);
+    item.SetScaler(&scaler);
+    item.SetFocus();
+    item.SetCurrentKnobPosition(0.0f);
+    REQUIRE(item.GetDisplayValue() == 0);
+    item.SetCurrentKnobPosition(0.5f);
+    REQUIRE(item.GetDisplayValue() == 50);
+    item.SetCurrentKnobPosition(0.999f);
+    REQUIRE(item.GetDisplayValue() == 100);
+}
+
+TEST_CASE("Calling SetPotentiometerValues with custom positive non-zero minimum range when syncronised updates display values correctly")
+{
+    MockView view;
+    PotentiometerArrayPageItem item;
+    //item.SetScaledRange(50, 100);
+    FloatToIntScaler scaler;
+    scaler.Init(50, 100, FloatToIntScaler::Curve::LINEAR);
+    item.SetScaler(&scaler);
+    item.SetFocus();
+    item.SetCurrentKnobPosition(0.0f);
+    REQUIRE(item.GetDisplayValue() == 50);
+    item.SetCurrentKnobPosition(0.5f);
+    REQUIRE(item.GetDisplayValue() == 75);
+    item.SetCurrentKnobPosition(0.999f);
+    REQUIRE(item.GetDisplayValue() == 100);
+}
+
+TEST_CASE("Calling SetPotentiometerValues with custom negative minimum range when syncronised updates display values correctly")
+{
+    MockView view;
+    PotentiometerArrayPageItem item;
+    //item.SetScaledRange(-24, 24);
+    FloatToIntScaler scaler;
+    scaler.Init(-24, 24, FloatToIntScaler::Curve::LINEAR);
+    item.SetScaler(&scaler);
+    item.SetFocus();
+    item.SetCurrentKnobPosition(0.0f);
+    REQUIRE(item.GetDisplayValue() == -24);
+    item.SetCurrentKnobPosition(0.5f);
+    REQUIRE(item.GetDisplayValue() == 0);
+    item.SetCurrentKnobPosition(0.999f);
+    REQUIRE(item.GetDisplayValue() == 24);
 }
 
 TEST_CASE("Changing knob position will not change output value in direct mode if not moved enough")

@@ -13,7 +13,8 @@ test:
 		../../Presenters/OptionsSettingsPageItem.cpp \
 		../../Presenters/SettingsPageItem.cpp \
 		../../Presenters/PotentiometerArrayPage.cpp \
-		../../Presenters/PotentiometerArrayPageItem.cpp 
+		../../Presenters/PotentiometerArrayPageItem.cpp \
+		../../../../Utilities/Scaling/FloatToIntScaler.cpp 
 
 clean:
 	rm -f rm -fR build

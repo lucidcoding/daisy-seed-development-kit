@@ -20,7 +20,8 @@ CPP_SOURCES = \
 	../../Presenters/TabPageItem.cpp \
 	../../Utilities/UiParameter.cpp \
 	../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.cpp \
-	../../../../../Hardware/PotentiometerArray/Drivers/PotentiometerArray.cpp
+	../../../../../Hardware/PotentiometerArray/Drivers/PotentiometerArray.cpp \
+	../../../../Utilities/Scaling/FloatToIntScaler.cpp
 	
 # Core location, and generic Makefile.
 SYSTEM_FILES_DIR = $(LIBDAISY_DIR)/core
