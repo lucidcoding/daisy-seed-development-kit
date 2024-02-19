@@ -2,6 +2,7 @@
 #ifndef USER_INTERFACE_H
 #define USER_INTERFACE_H
 
+#include <string>
 #include "daisysp.h"
 #include "daisy_seed.h"
 #include "../../View/ListPageSsd1306I2cView.h"
@@ -16,14 +17,12 @@
 #include "../../Presenters/TabPageItem.h"
 #include "../../Presenters/TabPage.h"
 #include "../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
-#include "../../../../Utilities/Scaling/FloatToIntScaler.h"
 
 using namespace daisysp;
 using namespace daisy;
 using namespace developmentKit::library::uiFramework::tabs;
 using namespace developmentKit::library::uiFramework::tabs::utilities;
 using namespace developmentKit::library::uiFramework::tabs::view;
-using namespace developmentKit::library::utilities::scaling;
 
 class UserInterface
 {
@@ -52,6 +51,8 @@ private:
     PotentiometerArrayPage envelopePotentiometerArrayPage;
     PotentiometerArrayPageItem envAttackPotentiometerArrayPageItem;
     PotentiometerArrayPageItem envDecayPotentiometerArrayPageItem;
+
+    string oscWaveShapeOptions[4] = {"SIN", "TRI", "SAW", "SQU"};
 };
 
 #endif

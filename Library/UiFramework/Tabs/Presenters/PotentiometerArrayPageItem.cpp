@@ -6,6 +6,7 @@ namespace developmentKit::library::uiFramework::tabs::presenters
     PotentiometerArrayPageItem::PotentiometerArrayPageItem()
     {
         SetScaledRange(0, 255);
+        options = NULL;
     }
 
     void PotentiometerArrayPageItem::SetInitialKnobPosition(float prmInitialValue)
@@ -97,6 +98,20 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         return displayValue;
     }
 
+    string PotentiometerArrayPageItem::GetDisplayString()
+    {
+        if (options == NULL)
+        {
+            char buffer[6];
+            sprintf(buffer, "%d", displayValue);
+            return buffer;
+        }
+        else
+        {
+            return options[displayValue];
+        }
+    }
+
     void PotentiometerArrayPageItem::SetFocus()
     {
         initialKnobPositionSet = false;
@@ -118,5 +133,10 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         scaler.Init(prmMinScaledValue, prmMaxScaledValue);
         division = scaler.GetDivision();
         hysteresisBand = division / 4.0f;
+    }
+
+    void PotentiometerArrayPageItem::SetOptions(string *prmOptions)
+    {
+        options = prmOptions;
     }
 }

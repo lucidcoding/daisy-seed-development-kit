@@ -54,14 +54,11 @@ namespace developmentKit::library::uiFramework::tabs::view
             {
                 int16_t xOffset = ((i % 4) * cellWidth) + x;
                 int16_t yOffset = ((i / 4) * cellHeight) + y;
-                char buffer[50];
-                // sprintf(buffer, "%d", displayValues[i]);
-                // displayHardware->DrawRect(Rectangle(x, y, cellWidth, cellHeight), COLOR_WHITE);
-                // displayHardware->WriteStringAligned(buffer, Font_11x18, Rectangle(x, y, cellWidth, cellHeight - 11), Alignment::centered, caughtValue[i] ? COLOR_WHITE : COLOR_GRAY);
-
-                // sprintf(buffer, "%d", 240 + i);
-                sprintf(buffer, "%d", item->GetDisplayValue());
+                //char buffer[50];
+                //sprintf(buffer, "%d", item->GetDisplayValue());
                 uint8_t valueColor = item->GetKnobPositionAndOutputValueSynced() ? COLOR_WHITE : COLOR_GRAY;
+                char buffer[25];
+                strcpy(buffer, item->GetDisplayString().c_str());
                 displayHardware->WriteStringAligned(buffer, Font_11x18, Rectangle(xOffset, yOffset, cellWidth, cellHeight - 11), Alignment::centered, valueColor);
                 displayHardware->WriteStringAligned("VALUE", Font_6x8, Rectangle(xOffset, yOffset + cellHeight - 25, cellWidth, 25), Alignment::centered, COLOR_WHITE);
             }

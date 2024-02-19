@@ -3,7 +3,6 @@
 #define POTENTIOMETER_ARRAY_PAGE_ITEM_H
 
 #include <string>
-#include <vector>
 #include "Page.h"
 #include "../View/View.h"
 #include "../../Shared/Scaling/PotentiometerToDisplayValueScaler.h"
@@ -30,10 +29,12 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         void SetCurrentKnobPosition(float prmCurrentKnobPosiiton);
         float GetOutputValue();
         int16_t GetDisplayValue();
+        string GetDisplayString();
         void SetFocus();
         bool GetKnobPositionAndOutputValueSynced();
         void SetKnobMode(KnobMode prmKnobMode);
         void SetScaledRange(int16_t prmMinScaledValue, int16_t prmMaxScaledValue);
+        void SetOptions(string *prmOptions);
 
     private:
         bool initialKnobPositionSet;
@@ -50,6 +51,7 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         float division;
         float hysteresisBand;
         PotentiometerToDisplayValueScaler scaler;
+        string *options;
     };
 }
 

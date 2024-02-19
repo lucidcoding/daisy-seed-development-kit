@@ -35,10 +35,15 @@ void UserInterface::Init()
     potentiometerArrayPageIli9341View.SetSize(12, 22, 296, 210);
 
     oscLevelPotentiometerArrayPageItem.SetScaledRange(0, 255);
+    oscLevelPotentiometerArrayPageItem.SetOutputValue(0.5f);
     oscillatorPotentiometerArrayPage.SetItem(0, &oscLevelPotentiometerArrayPageItem);
     oscCoarseTunePotentiometerArrayPageItem.SetScaledRange(-127, 127);
+    oscCoarseTunePotentiometerArrayPageItem.SetOutputValue(0.5f);
     oscillatorPotentiometerArrayPage.SetItem(1, &oscCoarseTunePotentiometerArrayPageItem);
     oscWaveShapePotentiometerArrayPageItem.SetScaledRange(0, 3);
+    oscWaveShapePotentiometerArrayPageItem.SetOutputValue(0.5f);
+    
+    oscWaveShapePotentiometerArrayPageItem.SetOptions(oscWaveShapeOptions);
     oscillatorPotentiometerArrayPage.SetItem(2, &oscWaveShapePotentiometerArrayPageItem);
     oscillatorTabPageItem.Init("OSC", &oscillatorPotentiometerArrayPage);
     tabPage.AddItem(&oscillatorTabPageItem);
@@ -48,7 +53,6 @@ void UserInterface::Init()
     envelopeTabPageItem.Init("ENV", &envelopePotentiometerArrayPage);
     tabPage.AddItem(&envelopeTabPageItem);
 
-    //tabPage.AddItem(new TabPageItem("PAGE 0", &potentiometerArrayPage1));
 }
 
 void UserInterface::Increment()
