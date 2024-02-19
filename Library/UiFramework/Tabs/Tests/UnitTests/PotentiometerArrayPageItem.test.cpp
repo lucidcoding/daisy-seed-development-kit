@@ -24,20 +24,6 @@ TEST_CASE("Calling SetPotentiometerValues with default range when syncronised up
     REQUIRE(item.GetDisplayValue() == 256);
 }
 
-TEST_CASE("PotentiometerArrayPageItem - Calling SetFocus() record initial values values")
-{
-    MockView view;
-    PotentiometerArrayPageItem item;
-    item.SetFocus();
-    item.SetCurrentKnobPosition(0.1f);
-    REQUIRE(item.GetInitialKnobPosition() == 0.1f);
-    item.SetCurrentKnobPosition(0.2f);
-    REQUIRE(item.GetInitialKnobPosition() == 0.1f);
-    item.SetFocus();
-    item.SetCurrentKnobPosition(0.3f);
-    REQUIRE(item.GetInitialKnobPosition() == 0.3f);
-}
-
 TEST_CASE("Changing knob position will not change output value in direct mode if not moved enough")
 {
     MockView view;

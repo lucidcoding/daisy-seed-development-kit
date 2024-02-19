@@ -48,10 +48,13 @@ UiParameter
     sustainParameter,
     releaseParameter;
 
-
 PotentiometerArrayPageIli9341View potentiometerArrayPageIli9341View(&tftDisplay, 12, 22, 296, 210);
 PotentiometerArrayPage potentiometerArrayPage1(&potentiometerArrayPageIli9341View);
 PotentiometerArrayPage potentiometerArrayPage2(&potentiometerArrayPageIli9341View);
+ListPageIli9341View listPageView(&tftDisplay, 0, 13, 320, 227);
+ListPage listPage1(&listPageView);
+ListPage listPage2(&listPageView);
+ListPage listPage3(&listPageView);
 // OptionsSettingsPageItem *waveformSettingsPageItem;
 
 TabPageIli9341View tabPageView(&tftDisplay);
@@ -72,19 +75,16 @@ void ProcessEncoder()
     if (encoderIncrement == 1)
     {
         display.Increment();
-        // UpdateDisplay();
     }
 
     if (encoderIncrement == -1)
     {
         display.Decrement();
-        // UpdateDisplay();
     }
 
     if (encoder.RisingEdge())
     {
         display.Select();
-        // UpdateDisplay();
     }
 }
 
@@ -187,10 +187,6 @@ void InitDisplay()
 {
     float initialValues[16] = {0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f};
     // Setup view and home page.
-    ListPageIli9341View listPageView(&tftDisplay, 0, 13, 320, 227);
-    ListPage listPage1(&listPageView);
-    ListPage listPage2(&listPageView);
-    ListPage listPage3(&listPageView);
 
     potentiometerArrayPage1.SetOutputValues(initialValues);
     potentiometerArrayPage1.SetKnobMode(PotentiometerArrayPageItem::CATCH);

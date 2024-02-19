@@ -73,8 +73,6 @@ namespace developmentKit::library::uiFramework::tabs::presenters
             displayValue = newDisplayValue;
         }
 
-        // displayValue = outputValue * 256;
-
         firstUpdateSinceFocus = false;
     }
 

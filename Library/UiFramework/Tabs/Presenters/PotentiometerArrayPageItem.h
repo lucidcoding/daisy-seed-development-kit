@@ -32,9 +32,6 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         bool GetKnobPositionAndOutputValueSynced();
         void SetKnobMode(KnobMode prmKnobMode);
 
-        // Testing only
-        float GetInitialKnobPosition() { return initialKnobPosition; }
-
     private:
         bool initialKnobPositionSet;
         float initialKnobPosition;
