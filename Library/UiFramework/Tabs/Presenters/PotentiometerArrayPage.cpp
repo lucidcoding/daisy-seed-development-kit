@@ -21,14 +21,6 @@ namespace developmentKit::library::uiFramework::tabs::presenters
     {
     }
 
-    void PotentiometerArrayPage::SetPotentiometerValue(uint8_t index, float value)
-    {
-        if (items[index] != NULL)
-        {
-            items[index]->SetCurrentKnobPosition(value);
-        }
-    }
-
     void PotentiometerArrayPage::SetPotentiometerValues(float *values)
     {
         for (uint8_t index = 0; index < 16; index++)

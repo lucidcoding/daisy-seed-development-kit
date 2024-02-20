@@ -24,6 +24,8 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         };
         PotentiometerArrayPageItem() {}
         ~PotentiometerArrayPageItem() {}
+        void SetTitle(string prmTitle);
+        string GetTitle();
         void InitialiseKnobPosition(float prmInitialValue);
         void SetOutputValue(float prmOutputValue);
         void SetCurrentKnobPosition(float prmCurrentKnobPosiiton);
@@ -36,6 +38,7 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         void SetScaledRange(int16_t prmMinScaledValue, int16_t prmMaxScaledValue);
 
     protected:
+        string title;
         bool initialKnobPositionSet;
         float initialKnobPosition;
         float currentKnobPosition;

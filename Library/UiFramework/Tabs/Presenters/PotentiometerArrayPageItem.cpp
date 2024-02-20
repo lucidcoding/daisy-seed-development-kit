@@ -8,6 +8,16 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         initialKnobPosition = prmInitialValue;
     }
 
+    void PotentiometerArrayPageItem::SetTitle(string prmTitle)
+    {
+        title = prmTitle;
+    }
+
+    string PotentiometerArrayPageItem::GetTitle()
+    {
+        return title;
+    }
+
     void PotentiometerArrayPageItem::SetCurrentKnobPosition(float prmCurrentKnobPosiiton)
     {
         currentKnobPosition = prmCurrentKnobPosiiton;

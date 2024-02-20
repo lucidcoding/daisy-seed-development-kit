@@ -192,8 +192,7 @@ int main(void)
     hw.StartAudio(AudioCallback);
 
     uint32_t lastTicksRefresh = System::GetTick();
-    uint32_t lastTicksRefreshDisplay = System::GetTick();
-    uint32_t lastTicksRShowValues = System::GetTick();
+    uint32_t lastTicksShowValues = System::GetTick();
     const uint32_t ticksPerUs = System::GetTickFreq() / 1000000;
 
     for (;;)
@@ -206,9 +205,9 @@ int main(void)
             UpdateDisplay();
         }
 
-        if (currentTicks - lastTicksRShowValues > (1000000 * ticksPerUs))
+        if (currentTicks - lastTicksShowValues > (1000000 * ticksPerUs))
         {
-            lastTicksRShowValues = currentTicks;
+            lastTicksShowValues = currentTicks;
             hw.PrintLine("P0: %3.5f\tP1: %3.5f\tP2: %3.5f\tP3: %3.5f\t", actualValuesSet1[0], actualValuesSet1[1], actualValuesSet1[2], actualValuesSet1[3]);
         }
     }

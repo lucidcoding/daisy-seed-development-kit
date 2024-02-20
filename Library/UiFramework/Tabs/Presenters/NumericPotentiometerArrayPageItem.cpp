@@ -10,7 +10,7 @@ namespace developmentKit::library::uiFramework::tabs::presenters
     
     string NumericPotentiometerArrayPageItem::GetDisplayString()
     {
-        char buffer[6];
+        char buffer[8];
         sprintf(buffer, "%d", displayValue);
         return buffer;
     }

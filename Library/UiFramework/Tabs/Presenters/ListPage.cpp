@@ -42,11 +42,6 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         }
     }
 
-    void ListPage::SetPotentiometerValue(uint8_t index, float value)
-    {
-
-    }
-
     void ListPage::SetPotentiometerValues(float *values)
     {
 

@@ -19,8 +19,6 @@ namespace developmentKit::library::uiFramework::tabs::view
     void TabPageIli9341View::Paint(Page *page)
     {
         TabPage *tabPage = static_cast<TabPage *>(page);
-        const uint16_t x = 0;
-        const uint16_t y = 0;
         const uint16_t width = 320;
         const uint16_t height = 240;
         const uint16_t tabWidth = 60;

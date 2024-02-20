@@ -24,12 +24,6 @@ namespace developmentKit::library::uiFramework::tabs
         currentPage->Select();
     }
 
-    void Display::SetPotentiometerValue(uint8_t index, float value)
-    {
-        currentPage->SetPotentiometerValue(index, value);
-    }
-
-    
     void Display::SetPotentiometerValues(float *values)
     {
         currentPage->SetPotentiometerValues(values);

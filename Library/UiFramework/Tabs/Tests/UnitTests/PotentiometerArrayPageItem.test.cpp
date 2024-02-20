@@ -10,7 +10,7 @@ using namespace developmentKit::library::uiFramework::tabs;
 using namespace developmentKit::library::uiFramework::tabs::presenters;
 using namespace developmentKit::library::uiFramework::tabs::tests;
 
-TEST_CASE("Calling SetPotentiometerValues with default range when syncronised updates display values correctly")
+TEST_CASE("Calling SetCurrentKnobPosition with default range when syncronised updates display values correctly")
 {
     MockView view;
     NumericPotentiometerArrayPageItem item;
@@ -26,7 +26,7 @@ TEST_CASE("Calling SetPotentiometerValues with default range when syncronised up
     REQUIRE(item.GetDisplayValue() == 256);
 }
 
-TEST_CASE("Calling SetPotentiometerValues with custom positive zero minimum range when syncronised updates display values correctly")
+TEST_CASE("Calling SetCurrentKnobPosition with custom positive zero minimum range when syncronised updates display values correctly")
 {
     MockView view;
     NumericPotentiometerArrayPageItem item;
@@ -40,7 +40,7 @@ TEST_CASE("Calling SetPotentiometerValues with custom positive zero minimum rang
     REQUIRE(item.GetDisplayValue() == 100);
 }
 
-TEST_CASE("Calling SetPotentiometerValues with custom positive non-zero minimum range when syncronised updates display values correctly")
+TEST_CASE("Calling SetCurrentKnobPosition with custom positive non-zero minimum range when syncronised updates display values correctly")
 {
     MockView view;
     NumericPotentiometerArrayPageItem item;
@@ -54,7 +54,7 @@ TEST_CASE("Calling SetPotentiometerValues with custom positive non-zero minimum 
     REQUIRE(item.GetDisplayValue() == 100);
 }
 
-TEST_CASE("Calling SetPotentiometerValues with custom negative minimum range when syncronised updates display values correctly")
+TEST_CASE("Calling SetCurrentKnobPosition with custom negative minimum range when syncronised updates display values correctly")
 {
     MockView view;
     NumericPotentiometerArrayPageItem item;
