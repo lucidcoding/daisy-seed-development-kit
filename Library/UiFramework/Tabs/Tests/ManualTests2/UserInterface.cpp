@@ -6,6 +6,7 @@
 #include "../../Utilities/UiParameter.h"
 #include "../../Presenters/ListPage.h"
 #include "../../Presenters/PotentiometerArrayPage.h"
+#include "../../Presenters/ContinuousPotentiometerArrayPageItem.h"
 #include "../../View/PotentiometerArrayPageIli9341View.h"
 #include "../../View/TabPageIli9341View.h"
 #include "../../Presenters/NavigationPageItem.h"
@@ -43,7 +44,7 @@ void UserInterface::Init()
     oscWaveShapePotentiometerArrayPageItem.SetScaledRange(0, 3);
     oscWaveShapePotentiometerArrayPageItem.SetOutputValue(0.5f);
     
-    oscWaveShapePotentiometerArrayPageItem.SetOptions(oscWaveShapeOptions);
+    //oscWaveShapePotentiometerArrayPageItem.SetOptions(oscWaveShapeOptions);
     oscillatorPotentiometerArrayPage.SetItem(2, &oscWaveShapePotentiometerArrayPageItem);
     oscillatorTabPageItem.Init("OSC", &oscillatorPotentiometerArrayPage);
     tabPage.AddItem(&oscillatorTabPageItem);

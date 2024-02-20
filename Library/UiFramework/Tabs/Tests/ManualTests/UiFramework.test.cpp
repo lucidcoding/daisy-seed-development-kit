@@ -185,12 +185,9 @@ void InitEncoder(float sampleRate)
 
 void InitDisplay()
 {
-    float initialValues[16] = {0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f};
     // Setup view and home page.
 
-    potentiometerArrayPage1.SetOutputValues(initialValues);
     potentiometerArrayPage1.SetKnobMode(PotentiometerArrayPageItem::CATCH);
-    potentiometerArrayPage2.SetOutputValues(initialValues);
     potentiometerArrayPage2.SetKnobMode(PotentiometerArrayPageItem::CATCH);
 
     // Other pages

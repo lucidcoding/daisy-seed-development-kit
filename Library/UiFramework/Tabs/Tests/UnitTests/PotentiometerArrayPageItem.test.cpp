@@ -3,6 +3,8 @@
 #include "../../../../../ThirdParty/catch.hpp"
 #include "../../Display.h"
 #include "../../Presenters/PotentiometerArrayPageItem.h"
+#include "../../Presenters/ContinuousPotentiometerArrayPageItem.h"
+#include "../../../../Utilities/TestTools/Debug.h"
 
 using namespace developmentKit::library::uiFramework::tabs;
 using namespace developmentKit::library::uiFramework::tabs::presenters;
@@ -11,7 +13,7 @@ using namespace developmentKit::library::uiFramework::tabs::tests;
 TEST_CASE("Calling SetPotentiometerValues with default range when syncronised updates display values correctly")
 {
     MockView view;
-    PotentiometerArrayPageItem item;
+    ContinuousPotentiometerArrayPageItem item;
     item.SetFocus();
     item.SetCurrentKnobPosition(0.0f);
     REQUIRE(item.GetDisplayValue() == 0);
@@ -27,7 +29,7 @@ TEST_CASE("Calling SetPotentiometerValues with default range when syncronised up
 TEST_CASE("Calling SetPotentiometerValues with custom positive zero minimum range when syncronised updates display values correctly")
 {
     MockView view;
-    PotentiometerArrayPageItem item;
+    ContinuousPotentiometerArrayPageItem item;
     item.SetScaledRange(0, 100);
     item.SetFocus();
     item.SetCurrentKnobPosition(0.0f);
@@ -41,7 +43,7 @@ TEST_CASE("Calling SetPotentiometerValues with custom positive zero minimum rang
 TEST_CASE("Calling SetPotentiometerValues with custom positive non-zero minimum range when syncronised updates display values correctly")
 {
     MockView view;
-    PotentiometerArrayPageItem item;
+    ContinuousPotentiometerArrayPageItem item;
     item.SetScaledRange(50, 100);
     item.SetFocus();
     item.SetCurrentKnobPosition(0.0f);
@@ -55,7 +57,7 @@ TEST_CASE("Calling SetPotentiometerValues with custom positive non-zero minimum 
 TEST_CASE("Calling SetPotentiometerValues with custom negative minimum range when syncronised updates display values correctly")
 {
     MockView view;
-    PotentiometerArrayPageItem item;
+    ContinuousPotentiometerArrayPageItem item;
     item.SetScaledRange(-24, 24);
     item.SetFocus();
     item.SetCurrentKnobPosition(0.0f);
@@ -69,7 +71,7 @@ TEST_CASE("Calling SetPotentiometerValues with custom negative minimum range whe
 TEST_CASE("Changing knob position will not change output value in direct mode if not moved enough")
 {
     MockView view;
-    PotentiometerArrayPageItem item;
+    ContinuousPotentiometerArrayPageItem item;
     item.SetOutputValue(0.1f);
     item.SetFocus();
     item.SetCurrentKnobPosition(0.5f);
@@ -81,7 +83,7 @@ TEST_CASE("Changing knob position will not change output value in direct mode if
 TEST_CASE("Changing knob position will change output value in direct mode if moved enough")
 {
     MockView view;
-    PotentiometerArrayPageItem item;
+    ContinuousPotentiometerArrayPageItem item;
     item.SetOutputValue(0.1f);
     item.SetFocus();
     item.SetCurrentKnobPosition(0.5f);
@@ -93,7 +95,7 @@ TEST_CASE("Changing knob position will change output value in direct mode if mov
 TEST_CASE("Changing knob position will not change output value in catch mode if not moved past inital value")
 {
     MockView view;
-    PotentiometerArrayPageItem item;
+    ContinuousPotentiometerArrayPageItem item;
     item.SetKnobMode(PotentiometerArrayPageItem::CATCH);
     item.SetOutputValue(0.1f);
     item.SetFocus();
@@ -106,7 +108,7 @@ TEST_CASE("Changing knob position will not change output value in catch mode if 
 TEST_CASE("Changing knob position will change output value in catch mode if moved past inital value")
 {
     MockView view;
-    PotentiometerArrayPageItem item;
+    ContinuousPotentiometerArrayPageItem item;
     item.SetKnobMode(PotentiometerArrayPageItem::CATCH);
     item.SetOutputValue(0.1f);
     item.SetFocus();
@@ -119,7 +121,7 @@ TEST_CASE("Changing knob position will change output value in catch mode if move
 TEST_CASE("Setting focus when knob position is near output value registers item as in sync")
 {
     MockView view;
-    PotentiometerArrayPageItem item;
+    ContinuousPotentiometerArrayPageItem item;
     item.SetOutputValue(0.5f);
     item.SetFocus();
     item.SetCurrentKnobPosition(0.502f);
@@ -129,7 +131,7 @@ TEST_CASE("Setting focus when knob position is near output value registers item 
 TEST_CASE("Setting focus when knob position is not near output value registers item as not in sync")
 {
     MockView view;
-    PotentiometerArrayPageItem item;
+    ContinuousPotentiometerArrayPageItem item;
     item.SetOutputValue(0.5f);
     item.SetFocus();
     item.SetCurrentKnobPosition(0.6f);
@@ -139,7 +141,7 @@ TEST_CASE("Setting focus when knob position is not near output value registers i
 TEST_CASE("Incrementing value by less than hysteresis band does not increase scaled value")
 {
     MockView view;
-    PotentiometerArrayPageItem item;
+    ContinuousPotentiometerArrayPageItem item;
     item.SetFocus();
     item.SetCurrentKnobPosition(0.0f);
     item.SetCurrentKnobPosition(0.0390625f);
@@ -153,7 +155,7 @@ TEST_CASE("Incrementing value by less than hysteresis band does not increase sca
 TEST_CASE("Decrementing value by less than hysteresis band does not decrease scaled value")
 {
     MockView view;
-    PotentiometerArrayPageItem item;
+    ContinuousPotentiometerArrayPageItem item;
     item.SetFocus();
     item.SetCurrentKnobPosition(0.0f);
     item.SetCurrentKnobPosition(0.0390625f);

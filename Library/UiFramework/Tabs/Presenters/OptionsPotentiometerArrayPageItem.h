@@ -1,11 +1,12 @@
 #pragma once
-#ifndef POTENTIOMETER_ARRAY_PAGE_ITEM_H
-#define POTENTIOMETER_ARRAY_PAGE_ITEM_H
+#ifndef OPTIONS_POTENTIOMETER_ARRAY_PAGE_ITEM_H
+#define OPTIONS__POTENTIOMETER_ARRAY_PAGE_ITEM_H
 
 #include <string>
 #include "Page.h"
 #include "../View/View.h"
 #include "../../Shared/Scaling/PotentiometerToDisplayValueScaler.h"
+#include "PotentiometerArrayPageItem.h"
 
 using namespace std;
 
@@ -14,28 +15,22 @@ namespace developmentKit::library::uiFramework::tabs::presenters
     using namespace developmentKit::library::uiFramework::tabs::view;
     using namespace developmentKit::library::uiFramework::shared::scaling;
 
-    class PotentiometerArrayPageItem
+    class OptionsPotentiometerArrayPageItem : public PotentiometerArrayPageItem
     {
     public:
-        enum KnobMode
-        {
-            DIRECT,
-            CATCH
-        };
-        PotentiometerArrayPageItem() {}
-        ~PotentiometerArrayPageItem() {}
-        void SetInitialKnobPosition(float prmInitialValue);
-        void SetOutputValue(float prmOutputValue);
-        virtual void SetCurrentKnobPosition(float prmCurrentKnobPosiiton) = 0;
-        float GetOutputValue();
+        OptionsPotentiometerArrayPageItem();
+        ~OptionsPotentiometerArrayPageItem() {}
+        void SetCurrentKnobPosition(float prmCurrentKnobPosiiton);
         int16_t GetDisplayValue();
-        virtual string GetDisplayString() = 0;
+        string GetDisplayString();
         void SetFocus();
-        bool GetKnobPositionAndOutputValueSynced();
-        void SetKnobMode(KnobMode prmKnobMode);
+        void SetScaledRange(int16_t prmMinScaledValue, int16_t prmMaxScaledValue);
+        void SetOptions(string *prmOptions);
 
-    protected:
-        bool initialKnobPositionSet;
+    private:
+        string *options;
+        //PotentiometerToDisplayValueScaler scaler;
+        /*bool initialKnobPositionSet;
         float initialKnobPosition;
         float currentKnobPosition;
         float outputValue;
@@ -48,7 +43,7 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         bool firstUpdateSinceFocus = true;
         float division;
         float hysteresisBand;
-        PotentiometerToDisplayValueScaler scaler;
+        string *options;*/
     };
 }
 

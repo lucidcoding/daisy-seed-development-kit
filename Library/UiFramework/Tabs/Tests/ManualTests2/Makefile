@@ -14,6 +14,8 @@ CPP_SOURCES = \
 	../../Presenters/NumericSettingsPageItem.cpp \
 	../../Presenters/OptionsSettingsPageItem.cpp \
 	../../Presenters/PotentiometerArrayPageItem.cpp \
+	../../Presenters/ContinuousPotentiometerArrayPageItem.cpp \
+	../../Presenters/SteppedPotentiometerArrayPageItem.cpp \
 	../../Presenters/ListPage.cpp \
 	../../Presenters/TabPage.cpp \
 	../../Presenters/PotentiometerArrayPage.cpp \
