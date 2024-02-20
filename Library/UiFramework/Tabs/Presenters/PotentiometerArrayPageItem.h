@@ -24,15 +24,16 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         };
         PotentiometerArrayPageItem() {}
         ~PotentiometerArrayPageItem() {}
-        void SetInitialKnobPosition(float prmInitialValue);
+        void InitialiseKnobPosition(float prmInitialValue);
         void SetOutputValue(float prmOutputValue);
-        virtual void SetCurrentKnobPosition(float prmCurrentKnobPosiiton) = 0;
+        void SetCurrentKnobPosition(float prmCurrentKnobPosiiton);
         float GetOutputValue();
         int16_t GetDisplayValue();
         virtual string GetDisplayString() = 0;
         void SetFocus();
         bool GetKnobPositionAndOutputValueSynced();
         void SetKnobMode(KnobMode prmKnobMode);
+        void SetScaledRange(int16_t prmMinScaledValue, int16_t prmMaxScaledValue);
 
     protected:
         bool initialKnobPositionSet;
@@ -40,8 +41,6 @@ namespace developmentKit::library::uiFramework::tabs::presenters
         float currentKnobPosition;
         float outputValue;
         int16_t displayValue;
-        int16_t minScaledValue;
-        int16_t maxScaledValue;
         KnobMode knobMode = DIRECT;
         bool knobPositionAndOutputValueSynced = false;
         const float amountToRegisterForSync = 0.004f;

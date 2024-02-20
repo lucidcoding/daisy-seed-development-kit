@@ -10,7 +10,8 @@
 #include "../../Utilities/UiParameter.h"
 #include "../../Presenters/ListPage.h"
 #include "../../Presenters/PotentiometerArrayPage.h"
-#include "../../Presenters/ContinuousPotentiometerArrayPageItem.h"
+#include "../../Presenters/NumericPotentiometerArrayPageItem.h"
+#include "../../Presenters/OptionsPotentiometerArrayPageItem.h"
 #include "../../View/PotentiometerArrayPageIli9341View.h"
 #include "../../View/TabPageIli9341View.h"
 #include "../../Presenters/NavigationPageItem.h"
@@ -45,15 +46,13 @@ private:
     TabPage tabPage;
     TabPageItem oscillatorTabPageItem;
     PotentiometerArrayPage oscillatorPotentiometerArrayPage;
-    ContinuousPotentiometerArrayPageItem oscLevelPotentiometerArrayPageItem;
-    ContinuousPotentiometerArrayPageItem oscCoarseTunePotentiometerArrayPageItem;
-    ContinuousPotentiometerArrayPageItem oscWaveShapePotentiometerArrayPageItem;
+    NumericPotentiometerArrayPageItem oscLevelPotentiometerArrayPageItem;
+    NumericPotentiometerArrayPageItem oscCoarseTunePotentiometerArrayPageItem;
+    OptionsPotentiometerArrayPageItem oscWaveShapePotentiometerArrayPageItem;
     TabPageItem envelopeTabPageItem;
     PotentiometerArrayPage envelopePotentiometerArrayPage;
-    ContinuousPotentiometerArrayPageItem envAttackPotentiometerArrayPageItem;
-    ContinuousPotentiometerArrayPageItem envDecayPotentiometerArrayPageItem;
-
-    string oscWaveShapeOptions[4] = {"SIN", "TRI", "SAW", "SQU"};
+    NumericPotentiometerArrayPageItem envAttackPotentiometerArrayPageItem;
+    NumericPotentiometerArrayPageItem envDecayPotentiometerArrayPageItem;
 };
 
 #endif

@@ -14,7 +14,7 @@ test:
 		../../Presenters/SettingsPageItem.cpp \
 		../../Presenters/PotentiometerArrayPage.cpp \
 		../../Presenters/PotentiometerArrayPageItem.cpp \
-		../../Presenters/ContinuousPotentiometerArrayPageItem.cpp \
+		../../Presenters/NumericPotentiometerArrayPageItem.cpp \
 		../../../Shared/Scaling/PotentiometerToDisplayValueScaler.cpp 
 
 clean:
