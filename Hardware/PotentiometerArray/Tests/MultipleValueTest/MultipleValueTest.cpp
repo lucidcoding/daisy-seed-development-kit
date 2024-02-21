@@ -8,18 +8,19 @@ using namespace developmentKit::hardware::potentiometerArray::drivers;
 
 static DaisySeed hardware;
 PotentiometerArray potentiometerArray;
-Parameter param0, param1, param2, param3;
-float param0Value, param1Value, param2Value, param3Value;
+Parameter parameters[16];
+float parameterValues[16];
 
 static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
                           AudioHandle::InterleavingOutputBuffer out,
                           size_t size)
 {
     potentiometerArray.Process();
-    param0Value = param0.Process();
-    param1Value = param1.Process();
-    param2Value = param2.Process();
-    param3Value = param3.Process();
+
+    for (uint8_t i = 0; i < 16; i++)
+    {
+        parameterValues[i] = parameters[i].Process();
+    }
 }
 
 void InitPotentiometerArray()
@@ -30,10 +31,10 @@ void InitPotentiometerArray()
 
 void InitParameters(float sampleRate)
 {
-    param0.Init(potentiometerArray.analogControl[0], 0, 1.0f, Parameter::LINEAR);
-    param1.Init(potentiometerArray.analogControl[1], 0, 1.0f, Parameter::LINEAR);
-    param2.Init(potentiometerArray.analogControl[2], 0, 1.0f, Parameter::LINEAR);
-    param3.Init(potentiometerArray.analogControl[3], 0, 1.0f, Parameter::LINEAR);
+    for (uint8_t i = 0; i < 16; i++)
+    {
+        parameters[i].Init(potentiometerArray.analogControl[i], 0, 1.0f, Parameter::LINEAR);
+    }
 }
 
 int main(void)
@@ -49,10 +50,11 @@ int main(void)
 
     while (1)
     {
-        hardware.Print("p1:%3.5f ", param0Value);
-        hardware.Print("p2:%3.5f ", param1Value);
-        hardware.Print("p3:%3.5f ", param2Value);
-        hardware.Print("p4:%3.5f ", param3Value);
+        for (uint8_t i = 0; i < 16; i++)
+        {
+            hardware.Print("%d:%3.4f ", i, parameterValues[i]);
+        }
+
         hardware.PrintLine("");
         System::Delay(1000);
     }
