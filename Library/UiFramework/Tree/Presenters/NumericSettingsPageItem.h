@@ -15,8 +15,10 @@ namespace developmentKit::library::uiFramework::tree::presenters
     class NumericSettingsPageItem : public SettingsPageItem, public UiParameterProvider
     {
     public:
+        NumericSettingsPageItem() {}
         NumericSettingsPageItem(string prmTitle, ListPage *prmParent, int prmMin, int prmMax, int prmDefault);
         ~NumericSettingsPageItem() {}
+        void Init(string prmTitle, ListPage *prmParent, int prmMin, int prmMax, int prmDefault);
         void Increment();
         void Decrement();
         string GetValueAsString();

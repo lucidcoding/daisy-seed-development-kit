@@ -14,6 +14,15 @@ namespace developmentKit::library::uiFramework::tree::presenters
         max = prmMax;
     }
 
+    void NumericSettingsPageItem::Init(string prmTitle, ListPage *prmParent, int prmMin, int prmMax, int prmDefault)
+    {
+        title = prmTitle;
+        parent = prmParent;
+        value = prmDefault;
+        min = prmMin;
+        max = prmMax;
+    }
+
     void NumericSettingsPageItem::Increment()
     {
         if (value < max)

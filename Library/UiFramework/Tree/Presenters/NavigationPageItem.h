@@ -19,7 +19,9 @@ namespace developmentKit::library::uiFramework::tree::presenters
     class NavigationPageItem : public PageItem
     {
     public:
+    NavigationPageItem(){}
         NavigationPageItem(string prmTitle, Page *prmNext, Display *prmRoot);
+        void Init(string prmTitle, Page *prmNext, Display *prmRoot);
         ~NavigationPageItem() {}
         void Increment();
         void Decrement();

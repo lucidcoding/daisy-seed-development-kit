@@ -3,7 +3,8 @@ TARGET = Interface.test
 
 # Sources
 CPP_SOURCES = \
-	UiFramework.test.cpp  \
+	Main.test.cpp  \
+	UserInterface.cpp \
 	../../Display.cpp \
 	../../View/ListPageSsd1306I2cView.cpp \
 	../../View/ListPageIli9341View.cpp \

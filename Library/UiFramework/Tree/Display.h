@@ -22,9 +22,9 @@ namespace developmentKit::library::uiFramework::tree
         Page *GetCurrentPage();
         void SetCurrentPage(Page *newCurrentPage);
         void SetHomePage(Page *newHomePage);
-        void Paint();
+        virtual void Paint() = 0;;
 
-    private:
+    protected:
         Page *homePage;
         Page *currentPage;
     };

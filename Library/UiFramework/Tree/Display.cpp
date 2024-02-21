@@ -38,9 +38,4 @@ namespace developmentKit::library::uiFramework::tree
     {
         homePage = newHomePage;
     }
-
-    void Display::Paint()
-    {
-        currentPage->Paint();
-    }
 }

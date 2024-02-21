@@ -14,6 +14,13 @@ namespace developmentKit::library::uiFramework::tree::presenters
         root = prmRoot;
     }
 
+    void NavigationPageItem::Init(string prmTitle, Page *prmNext, Display *prmRoot)
+    {
+        title = prmTitle;
+        next = prmNext;
+        root = prmRoot;
+    }
+
     void NavigationPageItem::Increment()
     {
     }
