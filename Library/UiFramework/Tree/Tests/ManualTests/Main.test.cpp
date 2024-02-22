@@ -2,7 +2,7 @@
 #include "daisy_seed.h"
 #include "dev/oled_ssd130x.h"
 #include "UserInterface.h"
-#include "../../Display.h"
+#include "../../Presenters/TreeRoot.h"
 #include "../../Utilities/UiParameter.h"
 #include "../../Presenters/ListPage.h"
 #include "../../View/ListPageSsd1306I2cView.h"
@@ -19,7 +19,7 @@
 
 using namespace daisysp;
 using namespace daisy;
-using namespace developmentKit::library::uiFramework::tree;
+using namespace developmentKit::library::uiFramework::tree::presenters;
 using namespace developmentKit::library::uiFramework::tree::utilities;
 using namespace developmentKit::library::uiFramework::tree::view;
 
@@ -29,13 +29,12 @@ Oscillator oscillator;
 Adsr adsr;
 Metro metro;
 bool gate;
-//OledDisplay<SSD130xI2c128x64Driver> oledDisplay;
+// OledDisplay<SSD130xI2c128x64Driver> oledDisplay;
 UserInterface userInterface;
 
+// UiDriver tftDisplay;
 
-//UiDriver tftDisplay;
-
-//Display display;
+// Display display;
 
 /*UiParameter
     levelParameter,
@@ -45,13 +44,13 @@ UserInterface userInterface;
     sustainParameter,
     releaseParameter;*/
 
-//OptionsSettingsPageItem *waveformSettingsPageItem;
+// OptionsSettingsPageItem *waveformSettingsPageItem;
 
 void UpdateDisplay()
 {
     userInterface.Paint();
-    //display.Paint();
-    //oledDisplay.Update();
+    // display.Paint();
+    // oledDisplay.Update();
 }
 
 void ProcessEncoder()
@@ -83,18 +82,19 @@ static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
                           size_t size)
 {
     ProcessEncoder();
-    /*float level = levelParameter.Process();
-    float frequency = mtof(noteParameter.Process());
-    float attackTime = attackParameter.Process();
-    float decayTime = decayParameter.Process();
-    float sustainLevel = sustainParameter.Process();
-    float releaseTime = releaseParameter.Process();
-    unsigned int waveform = waveformSettingsPageItem->GetValue();
+    ParameterSet parameterSet = userInterface.GetParameters();
+    float level = parameterSet.level;
+    float frequency = mtof(parameterSet.note);
+    float attackTime = parameterSet.attack;
+    float decayTime = parameterSet.decay;
+    float sustainLevel = parameterSet.sustain;
+    float releaseTime = parameterSet.release;
+    uint8_t waveform = parameterSet.waveform;
     adsr.SetTime(ADSR_SEG_ATTACK, attackTime);
     adsr.SetTime(ADSR_SEG_DECAY, decayTime);
     adsr.SetSustainLevel(sustainLevel);
     adsr.SetTime(ADSR_SEG_RELEASE, releaseTime);
-    oscillator.SetWaveform(waveform);*/
+    oscillator.SetWaveform(waveform);
     float oscillatorOut, adsrOut;
 
     for (size_t i = 0; i < size; i += 2)
@@ -106,8 +106,8 @@ static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
         }
 
         adsrOut = adsr.Process(gate);
-        //oscillator.SetFreq(frequency);
-        //oscillator.SetAmp(adsrOut * level);
+        oscillator.SetFreq(frequency);
+        oscillator.SetAmp(adsrOut * level);
         oscillatorOut = oscillator.Process();
 
         out[i] = oscillatorOut;
@@ -137,23 +137,6 @@ void InitMetro(float sampleRate)
     metro.Init(1.0f, sampleRate);
 }
 
-void InitOledDisplayx()
-{
-    OledDisplay<SSD130xI2c128x64Driver>::Config disp_cfg;
-    disp_cfg.driver_config.transport_config.i2c_address = 0x3C;
-    disp_cfg.driver_config.transport_config.i2c_config.periph = I2CHandle::Config::Peripheral::I2C_1;
-    disp_cfg.driver_config.transport_config.i2c_config.speed = I2CHandle::Config::Speed::I2C_1MHZ;
-    disp_cfg.driver_config.transport_config.i2c_config.mode = I2CHandle::Config::Mode::I2C_MASTER;
-    disp_cfg.driver_config.transport_config.i2c_config.pin_config.scl = {DSY_GPIOB, PIN_I2C_SCL};
-    disp_cfg.driver_config.transport_config.i2c_config.pin_config.sda = {DSY_GPIOB, PIN_I2C_SDA};
-    //oledDisplay.Init(disp_cfg);
-}
-
-void InitTftDisplayx()
-{
-    //tftDisplay.Init();
-}
-
 void InitEncoder(float sampleRate)
 {
     encoder.Init(
@@ -168,63 +151,6 @@ void InitDisplay()
     userInterface.Init();
 }
 
-// void InitDisplayx()
-// {
-//     // Setup view and home page.
-//     // ListPageSsd1306I2cView *listPageView = new ListPageSsd1306I2cView(&oledDisplay);
-//     // ListPageIli9341View *listPageView = new ListPageIli9341View(&tftDisplay);
-//     ListPageSsd1306I2cView *listPageView = new ListPageSsd1306I2cView(&oledDisplay);
-//     ListPage *homeListPage = new ListPage(listPageView);
-
-//     // Setup oscillator page and add to home page.
-//     ListPage *oscillatorListPage = new ListPage(listPageView);
-//     oscillatorListPage->AddItem(new NavigationPageItem("Back...", homeListPage, &display));
-//     NumericSettingsPageItem *levelSettingsPageItem = new NumericSettingsPageItem("Level", oscillatorListPage, 0, 127, 16);
-//     oscillatorListPage->AddItem(levelSettingsPageItem);
-//     NumericSettingsPageItem *noteSettingsPageItem = new NumericSettingsPageItem("Note", oscillatorListPage, 0, 127, 64);
-//     oscillatorListPage->AddItem(noteSettingsPageItem);
-//     waveformSettingsPageItem = new OptionsSettingsPageItem("Waveform", oscillatorListPage);
-//     waveformSettingsPageItem->AddOption("Sin", Oscillator::WAVE_SIN);
-//     waveformSettingsPageItem->AddOption("Tri", Oscillator::WAVE_TRI);
-//     waveformSettingsPageItem->AddOption("Saw", Oscillator::WAVE_SAW);
-//     waveformSettingsPageItem->AddOption("Squ", Oscillator::WAVE_SQUARE);
-//     oscillatorListPage->AddItem(waveformSettingsPageItem);
-//     homeListPage->AddItem(new NavigationPageItem("Oscillator...", oscillatorListPage, &display));
-
-//     // Setup envelope page and add to home page.
-//     ListPage *adsrListPage = new ListPage(listPageView);
-//     adsrListPage->AddItem(new NavigationPageItem("Back...", homeListPage, &display));
-//     NumericSettingsPageItem *attackSettingsPageItem = new NumericSettingsPageItem("Attack", adsrListPage, 0, 127, 0);
-//     adsrListPage->AddItem(attackSettingsPageItem);
-//     NumericSettingsPageItem *decaySettingsPageItem = new NumericSettingsPageItem("Decay", adsrListPage, 0, 127, 32);
-//     adsrListPage->AddItem(decaySettingsPageItem);
-//     NumericSettingsPageItem *sustainSettingsPageItem = new NumericSettingsPageItem("Sustain", adsrListPage, 0, 127, 16);
-//     adsrListPage->AddItem(sustainSettingsPageItem);
-//     NumericSettingsPageItem *releaseSettingsPageItem = new NumericSettingsPageItem("Release", adsrListPage, 0, 127, 16);
-//     adsrListPage->AddItem(releaseSettingsPageItem);
-//     homeListPage->AddItem(new NavigationPageItem("Envelope...", adsrListPage, &display));
-
-//     // Other pages
-//     char title[25];
-//     for (uint8_t i = 0; i < 25; i++)
-//     {   
-//         sprintf(title, "Filler %d...", i);
-//         homeListPage->AddItem(new NavigationPageItem(title, new ListPage(listPageView), &display));
-//     }
-
-//     // Set display home page and current page.
-//     display.SetHomePage(homeListPage);
-//     display.SetCurrentPage(homeListPage);
-
-//     // Tie parameters to values from settings page items.
-//     levelParameter.Init(levelSettingsPageItem, 0.0f, 1.0f, UiParameter::LINEAR);
-//     noteParameter.Init(noteSettingsPageItem, 0, 128, UiParameter::LINEAR);
-//     attackParameter.Init(attackSettingsPageItem, 0.0f, 1.0f, UiParameter::LINEAR);
-//     decayParameter.Init(decaySettingsPageItem, 0.0f, 1.0f, UiParameter::LINEAR);
-//     sustainParameter.Init(sustainSettingsPageItem, 0.0f, 1.0f, UiParameter::LINEAR);
-//     releaseParameter.Init(releaseSettingsPageItem, 0.0f, 1.0f, UiParameter::LINEAR);
-// }
-
 int main(void)
 {
     hardware.Configure();
@@ -234,16 +160,11 @@ int main(void)
     InitOscillator(sampleRate);
     InitAdsr(sampleRate);
     InitMetro(sampleRate);
-    //InitOledDisplay();
-    //InitTftDisplay();
     InitEncoder(sampleRate);
     InitDisplay();
     hardware.StartAudio(AudioCallback);
-
     UpdateDisplay();
-
     uint32_t lastTicksRefresh = System::GetTick();
-    uint32_t lastTicksRefreshDisplay = System::GetTick();
     const uint32_t ticksPerUs = System::GetTickFreq() / 1000000;
 
     while (1)
@@ -253,8 +174,10 @@ int main(void)
         if (currentTicks - lastTicksRefresh > (100000 * ticksPerUs))
         {
             lastTicksRefresh = currentTicks;
-            hardware.PrintLine("tick...");
-            //tftDisplay.Update();
+
+            ParameterSet parameterSet = userInterface.GetParameters();
+            hardware.PrintLine("Level: %3.5f, note: %d", parameterSet.level, parameterSet.note);
+            // tftDisplay.Update();
         }
     }
 }

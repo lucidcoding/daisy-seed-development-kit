@@ -1,7 +1,8 @@
 test:
 	g++ -lstdc++ -o Main.test.exe -DTESTING \
 		Main.test.cpp \
-		../../Display.cpp \
+		TestTreeRoot.cpp \
+		../../Presenters/TreeRoot.cpp \
 		../../Utilities/UiParameter.cpp \
 		../../Presenters/ListPage.cpp \
 		../../Presenters/NavigationPageItem.cpp \

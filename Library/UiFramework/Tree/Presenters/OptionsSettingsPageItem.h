@@ -2,7 +2,7 @@
 #ifndef OPTIONS_SETTINGS_PAGE_ITEM_H
 #define OPTIONS_SETTINGS_PAGE_ITEM_H
 
-//#include "ListPage.h"
+// #include "ListPage.h"
 #include "SettingsPageItem.h"
 #include "Option.h"
 #include <string>
@@ -15,8 +15,10 @@ namespace developmentKit::library::uiFramework::tree::presenters
     class OptionsSettingsPageItem : public SettingsPageItem
     {
     public:
+        OptionsSettingsPageItem() {}
         OptionsSettingsPageItem(string prmTitle, ListPage *prmParent);
         ~OptionsSettingsPageItem() {}
+        void Init(string prmTitle, ListPage *prmParent);
         void Increment();
         void Decrement();
         string GetValueAsString();

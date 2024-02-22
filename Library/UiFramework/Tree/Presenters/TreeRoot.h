@@ -1,20 +1,18 @@
 #pragma once
-#ifndef DISPLAY_H
-#define DISPLAY_H
+#ifndef TREE_ROOT_H
+#define TREE_ROOT_H
 
-#include "./Presenters/Page.h"
+#include "./Page.h"
 #include <string>
 #include <vector>
 
-namespace developmentKit::library::uiFramework::tree
+namespace developmentKit::library::uiFramework::tree::presenters
 {
-    using namespace developmentKit::library::uiFramework::tree::presenters;
-
-    class Display
+    class TreeRoot
     {
     public:
-        Display() {}
-        ~Display () {}
+        TreeRoot() {}
+        ~TreeRoot () {}
         void Increment();
         void Decrement();
         void Select();

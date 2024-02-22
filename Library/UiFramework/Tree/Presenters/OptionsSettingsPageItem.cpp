@@ -13,6 +13,13 @@ namespace developmentKit::library::uiFramework::tree::presenters
         parent = prmParent;
     }
 
+    void OptionsSettingsPageItem::Init(string prmTitle, ListPage *prmParent)
+    {
+        title = prmTitle;
+        currentIndex = 0;
+        parent = prmParent;
+    }
+
     void OptionsSettingsPageItem::Increment()
     {
         if (currentIndex < options.size() - 1)

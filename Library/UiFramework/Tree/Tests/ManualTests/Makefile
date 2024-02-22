@@ -5,7 +5,7 @@ TARGET = Interface.test
 CPP_SOURCES = \
 	Main.test.cpp  \
 	UserInterface.cpp \
-	../../Display.cpp \
+	../../Presenters/TreeRoot.cpp \
 	../../View/ListPageSsd1306I2cView.cpp \
 	../../View/ListPageIli9341View.cpp \
 	../../Presenters/NavigationPageItem.cpp \

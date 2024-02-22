@@ -27,6 +27,7 @@ namespace developmentKit::library::uiFramework::tree::presenters
         int GetValue();
         int GetMin();
         int GetMax();
+        float GetScaledValue();
 
     private:
         string title;

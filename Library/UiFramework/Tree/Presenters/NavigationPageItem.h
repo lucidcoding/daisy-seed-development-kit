@@ -20,8 +20,8 @@ namespace developmentKit::library::uiFramework::tree::presenters
     {
     public:
     NavigationPageItem(){}
-        NavigationPageItem(string prmTitle, Page *prmNext, Display *prmRoot);
-        void Init(string prmTitle, Page *prmNext, Display *prmRoot);
+        NavigationPageItem(string prmTitle, Page *prmNext, TreeRoot *prmRoot);
+        void Init(string prmTitle, Page *prmNext, TreeRoot *prmRoot);
         ~NavigationPageItem() {}
         void Increment();
         void Decrement();
@@ -31,7 +31,7 @@ namespace developmentKit::library::uiFramework::tree::presenters
 
     private:
         Page *next;
-        Display *root;
+        TreeRoot *root;
         string title;
     };
 }

@@ -1,4 +1,4 @@
-#include "../Display.h"
+#include "../Presenters/TreeRoot.h"
 #include "NavigationPageItem.h"
 #include <string>
 
@@ -7,14 +7,14 @@ namespace developmentKit::library::uiFramework::tree::presenters
     using namespace std;
     using namespace developmentKit::library::uiFramework::tree;
 
-    NavigationPageItem::NavigationPageItem(string prmTitle, Page *prmNext, Display *prmRoot)
+    NavigationPageItem::NavigationPageItem(string prmTitle, Page *prmNext, TreeRoot *prmRoot)
     {
         title = prmTitle;
         next = prmNext;
         root = prmRoot;
     }
 
-    void NavigationPageItem::Init(string prmTitle, Page *prmNext, Display *prmRoot)
+    void NavigationPageItem::Init(string prmTitle, Page *prmNext, TreeRoot *prmRoot)
     {
         title = prmTitle;
         next = prmNext;

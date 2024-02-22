@@ -70,4 +70,12 @@ namespace developmentKit::library::uiFramework::tree::presenters
     {
         return max;
     }
+
+    float NumericSettingsPageItem::GetScaledValue()
+    {
+        float floatValue = (float)value;
+        float floatMin = (float)min;
+        float floatMax = (float)max;
+        return (floatValue / (floatMax - floatMin)) - (floatMin / (floatMax - floatMin));
+    }
 }

@@ -1,40 +1,35 @@
 #pragma once
-#ifndef USER_INTERFACE_H
-#define USER_INTERFACE_H
+#ifndef TEST_TREE_ROOT_H
+#define TEST_TREE_ROOT_H
 
 #define PIN_I2C_SCL 8
 #define PIN_I2C_SDA 9
 
-#include <string>
-#include "daisysp.h"
-#include "daisy_seed.h"
+#include "MockUiParameterProvider.h"
+#include "MockView.h"
 #include "ParameterSet.h"
+#include "../../../../../ThirdParty/catch.hpp"
 #include "../../Presenters/TreeRoot.h"
 #include "../../Presenters/ListPage.h"
 #include "../../Presenters/NavigationPageItem.h"
-#include "../../Presenters/OptionsSettingsPageItem.h"
 #include "../../Presenters/NumericSettingsPageItem.h"
+#include "../../Presenters/OptionsSettingsPageItem.h"
 #include "../../Utilities/UiParameter.h"
-#include "../../View/ListPageSsd1306I2cView.h"
+#include "../../Utilities/UiParameterProvider.h"
 
-using namespace daisysp;
-using namespace daisy;
 using namespace developmentKit::library::uiFramework::tree::presenters;
+using namespace developmentKit::library::uiFramework::tree::tests;
 using namespace developmentKit::library::uiFramework::tree::utilities;
-using namespace developmentKit::library::uiFramework::tree::view;
 
-class UserInterface : public TreeRoot
+class TestTreeRoot : public TreeRoot
 {
 public:
-    UserInterface();
-    ~UserInterface() {}
+    TestTreeRoot();
+    ~TestTreeRoot() {}
     void Init();
     void Paint();
     ParameterSet GetParameters();
-
-private:
-    OledDisplay<SSD130xI2c128x64Driver> oledDisplay;
-    ListPageSsd1306I2cView listPageView;
+    MockView mockView;
     ListPage homeListPage;
     NavigationPageItem oscillatorNavigationPageItem;
     NavigationPageItem adsrNavigationPageItem;
@@ -49,6 +44,8 @@ private:
     NumericSettingsPageItem decaySettingsPageItem;
     NumericSettingsPageItem sustainSettingsPageItem;
     NumericSettingsPageItem releaseSettingsPageItem;
+
+private:
 };
 
 #endif
