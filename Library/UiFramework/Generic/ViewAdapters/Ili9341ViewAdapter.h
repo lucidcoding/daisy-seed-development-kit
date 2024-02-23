@@ -12,7 +12,7 @@ namespace developmentKit::library::uiFramework::tree::viewAdapters
     class Ili9341ViewAdapter : public ViewAdapter
     {
     public:
-        Ili9341ViewAdapter();
+        Ili9341ViewAdapter() {}
         ~Ili9341ViewAdapter() {}
         void Init(UiDriver *prmDisplay);
         virtual void WriteString(const char *str, uint16_t x, uint16_t y, FontDef font, Color color);

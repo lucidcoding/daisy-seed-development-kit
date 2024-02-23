@@ -15,7 +15,8 @@ CPP_SOURCES = \
 	../../Presenters/ListPage.cpp \
 	../../Utilities/UiParameter.cpp \
 	../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.cpp \
-	../../ViewAdapters/Ssd1306I2cViewAdapter.cpp
+	../../ViewAdapters/Ssd1306I2cViewAdapter.cpp\
+	../../ViewAdapters/Ili9341ViewAdapter.cpp
 	
 # Core location, and generic Makefile.
 SYSTEM_FILES_DIR = $(LIBDAISY_DIR)/core
