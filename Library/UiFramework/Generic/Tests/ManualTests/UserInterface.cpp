@@ -2,21 +2,19 @@
 #include "daisysp.h"
 #include "daisy_seed.h"
 #include "ParameterSet.h"
-#include "../../Views/ListPageSsd1306I2cView.h"
 #include "../../Views/ListPageIli9341View.h"
 #include "../../Utilities/UiParameter.h"
 #include "../../Presenters/ListPage.h"
 #include "../../Presenters/NavigationPageItem.h"
 #include "../../Presenters/OptionsSettingsPageItem.h"
+#include "../../ViewAdapters/Ssd1306I2cViewAdapter.h"
 
 using namespace daisysp;
 using namespace daisy;
 using namespace developmentKit::library::uiFramework::presenters;
 using namespace developmentKit::library::uiFramework::tree;
 using namespace developmentKit::library::uiFramework::tree::view;
-
-UserInterface::UserInterface()
-{}
+using namespace developmentKit::library::uiFramework::tree::viewAdapters;
 
 void UserInterface::Init(OledDisplay<SSD130xI2c128x64Driver> *prmOledDisplay)
 {
@@ -32,7 +30,8 @@ void UserInterface::Init(OledDisplay<SSD130xI2c128x64Driver> *prmOledDisplay)
     oledDisplay->Init(disp_cfg);
 
     // Initialise view
-    listPageView.Init(oledDisplay);
+    viewAdapter.Init(oledDisplay);
+    listPageView.Init(&viewAdapter);
 
     // Initialise home list page
     homeListPage.Init(&listPageView);
@@ -107,9 +106,4 @@ ParameterSet UserInterface::GetParameters()
     parameterSet.sustain = sustainSettingsPageItem.GetScaledValue();
     parameterSet.release = releaseSettingsPageItem.GetScaledValue();
     return parameterSet;
-}
-
-void UserInterface::Paint()
-{
-    currentPage->Paint();
 }

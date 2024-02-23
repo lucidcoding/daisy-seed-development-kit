@@ -15,7 +15,9 @@
 #include "../../Presenters/OptionsSettingsPageItem.h"
 #include "../../Presenters/NumericSettingsPageItem.h"
 #include "../../Utilities/UiParameter.h"
-#include "../../Views/ListPageSsd1306I2cView.h"
+//#include "../../Views/ListPageSsd1306I2cView.h"
+#include "../../Views/ListPageView.h"
+#include "../../ViewAdapters/Ssd1306I2cViewAdapter.h"
 
 using namespace daisysp;
 using namespace daisy;
@@ -23,19 +25,21 @@ using namespace developmentKit::library::uiFramework::presenters;
 using namespace developmentKit::library::uiFramework::tree;
 using namespace developmentKit::library::uiFramework::tree::utilities;
 using namespace developmentKit::library::uiFramework::tree::view;
+using namespace developmentKit::library::uiFramework::tree::viewAdapters;
 
 class UserInterface : public Root
 {
 public:
-    UserInterface();
+    UserInterface() {}
     ~UserInterface() {}
     void Init(OledDisplay<SSD130xI2c128x64Driver> *prmOledDisplay);
-    void Paint();
     ParameterSet GetParameters();
 
 private:
     OledDisplay<SSD130xI2c128x64Driver> *oledDisplay;
-    ListPageSsd1306I2cView listPageView;
+    //ListPageSsd1306I2cView listPageView;
+    ListPageView listPageView;
+    Ssd1306I2cViewAdapter viewAdapter;
     ListPage homeListPage;
     NavigationPageItem oscillatorNavigationPageItem;
     NavigationPageItem adsrNavigationPageItem;

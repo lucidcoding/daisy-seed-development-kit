@@ -20,7 +20,7 @@ namespace developmentKit::library::uiFramework::presenters
         Page *GetCurrentPage();
         void SetCurrentPage(Page *newCurrentPage);
         void SetHomePage(Page *newHomePage);
-        virtual void Paint() = 0;;
+        void Paint();
 
     protected:
         Page *homePage;

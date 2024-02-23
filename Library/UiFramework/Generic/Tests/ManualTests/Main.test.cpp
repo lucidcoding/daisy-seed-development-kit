@@ -5,7 +5,6 @@
 #include "../../Presenters/Root.h"
 #include "../../Utilities/UiParameter.h"
 #include "../../Presenters/ListPage.h"
-#include "../../Views/ListPageSsd1306I2cView.h"
 #include "../../Views/ListPageIli9341View.h"
 #include "../../Presenters/NavigationPageItem.h"
 #include "../../Presenters/OptionsSettingsPageItem.h"

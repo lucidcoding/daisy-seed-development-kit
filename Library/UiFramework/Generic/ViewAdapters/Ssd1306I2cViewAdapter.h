@@ -1,20 +1,20 @@
 #pragma once
-#ifndef ILI9341_VIEW_ADAPTER_H
-#define ILI9341_VIEW_ADAPTER_H
+#ifndef SSD1306_I2C_VIEW_ADAPTER_H
+#define SSD1306_I2C_VIEW_ADAPTER_H
 
 #include "ViewAdapter.h"
-#include "../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
+#include "dev/oled_ssd130x.h"
 
 namespace developmentKit::library::uiFramework::tree::viewAdapters
 {
     using namespace daisy;
 
-    class Ili9341ViewAdapter : public ViewAdapter
+    class Ssd1306I2cViewAdapter : public ViewAdapter
     {
     public:
-        Ili9341ViewAdapter();
-        ~Ili9341ViewAdapter() {}
-        void Init(UiDriver *prmDisplay);
+        Ssd1306I2cViewAdapter() {}
+        ~Ssd1306I2cViewAdapter() {}
+        void Init(OledDisplay<SSD130xI2c128x64Driver> *prmDisplay);
         virtual void WriteString(const char *str, uint16_t x, uint16_t y, FontDef font, Color color);
         virtual void DrawRect(uint16_t x, uint16_t y, uint16_t width, uint16_t height, Color color);
         virtual void FillRect(uint16_t x, uint16_t y, uint16_t width, uint16_t height, Color color);
@@ -22,7 +22,7 @@ namespace developmentKit::library::uiFramework::tree::viewAdapters
         virtual void Fill(Color color);
 
     private:
-        UiDriver *display;
+        OledDisplay<SSD130xI2c128x64Driver> *display;
     };
 }
 

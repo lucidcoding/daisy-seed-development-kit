@@ -36,4 +36,9 @@ namespace developmentKit::library::uiFramework::presenters
     {
         homePage = newHomePage;
     }
+
+    void Root::Paint()
+    {
+        currentPage->Paint();
+    }
 }
