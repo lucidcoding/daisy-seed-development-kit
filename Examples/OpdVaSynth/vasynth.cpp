@@ -4,7 +4,6 @@
 
 #include "main.h"
 #include "vasynth.h"
-#include "port.h"
 //#include "qspi.h"
 
 

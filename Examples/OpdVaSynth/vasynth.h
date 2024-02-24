@@ -2,10 +2,8 @@
 #ifndef DSY_VAVOICE_H
 #define DSY_VAVOICE_H
 
-//#include "daisy_pod.h"
-#include "daisy_seed.h"
+#include "daisy_pod.h"
 #include "daisysp.h"
-#include "port.h"
 
 #include "main.h"
 
@@ -15,6 +13,7 @@
 
 using namespace daisy;
 using namespace daisysp;
+
 
 typedef struct
 {
