@@ -15,7 +15,6 @@
 #include "../../Presenters/OptionsSettingsPageItem.h"
 #include "../../Presenters/NumericSettingsPageItem.h"
 #include "../../Utilities/UiParameter.h"
-//#include "../../Views/ListPageSsd1306I2cView.h"
 #include "../../Views/ListPageView.h"
 #include "../../ViewAdapters/Ili9341ViewAdapter.h"
 #include "../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"

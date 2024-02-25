@@ -25,7 +25,7 @@ void UserInterface::Init(UiDriver *prmUiDriver)
 
     // Initialise view
     viewAdapter.Init(uiDriver);
-    listPageView.Init(&viewAdapter);
+    listPageView.Init(&viewAdapter, 0, 0, 320, 240);
 
     // Initialise home list page
     homeListPage.Init(&listPageView);

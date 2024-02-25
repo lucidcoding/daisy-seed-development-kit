@@ -4,7 +4,7 @@
 
 #include <string>
 #include <vector>
-#include "PageItem.h"
+#include "ListPageItem.h"
 #include "Page.h"
 #include "../Views/View.h"
 
@@ -23,8 +23,10 @@ namespace developmentKit::library::uiFramework::presenters
         virtual void Increment();
         virtual void Decrement();
         virtual void Select();
-        PageItem *GetItem(uint8_t index);
-        void AddItem(PageItem *pageItem);
+        virtual void SetPotentiometerValues(float *values) {}
+        virtual void SetFocus() {}
+        ListPageItem *GetItem(uint8_t index);
+        void AddItem(ListPageItem *pageItem);
         uint8_t ItemsCount();
         uint8_t GetCurrentIndex();
         bool GetItemSelected();
@@ -32,7 +34,7 @@ namespace developmentKit::library::uiFramework::presenters
         void Paint();
 
     private:
-        vector<PageItem *> items;
+        vector<ListPageItem *> items;
         uint8_t currentIndex;
         bool itemSelected;
         View *view;

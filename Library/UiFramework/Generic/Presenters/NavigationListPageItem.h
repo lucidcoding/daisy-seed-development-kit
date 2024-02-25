@@ -5,23 +5,23 @@
 #include <string>
 #include <vector>
 #include "Page.h"
-#include "PageItem.h"
+#include "ListPageItem.h"
 
 namespace developmentKit::library::uiFramework::presenters
 {
     using namespace std;
 
-    class NavigationPageItem : public PageItem
+    class NavigationListPageItem : public ListPageItem
     {
     public:
-        NavigationPageItem() {}
-        ~NavigationPageItem() {}
+        NavigationListPageItem() {}
+        ~NavigationListPageItem() {}
         void Init(string prmTitle, Page *prmNext, Root *prmRoot);
         void Increment();
         void Decrement();
         void Select();
         string GetTitle();
-        PageItemType GetType();
+        ListPageItemType GetType();
 
     private:
         Page *next;

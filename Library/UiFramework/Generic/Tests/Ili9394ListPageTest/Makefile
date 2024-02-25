@@ -8,10 +8,10 @@ CPP_SOURCES = \
 	../../Presenters/Root.cpp \
 	../../Views/ListPageIli9341View.cpp \
 	../../Views/ListPageView.cpp \
-	../../Presenters/NavigationPageItem.cpp \
-	../../Presenters/SettingsPageItem.cpp \
-	../../Presenters/NumericSettingsPageItem.cpp \
-	../../Presenters/OptionsSettingsPageItem.cpp \
+	../../Presenters/NavigationListPageItem.cpp \
+	../../Presenters/SettingsListPageItem.cpp \
+	../../Presenters/NumericSettingsListPageItem.cpp \
+	../../Presenters/OptionsSettingsListPageItem.cpp \
 	../../Presenters/ListPage.cpp \
 	../../Utilities/UiParameter.cpp \
 	../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.cpp \

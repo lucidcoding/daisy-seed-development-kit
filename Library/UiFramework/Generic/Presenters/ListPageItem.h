@@ -8,22 +8,22 @@ using namespace std;
 
 namespace developmentKit::library::uiFramework::presenters
 {
-    class PageItem
+    class ListPageItem
     {
     public:
-        enum PageItemType
+        enum ListPageItemType
         {
             NAVIGATION_PAGE_ITEM,
             NUMERIC_SETTINGS_PAGE_ITEM,
             OPTIONS_SETTINGS_PAGE_ITEM
         };
-        PageItem() {}
-        ~PageItem() {}
+        ListPageItem() {}
+        ~ListPageItem() {}
         virtual void Increment() = 0;
         virtual void Decrement() = 0;
         virtual void Select() = 0;
         virtual string GetTitle() = 0;
-        virtual PageItemType GetType() = 0;
+        virtual ListPageItemType GetType() = 0;
 
     private:
     };

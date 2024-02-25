@@ -1,11 +1,11 @@
-#include "SettingsPageItem.h"
+#include "SettingsListPageItem.h"
 #include <string>
 
 namespace developmentKit::library::uiFramework::presenters
 {
     using namespace std;
 
-    void SettingsPageItem::Select()
+    void SettingsListPageItem::Select()
     {
         parent->ToggleItemSelected();
     }

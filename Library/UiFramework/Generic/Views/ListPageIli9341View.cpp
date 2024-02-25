@@ -3,7 +3,7 @@
 #include "daisysp.h"
 #include "ListPageIli9341View.h"
 #include "../Presenters/ListPage.h"
-#include "../Presenters/SettingsPageItem.h"
+#include "../Presenters/SettingsListPageItem.h"
 #include "../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
 
 namespace developmentKit::library::uiFramework::tree::view
@@ -44,14 +44,14 @@ namespace developmentKit::library::uiFramework::tree::view
         for (uint8_t i = 0; i < rowsToShow; i++)
         {
             uint8_t currentIndex = startRow + i;
-            PageItem *pageItem = listPage->GetItem(currentIndex);
+            ListPageItem *pageItem = listPage->GetItem(currentIndex);
             bool hasFocus = listPage->GetCurrentIndex() == currentIndex;
             strcpy(title, pageItem->GetTitle().c_str());
             int startPosition = y + (rowHeight * i);
 
-            if (pageItem->GetType() == PageItem::PageItemType::NUMERIC_SETTINGS_PAGE_ITEM || pageItem->GetType() == PageItem::PageItemType::OPTIONS_SETTINGS_PAGE_ITEM)
+            if (pageItem->GetType() == ListPageItem::ListPageItemType::NUMERIC_SETTINGS_PAGE_ITEM || pageItem->GetType() == ListPageItem::ListPageItemType::OPTIONS_SETTINGS_PAGE_ITEM)
             {
-                SettingsPageItem *settingsPageItem = static_cast<SettingsPageItem *>(pageItem);
+                SettingsListPageItem *settingsListPageItem = static_cast<SettingsListPageItem *>(pageItem);
 
                 if (hasFocus && !listPage->GetItemSelected())
                 {
@@ -64,7 +64,7 @@ namespace developmentKit::library::uiFramework::tree::view
                 }
 
                 displayHardware->WriteString(title, x + 1, startPosition + 2, fontDef, !hasFocus || listPage->GetItemSelected() ? COLOR_WHITE : COLOR_BLACK);
-                displayHardware->WriteString(settingsPageItem->GetValueAsString().c_str(), x + width - valueWidth, startPosition +2, fontDef, !hasFocus ? COLOR_WHITE : COLOR_BLACK);
+                displayHardware->WriteString(settingsListPageItem->GetValueAsString().c_str(), x + width - valueWidth, startPosition +2, fontDef, !hasFocus ? COLOR_WHITE : COLOR_BLACK);
             }
             else
             {

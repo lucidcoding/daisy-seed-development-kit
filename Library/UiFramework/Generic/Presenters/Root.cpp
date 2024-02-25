@@ -1,9 +1,4 @@
 #include "Root.h"
-#include "./NavigationPageItem.h"
-#include "./NumericSettingsPageItem.h"
-#include "./OptionsSettingsPageItem.h"
-#include "./Option.h"
-#include "./ListPage.h"
 
 namespace developmentKit::library::uiFramework::presenters
 {

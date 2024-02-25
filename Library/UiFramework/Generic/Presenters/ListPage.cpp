@@ -1,5 +1,5 @@
 #include "ListPage.h"
-#include "PageItem.h"
+#include "ListPageItem.h"
 #include "Page.h"
 #include "../Views/View.h"
 
@@ -47,12 +47,12 @@ namespace developmentKit::library::uiFramework::presenters
         items[currentIndex]->Select();
     }
 
-    PageItem *ListPage::GetItem(uint8_t index)
+    ListPageItem *ListPage::GetItem(uint8_t index)
     {
         return items[index];
     }
 
-    void ListPage::AddItem(PageItem *pageItem)
+    void ListPage::AddItem(ListPageItem *pageItem)
     {
         items.push_back(pageItem);
     }

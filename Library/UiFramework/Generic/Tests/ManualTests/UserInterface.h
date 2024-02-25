@@ -11,9 +11,9 @@
 #include "ParameterSet.h"
 #include "../../Presenters/Root.h"
 #include "../../Presenters/ListPage.h"
-#include "../../Presenters/NavigationPageItem.h"
-#include "../../Presenters/OptionsSettingsPageItem.h"
-#include "../../Presenters/NumericSettingsPageItem.h"
+#include "../../Presenters/NavigationListPageItem.h"
+#include "../../Presenters/OptionsSettingsListPageItem.h"
+#include "../../Presenters/NumericSettingsListPageItem.h"
 #include "../../Utilities/UiParameter.h"
 //#include "../../Views/ListPageSsd1306I2cView.h"
 #include "../../Views/ListPageView.h"
@@ -41,19 +41,19 @@ private:
     ListPageView listPageView;
     Ssd1306I2cViewAdapter viewAdapter;
     ListPage homeListPage;
-    NavigationPageItem oscillatorNavigationPageItem;
-    NavigationPageItem adsrNavigationPageItem;
+    NavigationListPageItem oscillatorNavigationListPageItem;
+    NavigationListPageItem adsrNavigationListPageItem;
     ListPage oscillatorListPage;
-    NavigationPageItem oscillatorBackPageItem;
-    NumericSettingsPageItem levelSettingsPageItem;
-    NumericSettingsPageItem noteSettingsPageItem;
-    OptionsSettingsPageItem waveformSettingsPageItem;
+    NavigationListPageItem oscillatorBackListPageItem;
+    NumericSettingsListPageItem levelSettingsListPageItem;
+    NumericSettingsListPageItem noteSettingsListPageItem;
+    OptionsSettingsListPageItem waveformSettingsListPageItem;
     ListPage adsrListPage;
-    NavigationPageItem adsrBackPageItem;
-    NumericSettingsPageItem attackSettingsPageItem;
-    NumericSettingsPageItem decaySettingsPageItem;
-    NumericSettingsPageItem sustainSettingsPageItem;
-    NumericSettingsPageItem releaseSettingsPageItem;
+    NavigationListPageItem adsrBackListPageItem;
+    NumericSettingsListPageItem attackSettingsListPageItem;
+    NumericSettingsListPageItem decaySettingsListPageItem;
+    NumericSettingsListPageItem sustainSettingsListPageItem;
+    NumericSettingsListPageItem releaseSettingsListPageItem;
 };
 
 #endif

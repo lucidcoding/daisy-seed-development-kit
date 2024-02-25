@@ -1,4 +1,4 @@
-#include "NumericSettingsPageItem.h"
+#include "NumericSettingsListPageItem.h"
 #include <string>
 
 using namespace std;
@@ -6,7 +6,7 @@ using namespace developmentKit::library::uiFramework::presenters;
 
 namespace developmentKit::library::uiFramework::presenters
 {
-    void NumericSettingsPageItem::Init(string prmTitle, ListPage *prmParent, int16_t prmMin, int16_t prmMax, int16_t prmDefault)
+    void NumericSettingsListPageItem::Init(string prmTitle, ListPage *prmParent, int16_t prmMin, int16_t prmMax, int16_t prmDefault)
     {
         title = prmTitle;
         parent = prmParent;
@@ -15,7 +15,7 @@ namespace developmentKit::library::uiFramework::presenters
         max = prmMax;
     }
 
-    void NumericSettingsPageItem::Increment()
+    void NumericSettingsListPageItem::Increment()
     {
         if (value < max)
         {
@@ -23,7 +23,7 @@ namespace developmentKit::library::uiFramework::presenters
         }
     }
 
-    void NumericSettingsPageItem::Decrement()
+    void NumericSettingsListPageItem::Decrement()
     {
         if (value > min)
         {
@@ -31,39 +31,39 @@ namespace developmentKit::library::uiFramework::presenters
         }
     }
 
-    string NumericSettingsPageItem::GetValueAsString()
+    string NumericSettingsListPageItem::GetValueAsString()
     {
         char buffer[6];
         sprintf(buffer, "%d", value);
         return buffer;
     }
 
-    string NumericSettingsPageItem::GetTitle()
+    string NumericSettingsListPageItem::GetTitle()
     {
         return title;
     }
 
-    PageItem::PageItemType NumericSettingsPageItem::GetType()
+    ListPageItem::ListPageItemType NumericSettingsListPageItem::GetType()
     {
-        return PageItemType::NUMERIC_SETTINGS_PAGE_ITEM;
+        return ListPageItemType::NUMERIC_SETTINGS_PAGE_ITEM;
     }
 
-    int16_t NumericSettingsPageItem::GetValue()
+    int16_t NumericSettingsListPageItem::GetValue()
     {
         return value;
     }
 
-    int16_t NumericSettingsPageItem::GetMin()
+    int16_t NumericSettingsListPageItem::GetMin()
     {
         return min;
     }
 
-    int16_t NumericSettingsPageItem::GetMax()
+    int16_t NumericSettingsListPageItem::GetMax()
     {
         return max;
     }
 
-    float NumericSettingsPageItem::GetScaledValue()
+    float NumericSettingsListPageItem::GetScaledValue()
     {
         float floatValue = (float)value;
         float floatMin = (float)min;

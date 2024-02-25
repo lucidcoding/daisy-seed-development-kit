@@ -6,8 +6,8 @@
 #include "../../Utilities/UiParameter.h"
 #include "../../Presenters/ListPage.h"
 #include "../../Views/ListPageIli9341View.h"
-#include "../../Presenters/NavigationPageItem.h"
-#include "../../Presenters/OptionsSettingsPageItem.h"
+#include "../../Presenters/NavigationListPageItem.h"
+#include "../../Presenters/OptionsSettingsListPageItem.h"
 #include "../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
 
 #define PIN_I2C_SCL 8

@@ -4,23 +4,23 @@
 
 #include <string>
 #include "ListPage.h"
-#include "PageItem.h"
+#include "ListPageItem.h"
 
 namespace developmentKit::library::uiFramework::presenters
 {
     using namespace std;
 
-    class SettingsPageItem : public PageItem
+    class SettingsListPageItem : public ListPageItem
     {
     public:
-        SettingsPageItem() {}
-        ~SettingsPageItem() {}
+        SettingsListPageItem() {}
+        ~SettingsListPageItem() {}
         virtual void Increment() = 0;
         virtual void Decrement() = 0;
         void Select();
         virtual string GetTitle() = 0;
         virtual string GetValueAsString() = 0;
-        virtual PageItemType GetType() = 0;
+        virtual ListPageItemType GetType() = 0;
 
     private:
     protected:

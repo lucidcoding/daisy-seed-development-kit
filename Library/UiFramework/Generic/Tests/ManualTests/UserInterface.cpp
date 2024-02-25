@@ -5,8 +5,8 @@
 #include "../../Views/ListPageIli9341View.h"
 #include "../../Utilities/UiParameter.h"
 #include "../../Presenters/ListPage.h"
-#include "../../Presenters/NavigationPageItem.h"
-#include "../../Presenters/OptionsSettingsPageItem.h"
+#include "../../Presenters/NavigationListPageItem.h"
+#include "../../Presenters/OptionsSettingsListPageItem.h"
 #include "../../ViewAdapters/Ssd1306I2cViewAdapter.h"
 
 using namespace daisysp;
@@ -31,7 +31,7 @@ void UserInterface::Init(OledDisplay<SSD130xI2c128x64Driver> *prmOledDisplay)
 
     // Initialise view
     viewAdapter.Init(oledDisplay);
-    listPageView.Init(&viewAdapter);
+    listPageView.Init(&viewAdapter, 0, 0, 128, 64);
 
     // Initialise home list page
     homeListPage.Init(&listPageView);
@@ -40,55 +40,55 @@ void UserInterface::Init(OledDisplay<SSD130xI2c128x64Driver> *prmOledDisplay)
     oscillatorListPage.Init(&listPageView);
 
     // Add ocillator navigation item to home page
-    oscillatorNavigationPageItem.Init("Oscillator...", &oscillatorListPage, this);
-    homeListPage.AddItem(&oscillatorNavigationPageItem);
+    oscillatorNavigationListPageItem.Init("Oscillator...", &oscillatorListPage, this);
+    homeListPage.AddItem(&oscillatorNavigationListPageItem);
 
     // Add back navigation item to oscillator page
-    oscillatorBackPageItem.Init("Back...", &homeListPage, this);
-    oscillatorListPage.AddItem(&oscillatorBackPageItem);
+    oscillatorBackListPageItem.Init("Back...", &homeListPage, this);
+    oscillatorListPage.AddItem(&oscillatorBackListPageItem);
 
     // Add level settings to oscillator page
-    levelSettingsPageItem.Init("Level", &oscillatorListPage, 0, 127, 16);
-    oscillatorListPage.AddItem(&levelSettingsPageItem);
+    levelSettingsListPageItem.Init("Level", &oscillatorListPage, 0, 127, 16);
+    oscillatorListPage.AddItem(&levelSettingsListPageItem);
 
     // Add waveform settings to oscilator page
-    waveformSettingsPageItem.Init("Waveform", &oscillatorListPage);
-    waveformSettingsPageItem.AddOption("Sin", Oscillator::WAVE_SIN);
-    waveformSettingsPageItem.AddOption("Tri", Oscillator::WAVE_TRI);
-    waveformSettingsPageItem.AddOption("Saw", Oscillator::WAVE_SAW);
-    waveformSettingsPageItem.AddOption("Squ", Oscillator::WAVE_SQUARE);
-    oscillatorListPage.AddItem(&waveformSettingsPageItem);
+    waveformSettingsListPageItem.Init("Waveform", &oscillatorListPage);
+    waveformSettingsListPageItem.AddOption("Sin", Oscillator::WAVE_SIN);
+    waveformSettingsListPageItem.AddOption("Tri", Oscillator::WAVE_TRI);
+    waveformSettingsListPageItem.AddOption("Saw", Oscillator::WAVE_SAW);
+    waveformSettingsListPageItem.AddOption("Squ", Oscillator::WAVE_SQUARE);
+    oscillatorListPage.AddItem(&waveformSettingsListPageItem);
 
     // Add note settings to oscillator page
-    noteSettingsPageItem.Init("Note", &oscillatorListPage, 0, 127, 64);
-    oscillatorListPage.AddItem(&noteSettingsPageItem);
+    noteSettingsListPageItem.Init("Note", &oscillatorListPage, 0, 127, 64);
+    oscillatorListPage.AddItem(&noteSettingsListPageItem);
 
     // Add envelope navigation item to home page
-    adsrNavigationPageItem.Init("Envelope...", &adsrListPage, this);
-    homeListPage.AddItem(&adsrNavigationPageItem);
+    adsrNavigationListPageItem.Init("Envelope...", &adsrListPage, this);
+    homeListPage.AddItem(&adsrNavigationListPageItem);
 
     // Add back navigation item to envelope page
-    adsrBackPageItem.Init("Back...", &homeListPage, this);
-    adsrListPage.AddItem(&adsrBackPageItem);
+    adsrBackListPageItem.Init("Back...", &homeListPage, this);
+    adsrListPage.AddItem(&adsrBackListPageItem);
 
     // Initialise envelope page
     adsrListPage.Init(&listPageView);
 
     // Add attack settings to envelope page
-    attackSettingsPageItem.Init("Attack", &adsrListPage, 0, 127, 0);
-    adsrListPage.AddItem(&attackSettingsPageItem);
+    attackSettingsListPageItem.Init("Attack", &adsrListPage, 0, 127, 0);
+    adsrListPage.AddItem(&attackSettingsListPageItem);
 
     // Add attack settings to envelope page
-    decaySettingsPageItem.Init("Decay", &adsrListPage, 0, 127, 32);
-    adsrListPage.AddItem(&decaySettingsPageItem);
+    decaySettingsListPageItem.Init("Decay", &adsrListPage, 0, 127, 32);
+    adsrListPage.AddItem(&decaySettingsListPageItem);
 
     // Add sustain settings to envelope page
-    sustainSettingsPageItem.Init("Sustain", &adsrListPage, 0, 127, 16);
-    adsrListPage.AddItem(&sustainSettingsPageItem);
+    sustainSettingsListPageItem.Init("Sustain", &adsrListPage, 0, 127, 16);
+    adsrListPage.AddItem(&sustainSettingsListPageItem);
 
     // Add release settings to envelope page
-    releaseSettingsPageItem.Init("Release", &adsrListPage, 0, 127, 16);
-    adsrListPage.AddItem(&releaseSettingsPageItem);
+    releaseSettingsListPageItem.Init("Release", &adsrListPage, 0, 127, 16);
+    adsrListPage.AddItem(&releaseSettingsListPageItem);
 
     // Set home and current pages
     SetHomePage(&homeListPage);
@@ -98,12 +98,12 @@ void UserInterface::Init(OledDisplay<SSD130xI2c128x64Driver> *prmOledDisplay)
 ParameterSet UserInterface::GetParameters()
 {
     ParameterSet parameterSet;
-    parameterSet.level = levelSettingsPageItem.GetScaledValue();
-    parameterSet.waveform = waveformSettingsPageItem.GetValue();
-    parameterSet.note = noteSettingsPageItem.GetValue();
-    parameterSet.attack = attackSettingsPageItem.GetScaledValue();
-    parameterSet.decay = decaySettingsPageItem.GetScaledValue();
-    parameterSet.sustain = sustainSettingsPageItem.GetScaledValue();
-    parameterSet.release = releaseSettingsPageItem.GetScaledValue();
+    parameterSet.level = levelSettingsListPageItem.GetScaledValue();
+    parameterSet.waveform = waveformSettingsListPageItem.GetValue();
+    parameterSet.note = noteSettingsListPageItem.GetValue();
+    parameterSet.attack = attackSettingsListPageItem.GetScaledValue();
+    parameterSet.decay = decaySettingsListPageItem.GetScaledValue();
+    parameterSet.sustain = sustainSettingsListPageItem.GetScaledValue();
+    parameterSet.release = releaseSettingsListPageItem.GetScaledValue();
     return parameterSet;
 }

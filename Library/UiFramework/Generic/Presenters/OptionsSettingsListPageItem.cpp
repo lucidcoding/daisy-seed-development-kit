@@ -1,4 +1,4 @@
-#include "OptionsSettingsPageItem.h"
+#include "OptionsSettingsListPageItem.h"
 #include "Option.h"
 #include <string>
 
@@ -6,21 +6,21 @@ namespace developmentKit::library::uiFramework::presenters
 {
     using namespace std;
 
-    OptionsSettingsPageItem::OptionsSettingsPageItem(string prmTitle, ListPage *prmParent)
+    OptionsSettingsListPageItem::OptionsSettingsListPageItem(string prmTitle, ListPage *prmParent)
     {
         title = prmTitle;
         currentIndex = 0;
         parent = prmParent;
     }
 
-    void OptionsSettingsPageItem::Init(string prmTitle, ListPage *prmParent)
+    void OptionsSettingsListPageItem::Init(string prmTitle, ListPage *prmParent)
     {
         title = prmTitle;
         currentIndex = 0;
         parent = prmParent;
     }
 
-    void OptionsSettingsPageItem::Increment()
+    void OptionsSettingsListPageItem::Increment()
     {
         if (currentIndex < options.size() - 1)
         {
@@ -28,7 +28,7 @@ namespace developmentKit::library::uiFramework::presenters
         }
     }
 
-    void OptionsSettingsPageItem::Decrement()
+    void OptionsSettingsListPageItem::Decrement()
     {
         if (currentIndex > 0)
         {
@@ -36,12 +36,12 @@ namespace developmentKit::library::uiFramework::presenters
         }
     }
 
-    string OptionsSettingsPageItem::GetValueAsString()
+    string OptionsSettingsListPageItem::GetValueAsString()
     {
         return options[currentIndex].title;
     }
 
-    void OptionsSettingsPageItem::AddOption(string title, int value)
+    void OptionsSettingsListPageItem::AddOption(string title, int value)
     {
         Option option;
         option.title = title;
@@ -49,17 +49,17 @@ namespace developmentKit::library::uiFramework::presenters
         options.push_back(option);
     }
 
-    string OptionsSettingsPageItem::GetTitle()
+    string OptionsSettingsListPageItem::GetTitle()
     {
         return title;
     }
 
-    PageItem::PageItemType OptionsSettingsPageItem::GetType()
+    ListPageItem::ListPageItemType OptionsSettingsListPageItem::GetType()
     {
-        return PageItemType::OPTIONS_SETTINGS_PAGE_ITEM;
+        return ListPageItemType::OPTIONS_SETTINGS_PAGE_ITEM;
     }
 
-    uint8_t OptionsSettingsPageItem::GetValue()
+    uint8_t OptionsSettingsListPageItem::GetValue()
     {
         return options[currentIndex].value;
     }
