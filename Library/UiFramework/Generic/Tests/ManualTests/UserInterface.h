@@ -5,7 +5,6 @@
 #define PIN_I2C_SCL 8
 #define PIN_I2C_SDA 9
 
-#include <string>
 #include "daisysp.h"
 #include "daisy_seed.h"
 #include "ParameterSet.h"

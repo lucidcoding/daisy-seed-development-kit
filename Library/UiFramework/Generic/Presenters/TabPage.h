@@ -2,16 +2,15 @@
 #ifndef TAB_PAGE_H
 #define TAB_PAGE_H
 
-#include <string>
 #include <vector>
+#include <stdint.h>
 #include "Page.h"
 #include "TabPageItem.h"
 #include "../Views/View.h"
 
-using namespace std;
-
 namespace developmentKit::library::uiFramework::presenters
 {
+    using namespace std;
     using namespace developmentKit::library::uiFramework::tree::view;
 
     class TabPage : public Page

@@ -2,12 +2,9 @@
 #ifndef POTENTIOMETER_ARRAY_PAGE_ITEM_H
 #define POTENTIOMETER_ARRAY_PAGE_ITEM_H
 
-#include <string>
 #include "Page.h"
 #include "../Views/View.h"
 #include "../Utilities/PotentiometerToDisplayValueScaler.h"
-
-using namespace std;
 
 namespace developmentKit::library::uiFramework::presenters
 {
@@ -24,21 +21,21 @@ namespace developmentKit::library::uiFramework::presenters
         };
         PotentiometerArrayPageItem() {}
         ~PotentiometerArrayPageItem() {}
-        void SetTitle(string prmTitle);
-        string GetTitle();
+        void SetTitle(const char *prmTitle);
+        const char *GetTitle();
         void InitialiseKnobPosition(float prmInitialValue);
         void SetOutputValue(float prmOutputValue);
         void SetCurrentKnobPosition(float prmCurrentKnobPosiiton);
         float GetOutputValue();
         int16_t GetDisplayValue();
-        virtual string GetDisplayString() = 0;
+        virtual const char *GetDisplayString() = 0;
         void SetFocus();
         bool GetKnobPositionAndOutputValueSynced();
         void SetKnobMode(KnobMode prmKnobMode);
         void SetScaledRange(int16_t prmMinScaledValue, int16_t prmMaxScaledValue);
 
     protected:
-        string title;
+        const char *title;
         bool initialKnobPositionSet;
         float initialKnobPosition;
         float currentKnobPosition;

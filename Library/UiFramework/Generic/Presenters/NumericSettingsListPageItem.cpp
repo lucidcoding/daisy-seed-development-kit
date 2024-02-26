@@ -1,12 +1,11 @@
 #include "NumericSettingsListPageItem.h"
-#include <string>
+#include <stdio.h>
 
-using namespace std;
 using namespace developmentKit::library::uiFramework::presenters;
 
 namespace developmentKit::library::uiFramework::presenters
 {
-    void NumericSettingsListPageItem::Init(string prmTitle, ListPage *prmParent, int16_t prmMin, int16_t prmMax, int16_t prmDefault)
+    void NumericSettingsListPageItem::Init(const char *prmTitle, ListPage *prmParent, int16_t prmMin, int16_t prmMax, int16_t prmDefault)
     {
         title = prmTitle;
         parent = prmParent;
@@ -31,14 +30,14 @@ namespace developmentKit::library::uiFramework::presenters
         }
     }
 
-    string NumericSettingsListPageItem::GetValueAsString()
+    const char *NumericSettingsListPageItem::GetValueAsString()
     {
         char buffer[6];
         sprintf(buffer, "%d", value);
         return buffer;
     }
 
-    string NumericSettingsListPageItem::GetTitle()
+    const char *NumericSettingsListPageItem::GetTitle()
     {
         return title;
     }

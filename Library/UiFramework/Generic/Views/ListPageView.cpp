@@ -1,4 +1,3 @@
-#include <string>
 #include "daisy_seed.h"
 #include "daisysp.h"
 #include "ListPageView.h"
@@ -8,7 +7,6 @@
 
 namespace developmentKit::library::uiFramework::tree::view
 {
-    using namespace std;
     using namespace developmentKit::library::uiFramework::presenters;
 
     void ListPageView::Init(ViewAdapter *prmViewAdapter, uint16_t prmX, uint16_t prmY, uint16_t prmWidth, uint16_t prmHeight)
@@ -38,7 +36,7 @@ namespace developmentKit::library::uiFramework::tree::view
             uint8_t currentIndex = startRow + i;
             ListPageItem *pageItem = listPage->GetItem(currentIndex);
             bool hasFocus = listPage->GetCurrentIndex() == currentIndex;
-            strcpy(title, pageItem->GetTitle().c_str());
+            strcpy(title, pageItem->GetTitle());
             int startPosition = y + (rowHeight * i);
 
             if (pageItem->GetType() == ListPageItem::ListPageItemType::NUMERIC_SETTINGS_PAGE_ITEM || pageItem->GetType() == ListPageItem::ListPageItemType::OPTIONS_SETTINGS_PAGE_ITEM)
@@ -56,7 +54,7 @@ namespace developmentKit::library::uiFramework::tree::view
                 }
 
                 viewAdapter->WriteString(title, x + 1, startPosition + 2, fontDef, (!hasFocus || listPage->GetItemSelected()) ? ViewAdapter::COLOR_WHITE : ViewAdapter::COLOR_BLACK);
-                viewAdapter->WriteString(settingsListPageItem->GetValueAsString().c_str(), x + width - valueWidth, startPosition + 2, fontDef, !hasFocus ? ViewAdapter::COLOR_WHITE : ViewAdapter::COLOR_BLACK);
+                viewAdapter->WriteString(settingsListPageItem->GetValueAsString(), x + width - valueWidth, startPosition + 2, fontDef, !hasFocus ? ViewAdapter::COLOR_WHITE : ViewAdapter::COLOR_BLACK);
             }
             else
             {

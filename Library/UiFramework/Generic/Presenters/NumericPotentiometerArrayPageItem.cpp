@@ -1,4 +1,4 @@
-#include <cmath>
+#include <stdio.h>
 #include "NumericPotentiometerArrayPageItem.h"
 
 namespace developmentKit::library::uiFramework::presenters
@@ -7,11 +7,10 @@ namespace developmentKit::library::uiFramework::presenters
     {
         SetScaledRange(0, 255);
     }
-    
-    string NumericPotentiometerArrayPageItem::GetDisplayString()
-    {
-        char buffer[8];
-        sprintf(buffer, "%d", displayValue);
-        return buffer;
+
+    const char *NumericPotentiometerArrayPageItem::GetDisplayString()
+    { 
+        sprintf(displayString, "%d", displayValue);
+        return displayString;
     }
 }

@@ -2,11 +2,8 @@
 #ifndef TAB_PAGE_ITEM_H
 #define TAB_PAGE_ITEM_H
 
-#include <string>
 #include <vector>
 #include "Page.h"
-
-using namespace std;
 
 namespace developmentKit::library::uiFramework::presenters
 {
@@ -14,18 +11,18 @@ namespace developmentKit::library::uiFramework::presenters
     {
     public:
         TabPageItem() {}
-        TabPageItem(string prmTitle, Page *prmContent);
+        TabPageItem(const char *prmTitle, Page *prmContent);
         ~TabPageItem() {}
-        void Init(string prmTitle, Page *prmContent);
+        void Init(const char *prmTitle, Page *prmContent);
         /*virtual void Increment();
         virtual void Decrement();
         virtual void Select();*/
         Page *GetContent();
-        string GetTitle();
+        const char *GetTitle();
 
     private:
         Page *content;
-        string title;
+        const char *title;
     };
 }
 

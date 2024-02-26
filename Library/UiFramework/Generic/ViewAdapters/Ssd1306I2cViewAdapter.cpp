@@ -1,4 +1,3 @@
-#include <string>
 #include "daisy_seed.h"
 #include "daisysp.h"
 #include "dev/oled_ssd130x.h"
@@ -7,8 +6,6 @@
 
 namespace developmentKit::library::uiFramework::tree::viewAdapters
 {
-    using namespace std;
-
     void Ssd1306I2cViewAdapter::Init(OledDisplay<SSD130xI2c128x64Driver> *prmDisplay)
     {
         display = prmDisplay;

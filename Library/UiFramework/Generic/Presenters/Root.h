@@ -3,7 +3,6 @@
 #define TREE_ROOT_H
 
 #include "./Page.h"
-#include <string>
 #include <vector>
 
 namespace developmentKit::library::uiFramework::presenters

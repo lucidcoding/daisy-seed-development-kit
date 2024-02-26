@@ -2,7 +2,6 @@
 #ifndef UI_PARAMETER_H
 #define UI_PARAMETER_H
 
-#include <string>
 #include <vector>
 #include "../Presenters/NumericSettingsListPageItem.h"
 

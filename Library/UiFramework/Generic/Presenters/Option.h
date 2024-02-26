@@ -2,8 +2,6 @@
 #ifndef OPTION_H
 #define OPTION_H
 
-#include <string>
-
 namespace developmentKit::library::uiFramework::presenters
 {
     using namespace std;
@@ -13,7 +11,7 @@ namespace developmentKit::library::uiFramework::presenters
     public:
         Option() {}
         ~Option() {}
-        string title;
+        const char *title;
         uint8_t value;
     };
 }

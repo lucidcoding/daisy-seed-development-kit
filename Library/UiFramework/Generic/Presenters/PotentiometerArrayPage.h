@@ -2,7 +2,6 @@
 #ifndef POTENTIOMETER_ARRAY_PAGE_H
 #define POTENTIOMETER_ARRAY_PAGE_H
 
-#include <string>
 #include <vector>
 #include "Page.h"
 #include "../Views/View.h"

@@ -1,4 +1,5 @@
 #include <cmath>
+#include <stdint.h>
 #include "PotentiometerArrayPageItem.h"
 
 namespace developmentKit::library::uiFramework::presenters
@@ -8,12 +9,12 @@ namespace developmentKit::library::uiFramework::presenters
         initialKnobPosition = prmInitialValue;
     }
 
-    void PotentiometerArrayPageItem::SetTitle(string prmTitle)
+    void PotentiometerArrayPageItem::SetTitle(const char * prmTitle)
     {
         title = prmTitle;
     }
 
-    string PotentiometerArrayPageItem::GetTitle()
+    const char * PotentiometerArrayPageItem::GetTitle()
     {
         return title;
     }

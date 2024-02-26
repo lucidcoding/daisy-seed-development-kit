@@ -2,10 +2,6 @@
 #ifndef PAGE_ITEM_H
 #define PAGE_ITEM_H
 
-#include <string>
-
-using namespace std;
-
 namespace developmentKit::library::uiFramework::presenters
 {
     class ListPageItem
@@ -22,7 +18,7 @@ namespace developmentKit::library::uiFramework::presenters
         virtual void Increment() = 0;
         virtual void Decrement() = 0;
         virtual void Select() = 0;
-        virtual string GetTitle() = 0;
+        virtual const char *GetTitle() = 0;
         virtual ListPageItemType GetType() = 0;
 
     private:

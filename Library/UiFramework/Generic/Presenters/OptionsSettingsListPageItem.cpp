@@ -1,19 +1,16 @@
 #include "OptionsSettingsListPageItem.h"
 #include "Option.h"
-#include <string>
 
 namespace developmentKit::library::uiFramework::presenters
 {
-    using namespace std;
-
-    OptionsSettingsListPageItem::OptionsSettingsListPageItem(string prmTitle, ListPage *prmParent)
+    OptionsSettingsListPageItem::OptionsSettingsListPageItem(const char* prmTitle, ListPage *prmParent)
     {
         title = prmTitle;
         currentIndex = 0;
         parent = prmParent;
     }
 
-    void OptionsSettingsListPageItem::Init(string prmTitle, ListPage *prmParent)
+    void OptionsSettingsListPageItem::Init(const char *prmTitle, ListPage *prmParent)
     {
         title = prmTitle;
         currentIndex = 0;
@@ -36,12 +33,12 @@ namespace developmentKit::library::uiFramework::presenters
         }
     }
 
-    string OptionsSettingsListPageItem::GetValueAsString()
+    const char* OptionsSettingsListPageItem::GetValueAsString()
     {
         return options[currentIndex].title;
     }
 
-    void OptionsSettingsListPageItem::AddOption(string title, int value)
+    void OptionsSettingsListPageItem::AddOption(const char *title, int value)
     {
         Option option;
         option.title = title;
@@ -49,7 +46,7 @@ namespace developmentKit::library::uiFramework::presenters
         options.push_back(option);
     }
 
-    string OptionsSettingsListPageItem::GetTitle()
+    const char *OptionsSettingsListPageItem::GetTitle()
     {
         return title;
     }

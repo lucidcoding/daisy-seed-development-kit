@@ -1,4 +1,3 @@
-#include <string>
 #include "daisy_seed.h"
 #include "daisysp.h"
 #include "Ili9341ViewAdapter.h"
@@ -7,7 +6,6 @@
 
 namespace developmentKit::library::uiFramework::tree::viewAdapters
 {
-    using namespace std;
     using namespace daisy;
 
     void Ili9341ViewAdapter::Init(UiDriver *prmDisplay)

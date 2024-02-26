@@ -1,13 +1,11 @@
 #include "../Presenters/Root.h"
 #include "NavigationListPageItem.h"
-#include <string>
 
 namespace developmentKit::library::uiFramework::presenters
 {
-    using namespace std;
     using namespace developmentKit::library::uiFramework;
 
-    void NavigationListPageItem::Init(string prmTitle, Page *prmNext, Root *prmRoot)
+    void NavigationListPageItem::Init(const char *prmTitle, Page *prmNext, Root *prmRoot)
     {
         title = prmTitle;
         next = prmNext;
@@ -22,7 +20,7 @@ namespace developmentKit::library::uiFramework::presenters
     {
     }
 
-    string NavigationListPageItem::GetTitle()
+    const char *NavigationListPageItem::GetTitle()
     {
         return title;
     }

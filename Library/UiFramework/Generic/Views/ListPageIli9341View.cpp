@@ -46,7 +46,7 @@ namespace developmentKit::library::uiFramework::tree::view
             uint8_t currentIndex = startRow + i;
             ListPageItem *pageItem = listPage->GetItem(currentIndex);
             bool hasFocus = listPage->GetCurrentIndex() == currentIndex;
-            strcpy(title, pageItem->GetTitle().c_str());
+            strcpy(title, pageItem->GetTitle());
             int startPosition = y + (rowHeight * i);
 
             if (pageItem->GetType() == ListPageItem::ListPageItemType::NUMERIC_SETTINGS_PAGE_ITEM || pageItem->GetType() == ListPageItem::ListPageItemType::OPTIONS_SETTINGS_PAGE_ITEM)
@@ -64,7 +64,7 @@ namespace developmentKit::library::uiFramework::tree::view
                 }
 
                 displayHardware->WriteString(title, x + 1, startPosition + 2, fontDef, !hasFocus || listPage->GetItemSelected() ? COLOR_WHITE : COLOR_BLACK);
-                displayHardware->WriteString(settingsListPageItem->GetValueAsString().c_str(), x + width - valueWidth, startPosition +2, fontDef, !hasFocus ? COLOR_WHITE : COLOR_BLACK);
+                displayHardware->WriteString(settingsListPageItem->GetValueAsString(), x + width - valueWidth, startPosition +2, fontDef, !hasFocus ? COLOR_WHITE : COLOR_BLACK);
             }
             else
             {

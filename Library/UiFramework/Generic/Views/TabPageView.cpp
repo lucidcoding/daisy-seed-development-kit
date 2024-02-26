@@ -1,4 +1,3 @@
-#include <string>
 #include "daisy_seed.h"
 #include "daisysp.h"
 #include "TabPageView.h"
@@ -8,7 +7,6 @@
 
 namespace developmentKit::library::uiFramework::tree::view
 {
-    using namespace std;
     using namespace developmentKit::library::uiFramework::presenters;
 
     void TabPageView::Init(ViewAdapter *prmViewAdapter, uint16_t prmX, uint16_t prmY, uint16_t prmWidth, uint16_t prmHeight)
@@ -56,7 +54,7 @@ namespace developmentKit::library::uiFramework::tree::view
         {
             uint8_t currentIndex = startTab + visibleTabIndex;
             TabPageItem *tabPageItem = tabPage->GetItem(currentIndex);
-            strcpy(title, tabPageItem->GetTitle().c_str());
+            strcpy(title, tabPageItem->GetTitle());
             uint16_t xOffset = visibleTabIndex * tabWidth;
 
             viewAdapter->DrawLine(xOffset, 1, xOffset, tabHeight, ViewAdapter::COLOR_WHITE);

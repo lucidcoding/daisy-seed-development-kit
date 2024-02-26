@@ -3,12 +3,12 @@
 
 namespace developmentKit::library::uiFramework::presenters
 {
-    string OptionsPotentiometerArrayPageItem::GetDisplayString()
+    const char *OptionsPotentiometerArrayPageItem::GetDisplayString()
     {
         return options[displayValue].title;
     }
 
-    void OptionsPotentiometerArrayPageItem::AddOption(string title, int value)
+    void OptionsPotentiometerArrayPageItem::AddOption(const char *title, int value)
     {
         Option option;
         option.title = title;

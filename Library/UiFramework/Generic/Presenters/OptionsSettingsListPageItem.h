@@ -5,30 +5,28 @@
 #include "SettingsListPageItem.h"
 #include "Option.h"
 #include "ListPage.h"
-#include <string>
 #include <vector>
+#include <stdint.h>
 
 namespace developmentKit::library::uiFramework::presenters
 {
-    using namespace std;
-
     class OptionsSettingsListPageItem : public SettingsListPageItem
     {
     public:
         OptionsSettingsListPageItem() {}
-        OptionsSettingsListPageItem(string prmTitle, ListPage *prmParent);
+        OptionsSettingsListPageItem(const char *prmTitle, ListPage *prmParent);
         ~OptionsSettingsListPageItem() {}
-        void Init(string prmTitle, ListPage *prmParent);
+        void Init(const char *prmTitle, ListPage *prmParent);
         void Increment();
         void Decrement();
-        string GetValueAsString();
-        void AddOption(string title, int value);
-        string GetTitle();
+        const char *GetValueAsString();
+        void AddOption(const char *title, int value);
+        const char *GetTitle();
         ListPageItemType GetType();
         uint8_t GetValue();
 
     private:
-        string title;
+        const char *title;
         vector<Option> options;
         unsigned int currentIndex;
     };

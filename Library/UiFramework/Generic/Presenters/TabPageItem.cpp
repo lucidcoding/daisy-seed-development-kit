@@ -4,13 +4,13 @@
 
 namespace developmentKit::library::uiFramework::presenters
 {
-    TabPageItem::TabPageItem(string prmTitle, Page *prmContent)
+    TabPageItem::TabPageItem(const char *prmTitle, Page *prmContent)
     {
         title = prmTitle;
         content = prmContent;
     }
 
-    void TabPageItem::Init(string prmTitle, Page *prmContent)
+    void TabPageItem::Init(const char *prmTitle, Page *prmContent)
     {
         title = prmTitle;
         content = prmContent;
@@ -21,7 +21,7 @@ namespace developmentKit::library::uiFramework::presenters
         return content;
     }
 
-    string TabPageItem::GetTitle()
+    const char *TabPageItem::GetTitle()
     {
         return title;
     }

@@ -2,7 +2,6 @@
 #ifndef UI_PARAMETER_PROVIDER_H
 #define UI_PARAMETER_PROVIDER_H
 
-#include <string>
 #include <vector>
 
 namespace developmentKit::library::uiFramework::tree::utilities

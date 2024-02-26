@@ -2,7 +2,6 @@
 #ifndef LIST_PAGE_H
 #define LIST_PAGE_H
 
-#include <string>
 #include <vector>
 #include "ListPageItem.h"
 #include "Page.h"
