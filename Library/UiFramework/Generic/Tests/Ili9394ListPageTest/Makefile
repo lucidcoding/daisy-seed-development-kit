@@ -12,6 +12,8 @@ CPP_SOURCES = \
 	../../Presenters/SettingsListPageItem.cpp \
 	../../Presenters/NumericSettingsListPageItem.cpp \
 	../../Presenters/OptionsSettingsListPageItem.cpp \
+	../../Presenters/PotentiometerArrayPage.cpp \
+	../../Presenters/PotentiometerArrayPageItem.cpp \
 	../../Presenters/ListPage.cpp \
 	../../Utilities/UiParameter.cpp \
 	../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.cpp \

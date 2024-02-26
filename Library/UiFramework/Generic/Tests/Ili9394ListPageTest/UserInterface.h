@@ -37,7 +37,7 @@ public:
 
 private:
     UiDriver *uiDriver;
-    //ListPageSsd1306I2cView listPageView;
+    // ListPageSsd1306I2cView listPageView;
     ListPageView listPageView;
     Ili9341ViewAdapter viewAdapter;
     ListPage homeListPage;
@@ -57,5 +57,3 @@ private:
 };
 
 #endif
-
-

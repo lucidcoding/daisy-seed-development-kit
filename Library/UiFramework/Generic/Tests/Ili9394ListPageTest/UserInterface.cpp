@@ -25,10 +25,10 @@ void UserInterface::Init(UiDriver *prmUiDriver)
 
     // Initialise view
     viewAdapter.Init(uiDriver);
-    listPageView.Init(&viewAdapter, 0, 0, 320, 240);
+    listPageView.Init(&viewAdapter, 12, 22, 296, 210);
 
     // Initialise home list page
-    homeListPage.Init(&listPageView);
+    homeListPage.Init(&listPageView, 0, 0, 320, 240);
 
     // Initialise ocillator list page
     oscillatorListPage.Init(&listPageView);
