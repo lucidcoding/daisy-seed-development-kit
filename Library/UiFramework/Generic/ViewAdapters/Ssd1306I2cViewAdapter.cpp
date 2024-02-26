@@ -20,6 +20,10 @@ namespace developmentKit::library::uiFramework::tree::viewAdapters
         display->WriteString(str, font, (color == ViewAdapter::COLOR_WHITE));
     }
 
+    void Ssd1306I2cViewAdapter::WriteStringAligned(const char *str, uint16_t x, uint16_t y, uint16_t width, uint16_t height, Alignment alignment, FontDef font, Color color)
+    {
+    }
+
     void Ssd1306I2cViewAdapter::DrawRect(uint16_t x, uint16_t y, uint16_t width, uint16_t height, Color color)
     {
         display->DrawRect(x, y, x+ width, y + height, (color == ViewAdapter::COLOR_WHITE), false);

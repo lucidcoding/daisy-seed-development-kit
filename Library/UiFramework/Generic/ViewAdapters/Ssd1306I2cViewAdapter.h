@@ -16,6 +16,7 @@ namespace developmentKit::library::uiFramework::tree::viewAdapters
         ~Ssd1306I2cViewAdapter() {}
         void Init(OledDisplay<SSD130xI2c128x64Driver> *prmDisplay);
         virtual void WriteString(const char *str, uint16_t x, uint16_t y, FontDef font, Color color);
+        virtual void WriteStringAligned(const char *str, uint16_t x, uint16_t y, uint16_t width, uint16_t height, Alignment alignment, FontDef font, Color color);
         virtual void DrawRect(uint16_t x, uint16_t y, uint16_t width, uint16_t height, Color color);
         virtual void FillRect(uint16_t x, uint16_t y, uint16_t width, uint16_t height, Color color);
         virtual void DrawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, Color color);

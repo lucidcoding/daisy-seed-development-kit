@@ -40,6 +40,7 @@ namespace developmentKit::library::uiFramework::tree::viewAdapters
             NUMBER_OF_TFT_COLORS
         };
         virtual void WriteString(const char *str, uint16_t x, uint16_t y, FontDef font, Color color) = 0;
+        virtual void WriteStringAligned(const char *str, uint16_t x, uint16_t y, uint16_t width, uint16_t height, Alignment alignment, FontDef font, Color color) = 0;
         virtual void DrawRect(uint16_t x, uint16_t y, uint16_t width, uint16_t height, Color color) = 0;
         virtual void FillRect(uint16_t x, uint16_t y, uint16_t width, uint16_t height, Color color) = 0;
         virtual void DrawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, Color color) = 0;

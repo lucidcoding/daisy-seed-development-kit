@@ -49,10 +49,12 @@ namespace developmentKit::library::uiFramework::tree::view
                 char buffer[25];
                 strcpy(buffer, item->GetDisplayString().c_str());
                 // displayHardware->WriteStringAligned(buffer, Font_11x18, Rectangle(xOffset, yOffset, cellWidth, cellHeight - 11), Alignment::centered, valueColor);
-                viewAdapter->WriteString(buffer, xOffset, yOffset, Font_11x18, valueColor);
+                //viewAdapter->WriteString(buffer, xOffset, yOffset, Font_11x18, valueColor);
+                viewAdapter->WriteStringAligned(buffer, xOffset, yOffset, cellWidth, cellHeight - 11, Alignment::centered, Font_11x18, valueColor);
                 strcpy(buffer, item->GetTitle().c_str());
                 // displayHardware->WriteStringAligned(buffer, Font_6x8, Rectangle(xOffset, yOffset + cellHeight - 25, cellWidth, 25), Alignment::centered, COLOR_WHITE);
-                viewAdapter->WriteString(buffer, xOffset, yOffset, Font_6x8, ViewAdapter::COLOR_WHITE);
+                //viewAdapter->WriteString(buffer, xOffset, yOffset, Font_6x8, ViewAdapter::COLOR_WHITE);
+                viewAdapter->WriteStringAligned(buffer, xOffset, yOffset + cellHeight - 25, cellWidth, 25, Alignment::centered, Font_6x8, ViewAdapter::COLOR_WHITE);
             }
         }
     }
