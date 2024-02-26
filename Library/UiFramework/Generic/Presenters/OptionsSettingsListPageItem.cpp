@@ -1,8 +1,11 @@
+#include <cstring>
 #include "OptionsSettingsListPageItem.h"
 #include "Option.h"
 
 namespace developmentKit::library::uiFramework::presenters
 {
+    using namespace std;
+
     OptionsSettingsListPageItem::OptionsSettingsListPageItem(const char* prmTitle, ListPage *prmParent)
     {
         title = prmTitle;

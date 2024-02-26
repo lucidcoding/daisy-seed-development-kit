@@ -9,6 +9,7 @@
 #include "../../Presenters/NavigationListPageItem.h"
 #include "../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
 #include "../../ViewAdapters/Ili9341ViewAdapter.h"
+#include "../../../../../Hardware/PotentiometerArray/Drivers/PotentiometerArray.h"
 
 #define PIN_I2C_SCL 8
 #define PIN_I2C_SDA 9
@@ -21,6 +22,7 @@ using namespace daisy;
 using namespace developmentKit::library::uiFramework::presenters;
 using namespace developmentKit::library::uiFramework::tree::utilities;
 using namespace developmentKit::library::uiFramework::tree::view;
+using namespace developmentKit::hardware::potentiometerArray::drivers;
 
 static DaisySeed hardware;
 Encoder encoder;
@@ -28,6 +30,7 @@ Oscillator oscillator;
 Adsr adsr;
 Metro metro;
 bool gate;
+PotentiometerArray potentiometerArray;
 UserInterface userInterface;
 
 UiDriver tftDisplay;
@@ -47,6 +50,7 @@ UiDriver tftDisplay;
 void UpdateDisplay()
 {
     userInterface.Paint();
+    tftDisplay.Update();
     // display.Paint();
     // oledDisplay.Update();
 }
@@ -75,14 +79,28 @@ void ProcessEncoder()
     }
 }
 
+void ProcessPotentiometerArray()
+{
+    potentiometerArray.Process();
+    float values[16];
+
+    for (uint8_t i = 0; i < 16; i++)
+    {
+        values[i] = potentiometerArray.analogControl[i].GetRawFloat();
+    }
+
+    userInterface.SetPotentiometerValues(values);
+}
+
 static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
                           AudioHandle::InterleavingOutputBuffer out,
                           size_t size)
 {
     ProcessEncoder();
-    /*ParameterSet parameterSet = userInterface.GetParameters();
+    ProcessPotentiometerArray();
+    ParameterSet parameterSet = userInterface.GetParameters();
     float level = parameterSet.level;
-    float frequency = mtof(parameterSet.note);
+    //float frequency = mtof(parameterSet.note);
     float attackTime = parameterSet.attack;
     float decayTime = parameterSet.decay;
     float sustainLevel = parameterSet.sustain;
@@ -92,7 +110,7 @@ static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
     adsr.SetTime(ADSR_SEG_DECAY, decayTime);
     adsr.SetSustainLevel(sustainLevel);
     adsr.SetTime(ADSR_SEG_RELEASE, releaseTime);
-    oscillator.SetWaveform(waveform);*/
+    oscillator.SetWaveform(waveform);
     float oscillatorOut, adsrOut;
 
     for (size_t i = 0; i < size; i += 2)
@@ -106,8 +124,8 @@ static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
         adsrOut = adsr.Process(gate);
         oscillator.SetFreq(440);
         //oscillator.SetFreq(frequency);
-        oscillator.SetAmp(adsrOut);
-        //oscillator.SetAmp(adsrOut * level);
+        //oscillator.SetAmp(adsrOut);
+        oscillator.SetAmp(adsrOut * level);
         oscillatorOut = oscillator.Process();
 
         out[i] = oscillatorOut;
@@ -137,6 +155,12 @@ void InitMetro(float sampleRate)
     metro.Init(1.0f, sampleRate);
 }
 
+void InitPotentiometerArray()
+{
+    potentiometerArray.seed = &hardware;
+    potentiometerArray.Init();
+}
+
 void InitEncoder(float sampleRate)
 {
     encoder.Init(
@@ -159,11 +183,14 @@ int main(void)
     float sampleRate = hardware.AudioSampleRate();
     InitOscillator(sampleRate);
     InitAdsr(sampleRate);
+    InitPotentiometerArray();
     InitMetro(sampleRate);
     InitEncoder(sampleRate);
     InitDisplay();
+    hardware.adc.Start();
     hardware.StartAudio(AudioCallback);
     UpdateDisplay();
+
     uint32_t lastTicksRefresh = System::GetTick();
     const uint32_t ticksPerUs = System::GetTickFreq() / 1000000;
 
@@ -178,7 +205,8 @@ int main(void)
             //ParameterSet parameterSet = userInterface.GetParameters();
             //hardware.PrintLine("Level: %3.5f, note: %d", parameterSet.level, parameterSet.note);
             hardware.PrintLine("Tick...");
-            tftDisplay.Update();
+            hardware.PrintLine("P1: %3.5f, P2: %3.5f", potentiometerArray.analogControl[0].GetRawFloat(), potentiometerArray.analogControl[1].GetRawFloat());
+            UpdateDisplay();
         }
     }
 }

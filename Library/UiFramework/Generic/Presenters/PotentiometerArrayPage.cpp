@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include "PotentiometerArrayPage.h"
 #include "../Views/View.h"
 

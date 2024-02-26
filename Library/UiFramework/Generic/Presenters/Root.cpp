@@ -17,6 +17,11 @@ namespace developmentKit::library::uiFramework::presenters
         currentPage->Select();
     }
 
+    void Root::SetPotentiometerValues(float *values)
+    {
+        currentPage->SetPotentiometerValues(values);
+    }
+
     Page *Root::GetCurrentPage()
     {
         return currentPage;

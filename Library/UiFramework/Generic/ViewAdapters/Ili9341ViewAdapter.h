@@ -7,8 +7,6 @@
 
 namespace developmentKit::library::uiFramework::tree::viewAdapters
 {
-    using namespace daisy;
-
     class Ili9341ViewAdapter : public ViewAdapter
     {
     public:

@@ -23,13 +23,13 @@ void UserInterface::Init(UiDriver *prmUiDriver)
 
     // Initiviews
     viewAdapter.Init(uiDriver);
-    //listPageView.Init(&viewAdapter, 12, 22, 296, 210);
+    // listPageView.Init(&viewAdapter, 12, 22, 296, 210);
     tabPageView.Init(&viewAdapter, 0, 0, 320, 240);
     potentiometerArrayPageView.Init(&viewAdapter, 12, 22, 296, 210);
     tabPage.Init(&tabPageView);
     oscillatorPotentiometerArrayPage.Init(&potentiometerArrayPageView);
     envelopePotentiometerArrayPage.Init(&potentiometerArrayPageView);
-    //potentiometerArrayPageView.SetSize(12, 22, 296, 210);
+    // potentiometerArrayPageView.SetSize(12, 22, 296, 210);
 
     // Add oscillator tab to tab page
     oscillatorTabPageItem.Init("OSC", &oscillatorPotentiometerArrayPage);
@@ -49,7 +49,7 @@ void UserInterface::Init(UiDriver *prmUiDriver)
     oscLevelPotentiometerArrayPageItem.SetOutputValue(0.5f);
     oscLevelPotentiometerArrayPageItem.SetTitle("LEVEL");
     oscillatorPotentiometerArrayPage.SetItem(1, &oscLevelPotentiometerArrayPageItem);
-    
+
     // Add octave to oscillator tab
     oscOctavePotentiometerArrayPageItem.SetScaledRange(0, 3);
     oscOctavePotentiometerArrayPageItem.SetOutputValue(0.5f);
@@ -95,7 +95,7 @@ void UserInterface::Init(UiDriver *prmUiDriver)
     envAttackPotentiometerArrayPageItem.SetScaledRange(0, 255);
     envAttackPotentiometerArrayPageItem.SetOutputValue(0.5f);
     envAttackPotentiometerArrayPageItem.SetTitle("ATTACK");
-    envelopePotentiometerArrayPage.SetItem(3, &envAttackPotentiometerArrayPageItem);
+    envelopePotentiometerArrayPage.SetItem(0, &envAttackPotentiometerArrayPageItem);
 
     // Add decay to envelope tab
     envDecayPotentiometerArrayPageItem.SetScaledRange(0, 255);
@@ -110,11 +110,11 @@ void UserInterface::Init(UiDriver *prmUiDriver)
     envelopePotentiometerArrayPage.SetItem(2, &envSustainPotentiometerArrayPageItem);
 
     // Add release to envelope tab
-    envReleasePotentiometerArrayPageItem.SetScaledRange(0, 255); 
+    envReleasePotentiometerArrayPageItem.SetScaledRange(0, 255);
     envReleasePotentiometerArrayPageItem.SetOutputValue(0.5f);
     envReleasePotentiometerArrayPageItem.SetTitle("RELEASE");
-    envelopePotentiometerArrayPage.SetItem(0, &envReleasePotentiometerArrayPageItem);
-        
+    envelopePotentiometerArrayPage.SetItem(3, &envReleasePotentiometerArrayPageItem);
+
     // Set home and current pages
     SetHomePage(&tabPage);
     SetCurrentPage(&tabPage);
@@ -122,13 +122,13 @@ void UserInterface::Init(UiDriver *prmUiDriver)
 
 ParameterSet UserInterface::GetParameters()
 {
-    /*ParameterSet parameterSet;
-    parameterSet.level = levelSettingsPageItem.GetScaledValue();
-    parameterSet.waveform = waveformSettingsPageItem.GetValue();
-    parameterSet.note = noteSettingsPageItem.GetValue();
-    parameterSet.attack = attackSettingsPageItem.GetScaledValue();
-    parameterSet.decay = decaySettingsPageItem.GetScaledValue();
-    parameterSet.sustain = sustainSettingsPageItem.GetScaledValue();
-    parameterSet.release = releaseSettingsPageItem.GetScaledValue();
-    return parameterSet;*/
+    ParameterSet parameterSet;
+    parameterSet.level = oscLevelPotentiometerArrayPageItem.GetOutputValue();
+    parameterSet.waveform = oscWaveShapePotentiometerArrayPageItem.GetDisplayValue();
+    //parameterSet.note = noteSettingsPageItem.GetValue();
+    parameterSet.attack = envAttackPotentiometerArrayPageItem.GetOutputValue();
+    parameterSet.decay = envDecayPotentiometerArrayPageItem.GetOutputValue();
+    parameterSet.sustain = envSustainPotentiometerArrayPageItem.GetOutputValue();
+    parameterSet.release = envReleasePotentiometerArrayPageItem.GetOutputValue();
+    return parameterSet;
 }

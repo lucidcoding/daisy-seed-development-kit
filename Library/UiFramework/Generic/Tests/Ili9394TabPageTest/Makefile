@@ -22,7 +22,8 @@ CPP_SOURCES = \
 	../../Views/PotentiometerArrayPageView.cpp \
 	../../Views/TabPageView.cpp \
 	../../ViewAdapters/Ili9341ViewAdapter.cpp \
-	../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.cpp 
+	../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.cpp \
+	../../../../../Hardware/PotentiometerArray/Drivers/PotentiometerArray.cpp
 	
 # Core location, and generic Makefile.
 SYSTEM_FILES_DIR = $(LIBDAISY_DIR)/core

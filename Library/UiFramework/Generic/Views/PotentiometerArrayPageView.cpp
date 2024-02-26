@@ -46,12 +46,12 @@ namespace developmentKit::library::uiFramework::tree::view
                 ViewAdapter::Color valueColor = item->GetKnobPositionAndOutputValueSynced() ? ViewAdapter::COLOR_WHITE : ViewAdapter::COLOR_GRAY;
                 char buffer[25];
                 strcpy(buffer, item->GetDisplayString());
-                // displayHardware->WriteStringAligned(buffer, Font_11x18, Rectangle(xOffset, yOffset, cellWidth, cellHeight - 11), Alignment::centered, valueColor);
-                //viewAdapter->WriteString(buffer, xOffset, yOffset, Font_11x18, valueColor);
+                    // displayHardware->WriteStringAligned(buffer, Font_11x18, Rectangle(xOffset, yOffset, cellWidth, cellHeight - 11), Alignment::centered, valueColor);
+                    //viewAdapter->WriteString(buffer, xOffset, yOffset, Font_11x18, valueColor);
                 viewAdapter->WriteStringAligned(buffer, xOffset, yOffset, cellWidth, cellHeight - 11, Alignment::centered, Font_11x18, valueColor);
                 strcpy(buffer, item->GetTitle());
-                // displayHardware->WriteStringAligned(buffer, Font_6x8, Rectangle(xOffset, yOffset + cellHeight - 25, cellWidth, 25), Alignment::centered, COLOR_WHITE);
-                //viewAdapter->WriteString(buffer, xOffset, yOffset, Font_6x8, ViewAdapter::COLOR_WHITE);
+                    // displayHardware->WriteStringAligned(buffer, Font_6x8, Rectangle(xOffset, yOffset + cellHeight - 25, cellWidth, 25), Alignment::centered, COLOR_WHITE);
+                    //viewAdapter->WriteString(buffer, xOffset, yOffset, Font_6x8, ViewAdapter::COLOR_WHITE);
                 viewAdapter->WriteStringAligned(buffer, xOffset, yOffset + cellHeight - 25, cellWidth, 25, Alignment::centered, Font_6x8, ViewAdapter::COLOR_WHITE);
             }
         }
