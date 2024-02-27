@@ -16,4 +16,9 @@ namespace developmentKit::library::uiFramework::presenters
         options.push_back(option);
         SetScaledRange(0, options.size() - 1);
     }
+
+    uint8_t OptionsPotentiometerArrayPageItem::GetSelectedValue()
+    {
+        return options[displayValue].value;
+    }
 }

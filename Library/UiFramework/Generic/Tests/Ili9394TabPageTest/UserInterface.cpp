@@ -39,7 +39,7 @@ void UserInterface::Init(UiDriver *prmUiDriver)
     oscWaveShapePotentiometerArrayPageItem.AddOption("SIN", 0);
     oscWaveShapePotentiometerArrayPageItem.AddOption("TRI", 1);
     oscWaveShapePotentiometerArrayPageItem.AddOption("SAW", 2);
-    oscWaveShapePotentiometerArrayPageItem.AddOption("SQU", 3);
+    oscWaveShapePotentiometerArrayPageItem.AddOption("SQU", 4);
     oscWaveShapePotentiometerArrayPageItem.SetOutputValue(0.5f);
     oscWaveShapePotentiometerArrayPageItem.SetTitle("WAVEFORM");
     oscillatorPotentiometerArrayPage.SetItem(0, &oscWaveShapePotentiometerArrayPageItem);
@@ -124,7 +124,7 @@ ParameterSet UserInterface::GetParameters()
 {
     ParameterSet parameterSet;
     parameterSet.level = oscLevelPotentiometerArrayPageItem.GetOutputValue();
-    parameterSet.waveform = oscWaveShapePotentiometerArrayPageItem.GetDisplayValue();
+    parameterSet.waveform = oscWaveShapePotentiometerArrayPageItem.GetSelectedValue();
     //parameterSet.note = noteSettingsPageItem.GetValue();
     parameterSet.attack = envAttackPotentiometerArrayPageItem.GetOutputValue();
     parameterSet.decay = envDecayPotentiometerArrayPageItem.GetOutputValue();

@@ -5,15 +5,11 @@
 #include "View.h"
 #include "../Presenters/ListPage.h"
 #include "../ViewAdapters/ViewAdapter.h"
-#include "daisy_seed.h"
-#include "daisysp.h"
-#include "dev/oled_ssd130x.h"
 
 namespace developmentKit::library::uiFramework::tree::view
 {
     using namespace developmentKit::library::uiFramework::presenters;
     using namespace developmentKit::library::uiFramework::tree::viewAdapters;
-    using namespace daisy;
 
     class ListPageView : public View
     {

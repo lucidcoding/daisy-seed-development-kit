@@ -19,6 +19,7 @@ namespace developmentKit::library::uiFramework::presenters
         ~OptionsPotentiometerArrayPageItem() {}
         virtual const char *GetDisplayString();
         void AddOption(const char *title, int value);
+        uint8_t GetSelectedValue();
 
     protected:
         vector<Option> options;
