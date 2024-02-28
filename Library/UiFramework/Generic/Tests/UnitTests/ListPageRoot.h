@@ -7,41 +7,41 @@
 #include "ParameterSet.h"
 #include "../../Presenters/Root.h"
 #include "../../Presenters/ListPage.h"
-#include "../../Presenters/NavigationPageItem.h"
-#include "../../Presenters/NumericSettingsPageItem.h"
-#include "../../Presenters/OptionsSettingsPageItem.h"
+#include "../../Presenters/NavigationListPageItem.h"
+#include "../../Presenters/NumericSettingsListPageItem.h"
+#include "../../Presenters/OptionsSettingsListPageItem.h"
 
-using namespace developmentKit::library::uiFramework::presenters;
-using namespace developmentKit::library::uiFramework::tree::utilities;
-using namespace developmentKit::library::uiFramework::tests::unitTests;
-
-class ListPageRoot : public Root
+namespace developmentKit::library::uiFramework::tests::unitTests
 {
-public:
-    ListPageRoot() {}
-    ~ListPageRoot() {}
-    void Init();
-    void Paint();
-    ParameterSet GetParameters();
-    MockView mockView;
-    ListPage homeListPage;
-    NavigationPageItem oscillatorNavigationPageItem;
-    NavigationPageItem adsrNavigationPageItem;
-    ListPage oscillatorListPage;
-    NavigationPageItem oscillatorBackPageItem;
-    NumericSettingsPageItem levelSettingsPageItem;
-    NumericSettingsPageItem noteSettingsPageItem;
-    OptionsSettingsPageItem waveformSettingsPageItem;
-    ListPage adsrListPage;
-    NavigationPageItem adsrBackPageItem;
-    NumericSettingsPageItem attackSettingsPageItem;
-    NumericSettingsPageItem decaySettingsPageItem;
-    NumericSettingsPageItem sustainSettingsPageItem;
-    NumericSettingsPageItem releaseSettingsPageItem;
+    using namespace developmentKit::library::uiFramework::presenters;
+    using namespace developmentKit::library::uiFramework::tree::utilities;
 
-private:
-};
+    class ListPageRoot : public Root
+    {
+    public:
+        ListPageRoot() {}
+        ~ListPageRoot() {}
+        void Init();
+        void Paint();
+        ParameterSet GetParameters();
+        MockView mockView;
+        ListPage homeListPage;
+        NavigationListPageItem oscillatorNavigationPageItem;
+        NavigationListPageItem adsrNavigationPageItem;
+        ListPage oscillatorListPage;
+        NavigationListPageItem oscillatorBackPageItem;
+        NumericSettingsListPageItem levelSettingsPageItem;
+        NumericSettingsListPageItem noteSettingsPageItem;
+        OptionsSettingsListPageItem waveformSettingsPageItem;
+        ListPage adsrListPage;
+        NavigationListPageItem adsrBackPageItem;
+        NumericSettingsListPageItem attackSettingsPageItem;
+        NumericSettingsListPageItem decaySettingsPageItem;
+        NumericSettingsListPageItem sustainSettingsPageItem;
+        NumericSettingsListPageItem releaseSettingsPageItem;
+
+    private:
+    };
+}
 
 #endif
-
-

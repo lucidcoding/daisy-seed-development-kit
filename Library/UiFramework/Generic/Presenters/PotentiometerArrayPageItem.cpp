@@ -4,6 +4,8 @@
 
 namespace developmentKit::library::uiFramework::presenters
 {
+    using namespace std;
+    
     void PotentiometerArrayPageItem::InitialiseKnobPosition(float prmInitialValue)
     {
         initialKnobPosition = prmInitialValue;

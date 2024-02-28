@@ -32,6 +32,7 @@ namespace developmentKit::library::uiFramework::presenters
         int16_t value;
         int16_t min;
         int16_t max;
+        char displayString[16];
     };
 }
 

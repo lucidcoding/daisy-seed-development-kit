@@ -32,9 +32,8 @@ namespace developmentKit::library::uiFramework::presenters
 
     const char *NumericSettingsListPageItem::GetValueAsString()
     {
-        char buffer[6];
-        sprintf(buffer, "%d", value);
-        return buffer;
+        sprintf(displayString, "%d", value);
+        return displayString;
     }
 
     const char *NumericSettingsListPageItem::GetTitle()

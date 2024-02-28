@@ -61,43 +61,4 @@ TEST_CASE("UiParameter returns correct value when max value within positive or n
     REQUIRE(uiParameter.Process() == 1.0f);
 }
 
-TEST_CASE("Navigating through the Display behaves as expected")
-{
-    TestTreeRoot display;
-    display.Init();
-    REQUIRE(display.GetCurrentPage() == &(display.homeListPage));
-    display.Select();
-    REQUIRE(display.GetCurrentPage() == &(display.oscillatorListPage));
-    display.Select();
-    REQUIRE(display.GetCurrentPage() == &(display.homeListPage));
-    display.Increment();
-    display.Select();
-    REQUIRE(display.GetCurrentPage() == &(display.adsrListPage));
-
-}
-
-TEST_CASE("Display updates numeric values as expected")
-{
-    TestTreeRoot display;
-    display.Init();
-    display.Select();
-    display.Increment();
-    display.Select();
-    display.Increment();
-    display.Increment();
-    display.Increment();
-    REQUIRE(display.levelSettingsPageItem.GetValue() == 19);
-}
-
-TEST_CASE("Display updates option values as expected")
-{
-    TestTreeRoot display;
-    display.Init();
-    display.Select();
-    display.Increment();
-    display.Increment();
-    display.Select();
-    display.Increment();
-    display.Increment();
-    REQUIRE(display.waveformSettingsPageItem.GetValue() == 2);
-}
+// ---- EVERYTHING BELOW COVERED IN ListPage.test.cpp

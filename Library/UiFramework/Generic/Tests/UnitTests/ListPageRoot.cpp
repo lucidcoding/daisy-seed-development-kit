@@ -4,9 +4,9 @@
 #include "ListPageRoot.h"
 #include "../../Presenters/Root.h"
 #include "../../Presenters/ListPage.h"
-#include "../../Presenters/NavigationPageItem.h"
-#include "../../Presenters/NumericSettingsPageItem.h"
-#include "../../Presenters/OptionsSettingsPageItem.h"
+#include "../../Presenters/NavigationListPageItem.h"
+#include "../../Presenters/NumericSettingsListPageItem.h"
+#include "../../Presenters/OptionsSettingsListPageItem.h"
 
 using namespace developmentKit::library::uiFramework::presenters;
 using namespace developmentKit::library::uiFramework::tree::utilities;

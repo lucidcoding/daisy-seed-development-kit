@@ -2,7 +2,7 @@
 #ifndef MOCK_VIEW_H
 #define MOCK_VIEW_H
 
-#include "../../View/View.h"
+#include "../../Views/View.h"
 
 namespace developmentKit::library::uiFramework::tests::unitTests
 {
