@@ -2,6 +2,8 @@
 #ifndef POTENTIOMETER_TO_DISPLAY_VALUE_SCALER_H
 #define POTENTIOMETER_TO_DISPLAY_VALUE_SCALER_H
 
+#include <stdint.h>
+
 namespace developmentKit::library::uiFramework::shared::scaling
 {
     class PotentiometerToDisplayValueScaler

@@ -1,0 +1,1 @@
+Run: `cls && make && ./Main.test.exe`

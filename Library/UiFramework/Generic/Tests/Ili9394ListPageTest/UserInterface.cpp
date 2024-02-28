@@ -25,7 +25,7 @@ void UserInterface::Init(UiDriver *prmUiDriver)
 
     // Initialise view
     viewAdapter.Init(uiDriver);
-    listPageView.Init(&viewAdapter, 12, 22, 296, 210);
+    listPageView.Init(&viewAdapter, 12, 22, 296, 210); // Is this signature right???
 
     // Initialise home list page
     homeListPage.Init(&listPageView, 0, 0, 320, 240);

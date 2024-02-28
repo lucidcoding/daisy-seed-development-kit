@@ -1,21 +1,25 @@
-#include "TestTreeRoot.h"
+#include "MockUiParameterProvider.h"
+#include "MockView.h"
 #include "ParameterSet.h"
-#include "../../Utilities/UiParameter.h"
+#include "ListPageRoot.h"
+#include "../../Presenters/Root.h"
 #include "../../Presenters/ListPage.h"
 #include "../../Presenters/NavigationPageItem.h"
+#include "../../Presenters/NumericSettingsPageItem.h"
 #include "../../Presenters/OptionsSettingsPageItem.h"
 
-using namespace developmentKit::library::uiFramework::tree;
-using namespace developmentKit::library::uiFramework::tree::view;
+using namespace developmentKit::library::uiFramework::presenters;
+using namespace developmentKit::library::uiFramework::tree::utilities;
+using namespace developmentKit::library::uiFramework::tests::unitTests;
 
-TestTreeRoot::TestTreeRoot() : homeListPage(&mockView),
-                               oscillatorListPage(&mockView),
-                               adsrListPage(&mockView)
+void ListPageRoot::Init()
 {
-}
+    // Initialise home list page
+    homeListPage.Init(&mockView);
 
-void TestTreeRoot::Init()
-{
+    // Initialise ocillator list page
+    oscillatorListPage.Init(&mockView);
+
     // Add ocillator navigation item to home page
     oscillatorNavigationPageItem.Init("Oscillator...", &oscillatorListPage, this);
     homeListPage.AddItem(&oscillatorNavigationPageItem);
@@ -48,6 +52,9 @@ void TestTreeRoot::Init()
     adsrBackPageItem.Init("Back...", &homeListPage, this);
     adsrListPage.AddItem(&adsrBackPageItem);
 
+    // Initialise envelope page
+    adsrListPage.Init(&mockView);
+
     // Add attack settings to envelope page
     attackSettingsPageItem.Init("Attack", &adsrListPage, 0, 127, 0);
     adsrListPage.AddItem(&attackSettingsPageItem);
@@ -69,7 +76,7 @@ void TestTreeRoot::Init()
     SetCurrentPage(&homeListPage);
 }
 
-ParameterSet TestTreeRoot::GetParameters()
+ParameterSet ListPageRoot::GetParameters()
 {
     ParameterSet parameterSet;
     parameterSet.level = levelSettingsPageItem.GetScaledValue();
@@ -82,7 +89,3 @@ ParameterSet TestTreeRoot::GetParameters()
     return parameterSet;
 }
 
-void TestTreeRoot::Paint()
-{
-    currentPage->Paint();
-}

@@ -4,7 +4,7 @@
 
 #include "../../Utilities/UiParameterProvider.h"
 
-namespace developmentKit::library::uiFramework::tree::tests
+namespace developmentKit::library::uiFramework::tests::unitTests
 {
     using namespace developmentKit::library::uiFramework::tree::utilities;
 

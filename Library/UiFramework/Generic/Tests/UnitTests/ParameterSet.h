@@ -4,18 +4,21 @@
 
 #include <stdint.h>
 
-struct ParameterSet
+namespace developmentKit::library::uiFramework::tests::unitTests
 {
-public:
-    float level;
-    uint8_t note;
-    uint8_t waveform;
-    float attack;
-    float decay;
-    float sustain;
-    float release;
+    struct ParameterSet
+    {
+    public:
+        float level;
+        uint8_t note;
+        uint8_t waveform;
+        float attack;
+        float decay;
+        float sustain;
+        float release;
 
-private:
-};
+    private:
+    };
+}
 
 #endif

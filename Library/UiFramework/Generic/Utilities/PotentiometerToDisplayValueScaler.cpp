@@ -1,6 +1,7 @@
 #include "PotentiometerToDisplayValueScaler.h"
 #include <math.h>
 #include <stdexcept>
+#include <stdint.h>
 
 namespace developmentKit::library::uiFramework::shared::scaling
 {

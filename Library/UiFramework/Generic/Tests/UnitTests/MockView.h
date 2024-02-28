@@ -4,7 +4,7 @@
 
 #include "../../View/View.h"
 
-namespace developmentKit::library::uiFramework::tree::tests
+namespace developmentKit::library::uiFramework::tests::unitTests
 {
     using namespace developmentKit::library::uiFramework::tree::view;
 
