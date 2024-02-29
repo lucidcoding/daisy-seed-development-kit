@@ -3,8 +3,6 @@
 
 namespace developmentKit::library::uiFramework::presenters
 {
-    using namespace developmentKit::library::uiFramework;
-
     void NavigationListPageItem::Init(const char *prmTitle, Page *prmNext, Root *prmRoot)
     {
         title = prmTitle;

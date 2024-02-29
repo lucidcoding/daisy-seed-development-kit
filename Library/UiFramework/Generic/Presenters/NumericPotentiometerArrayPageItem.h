@@ -7,7 +7,6 @@
 
 namespace developmentKit::library::uiFramework::presenters
 {
-
     class NumericPotentiometerArrayPageItem : public PotentiometerArrayPageItem
     {
     public:

@@ -1,13 +1,8 @@
-#include "daisy_seed.h"
-#include "daisysp.h"
 #include "Ili9341ViewAdapter.h"
-#include "ViewAdapter.h"
 #include "../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
 
-namespace developmentKit::library::uiFramework::tree::viewAdapters
+namespace developmentKit::library::uiFramework::viewAdapters
 {
-    using namespace daisy;
-
     void Ili9341ViewAdapter::Init(UiDriver *prmDisplay)
     {
         display = prmDisplay;

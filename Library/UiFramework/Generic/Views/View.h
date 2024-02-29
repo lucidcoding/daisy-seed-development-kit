@@ -4,7 +4,7 @@
 
 #include "../Presenters/Page.h"
 
-namespace developmentKit::library::uiFramework::tree::view
+namespace developmentKit::library::uiFramework::views
 {
     using namespace developmentKit::library::uiFramework::presenters;
 

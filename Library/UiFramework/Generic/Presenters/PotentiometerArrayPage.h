@@ -4,14 +4,14 @@
 
 #include <vector>
 #include "Page.h"
-#include "../Views/View.h"
 #include "PotentiometerArrayPageItem.h"
+#include "../Views/View.h"
 
 using namespace std;
 
 namespace developmentKit::library::uiFramework::presenters
 {
-    using namespace developmentKit::library::uiFramework::tree::view;
+    using namespace developmentKit::library::uiFramework::views;
 
     class PotentiometerArrayPage : public Page
     {

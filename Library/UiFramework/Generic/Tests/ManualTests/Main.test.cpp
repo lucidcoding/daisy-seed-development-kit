@@ -18,7 +18,7 @@
 using namespace daisysp;
 using namespace daisy;
 using namespace developmentKit::library::uiFramework::presenters;
-using namespace developmentKit::library::uiFramework::tree::view;
+using namespace developmentKit::library::uiFramework::views;
 
 static DaisySeed hardware;
 Encoder encoder;
@@ -29,25 +29,9 @@ bool gate;
 OledDisplay<SSD130xI2c128x64Driver> oledDisplay;
 UserInterface userInterface;
 
-// UiDriver tftDisplay;
-
-// Display display;
-
-/*UiParameter
-    levelParameter,
-    noteParameter,
-    attackParameter,
-    decayParameter,
-    sustainParameter,
-    releaseParameter;*/
-
-// OptionsSettingsPageItem *waveformSettingsPageItem;
-
 void UpdateDisplay()
 {
     userInterface.Paint();
-    // display.Paint();
-    // oledDisplay.Update();
 }
 
 void ProcessEncoder()

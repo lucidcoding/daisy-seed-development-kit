@@ -5,7 +5,6 @@
 #define PIN_I2C_SCL 8
 #define PIN_I2C_SDA 9
 
-#include "daisysp.h"
 #include "daisy_seed.h"
 #include "ParameterSet.h"
 #include "../../Presenters/Root.h"
@@ -16,12 +15,10 @@
 #include "../../Views/ListPageView.h"
 #include "../../ViewAdapters/Ssd1306I2cViewAdapter.h"
 
-using namespace daisysp;
 using namespace daisy;
 using namespace developmentKit::library::uiFramework::presenters;
-using namespace developmentKit::library::uiFramework::tree;
-using namespace developmentKit::library::uiFramework::tree::view;
-using namespace developmentKit::library::uiFramework::tree::viewAdapters;
+using namespace developmentKit::library::uiFramework::views;
+using namespace developmentKit::library::uiFramework::viewAdapters;
 
 class UserInterface : public Root
 {

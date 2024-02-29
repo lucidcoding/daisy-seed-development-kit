@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include "NumericSettingsListPageItem.h"
 
-using namespace developmentKit::library::uiFramework::presenters;
-
 namespace developmentKit::library::uiFramework::presenters
 {
     void NumericSettingsListPageItem::Init(const char *prmTitle, ListPage *prmParent, int16_t prmMin, int16_t prmMax, int16_t prmDefault)

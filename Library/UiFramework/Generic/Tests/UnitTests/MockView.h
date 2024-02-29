@@ -6,7 +6,7 @@
 
 namespace developmentKit::library::uiFramework::tests::unitTests
 {
-    using namespace developmentKit::library::uiFramework::tree::view;
+    using namespace developmentKit::library::uiFramework::views;
 
     class MockView : public View
     {

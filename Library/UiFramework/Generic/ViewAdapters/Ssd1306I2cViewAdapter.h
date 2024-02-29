@@ -2,10 +2,11 @@
 #ifndef SSD1306_I2C_VIEW_ADAPTER_H
 #define SSD1306_I2C_VIEW_ADAPTER_H
 
-#include "ViewAdapter.h"
+#include "daisy_seed.h"
 #include "dev/oled_ssd130x.h"
+#include "ViewAdapter.h"
 
-namespace developmentKit::library::uiFramework::tree::viewAdapters
+namespace developmentKit::library::uiFramework::viewAdapters
 {
     using namespace daisy;
 

@@ -1,12 +1,10 @@
 #include <string>
-#include "daisy_seed.h"
-#include "daisysp.h"
 #include "ListPageIli9341View.h"
 #include "../Presenters/ListPage.h"
 #include "../Presenters/SettingsListPageItem.h"
 #include "../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
 
-namespace developmentKit::library::uiFramework::tree::view
+namespace developmentKit::library::uiFramework::views
 {
     using namespace std;
     using namespace developmentKit::library::uiFramework::presenters;
@@ -76,7 +74,5 @@ namespace developmentKit::library::uiFramework::tree::view
                 displayHardware->WriteString(title, x + 1, startPosition + 2, fontDef, !hasFocus ? COLOR_WHITE : COLOR_BLACK);
             }
         }
-
-        //displayHardware->Update();
     }
 }

@@ -4,8 +4,6 @@
 #include "../../Presenters/Root.h"
 #include "../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
 
-#define PIN_I2C_SCL 8
-#define PIN_I2C_SDA 9
 #define PIN_ENC_A 30
 #define PIN_ENC_CLICK 0
 #define PIN_ENC_B 29
@@ -13,7 +11,7 @@
 using namespace daisysp;
 using namespace daisy;
 using namespace developmentKit::library::uiFramework::presenters;
-using namespace developmentKit::library::uiFramework::tree::view;
+using namespace developmentKit::library::uiFramework::views;
 
 static DaisySeed hardware;
 Encoder encoder;

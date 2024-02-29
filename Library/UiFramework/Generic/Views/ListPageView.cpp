@@ -1,13 +1,12 @@
-#include "daisy_seed.h"
-#include "daisysp.h"
 #include "ListPageView.h"
 #include "../Presenters/ListPage.h"
 #include "../Presenters/SettingsListPageItem.h"
 #include "../ViewAdapters/ViewAdapter.h"
 
-namespace developmentKit::library::uiFramework::tree::view
+namespace developmentKit::library::uiFramework::views
 {
     using namespace developmentKit::library::uiFramework::presenters;
+    using namespace developmentKit::library::uiFramework::viewAdapters;
 
     void ListPageView::Init(ViewAdapter *prmViewAdapter, uint16_t prmX, uint16_t prmY, uint16_t prmWidth, uint16_t prmHeight)
     {
@@ -30,7 +29,6 @@ namespace developmentKit::library::uiFramework::tree::view
         uint8_t rowsToShow = listPage->ItemsCount() <= maxRows ? listPage->ItemsCount() : maxRows;
         uint8_t startRow = listPage->GetCurrentIndex() < maxRows ? 0 : listPage->GetCurrentIndex() - maxRows +1;
 
-        //for (unsigned int i = 0; i < listPage->ItemsCount(); i++)
         for (uint8_t i = 0; i < rowsToShow; i++)
         {
             uint8_t currentIndex = startRow + i;

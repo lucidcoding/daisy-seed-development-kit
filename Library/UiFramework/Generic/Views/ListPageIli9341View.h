@@ -4,14 +4,11 @@
 
 #include "View.h"
 #include "../Presenters/ListPage.h"
-#include "daisy_seed.h"
-#include "daisysp.h"
 #include "../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
 
-namespace developmentKit::library::uiFramework::tree::view
+namespace developmentKit::library::uiFramework::views
 {
     using namespace developmentKit::library::uiFramework::presenters;
-    using namespace daisy;
 
     class ListPageIli9341View : public View
     {

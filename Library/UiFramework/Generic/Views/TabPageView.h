@@ -2,16 +2,14 @@
 #ifndef TAB_PAGE_VIEW_H
 #define TAB_PAGE_VIEW_H
 
+#include <stdint.h>
 #include "View.h"
 #include "../ViewAdapters/ViewAdapter.h"
-#include "daisy_seed.h"
-#include "daisysp.h"
 
-namespace developmentKit::library::uiFramework::tree::view
+namespace developmentKit::library::uiFramework::views
 {
     using namespace developmentKit::library::uiFramework::presenters;
-    using namespace developmentKit::library::uiFramework::tree::viewAdapters;
-    using namespace daisy;
+    using namespace developmentKit::library::uiFramework::viewAdapters;
 
     class TabPageView : public View
     {

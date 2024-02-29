@@ -1,7 +1,5 @@
-#include "UserInterface.h"
-#include "daisysp.h"
-#include "daisy_seed.h"
 #include "ParameterSet.h"
+#include "UserInterface.h"
 #include "../../Presenters/ListPage.h"
 #include "../../Presenters/NavigationListPageItem.h"
 #include "../../Presenters/OptionsSettingsListPageItem.h"
@@ -10,12 +8,9 @@
 #include "../../Views/ListPageView.h"
 #include "../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
 
-using namespace daisysp;
-using namespace daisy;
 using namespace developmentKit::library::uiFramework::presenters;
-using namespace developmentKit::library::uiFramework::tree;
-using namespace developmentKit::library::uiFramework::tree::view;
-using namespace developmentKit::library::uiFramework::tree::viewAdapters;
+using namespace developmentKit::library::uiFramework::views;
+using namespace developmentKit::library::uiFramework::viewAdapters;
 
 void UserInterface::Init(UiDriver *prmUiDriver)
 {

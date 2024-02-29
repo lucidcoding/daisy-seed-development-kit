@@ -14,9 +14,6 @@ namespace developmentKit::library::uiFramework::presenters
         TabPageItem(const char *prmTitle, Page *prmContent);
         ~TabPageItem() {}
         void Init(const char *prmTitle, Page *prmContent);
-        /*virtual void Increment();
-        virtual void Decrement();
-        virtual void Select();*/
         Page *GetContent();
         const char *GetTitle();
 

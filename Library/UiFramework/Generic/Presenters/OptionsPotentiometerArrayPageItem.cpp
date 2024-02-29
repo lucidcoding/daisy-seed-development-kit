@@ -1,4 +1,3 @@
-#include <cmath>
 #include "OptionsPotentiometerArrayPageItem.h"
 
 namespace developmentKit::library::uiFramework::presenters

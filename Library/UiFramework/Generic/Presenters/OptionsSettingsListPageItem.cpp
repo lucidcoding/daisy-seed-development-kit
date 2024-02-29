@@ -1,4 +1,3 @@
-#include <cstring>
 #include "OptionsSettingsListPageItem.h"
 #include "Option.h"
 

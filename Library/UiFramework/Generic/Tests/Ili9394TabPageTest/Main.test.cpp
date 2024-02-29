@@ -1,21 +1,19 @@
-#include "daisysp.h"
 #include "daisy_seed.h"
+#include "daisysp.h"
 #include "dev/oled_ssd130x.h"
 #include "UserInterface.h"
 #include "../../../../../Hardware/PotentiometerArray/Drivers/PotentiometerArray.h"
 #include "../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
 
-#define PIN_I2C_SCL 8
-#define PIN_I2C_SDA 9
 #define PIN_ENC_A 30
 #define PIN_ENC_CLICK 0
 #define PIN_ENC_B 29
 
-using namespace daisysp;
 using namespace daisy;
-using namespace developmentKit::library::uiFramework::presenters;
-using namespace developmentKit::library::uiFramework::tree::view;
+using namespace daisysp;
 using namespace developmentKit::hardware::potentiometerArray::drivers;
+using namespace developmentKit::library::uiFramework::presenters;
+using namespace developmentKit::library::uiFramework::views;
 
 static DaisySeed hardware;
 Encoder encoder;

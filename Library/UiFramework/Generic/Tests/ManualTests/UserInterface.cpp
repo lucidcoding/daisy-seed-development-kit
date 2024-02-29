@@ -11,9 +11,8 @@
 using namespace daisysp;
 using namespace daisy;
 using namespace developmentKit::library::uiFramework::presenters;
-using namespace developmentKit::library::uiFramework::tree;
-using namespace developmentKit::library::uiFramework::tree::view;
-using namespace developmentKit::library::uiFramework::tree::viewAdapters;
+using namespace developmentKit::library::uiFramework::views;
+using namespace developmentKit::library::uiFramework::viewAdapters;
 
 void UserInterface::Init(OledDisplay<SSD130xI2c128x64Driver> *prmOledDisplay)
 {

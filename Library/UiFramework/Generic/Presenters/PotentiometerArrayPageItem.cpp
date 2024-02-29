@@ -1,4 +1,4 @@
-#include <cmath>
+#include <math.h>
 #include <stdint.h>
 #include "PotentiometerArrayPageItem.h"
 

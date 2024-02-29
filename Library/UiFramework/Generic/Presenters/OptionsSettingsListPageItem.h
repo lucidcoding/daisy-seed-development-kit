@@ -2,11 +2,11 @@
 #ifndef OPTIONS_SETTINGS_PAGE_ITEM_H
 #define OPTIONS_SETTINGS_PAGE_ITEM_H
 
+#include <vector>
+#include <stdint.h>
 #include "SettingsListPageItem.h"
 #include "Option.h"
 #include "ListPage.h"
-#include <vector>
-#include <stdint.h>
 
 namespace developmentKit::library::uiFramework::presenters
 {

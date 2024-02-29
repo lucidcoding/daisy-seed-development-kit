@@ -8,7 +8,7 @@
 
 namespace developmentKit::library::uiFramework::presenters
 {
-    using namespace developmentKit::library::uiFramework::tree::view;
+    using namespace developmentKit::library::uiFramework::views;
     using namespace developmentKit::library::uiFramework::shared::scaling;
 
     class PotentiometerArrayPageItem

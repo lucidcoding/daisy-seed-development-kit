@@ -6,10 +6,10 @@
 #include "../Presenters/ListPage.h"
 #include "../ViewAdapters/ViewAdapter.h"
 
-namespace developmentKit::library::uiFramework::tree::view
+namespace developmentKit::library::uiFramework::views
 {
     using namespace developmentKit::library::uiFramework::presenters;
-    using namespace developmentKit::library::uiFramework::tree::viewAdapters;
+    using namespace developmentKit::library::uiFramework::viewAdapters;
 
     class ListPageView : public View
     {

@@ -2,11 +2,11 @@
 #ifndef VIEW_ADAPTER_H
 #define VIEW_ADAPTER_H
 
-#include <stdint.h>
 #include "daisy_seed.h"
+#include <stdint.h>
 #include "util/oled_fonts.h"
 
-namespace developmentKit::library::uiFramework::tree::viewAdapters
+namespace developmentKit::library::uiFramework::viewAdapters
 {
     using namespace daisy;
 

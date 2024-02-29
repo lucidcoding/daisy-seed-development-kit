@@ -11,7 +11,7 @@
 namespace developmentKit::library::uiFramework::presenters
 {
     using namespace std;
-    using namespace developmentKit::library::uiFramework::tree::view;
+    using namespace developmentKit::library::uiFramework::views;
 
     class TabPage : public Page
     {

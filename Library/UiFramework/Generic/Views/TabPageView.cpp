@@ -1,13 +1,12 @@
-#include "daisy_seed.h"
-#include "daisysp.h"
 #include "TabPageView.h"
 #include "../Presenters/TabPage.h"
 #include "../Presenters/TabPageItem.h"
 #include "../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
 
-namespace developmentKit::library::uiFramework::tree::view
+namespace developmentKit::library::uiFramework::views
 {
     using namespace developmentKit::library::uiFramework::presenters;
+    using namespace developmentKit::library::uiFramework::viewAdapters;
 
     void TabPageView::Init(ViewAdapter *prmViewAdapter, uint16_t prmX, uint16_t prmY, uint16_t prmWidth, uint16_t prmHeight)
     {

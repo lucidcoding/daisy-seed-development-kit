@@ -1,6 +1,4 @@
 #include "UserInterface.h"
-#include "daisysp.h"
-#include "daisy_seed.h"
 #include "ParameterSet.h"
 #include "../../Presenters/ListPage.h"
 #include "../../Presenters/NavigationListPageItem.h"
@@ -16,12 +14,9 @@
 #include "../../ViewAdapters/Ili9341ViewAdapter.h"
 #include "../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
 
-using namespace daisysp;
-using namespace daisy;
 using namespace developmentKit::library::uiFramework::presenters;
-using namespace developmentKit::library::uiFramework::tree;
-using namespace developmentKit::library::uiFramework::tree::view;
-using namespace developmentKit::library::uiFramework::tree::viewAdapters;
+using namespace developmentKit::library::uiFramework::views;
+using namespace developmentKit::library::uiFramework::viewAdapters;
 
 void UserInterface::Init(UiDriver *prmUiDriver)
 {
@@ -31,13 +26,11 @@ void UserInterface::Init(UiDriver *prmUiDriver)
 
     // Initiviews
     viewAdapter.Init(uiDriver);
-    // listPageView.Init(&viewAdapter, 12, 22, 296, 210);
     tabPageView.Init(&viewAdapter, 0, 0, 320, 240);
     potentiometerArrayPageView.Init(&viewAdapter, 12, 22, 296, 210);
     tabPage.Init(&tabPageView);
     oscillatorPotentiometerArrayPage.Init(&potentiometerArrayPageView);
     envelopePotentiometerArrayPage.Init(&potentiometerArrayPageView);
-    // potentiometerArrayPageView.SetSize(12, 22, 296, 210);
 
     // Add oscillator tab to tab page
     oscillatorTabPageItem.Init("OSC", &oscillatorPotentiometerArrayPage);

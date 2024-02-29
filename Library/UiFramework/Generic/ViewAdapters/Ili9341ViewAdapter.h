@@ -5,7 +5,7 @@
 #include "ViewAdapter.h"
 #include "../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
 
-namespace developmentKit::library::uiFramework::tree::viewAdapters
+namespace developmentKit::library::uiFramework::viewAdapters
 {
     class Ili9341ViewAdapter : public ViewAdapter
     {
