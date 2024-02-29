@@ -1,13 +1,10 @@
 #pragma once
-#ifndef UI_PARAMETER_H
-#define UI_PARAMETER_H
-
-#include <vector>
-#include "../Presenters/NumericSettingsListPageItem.h"
+#ifndef PARAMETER_SCALER_H
+#define PARAMETER_SCALER_H
 
 namespace developmentKit::library::uiFramework::tree::utilities
 {
-    class UiParameter
+    class ParameterScaler
     {
     public:
         enum Curve
@@ -18,11 +15,10 @@ namespace developmentKit::library::uiFramework::tree::utilities
             CUBE,
             LAST,
         };
-        void Init(UiParameterProvider *prmUiParameterProvider, float prmMin, float prmMax, Curve prmCurve);
-        float Process();
+        void Init(float prmMin, float prmMax, Curve prmCurve);
+        float Process(float rawFloat);
 
     private:
-        UiParameterProvider *uiParameterProvider;
         float min, max;
         float lMin, lMax; 
         Curve curve;

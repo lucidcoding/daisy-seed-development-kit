@@ -1,6 +1,7 @@
 test:
 	g++ -lstdc++ -o Main.test.exe -DTESTING \
 		Main.test.cpp \
+		NumericSettingsListPageItem.test.cpp \
 		PotentiometerArrayPageItem.test.cpp \
 		PotentiometerToDisplayValueScaler.test.cpp \
 		ListPage.test.cpp \

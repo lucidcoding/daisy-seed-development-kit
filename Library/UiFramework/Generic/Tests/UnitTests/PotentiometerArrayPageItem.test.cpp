@@ -1,9 +1,9 @@
-#include "../../../../../ThirdParty/catch.hpp"
-#include "../../../../Utilities/TestTools/Debug.h"
 #include "MockUiParameterProvider.h"
 #include "MockView.h"
 #include "../../Presenters/PotentiometerArrayPageItem.h"
 #include "../../Presenters/NumericPotentiometerArrayPageItem.h"
+#include "../../../../Utilities/TestTools/Debug.h"
+#include "../../../../../ThirdParty/catch.hpp"
 
 using namespace developmentKit::library::uiFramework::presenters;
 using namespace developmentKit::library::uiFramework::tests::unitTests;
