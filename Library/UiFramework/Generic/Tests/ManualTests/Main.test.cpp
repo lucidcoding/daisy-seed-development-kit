@@ -3,7 +3,6 @@
 #include "dev/oled_ssd130x.h"
 #include "UserInterface.h"
 #include "../../Presenters/Root.h"
-#include "../../Utilities/UiParameter.h"
 #include "../../Presenters/ListPage.h"
 #include "../../Views/ListPageIli9341View.h"
 #include "../../Presenters/NavigationListPageItem.h"
@@ -19,7 +18,6 @@
 using namespace daisysp;
 using namespace daisy;
 using namespace developmentKit::library::uiFramework::presenters;
-using namespace developmentKit::library::uiFramework::tree::utilities;
 using namespace developmentKit::library::uiFramework::tree::view;
 
 static DaisySeed hardware;

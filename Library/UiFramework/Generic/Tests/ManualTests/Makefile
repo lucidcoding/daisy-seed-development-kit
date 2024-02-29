@@ -6,17 +6,14 @@ CPP_SOURCES = \
 	Main.test.cpp  \
 	UserInterface.cpp \
 	../../Presenters/Root.cpp \
-	../../Views/ListPageIli9341View.cpp \
-	../../Views/ListPageView.cpp \
 	../../Presenters/NavigationListPageItem.cpp \
 	../../Presenters/SettingsListPageItem.cpp \
 	../../Presenters/NumericSettingsListPageItem.cpp \
 	../../Presenters/OptionsSettingsListPageItem.cpp \
 	../../Presenters/ListPage.cpp \
-	../../Utilities/UiParameter.cpp \
-	../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.cpp \
 	../../ViewAdapters/Ssd1306I2cViewAdapter.cpp\
-	../../ViewAdapters/Ili9341ViewAdapter.cpp
+	../../Views/ListPageView.cpp \
+	../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.cpp
 	
 # Core location, and generic Makefile.
 SYSTEM_FILES_DIR = $(LIBDAISY_DIR)/core

@@ -1,8 +1,8 @@
+#include <stdint.h>
 #include "ListPage.h"
 #include "ListPageItem.h"
 #include "Page.h"
 #include "../Views/View.h"
-#include <stdint.h>
 
 namespace developmentKit::library::uiFramework::presenters
 {

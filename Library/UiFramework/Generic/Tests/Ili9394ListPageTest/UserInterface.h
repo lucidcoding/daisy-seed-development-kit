@@ -10,19 +10,17 @@
 #include "ParameterSet.h"
 #include "../../Presenters/Root.h"
 #include "../../Presenters/ListPage.h"
-#include "../../Presenters/NavigationPageItem.h"
-#include "../../Presenters/OptionsSettingsPageItem.h"
-#include "../../Presenters/NumericSettingsPageItem.h"
-#include "../../Utilities/UiParameter.h"
-#include "../../Views/ListPageView.h"
+#include "../../Presenters/NavigationListPageItem.h"
+#include "../../Presenters/OptionsSettingsListPageItem.h"
+#include "../../Presenters/NumericSettingsListPageItem.h"
 #include "../../ViewAdapters/Ili9341ViewAdapter.h"
+#include "../../Views/ListPageView.h"
 #include "../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
 
 using namespace daisysp;
 using namespace daisy;
 using namespace developmentKit::library::uiFramework::presenters;
 using namespace developmentKit::library::uiFramework::tree;
-using namespace developmentKit::library::uiFramework::tree::utilities;
 using namespace developmentKit::library::uiFramework::tree::view;
 using namespace developmentKit::library::uiFramework::tree::viewAdapters;
 
@@ -40,19 +38,19 @@ private:
     ListPageView listPageView;
     Ili9341ViewAdapter viewAdapter;
     ListPage homeListPage;
-    NavigationPageItem oscillatorNavigationPageItem;
-    NavigationPageItem adsrNavigationPageItem;
+    NavigationListPageItem oscillatorNavigationPageItem;
+    NavigationListPageItem adsrNavigationPageItem;
     ListPage oscillatorListPage;
-    NavigationPageItem oscillatorBackPageItem;
-    NumericSettingsPageItem levelSettingsPageItem;
-    NumericSettingsPageItem noteSettingsPageItem;
-    OptionsSettingsPageItem waveformSettingsPageItem;
+    NavigationListPageItem oscillatorBackPageItem;
+    NumericSettingsListPageItem levelSettingsPageItem;
+    NumericSettingsListPageItem noteSettingsPageItem;
+    OptionsSettingsListPageItem waveformSettingsPageItem;
     ListPage adsrListPage;
-    NavigationPageItem adsrBackPageItem;
-    NumericSettingsPageItem attackSettingsPageItem;
-    NumericSettingsPageItem decaySettingsPageItem;
-    NumericSettingsPageItem sustainSettingsPageItem;
-    NumericSettingsPageItem releaseSettingsPageItem;
+    NavigationListPageItem adsrBackPageItem;
+    NumericSettingsListPageItem attackSettingsPageItem;
+    NumericSettingsListPageItem decaySettingsPageItem;
+    NumericSettingsListPageItem sustainSettingsPageItem;
+    NumericSettingsListPageItem releaseSettingsPageItem;
 };
 
 #endif

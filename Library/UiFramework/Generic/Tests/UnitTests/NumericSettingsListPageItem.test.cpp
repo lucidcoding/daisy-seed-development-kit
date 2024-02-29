@@ -1,5 +1,3 @@
-#include "MockUiParameterProvider.h"
-#include "MockView.h"
 #include "../../Presenters/NumericSettingsListPageItem.h"
 #include "../../../../../ThirdParty/catch.hpp"
 

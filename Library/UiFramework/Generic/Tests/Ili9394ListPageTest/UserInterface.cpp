@@ -2,12 +2,12 @@
 #include "daisysp.h"
 #include "daisy_seed.h"
 #include "ParameterSet.h"
-#include "../../Views/ListPageIli9341View.h"
-#include "../../Utilities/UiParameter.h"
 #include "../../Presenters/ListPage.h"
-#include "../../Presenters/NavigationPageItem.h"
-#include "../../Presenters/OptionsSettingsPageItem.h"
+#include "../../Presenters/NavigationListPageItem.h"
+#include "../../Presenters/OptionsSettingsListPageItem.h"
 #include "../../ViewAdapters/Ssd1306I2cViewAdapter.h"
+#include "../../ViewAdapters/Ili9341ViewAdapter.h"
+#include "../../Views/ListPageView.h"
 #include "../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
 
 using namespace daisysp;
@@ -25,10 +25,10 @@ void UserInterface::Init(UiDriver *prmUiDriver)
 
     // Initialise view
     viewAdapter.Init(uiDriver);
-    listPageView.Init(&viewAdapter, 12, 22, 296, 210); // Is this signature right???
+    listPageView.Init(&viewAdapter, 0, 0, 320, 240);
 
     // Initialise home list page
-    homeListPage.Init(&listPageView, 0, 0, 320, 240);
+    homeListPage.Init(&listPageView);
 
     // Initialise ocillator list page
     oscillatorListPage.Init(&listPageView);

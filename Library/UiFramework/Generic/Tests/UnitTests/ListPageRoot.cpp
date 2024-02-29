@@ -1,4 +1,3 @@
-#include "MockUiParameterProvider.h"
 #include "MockView.h"
 #include "ParameterSet.h"
 #include "ListPageRoot.h"
@@ -9,7 +8,6 @@
 #include "../../Presenters/OptionsSettingsListPageItem.h"
 
 using namespace developmentKit::library::uiFramework::presenters;
-using namespace developmentKit::library::uiFramework::tree::utilities;
 using namespace developmentKit::library::uiFramework::tests::unitTests;
 
 void ListPageRoot::Init()

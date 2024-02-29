@@ -2,9 +2,9 @@
 #ifndef NAVIGATION_PAGE_ITEM_H
 #define NAVIGATION_PAGE_ITEM_H
 
-#include <vector>
 #include "Page.h"
 #include "ListPageItem.h"
+#include "Root.h"
 
 namespace developmentKit::library::uiFramework::presenters
 {

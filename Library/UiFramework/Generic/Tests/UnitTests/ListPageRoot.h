@@ -2,7 +2,6 @@
 #ifndef TEST_TREE_ROOT_H
 #define TEST_TREE_ROOT_H
 
-#include "MockUiParameterProvider.h"
 #include "MockView.h"
 #include "ParameterSet.h"
 #include "../../Presenters/Root.h"
@@ -14,7 +13,6 @@
 namespace developmentKit::library::uiFramework::tests::unitTests
 {
     using namespace developmentKit::library::uiFramework::presenters;
-    using namespace developmentKit::library::uiFramework::tree::utilities;
 
     class ListPageRoot : public Root
     {

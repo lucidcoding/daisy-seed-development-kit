@@ -16,8 +16,7 @@ CPP_SOURCES = \
 	../../Presenters/NumericSettingsListPageItem.cpp \
 	../../Presenters/NumericPotentiometerArrayPageItem.cpp \
 	../../Presenters/OptionsPotentiometerArrayPageItem.cpp \
-	../../Utilities/UiParameter.cpp \
-	../Utilities/PotentiometerToDisplayValueScaler.cpp \
+	../../Utilities/PotentiometerToDisplayValueScaler.cpp \
 	../../Views/ListPageView.cpp \
 	../../Views/PotentiometerArrayPageView.cpp \
 	../../Views/TabPageView.cpp \

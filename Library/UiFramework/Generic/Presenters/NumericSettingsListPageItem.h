@@ -5,12 +5,9 @@
 #include <vector>
 #include <stdint.h>
 #include "SettingsListPageItem.h"
-#include "../Utilities/UiParameterProvider.h"
 
 namespace developmentKit::library::uiFramework::presenters
 {
-    using namespace developmentKit::library::uiFramework::tree::utilities;
-
     class NumericSettingsListPageItem : public SettingsListPageItem
     {
     public:

@@ -1,5 +1,5 @@
-#include "NumericSettingsListPageItem.h"
 #include <stdio.h>
+#include "NumericSettingsListPageItem.h"
 
 using namespace developmentKit::library::uiFramework::presenters;
 

@@ -1,4 +1,3 @@
-#include "MockUiParameterProvider.h"
 #include "MockView.h"
 #include "../../Presenters/PotentiometerArrayPageItem.h"
 #include "../../Presenters/NumericPotentiometerArrayPageItem.h"

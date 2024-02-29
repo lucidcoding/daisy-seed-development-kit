@@ -17,7 +17,6 @@
 #include "../../Presenters/PotentiometerArrayPageItem.h"
 #include "../../Presenters/TabPage.h"
 #include "../../Presenters/TabPageItem.h"
-#include "../../Utilities/UiParameter.h"
 #include "../../Views/ListPageView.h"
 #include "../../Views/PotentiometerArrayPageView.h"
 #include "../../Views/TabPageView.h"
@@ -28,7 +27,6 @@ using namespace daisysp;
 using namespace daisy;
 using namespace developmentKit::library::uiFramework::presenters;
 using namespace developmentKit::library::uiFramework::tree;
-using namespace developmentKit::library::uiFramework::tree::utilities;
 using namespace developmentKit::library::uiFramework::tree::view;
 using namespace developmentKit::library::uiFramework::tree::viewAdapters;
 

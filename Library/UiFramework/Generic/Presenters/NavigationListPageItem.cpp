@@ -1,5 +1,5 @@
-#include "../Presenters/Root.h"
 #include "NavigationListPageItem.h"
+#include "../Presenters/Root.h"
 
 namespace developmentKit::library::uiFramework::presenters
 {

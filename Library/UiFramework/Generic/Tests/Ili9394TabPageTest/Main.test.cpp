@@ -2,14 +2,8 @@
 #include "daisy_seed.h"
 #include "dev/oled_ssd130x.h"
 #include "UserInterface.h"
-#include "../../Presenters/Root.h"
-#include "../../Utilities/UiParameter.h"
-#include "../../Presenters/ListPage.h"
-#include "../../Views/ListPageIli9341View.h"
-#include "../../Presenters/NavigationListPageItem.h"
-#include "../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
-#include "../../ViewAdapters/Ili9341ViewAdapter.h"
 #include "../../../../../Hardware/PotentiometerArray/Drivers/PotentiometerArray.h"
+#include "../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
 
 #define PIN_I2C_SCL 8
 #define PIN_I2C_SDA 9
@@ -20,7 +14,6 @@
 using namespace daisysp;
 using namespace daisy;
 using namespace developmentKit::library::uiFramework::presenters;
-using namespace developmentKit::library::uiFramework::tree::utilities;
 using namespace developmentKit::library::uiFramework::tree::view;
 using namespace developmentKit::hardware::potentiometerArray::drivers;
 
@@ -32,27 +25,12 @@ Metro metro;
 bool gate;
 PotentiometerArray potentiometerArray;
 UserInterface userInterface;
-
 UiDriver tftDisplay;
-
-// Display display;
-
-/*UiParameter
-    levelParameter,
-    noteParameter,
-    attackParameter,
-    decayParameter,
-    sustainParameter,
-    releaseParameter;*/
-
-// OptionsSettingsPageItem *waveformSettingsPageItem;
 
 void UpdateDisplay()
 {
     userInterface.Paint();
     tftDisplay.Update();
-    // display.Paint();
-    // oledDisplay.Update();
 }
 
 void ProcessEncoder()
@@ -201,9 +179,6 @@ int main(void)
         if (currentTicks - lastTicksRefresh > (100000 * ticksPerUs))
         {
             lastTicksRefresh = currentTicks;
-
-            //ParameterSet parameterSet = userInterface.GetParameters();
-            //hardware.PrintLine("Level: %3.5f, note: %d", parameterSet.level, parameterSet.note);
             hardware.PrintLine("Tick...");
             hardware.PrintLine("P1: %3.5f, P2: %3.5f", potentiometerArray.analogControl[0].GetRawFloat(), potentiometerArray.analogControl[1].GetRawFloat());
             UpdateDisplay();

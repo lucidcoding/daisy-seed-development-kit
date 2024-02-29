@@ -1,15 +1,8 @@
 #include "daisysp.h"
 #include "daisy_seed.h"
-#include "dev/oled_ssd130x.h"
 #include "UserInterface.h"
 #include "../../Presenters/Root.h"
-#include "../../Utilities/UiParameter.h"
-#include "../../Presenters/ListPage.h"
-#include "../../Views/ListPageIli9341View.h"
-#include "../../Presenters/NavigationPageItem.h"
-#include "../../Presenters/OptionsSettingsPageItem.h"
 #include "../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
-#include "../../ViewAdapters/Ili9341ViewAdapter.h"
 
 #define PIN_I2C_SCL 8
 #define PIN_I2C_SDA 9
@@ -20,7 +13,6 @@
 using namespace daisysp;
 using namespace daisy;
 using namespace developmentKit::library::uiFramework::presenters;
-using namespace developmentKit::library::uiFramework::tree::utilities;
 using namespace developmentKit::library::uiFramework::tree::view;
 
 static DaisySeed hardware;
@@ -30,26 +22,11 @@ Adsr adsr;
 Metro metro;
 bool gate;
 UserInterface userInterface;
-
 UiDriver tftDisplay;
-
-// Display display;
-
-/*UiParameter
-    levelParameter,
-    noteParameter,
-    attackParameter,
-    decayParameter,
-    sustainParameter,
-    releaseParameter;*/
-
-// OptionsSettingsPageItem *waveformSettingsPageItem;
 
 void UpdateDisplay()
 {
     userInterface.Paint();
-    // display.Paint();
-    // oledDisplay.Update();
 }
 
 void ProcessEncoder()

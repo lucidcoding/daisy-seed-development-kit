@@ -3,7 +3,6 @@
 #include "daisy_seed.h"
 #include "ParameterSet.h"
 #include "../../Views/ListPageIli9341View.h"
-#include "../../Utilities/UiParameter.h"
 #include "../../Presenters/ListPage.h"
 #include "../../Presenters/NavigationListPageItem.h"
 #include "../../Presenters/OptionsSettingsListPageItem.h"

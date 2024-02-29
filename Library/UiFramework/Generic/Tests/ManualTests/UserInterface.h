@@ -13,8 +13,6 @@
 #include "../../Presenters/NavigationListPageItem.h"
 #include "../../Presenters/OptionsSettingsListPageItem.h"
 #include "../../Presenters/NumericSettingsListPageItem.h"
-#include "../../Utilities/UiParameter.h"
-//#include "../../Views/ListPageSsd1306I2cView.h"
 #include "../../Views/ListPageView.h"
 #include "../../ViewAdapters/Ssd1306I2cViewAdapter.h"
 
@@ -22,7 +20,6 @@ using namespace daisysp;
 using namespace daisy;
 using namespace developmentKit::library::uiFramework::presenters;
 using namespace developmentKit::library::uiFramework::tree;
-using namespace developmentKit::library::uiFramework::tree::utilities;
 using namespace developmentKit::library::uiFramework::tree::view;
 using namespace developmentKit::library::uiFramework::tree::viewAdapters;
 
@@ -36,7 +33,6 @@ public:
 
 private:
     OledDisplay<SSD130xI2c128x64Driver> *oledDisplay;
-    //ListPageSsd1306I2cView listPageView;
     ListPageView listPageView;
     Ssd1306I2cViewAdapter viewAdapter;
     ListPage homeListPage;

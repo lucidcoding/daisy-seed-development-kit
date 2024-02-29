@@ -2,8 +2,8 @@
 #ifndef LIST_PAGE_H
 #define LIST_PAGE_H
 
-#include <vector>
 #include <stdint.h>
+#include <vector>
 #include "ListPageItem.h"
 #include "Page.h"
 #include "../Views/View.h"
