@@ -1635,7 +1635,7 @@
 				)
 			)
 		)
-		(symbol "Connector:Conn_01x06_Male"
+		(symbol "Connector:Conn_01x06_Pin"
 			(pin_names
 				(offset 1.016) hide)
 			(exclude_from_sim no)
@@ -1649,7 +1649,7 @@
 					)
 				)
 			)
-			(property "Value" "Conn_01x06_Male"
+			(property "Value" "Conn_01x06_Pin"
 				(at 0 -10.16 0)
 				(effects
 					(font
@@ -1675,13 +1675,21 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "Generic connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(property "Description" "Generic connector, single row, 01x06, script generated"
 				(at 0 0 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
 					(hide yes)
+				)
+			)
+			(property "ki_locked" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
 				)
 			)
 			(property "ki_keywords" "connector"
@@ -1702,7 +1710,7 @@
 					(hide yes)
 				)
 			)
-			(symbol "Conn_01x06_Male_1_1"
+			(symbol "Conn_01x06_Pin_1_1"
 				(polyline
 					(pts
 						(xy 1.27 -7.62) (xy 0.8636 -7.62)
@@ -3470,7 +3478,7 @@
 		(uuid "d299c46f-e646-4847-a722-8a1540a23a9f")
 	)
 	(junction
-		(at 184.15 49.53)
+		(at 184.15 48.26)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "e005c0e7-6fe6-45fc-9b8c-d6458ada7d94")
@@ -3488,7 +3496,7 @@
 		(uuid "ee758bd0-8aac-4332-a15b-6aef83848ddf")
 	)
 	(junction
-		(at 184.15 59.69)
+		(at 184.15 60.96)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "fbe14a0a-c387-45ed-9943-146ab9639c97")
@@ -3505,7 +3513,7 @@
 	)
 	(wire
 		(pts
-			(xy 198.12 49.53) (xy 195.58 49.53)
+			(xy 198.12 48.26) (xy 195.58 48.26)
 		)
 		(stroke
 			(width 0)
@@ -3525,7 +3533,7 @@
 	)
 	(wire
 		(pts
-			(xy 184.15 128.27) (xy 185.42 128.27)
+			(xy 184.15 129.54) (xy 185.42 129.54)
 		)
 		(stroke
 			(width 0)
@@ -3565,7 +3573,7 @@
 	)
 	(wire
 		(pts
-			(xy 173.99 128.27) (xy 176.53 128.27)
+			(xy 173.99 129.54) (xy 176.53 129.54)
 		)
 		(stroke
 			(width 0)
@@ -3655,7 +3663,7 @@
 	)
 	(wire
 		(pts
-			(xy 184.15 59.69) (xy 187.96 59.69)
+			(xy 184.15 60.96) (xy 187.96 60.96)
 		)
 		(stroke
 			(width 0)
@@ -3695,7 +3703,7 @@
 	)
 	(wire
 		(pts
-			(xy 173.99 118.11) (xy 176.53 118.11)
+			(xy 173.99 116.84) (xy 176.53 116.84)
 		)
 		(stroke
 			(width 0)
@@ -3865,7 +3873,7 @@
 	)
 	(wire
 		(pts
-			(xy 195.58 128.27) (xy 195.58 124.46)
+			(xy 195.58 129.54) (xy 195.58 124.46)
 		)
 		(stroke
 			(width 0)
@@ -3875,13 +3883,13 @@
 	)
 	(wire
 		(pts
-			(xy 248.92 77.47) (xy 266.7 77.47)
+			(xy 251.46 107.95) (xy 259.08 107.95)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "847a2a4c-c478-4716-bcd0-16d80a9e6e68")
+		(uuid "7d3cf30f-3e0d-42c1-a4f1-3649a48772e9")
 	)
 	(wire
 		(pts
@@ -3915,7 +3923,7 @@
 	)
 	(wire
 		(pts
-			(xy 180.34 59.69) (xy 184.15 59.69)
+			(xy 180.34 60.96) (xy 184.15 60.96)
 		)
 		(stroke
 			(width 0)
@@ -3935,7 +3943,7 @@
 	)
 	(wire
 		(pts
-			(xy 195.58 59.69) (xy 198.12 59.69)
+			(xy 195.58 60.96) (xy 198.12 60.96)
 		)
 		(stroke
 			(width 0)
@@ -3965,7 +3973,7 @@
 	)
 	(wire
 		(pts
-			(xy 184.15 49.53) (xy 187.96 49.53)
+			(xy 184.15 48.26) (xy 187.96 48.26)
 		)
 		(stroke
 			(width 0)
@@ -3975,7 +3983,7 @@
 	)
 	(wire
 		(pts
-			(xy 180.34 49.53) (xy 184.15 49.53)
+			(xy 180.34 48.26) (xy 184.15 48.26)
 		)
 		(stroke
 			(width 0)
@@ -3985,7 +3993,7 @@
 	)
 	(wire
 		(pts
-			(xy 193.04 128.27) (xy 195.58 128.27)
+			(xy 193.04 129.54) (xy 195.58 129.54)
 		)
 		(stroke
 			(width 0)
@@ -3995,7 +4003,7 @@
 	)
 	(wire
 		(pts
-			(xy 184.15 59.69) (xy 184.15 66.04)
+			(xy 184.15 60.96) (xy 184.15 67.31)
 		)
 		(stroke
 			(width 0)
@@ -4005,7 +4013,7 @@
 	)
 	(wire
 		(pts
-			(xy 170.18 49.53) (xy 172.72 49.53)
+			(xy 170.18 48.26) (xy 172.72 48.26)
 		)
 		(stroke
 			(width 0)
@@ -4032,16 +4040,6 @@
 			(type default)
 		)
 		(uuid "ab24b2a6-abb7-4165-998b-fddae09855bb")
-	)
-	(wire
-		(pts
-			(xy 259.08 106.68) (xy 266.7 106.68)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "abc1cba1-2d87-4690-9bb7-1d229a500c82")
 	)
 	(wire
 		(pts
@@ -4145,7 +4143,7 @@
 	)
 	(wire
 		(pts
-			(xy 184.15 49.53) (xy 184.15 43.18)
+			(xy 184.15 48.26) (xy 184.15 41.91)
 		)
 		(stroke
 			(width 0)
@@ -4245,7 +4243,7 @@
 	)
 	(wire
 		(pts
-			(xy 170.18 59.69) (xy 172.72 59.69)
+			(xy 170.18 60.96) (xy 172.72 60.96)
 		)
 		(stroke
 			(width 0)
@@ -4255,7 +4253,7 @@
 	)
 	(wire
 		(pts
-			(xy 195.58 121.92) (xy 195.58 118.11)
+			(xy 195.58 121.92) (xy 195.58 116.84)
 		)
 		(stroke
 			(width 0)
@@ -4315,13 +4313,13 @@
 	)
 	(wire
 		(pts
-			(xy 248.92 90.17) (xy 266.7 90.17)
+			(xy 243.84 88.9) (xy 259.08 88.9)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "dcd4b78d-219c-45b8-be13-9686b097509b")
+		(uuid "df10ff57-c3c0-48d1-861b-df6f6cf59d7a")
 	)
 	(wire
 		(pts
@@ -4355,7 +4353,7 @@
 	)
 	(wire
 		(pts
-			(xy 195.58 118.11) (xy 193.04 118.11)
+			(xy 195.58 116.84) (xy 193.04 116.84)
 		)
 		(stroke
 			(width 0)
@@ -4385,7 +4383,7 @@
 	)
 	(wire
 		(pts
-			(xy 198.12 55.88) (xy 198.12 59.69)
+			(xy 198.12 55.88) (xy 198.12 60.96)
 		)
 		(stroke
 			(width 0)
@@ -4395,7 +4393,7 @@
 	)
 	(wire
 		(pts
-			(xy 198.12 53.34) (xy 198.12 49.53)
+			(xy 198.12 53.34) (xy 198.12 48.26)
 		)
 		(stroke
 			(width 0)
@@ -4455,7 +4453,7 @@
 	)
 	(wire
 		(pts
-			(xy 185.42 118.11) (xy 184.15 118.11)
+			(xy 185.42 116.84) (xy 184.15 116.84)
 		)
 		(stroke
 			(width 0)
@@ -4663,7 +4661,7 @@
 	)
 	(global_label "CODEC_IN_L"
 		(shape input)
-		(at 173.99 118.11 180)
+		(at 173.99 116.84 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4673,7 +4671,7 @@
 		)
 		(uuid "25237b40-8948-4f26-acc7-59a4a5b78d06")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 160.3888 118.1894 0)
+			(at 160.3888 116.9194 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4749,28 +4747,6 @@
 			)
 		)
 	)
-	(global_label "AUDIO_OUT_L"
-		(shape input)
-		(at 266.7 82.55 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "39330a4e-f967-4eed-99b5-76d5f2ae48f1")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 252.0707 82.6294 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "SAI2_MCLK"
 		(shape input)
 		(at 78.74 166.37 180)
@@ -4806,6 +4782,28 @@
 		(uuid "3c3c90c5-afde-4331-ad0d-f16229df987f")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 72.2472 153.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "AUDIO_OUT_R"
+		(shape input)
+		(at 259.08 78.74 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "429a1565-f7d2-4195-8eb5-53a091cfa36f")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 244.2088 78.6606 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5053,28 +5051,6 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "AUDIO_IN_L"
-		(shape input)
-		(at 266.7 87.63 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "64d362b5-8df7-456f-a9ec-8c9312ae7ead")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 253.764 87.7094 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
 				(hide yes)
 			)
 		)
@@ -5475,28 +5451,6 @@
 			)
 		)
 	)
-	(global_label "5V"
-		(shape input)
-		(at 266.7 104.14 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "a1da4389-5667-47a1-816f-315f6c9f9ae3")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 261.4167 104.14 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "CODEC_IN_L"
 		(shape input)
 		(at 88.9 82.55 180)
@@ -5510,6 +5464,28 @@
 		(uuid "a602cbb6-8a62-4dce-b8ef-602837a18931")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 74.7267 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "AUDIO_IN_L"
+		(shape input)
+		(at 259.08 86.36 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a67bbd3f-e939-452d-94a4-dbd49fa3df27")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 246.144 86.4394 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5537,6 +5513,28 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "AUDIO_IN_R"
+		(shape input)
+		(at 259.08 83.82 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "b0ac6e2d-30d0-4d33-88f4-7712c9f76302")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 245.9021 83.7406 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
 				(hide yes)
 			)
 		)
@@ -5609,7 +5607,7 @@
 	)
 	(global_label "CODEC_OUT_L"
 		(shape input)
-		(at 170.18 49.53 180)
+		(at 170.18 48.26 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5619,29 +5617,7 @@
 		)
 		(uuid "d34385b1-fadf-4359-a8b1-59e02579d7e5")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 154.8855 49.6094 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "AUDIO_OUT_R"
-		(shape input)
-		(at 266.7 80.01 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "d4a466e6-8a1e-4638-ab95-eadf0a391ad3")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 251.8288 79.9306 0)
+			(at 154.8855 48.3394 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5653,7 +5629,7 @@
 	)
 	(global_label "CODEC_OUT_R"
 		(shape input)
-		(at 170.18 59.69 180)
+		(at 170.18 60.96 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5663,7 +5639,29 @@
 		)
 		(uuid "d4d4fa68-34f2-4653-bbf0-2d24f29cf971")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 154.6436 59.7694 0)
+			(at 154.6436 61.0394 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "CODEC_VCOM"
+		(shape input)
+		(at 259.08 76.2 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "debaa313-6a2b-4329-b400-f27b18c6a4b2")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 243.6972 76.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5849,9 +5847,9 @@
 			)
 		)
 	)
-	(global_label "AUDIO_IN_R"
+	(global_label "5V"
 		(shape input)
-		(at 266.7 85.09 180)
+		(at 259.08 105.41 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5859,9 +5857,31 @@
 			)
 			(justify right)
 		)
-		(uuid "f8b0dcee-6bce-4fc3-b08f-85a62ef6ed48")
+		(uuid "f440f2dd-0ee6-404e-8275-563e597564c1")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 253.5221 85.0106 0)
+			(at 253.7967 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "AUDIO_OUT_L"
+		(shape input)
+		(at 259.08 81.28 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "f9118ee8-0863-4f45-accb-42558eff9e55")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 244.4507 81.3594 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6005,7 +6025,7 @@
 	)
 	(global_label "CODEC_IN_R"
 		(shape input)
-		(at 173.99 128.27 180)
+		(at 173.99 129.54 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6015,7 +6035,7 @@
 		)
 		(uuid "ff4b7d11-a1c8-4839-82ac-cf1bfed96fb7")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 160.1469 128.1906 0)
+			(at 160.1469 129.4606 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6034,7 +6054,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "04bf5625-bb7e-4fec-81df-1729cc1e5a1d")
-		(property "Reference" "R3"
+		(property "Reference" "R1"
 			(at 92.202 47.244 0)
 			(effects
 				(font
@@ -6086,7 +6106,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "R3")
+					(reference "R1")
 					(unit 1)
 				)
 			)
@@ -6094,15 +6114,15 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 191.77 49.53 90)
+		(at 191.77 48.26 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "05fa7b1a-8ed3-4b32-82c0-6b7ad7df3417")
-		(property "Reference" "R?"
-			(at 191.77 44.45 90)
+		(property "Reference" "R6"
+			(at 191.77 43.18 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6110,7 +6130,7 @@
 			)
 		)
 		(property "Value" "100Ω"
-			(at 191.77 46.99 90)
+			(at 191.77 45.72 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6118,7 +6138,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
-			(at 191.77 51.308 90)
+			(at 191.77 50.038 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6127,7 +6147,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 191.77 49.53 0)
+			(at 191.77 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6136,7 +6156,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 191.77 49.53 0)
+			(at 191.77 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6153,7 +6173,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "R?")
+					(reference "R6")
 					(unit 1)
 				)
 			)
@@ -6161,15 +6181,15 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 176.53 59.69 90)
+		(at 176.53 60.96 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "071fe165-eed0-4ec5-8ce3-44801c72d2c9")
-		(property "Reference" "C?"
-			(at 176.53 53.34 90)
+		(property "Reference" "C8"
+			(at 176.53 54.61 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6177,7 +6197,7 @@
 			)
 		)
 		(property "Value" "4.7μF"
-			(at 176.53 55.88 90)
+			(at 176.53 57.15 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6185,7 +6205,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
-			(at 180.34 58.7248 0)
+			(at 180.34 59.9948 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6194,7 +6214,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 176.53 59.69 0)
+			(at 176.53 60.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6203,7 +6223,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 176.53 59.69 0)
+			(at 176.53 60.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6220,7 +6240,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "C?")
+					(reference "C8")
 					(unit 1)
 				)
 			)
@@ -6228,15 +6248,15 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 189.23 118.11 90)
+		(at 189.23 116.84 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "08d625b5-bfed-4921-8ed2-2fd146e38837")
-		(property "Reference" "R4"
-			(at 189.23 113.03 90)
+		(property "Reference" "R9"
+			(at 189.23 111.76 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6244,7 +6264,7 @@
 			)
 		)
 		(property "Value" "3.6KΩ"
-			(at 189.23 115.57 90)
+			(at 189.23 114.3 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6252,7 +6272,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
-			(at 189.23 119.888 90)
+			(at 189.23 118.618 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6261,7 +6281,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 189.23 118.11 0)
+			(at 189.23 116.84 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6270,7 +6290,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 189.23 118.11 0)
+			(at 189.23 116.84 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6287,7 +6307,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "R4")
+					(reference "R9")
 					(unit 1)
 				)
 			)
@@ -6302,7 +6322,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "0c2c8371-95da-483b-b308-82ccae4ddd13")
-		(property "Reference" "C5"
+		(property "Reference" "C4"
 			(at 130.81 106.68 90)
 			(effects
 				(font
@@ -6354,7 +6374,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "C5")
+					(reference "C4")
 					(unit 1)
 				)
 			)
@@ -6370,7 +6390,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0e3033c9-10ba-4ec4-9f5a-f9c0baa896c5")
-		(property "Reference" "J?"
+		(property "Reference" "J1"
 			(at 30.48 21.59 90)
 			(effects
 				(font
@@ -6440,7 +6460,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "J?")
+					(reference "J1")
 					(unit 1)
 				)
 			)
@@ -6455,7 +6475,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "13caf2ba-ce4a-41a0-b219-61c581683518")
-		(property "Reference" "R?"
+		(property "Reference" "R3"
 			(at 67.31 60.96 90)
 			(effects
 				(font
@@ -6507,7 +6527,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "R?")
+					(reference "R3")
 					(unit 1)
 				)
 			)
@@ -6588,7 +6608,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "1804509e-6973-45d4-8449-09893cfe6ba9")
-		(property "Reference" "C4"
+		(property "Reference" "C2"
 			(at 80.01 38.1 90)
 			(effects
 				(font
@@ -6640,7 +6660,88 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "C4")
+					(reference "C2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Conn_01x06_Pin")
+		(at 264.16 83.82 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "18a1bd0a-c23c-4535-940c-13f8aed66d1a")
+		(property "Reference" "J7"
+			(at 262.636 69.342 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "Conn_01x06_Pin"
+			(at 256.032 72.644 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical"
+			(at 264.16 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 264.16 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x06, script generated"
+			(at 264.16 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "6"
+			(uuid "415ce502-224c-4380-b4ac-5175b7e335fd")
+		)
+		(pin "2"
+			(uuid "3fddc756-830b-4ebd-bb67-a72da21deff1")
+		)
+		(pin "4"
+			(uuid "96f91e6d-64f5-4668-9960-e6579d4d12d3")
+		)
+		(pin "3"
+			(uuid "795be428-21d9-4055-8508-79f15cb0b6fc")
+		)
+		(pin "5"
+			(uuid "6c5344ef-25fc-4dd9-870f-6db836a4e4e3")
+		)
+		(pin "1"
+			(uuid "39ec474f-d75f-45aa-9fb7-bfc43bac6718")
+		)
+		(instances
+			(project "ExternalCodecPcm3060"
+				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
+					(reference "J7")
 					(unit 1)
 				)
 			)
@@ -6648,16 +6749,16 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 248.92 77.47 270)
+		(at 243.84 88.9 270)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "1f14d5a9-8cdf-4280-8df2-b8aa0e9b4b97")
+		(uuid "1c59d276-b9ce-4ea7-b4a2-94b598a4a0ae")
 		(property "Reference" "#PWR010"
-			(at 242.57 77.47 0)
+			(at 237.49 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6666,7 +6767,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 245.11 77.47 0)
+			(at 240.03 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6674,7 +6775,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 248.92 77.47 0)
+			(at 243.84 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6683,7 +6784,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 248.92 77.47 0)
+			(at 243.84 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6692,7 +6793,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 248.92 77.47 0)
+			(at 243.84 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6701,7 +6802,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "6c6662ac-43cc-48a7-8187-200217005081")
+			(uuid "14a62547-87c2-436b-82df-8fd694a0975a")
 		)
 		(instances
 			(project "ExternalCodecPcm3060"
@@ -6721,7 +6822,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "1f8dcc6c-c7da-4849-bb70-8201f83376c2")
-		(property "Reference" "J?"
+		(property "Reference" "J3"
 			(at 80.01 146.05 0)
 			(effects
 				(font
@@ -6811,7 +6912,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "J?")
+					(reference "J3")
 					(unit 1)
 				)
 			)
@@ -6884,72 +6985,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
-		(at 248.92 90.17 270)
-		(mirror x)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "26dabacb-c140-48a7-9522-6c9958b48d56")
-		(property "Reference" "#PWR?"
-			(at 242.57 90.17 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 245.11 90.17 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 248.92 90.17 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 248.92 90.17 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 248.92 90.17 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "71492eae-dcde-4d8c-a6f1-80770a680a3d")
-		)
-		(instances
-			(project "ExternalCodecPcm3060"
-				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "#PWR?")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:C")
 		(at 120.65 119.38 90)
 		(unit 1)
@@ -6958,7 +6993,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "333841d2-2a07-428a-ba7d-1c287cbcccc3")
-		(property "Reference" "C8"
+		(property "Reference" "C5"
 			(at 120.65 123.19 90)
 			(effects
 				(font
@@ -7010,77 +7045,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "C8")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:Conn_01x02_Pin")
-		(at 271.78 106.68 180)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "3538e5c9-acd8-4f9a-b1eb-f03e4a04009b")
-		(property "Reference" "J2"
-			(at 272.4151 107.95 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "Conn_01x02_Pin"
-			(at 269.8751 107.95 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" ""
-			(at 271.78 106.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 271.78 106.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Generic connector, single row, 01x02, script generated"
-			(at 271.78 106.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "98205e96-ed19-4257-831f-e7a9766822fc")
-		)
-		(pin "2"
-			(uuid "823c7182-6f52-4d18-a2eb-2f39108408be")
-		)
-		(instances
-			(project "ExternalCodecPcm3060"
-				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "J2")
+					(reference "C5")
 					(unit 1)
 				)
 			)
@@ -7095,7 +7060,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "37dc4e74-0393-4ad1-8aeb-eaba0a3fbd4d")
-		(property "Reference" "R1"
+		(property "Reference" "R2"
 			(at 83.82 52.07 90)
 			(effects
 				(font
@@ -7147,7 +7112,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "R1")
+					(reference "R2")
 					(unit 1)
 				)
 			)
@@ -7221,15 +7186,15 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 180.34 128.27 90)
+		(at 180.34 129.54 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "4d23be17-ad99-490e-9ba8-62057d867055")
-		(property "Reference" "C?"
-			(at 180.34 121.92 90)
+		(property "Reference" "C10"
+			(at 180.34 123.19 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7237,7 +7202,7 @@
 			)
 		)
 		(property "Value" "4.7μF"
-			(at 180.34 124.46 90)
+			(at 180.34 125.73 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7245,7 +7210,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
-			(at 184.15 127.3048 0)
+			(at 184.15 128.5748 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7254,7 +7219,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 180.34 128.27 0)
+			(at 180.34 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7263,7 +7228,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 180.34 128.27 0)
+			(at 180.34 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7280,88 +7245,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "C?")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:Conn_01x06_Male")
-		(at 271.78 85.09 180)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "6539cbd1-50bb-4d3c-82f9-984d64bc120e")
-		(property "Reference" "J?"
-			(at 267.97 69.85 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "Conn_01x06_Male"
-			(at 261.62 73.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical"
-			(at 271.78 85.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 271.78 85.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 271.78 85.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "bc4e65d0-bed7-4df4-aec5-b3069edc8bb5")
-		)
-		(pin "2"
-			(uuid "00cf5cd6-6352-4ecd-9e35-417d88e8c660")
-		)
-		(pin "3"
-			(uuid "3903491a-81fe-4388-bfed-3194999660b5")
-		)
-		(pin "4"
-			(uuid "8548e026-66af-4296-90e9-67eb8298e6f4")
-		)
-		(pin "5"
-			(uuid "ff9a1aba-a8b3-4e68-bf1a-5125133ea3ee")
-		)
-		(pin "6"
-			(uuid "18243035-4751-445a-8818-f87dcc6e150a")
-		)
-		(instances
-			(project "ExternalCodecPcm3060"
-				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "J?")
+					(reference "C10")
 					(unit 1)
 				)
 			)
@@ -7590,7 +7474,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "771a40f7-19a7-4bfc-b88f-460c1a7e5602")
-		(property "Reference" "J?"
+		(property "Reference" "J6"
 			(at 220.98 122.5549 0)
 			(effects
 				(font
@@ -7608,7 +7492,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Protoplasma.pretty:PJ-307"
+		(property "Footprint" "Protoplasma:PJ-307"
 			(at 213.36 124.46 0)
 			(effects
 				(font
@@ -7647,7 +7531,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "J?")
+					(reference "J6")
 					(unit 1)
 				)
 			)
@@ -7662,7 +7546,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "7c94390d-eda4-4308-b397-031fd602df29")
-		(property "Reference" "C3"
+		(property "Reference" "C1"
 			(at 80.01 31.75 90)
 			(effects
 				(font
@@ -7714,7 +7598,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "C3")
+					(reference "C1")
 					(unit 1)
 				)
 			)
@@ -7729,7 +7613,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "84b7fa9a-b7bd-468e-be0d-611eca4e359f")
-		(property "Reference" "R2"
+		(property "Reference" "R4"
 			(at 67.31 83.82 90)
 			(effects
 				(font
@@ -7781,7 +7665,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "R2")
+					(reference "R4")
 					(unit 1)
 				)
 			)
@@ -7795,10 +7679,9 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "8676a776-e37d-41cb-894f-593f8396a978")
-		(property "Reference" "J1"
-			(at 25.4 61.5949 90)
+		(property "Reference" "J2"
+			(at 22.86 56.896 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7807,7 +7690,7 @@
 			)
 		)
 		(property "Value" "Conn_01x02_Pin"
-			(at 25.4 64.1349 90)
+			(at 16.51 60.452 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7815,7 +7698,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical"
 			(at 24.13 62.23 0)
 			(effects
 				(font
@@ -7851,7 +7734,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "J1")
+					(reference "J2")
 					(unit 1)
 				)
 			)
@@ -7867,7 +7750,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "86dffbef-4b48-463a-9a3d-e6af423c0b62")
-		(property "Reference" "#PWR?"
+		(property "Reference" "#PWR0103"
 			(at 137.16 156.21 0)
 			(effects
 				(font
@@ -7917,7 +7800,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "#PWR?")
+					(reference "#PWR0103")
 					(unit 1)
 				)
 			)
@@ -7933,7 +7816,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "8d170399-f0ef-41c8-b923-0b2c3f069513")
-		(property "Reference" "#PWR?"
+		(property "Reference" "#PWR0101"
 			(at 21.59 49.53 0)
 			(effects
 				(font
@@ -7983,7 +7866,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "#PWR?")
+					(reference "#PWR0101")
 					(unit 1)
 				)
 			)
@@ -7999,7 +7882,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "90d228ac-5ec9-4302-b393-9e4058ef8745")
-		(property "Reference" "#PWR?"
+		(property "Reference" "#PWR0106"
 			(at 208.28 137.16 0)
 			(effects
 				(font
@@ -8049,7 +7932,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "#PWR?")
+					(reference "#PWR0106")
 					(unit 1)
 				)
 			)
@@ -8057,7 +7940,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 184.15 35.56 0)
+		(at 184.15 34.29 0)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -8065,8 +7948,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "92529218-3086-4e38-a5d7-361f20edc13a")
-		(property "Reference" "#PWR?"
-			(at 184.15 29.21 0)
+		(property "Reference" "#PWR0108"
+			(at 184.15 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8075,7 +7958,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 184.15 31.75 0)
+			(at 184.15 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8083,7 +7966,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 184.15 35.56 0)
+			(at 184.15 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8092,7 +7975,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 184.15 35.56 0)
+			(at 184.15 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8101,7 +7984,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 184.15 35.56 0)
+			(at 184.15 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8115,7 +7998,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "#PWR?")
+					(reference "#PWR0108")
 					(unit 1)
 				)
 			)
@@ -8131,7 +8014,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "a3f793ac-c8f8-4b6b-a1a0-68bdc0e9870a")
-		(property "Reference" "#PWR?"
+		(property "Reference" "#PWR0104"
 			(at 137.16 184.15 0)
 			(effects
 				(font
@@ -8181,7 +8064,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "#PWR?")
+					(reference "#PWR0104")
 					(unit 1)
 				)
 			)
@@ -8189,15 +8072,15 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 176.53 49.53 90)
+		(at 176.53 48.26 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "a5da963a-270f-4c3d-a079-114d8eef79b7")
-		(property "Reference" "C?"
-			(at 176.53 43.18 90)
+		(property "Reference" "C7"
+			(at 176.53 41.91 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8205,7 +8088,7 @@
 			)
 		)
 		(property "Value" "4.7μF"
-			(at 176.53 45.72 90)
+			(at 176.53 44.45 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8213,7 +8096,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
-			(at 180.34 48.5648 0)
+			(at 180.34 47.2948 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8222,7 +8105,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 176.53 49.53 0)
+			(at 176.53 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8231,7 +8114,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 176.53 49.53 0)
+			(at 176.53 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8248,7 +8131,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "C?")
+					(reference "C7")
 					(unit 1)
 				)
 			)
@@ -8256,15 +8139,15 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 189.23 128.27 90)
+		(at 189.23 129.54 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "a62f0781-eae6-4313-924b-5201f5fba946")
-		(property "Reference" "R5"
-			(at 189.23 123.19 90)
+		(property "Reference" "R10"
+			(at 189.23 124.46 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8272,7 +8155,7 @@
 			)
 		)
 		(property "Value" "3.6KΩ"
-			(at 189.23 125.73 90)
+			(at 189.23 127 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8280,7 +8163,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
-			(at 189.23 130.048 90)
+			(at 189.23 131.318 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8289,7 +8172,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 189.23 128.27 0)
+			(at 189.23 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8298,7 +8181,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 189.23 128.27 0)
+			(at 189.23 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8315,7 +8198,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "R5")
+					(reference "R10")
 					(unit 1)
 				)
 			)
@@ -8389,7 +8272,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 184.15 73.66 0)
+		(at 184.15 74.93 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -8398,7 +8281,7 @@
 		(dnp no)
 		(uuid "a8bb5afe-5414-4f11-b569-3a0b048ab58f")
 		(property "Reference" "#PWR09"
-			(at 184.15 80.01 0)
+			(at 184.15 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8407,7 +8290,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 184.15 77.47 0)
+			(at 184.15 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8415,7 +8298,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 184.15 73.66 0)
+			(at 184.15 74.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8424,7 +8307,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 184.15 73.66 0)
+			(at 184.15 74.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8433,7 +8316,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 184.15 73.66 0)
+			(at 184.15 74.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8448,6 +8331,72 @@
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
 					(reference "#PWR09")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 251.46 107.95 270)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "ad6a49d9-2395-4a88-9870-1aafd6a1180a")
+		(property "Reference" "#PWR011"
+			(at 245.11 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 247.65 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 251.46 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 251.46 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 251.46 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "10203a20-846b-4e0f-b2c4-76dc5134e9c0")
+		)
+		(instances
+			(project "ExternalCodecPcm3060"
+				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
+					(reference "#PWR011")
 					(unit 1)
 				)
 			)
@@ -8514,6 +8463,75 @@
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
 					(reference "#PWR03")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Conn_01x02_Pin")
+		(at 264.16 107.95 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "b98634a7-690e-4021-bd2f-81f875e5d206")
+		(property "Reference" "J8"
+			(at 265.176 98.806 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Conn_01x02_Pin"
+			(at 271.78 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical"
+			(at 264.16 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 264.16 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x02, script generated"
+			(at 264.16 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "3627c27a-3755-475b-b2eb-1bad4a64b754")
+		)
+		(pin "2"
+			(uuid "06a9eb89-07fc-4865-941e-099ebc3e991b")
+		)
+		(instances
+			(project "ExternalCodecPcm3060"
+				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
+					(reference "J8")
 					(unit 1)
 				)
 			)
@@ -8587,15 +8605,15 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 180.34 118.11 90)
+		(at 180.34 116.84 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "c44034cf-c892-4783-8fa4-88851e408cd3")
-		(property "Reference" "C?"
-			(at 180.34 111.76 90)
+		(property "Reference" "C9"
+			(at 180.34 110.49 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8603,7 +8621,7 @@
 			)
 		)
 		(property "Value" "4.7μF"
-			(at 180.34 114.3 90)
+			(at 180.34 113.03 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8611,7 +8629,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
-			(at 184.15 117.1448 0)
+			(at 184.15 115.8748 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8620,7 +8638,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 180.34 118.11 0)
+			(at 180.34 116.84 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8629,7 +8647,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 180.34 118.11 0)
+			(at 180.34 116.84 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8646,7 +8664,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "C?")
+					(reference "C9")
 					(unit 1)
 				)
 			)
@@ -8729,7 +8747,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "c5e565c1-0842-4bfc-851a-fbd402286348")
-		(property "Reference" "#PWR?"
+		(property "Reference" "#PWR0107"
 			(at 212.09 68.58 0)
 			(effects
 				(font
@@ -8779,7 +8797,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "#PWR?")
+					(reference "#PWR0107")
 					(unit 1)
 				)
 			)
@@ -8795,7 +8813,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "cbc96328-cf32-4afa-9f80-62cf7d10af5b")
-		(property "Reference" "J?"
+		(property "Reference" "J4"
 			(at 113.03 146.05 0)
 			(effects
 				(font
@@ -8883,7 +8901,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "J?")
+					(reference "J4")
 					(unit 1)
 				)
 			)
@@ -8898,7 +8916,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "cfa39d68-4740-420c-bce7-c9220b75a69a")
-		(property "Reference" "C7"
+		(property "Reference" "C3"
 			(at 120.65 106.68 90)
 			(effects
 				(font
@@ -8950,7 +8968,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "C7")
+					(reference "C3")
 					(unit 1)
 				)
 			)
@@ -9032,7 +9050,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "da9cac19-080a-44fc-94cf-8e4d6da93cd3")
-		(property "Reference" "#PWR?"
+		(property "Reference" "#PWR0102"
 			(at 137.16 168.91 0)
 			(effects
 				(font
@@ -9082,73 +9100,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "#PWR?")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 259.08 106.68 270)
-		(mirror x)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "e209b7ad-8003-4009-ab65-94b62322e0cf")
-		(property "Reference" "#PWR011"
-			(at 252.73 106.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 255.27 106.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 259.08 106.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 259.08 106.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 259.08 106.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "a63c6d5e-0da2-4ec8-8a3a-0b6548c65c80")
-		)
-		(instances
-			(project "ExternalCodecPcm3060"
-				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "#PWR011")
+					(reference "#PWR0102")
 					(unit 1)
 				)
 			)
@@ -9156,15 +9108,15 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 191.77 59.69 90)
+		(at 191.77 60.96 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "e971d8a2-3d4c-4699-8603-ac2b9fecaf0a")
-		(property "Reference" "R6"
-			(at 191.77 54.61 90)
+		(property "Reference" "R7"
+			(at 191.77 55.88 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9172,7 +9124,7 @@
 			)
 		)
 		(property "Value" "100Ω"
-			(at 191.77 57.15 90)
+			(at 191.77 58.42 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9180,7 +9132,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
-			(at 191.77 61.468 90)
+			(at 191.77 62.738 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9189,7 +9141,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 191.77 59.69 0)
+			(at 191.77 60.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9198,7 +9150,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 191.77 59.69 0)
+			(at 191.77 60.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9215,7 +9167,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "R6")
+					(reference "R7")
 					(unit 1)
 				)
 			)
@@ -9231,7 +9183,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ec712280-0db0-4074-8487-e2eabcb78806")
-		(property "Reference" "J?"
+		(property "Reference" "J5"
 			(at 224.79 53.9749 0)
 			(effects
 				(font
@@ -9249,7 +9201,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Protoplasma.pretty:PJ-307"
+		(property "Footprint" "Protoplasma:PJ-307"
 			(at 217.17 55.88 0)
 			(effects
 				(font
@@ -9288,7 +9240,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "J?")
+					(reference "J5")
 					(unit 1)
 				)
 			)
@@ -9296,15 +9248,15 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 184.15 69.85 180)
+		(at 184.15 71.12 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "fbc4b48a-4d9c-4c2f-b066-a812768c788e")
-		(property "Reference" "R7"
-			(at 189.23 68.326 0)
+		(property "Reference" "R8"
+			(at 189.23 69.596 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9312,7 +9264,7 @@
 			)
 		)
 		(property "Value" "47KΩ"
-			(at 188.976 70.866 0)
+			(at 188.976 72.136 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9320,7 +9272,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
-			(at 185.928 69.85 90)
+			(at 185.928 71.12 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9329,7 +9281,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 184.15 69.85 0)
+			(at 184.15 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9338,7 +9290,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 184.15 69.85 0)
+			(at 184.15 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9355,7 +9307,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "R7")
+					(reference "R8")
 					(unit 1)
 				)
 			)
@@ -9363,15 +9315,15 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 184.15 39.37 180)
+		(at 184.15 38.1 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "fd4c7253-893d-46b0-ad35-78e7474dbe90")
-		(property "Reference" "R?"
-			(at 189.23 37.846 0)
+		(property "Reference" "R5"
+			(at 189.23 36.576 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9379,7 +9331,7 @@
 			)
 		)
 		(property "Value" "47KΩ"
-			(at 188.976 40.386 0)
+			(at 188.976 39.116 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9387,7 +9339,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
-			(at 185.928 39.37 90)
+			(at 185.928 38.1 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9396,7 +9348,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 184.15 39.37 0)
+			(at 184.15 38.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9405,7 +9357,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 184.15 39.37 0)
+			(at 184.15 38.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9422,7 +9374,7 @@
 		(instances
 			(project "ExternalCodecPcm3060"
 				(path "/365f8d25-a297-4f89-a07e-59a6a6975ec7"
-					(reference "R?")
+					(reference "R5")
 					(unit 1)
 				)
 			)
