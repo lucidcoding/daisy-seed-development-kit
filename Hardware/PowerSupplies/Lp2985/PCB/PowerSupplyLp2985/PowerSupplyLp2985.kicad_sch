@@ -2,13 +2,8 @@
 	(version 20231120)
 	(generator "eeschema")
 	(generator_version "8.0")
-	(uuid "2d797758-27d9-42d0-9452-1ad0217c26de")
+	(uuid "2cdfd080-49b3-4815-8d2f-60f985ee42e6")
 	(paper "A4")
-	(title_block
-		(title "Daisy Seed Development Kit Power Supply LM7805")
-		(date "2024-03-06")
-		(rev "1.0.1")
-	)
 	(lib_symbols
 		(symbol "Connector:Barrel_Jack"
 			(pin_names
@@ -349,7 +344,7 @@
 				)
 			)
 		)
-		(symbol "Device:C_Polarized"
+		(symbol "Device:C"
 			(pin_numbers hide)
 			(pin_names
 				(offset 0.254)
@@ -366,7 +361,7 @@
 					(justify left)
 				)
 			)
-			(property "Value" "C_Polarized"
+			(property "Value" "C"
 				(at 0.635 -2.54 0)
 				(effects
 					(font
@@ -393,7 +388,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "Polarized capacitor"
+			(property "Description" "Unpolarized capacitor"
 				(at 0 0 0)
 				(effects
 					(font
@@ -411,7 +406,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_fp_filters" "CP_*"
+			(property "ki_fp_filters" "C_*"
 				(at 0 0 0)
 				(effects
 					(font
@@ -420,12 +415,13 @@
 					(hide yes)
 				)
 			)
-			(symbol "C_Polarized_0_1"
-				(rectangle
-					(start -2.286 0.508)
-					(end 2.286 1.016)
+			(symbol "C_0_1"
+				(polyline
+					(pts
+						(xy -2.032 -0.762) (xy 2.032 -0.762)
+					)
 					(stroke
-						(width 0)
+						(width 0.508)
 						(type default)
 					)
 					(fill
@@ -434,41 +430,18 @@
 				)
 				(polyline
 					(pts
-						(xy -1.778 2.286) (xy -0.762 2.286)
+						(xy -2.032 0.762) (xy 2.032 0.762)
 					)
 					(stroke
-						(width 0)
+						(width 0.508)
 						(type default)
 					)
 					(fill
 						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -1.27 2.794) (xy -1.27 1.778)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(rectangle
-					(start 2.286 -0.508)
-					(end -2.286 -1.016)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
 					)
 				)
 			)
-			(symbol "C_Polarized_1_1"
+			(symbol "C_1_1"
 				(pin passive line
 					(at 0 3.81 270)
 					(length 2.794)
@@ -652,7 +625,7 @@
 				)
 			)
 		)
-		(symbol "Regulator_Linear:LM7805_TO220"
+		(symbol "Regulator_Linear:LP2985-5.0"
 			(pin_names
 				(offset 0.254)
 			)
@@ -660,15 +633,15 @@
 			(in_bom yes)
 			(on_board yes)
 			(property "Reference" "U"
-				(at -3.81 3.175 0)
+				(at -6.35 5.715 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
 				)
 			)
-			(property "Value" "LM7805_TO220"
-				(at 0 3.175 0)
+			(property "Value" "LP2985-5.0"
+				(at 0 5.715 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -676,18 +649,8 @@
 					(justify left)
 				)
 			)
-			(property "Footprint" "Package_TO_SOT_THT:TO-220-3_Vertical"
-				(at 0 5.715 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-						(italic yes)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "https://www.onsemi.cn/PowerSolutions/document/MC7800-D.PDF"
-				(at 0 -1.27 0)
+			(property "Footprint" "Package_TO_SOT_SMD:SOT-23-5"
+				(at 0 8.255 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -695,7 +658,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "Positive 1A 35V Linear Regulator, Fixed Output 5V, TO-220"
+			(property "Datasheet" "http://www.ti.com/lit/ds/symlink/lp2985.pdf"
 				(at 0 0 0)
 				(effects
 					(font
@@ -704,7 +667,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_keywords" "Voltage Regulator 1A Positive"
+			(property "Description" "150mA 16V Low-noise Low-dropout Regulator With Shutdown, 5.0V output voltage, SOT-23-5"
 				(at 0 0 0)
 				(effects
 					(font
@@ -713,7 +676,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_fp_filters" "TO?220*"
+			(property "ki_keywords" "LDO regulator linear  SOT-23-5"
 				(at 0 0 0)
 				(effects
 					(font
@@ -722,10 +685,19 @@
 					(hide yes)
 				)
 			)
-			(symbol "LM7805_TO220_0_1"
+			(property "ki_fp_filters" "SOT?23*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "LP2985-5.0_0_1"
 				(rectangle
-					(start -5.08 1.905)
-					(end 5.08 -5.08)
+					(start -7.62 -5.08)
+					(end 7.62 4.445)
 					(stroke
 						(width 0.254)
 						(type default)
@@ -735,11 +707,11 @@
 					)
 				)
 			)
-			(symbol "LM7805_TO220_1_1"
+			(symbol "LP2985-5.0_1_1"
 				(pin power_in line
-					(at -7.62 0 0)
+					(at -10.16 2.54 0)
 					(length 2.54)
-					(name "VI"
+					(name "VIN"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -772,10 +744,10 @@
 						)
 					)
 				)
-				(pin power_out line
-					(at 7.62 0 180)
+				(pin input line
+					(at -10.16 0 0)
 					(length 2.54)
-					(name "VO"
+					(name "ON/~{OFF}"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -783,6 +755,42 @@
 						)
 					)
 					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 10.16 0 180)
+					(length 2.54)
+					(name "BP"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at 10.16 2.54 180)
+					(length 2.54)
+					(name "VOUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -890,238 +898,381 @@
 		)
 	)
 	(junction
-		(at 160.02 82.55)
+		(at 107.95 86.36)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "31c28cb3-b0e6-4a02-99ba-38eb3fe30db0")
+		(uuid "1e26b1a5-def9-40d7-832a-97c2031d7c6b")
 	)
 	(junction
-		(at 119.38 90.17)
+		(at 120.65 86.36)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "3518424c-5783-4cb6-ada8-418613fa8836")
+		(uuid "614f495d-cf4d-4dfd-bfcc-a02606749624")
 	)
 	(junction
-		(at 119.38 82.55)
+		(at 173.99 86.36)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "acad8a57-a3eb-4945-9a3e-210e9bc4266d")
+		(uuid "61852d91-6d37-40df-9736-d18874a64baf")
 	)
 	(junction
-		(at 139.7 90.17)
+		(at 156.21 101.6)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "ba31503d-413d-422a-b286-559e5bf12f89")
+		(uuid "76b5eb1c-b407-4800-8686-9fd6a43c64df")
 	)
 	(junction
-		(at 160.02 90.17)
+		(at 107.95 101.6)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "e5e0cb4a-9814-48d7-bb6f-8bdaeaffcfc1")
+		(uuid "99075086-b716-4d42-8c87-cfc73adcbd07")
+	)
+	(junction
+		(at 138.43 101.6)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ca3e4d68-9ac1-404f-a583-8edcea64e7f4")
+	)
+	(junction
+		(at 173.99 101.6)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ce02ed0e-88f3-42b0-8f8c-534595f449e0")
+	)
+	(junction
+		(at 176.53 86.36)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e4c6c1a0-6c37-4a18-b001-f1c3f1b4adb4")
+	)
+	(junction
+		(at 105.41 86.36)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f9302812-5539-4ecb-8c23-34bbde6e37c0")
 	)
 	(wire
 		(pts
-			(xy 160.02 82.55) (xy 186.69 82.55)
+			(xy 193.04 88.9) (xy 189.23 88.9)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "07167de0-9f5c-4cb6-9c72-f19651fd4e51")
+		(uuid "06d50ad1-1961-4d09-8fc0-5e550809dfcb")
 	)
 	(wire
 		(pts
-			(xy 186.69 85.09) (xy 186.69 82.55)
+			(xy 107.95 86.36) (xy 120.65 86.36)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "07d0efbb-6555-4c54-91b7-4a86fe925bed")
+		(uuid "08a97238-0210-41a6-9161-e895ae6ea586")
 	)
 	(wire
 		(pts
-			(xy 147.32 82.55) (xy 160.02 82.55)
+			(xy 173.99 101.6) (xy 189.23 101.6)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "121d02d5-b2f9-455e-ad4b-58907a946364")
+		(uuid "0a638c55-5441-4b29-8624-d618ab08aeab")
 	)
 	(wire
 		(pts
-			(xy 90.17 82.55) (xy 100.33 82.55)
+			(xy 91.44 86.36) (xy 105.41 86.36)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "14675dbf-a3b0-4f30-834c-7b1bd0dc8985")
+		(uuid "0f8509cb-f711-416f-ba16-284497f64de5")
 	)
 	(wire
 		(pts
-			(xy 90.17 90.17) (xy 119.38 90.17)
+			(xy 105.41 86.36) (xy 107.95 86.36)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "1727b735-8e57-414d-b99e-5c65c41b7d3e")
+		(uuid "1229faf0-dc9b-4b8f-8d5c-9a02b30eb689")
 	)
 	(wire
 		(pts
-			(xy 107.95 82.55) (xy 119.38 82.55)
+			(xy 134.62 73.66) (xy 105.41 73.66)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "4ec9de32-ce3e-4040-936d-284a6869497b")
+		(uuid "1307dea3-11bd-4983-af95-118c8cfff100")
 	)
 	(wire
 		(pts
-			(xy 90.17 83.82) (xy 90.17 82.55)
+			(xy 156.21 88.9) (xy 148.59 88.9)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "53f8c920-5662-4e10-a5ca-25a303faf86c")
+		(uuid "1504ce3e-2a56-40df-a21f-46d50af11b22")
 	)
 	(wire
 		(pts
-			(xy 139.7 90.17) (xy 160.02 90.17)
+			(xy 156.21 101.6) (xy 173.99 101.6)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "5d3fc623-e07e-49ec-b257-676562701e70")
+		(uuid "150889fd-4cd9-4228-b7d5-fde21ce5ff6c")
 	)
 	(wire
 		(pts
-			(xy 139.7 90.17) (xy 139.7 96.52)
+			(xy 92.71 91.44) (xy 92.71 101.6)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "5ff82f25-f20a-45cc-88c0-81a4b04305b5")
+		(uuid "17061252-557d-43ba-a0bc-d48d32a6b00f")
 	)
 	(wire
 		(pts
-			(xy 119.38 82.55) (xy 132.08 82.55)
+			(xy 107.95 101.6) (xy 138.43 101.6)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "6760e151-0764-46d4-b110-2c9cf5ff54bd")
+		(uuid "2451c73e-f84d-4ab3-ba1f-0a9b22fef327")
 	)
 	(wire
 		(pts
-			(xy 186.69 87.63) (xy 186.69 90.17)
+			(xy 91.44 91.44) (xy 92.71 91.44)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "6dd3f30b-c9cc-4873-84b2-a90eb6b06088")
+		(uuid "296f6064-0d61-4242-a9b9-c59d8b0c268a")
 	)
 	(wire
 		(pts
-			(xy 88.9 83.82) (xy 90.17 83.82)
+			(xy 142.24 73.66) (xy 176.53 73.66)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "807360f4-87c1-4581-905f-ac2db6ccd913")
+		(uuid "2a0ea1aa-1e4e-40f4-ae6f-c73a1f619966")
 	)
 	(wire
 		(pts
-			(xy 160.02 90.17) (xy 186.69 90.17)
+			(xy 156.21 88.9) (xy 156.21 91.44)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "97b65d82-613b-433c-9be0-2bf35cd90635")
+		(uuid "3d7c5fdf-b56d-4829-af7d-5089928426eb")
 	)
 	(wire
 		(pts
-			(xy 190.5 87.63) (xy 186.69 87.63)
+			(xy 173.99 86.36) (xy 176.53 86.36)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "9c53450a-aaf5-4aa4-bbc7-9f1a2661b5a5")
+		(uuid "526c3937-cd12-400b-b6b7-ff77bb5ed24a")
 	)
 	(wire
 		(pts
-			(xy 90.17 88.9) (xy 90.17 90.17)
+			(xy 105.41 73.66) (xy 105.41 86.36)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "ad9f7151-f5a3-4e16-85bd-89386ddfa090")
+		(uuid "593dcbbe-448f-4e14-978d-b2d198efa085")
 	)
 	(wire
 		(pts
-			(xy 88.9 88.9) (xy 90.17 88.9)
+			(xy 173.99 96.52) (xy 173.99 101.6)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "e590e5ae-b2e6-4275-a5f6-1f3406780719")
+		(uuid "6d15f3c6-b1b9-48e1-a713-28fa9a96e793")
 	)
 	(wire
 		(pts
-			(xy 119.38 90.17) (xy 139.7 90.17)
+			(xy 128.27 88.9) (xy 120.65 88.9)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "e90504e2-0895-4c8b-98c2-4a12fca471cf")
+		(uuid "710e92c7-99f0-4dbe-aff2-57808e82c85e")
 	)
 	(wire
 		(pts
-			(xy 186.69 85.09) (xy 190.5 85.09)
+			(xy 138.43 101.6) (xy 156.21 101.6)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "fb774eab-c660-449b-8fb0-266922ff582a")
+		(uuid "7d745af3-e03b-4fd0-8fbe-75b0c622926e")
+	)
+	(wire
+		(pts
+			(xy 138.43 101.6) (xy 138.43 102.87)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7f251fc2-a740-4b2c-a3bf-f7685ed440c5")
+	)
+	(wire
+		(pts
+			(xy 176.53 86.36) (xy 193.04 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "84c8b3e8-6cf2-46dd-9374-12bebcbab547")
+	)
+	(wire
+		(pts
+			(xy 138.43 96.52) (xy 138.43 101.6)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8d930c78-7e35-4ee9-9e5e-86895de7b0c1")
+	)
+	(wire
+		(pts
+			(xy 92.71 101.6) (xy 107.95 101.6)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "906cdbbf-4123-4e9c-b67d-de2bd751d1b6")
+	)
+	(wire
+		(pts
+			(xy 120.65 88.9) (xy 120.65 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9088eb18-49c4-4ed7-a9fa-f1ff8c9cf9ac")
+	)
+	(wire
+		(pts
+			(xy 156.21 99.06) (xy 156.21 101.6)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9d4a9082-faf6-4129-897b-52240f27284b")
+	)
+	(wire
+		(pts
+			(xy 120.65 86.36) (xy 128.27 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9e13b76b-68cd-4e32-aa41-4efd62ebbdc2")
+	)
+	(wire
+		(pts
+			(xy 107.95 96.52) (xy 107.95 101.6)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bc8c674b-7653-45ac-b48d-6e25bd835514")
+	)
+	(wire
+		(pts
+			(xy 148.59 86.36) (xy 173.99 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c112c118-b3c8-41fa-986d-121365b30dd6")
+	)
+	(wire
+		(pts
+			(xy 176.53 73.66) (xy 176.53 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c17e8edd-f91b-4a08-9818-07754bb5b1bd")
+	)
+	(wire
+		(pts
+			(xy 173.99 86.36) (xy 173.99 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c44d4a28-b429-4fae-b5cb-46526a917dba")
+	)
+	(wire
+		(pts
+			(xy 107.95 86.36) (xy 107.95 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d131298c-f7fd-45fb-b152-840037ef11c4")
+	)
+	(wire
+		(pts
+			(xy 189.23 88.9) (xy 189.23 101.6)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d9029a00-5c6a-4c47-8fe5-2e4b8f5b64ac")
 	)
 	(text "Center negative"
 		(exclude_from_sim no)
-		(at 80.772 77.978 0)
+		(at 83.566 95.758 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 		)
-		(uuid "0a7a0d96-21b4-496f-a0cc-fd6afb97c456")
-	)
-	(label "7-35V"
-		(at 91.44 82.55 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "8a783c53-3966-4877-a796-c6f7c04d27f4")
+		(uuid "dd8809bb-d71e-49e6-acd1-0cbcb4bf314b")
 	)
 	(label "5V"
-		(at 176.53 82.55 0)
+		(at 179.07 86.36 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1129,19 +1280,30 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "d78cf53a-8729-4413-8762-26ffd68102eb")
+		(uuid "197213bd-5b33-4f37-b1d5-ceb56bd36ea8")
+	)
+	(label "2.5-16V"
+		(at 93.98 86.36 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "515d18dd-206c-4dd9-a143-3ff9c22ed101")
 	)
 	(symbol
 		(lib_id "Connector:Conn_01x02_Pin")
-		(at 195.58 87.63 180)
+		(at 198.12 88.9 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "046d3f79-99f1-41a1-8faf-d114af852538")
-		(property "Reference" "J1"
-			(at 195.326 78.74 0)
+		(uuid "0d1282a2-e583-4278-9cfa-f9d67243fd2e")
+		(property "Reference" "J2"
+			(at 197.866 80.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1149,7 +1311,7 @@
 			)
 		)
 		(property "Value" "Conn_01x02_Pin"
-			(at 195.58 81.28 0)
+			(at 198.12 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1157,7 +1319,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Horizontal"
-			(at 195.58 87.63 0)
+			(at 198.12 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1166,7 +1328,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 195.58 87.63 0)
+			(at 198.12 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1175,7 +1337,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated"
-			(at 195.58 87.63 0)
+			(at 198.12 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1184,14 +1346,82 @@
 			)
 		)
 		(pin "1"
-			(uuid "4a31bbb4-6be9-4ad5-832d-29319c642436")
+			(uuid "8c552959-4786-45d9-9746-248a0b39bf7f")
 		)
 		(pin "2"
-			(uuid "2c063c27-e1bc-45e7-9223-b5cdaaeffd79")
+			(uuid "8a58d8da-c592-4792-b8da-0565b2a7852d")
 		)
 		(instances
-			(project "PowerSupplyLm7805"
-				(path "/2d797758-27d9-42d0-9452-1ad0217c26de"
+			(project "PowerSupplyLp2985"
+				(path "/2cdfd080-49b3-4815-8d2f-60f985ee42e6"
+					(reference "J2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Barrel_Jack")
+		(at 83.82 88.9 0)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "1c0a8b68-efa7-405e-b323-5d9a9bae359b")
+		(property "Reference" "J1"
+			(at 83.82 79.756 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Barrel_Jack"
+			(at 83.82 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_BarrelJack:BarrelJack_GCT_DCJ200-10-A_Horizontal"
+			(at 85.09 87.884 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 85.09 87.884 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 83.82 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "5e14fa04-333c-4733-87d5-697aabb2e74e")
+		)
+		(pin "2"
+			(uuid "90ad136e-8344-4f2e-bff8-b21ea69717f5")
+		)
+		(instances
+			(project "PowerSupplyLp2985"
+				(path "/2cdfd080-49b3-4815-8d2f-60f985ee42e6"
 					(reference "J1")
 					(unit 1)
 				)
@@ -1199,16 +1429,227 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
-		(at 139.7 96.52 0)
+		(lib_id "Regulator_Linear:LP2985-5.0")
+		(at 138.43 88.9 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "0aab6906-a2ba-4af5-a6d3-e7bfc56a4077")
-		(property "Reference" "#PWR02"
-			(at 139.7 102.87 0)
+		(fields_autoplaced yes)
+		(uuid "1defd40a-7442-46d6-bbb9-a56200bf1fb2")
+		(property "Reference" "U1"
+			(at 138.43 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "LP2985-5.0"
+			(at 138.43 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-5"
+			(at 138.43 80.645 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/lp2985.pdf"
+			(at 138.43 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "150mA 16V Low-noise Low-dropout Regulator With Shutdown, 5.0V output voltage, SOT-23-5"
+			(at 138.43 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "5"
+			(uuid "9fb153b1-8c29-43c1-bd7d-e77cd59898b1")
+		)
+		(pin "2"
+			(uuid "5641e832-598e-4362-a73a-3b9b001ffcf2")
+		)
+		(pin "4"
+			(uuid "911ee486-462b-4df9-81ba-53186321c193")
+		)
+		(pin "3"
+			(uuid "4b1c4704-dffe-417a-849e-bc285bb2c222")
+		)
+		(pin "1"
+			(uuid "756b70a8-c415-4566-b0ac-c120dd7b3359")
+		)
+		(instances
+			(project "PowerSupplyLp2985"
+				(path "/2cdfd080-49b3-4815-8d2f-60f985ee42e6"
+					(reference "U1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 173.99 92.71 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "4bfc8d7d-6f44-440c-9ca7-ae62921ae039")
+		(property "Reference" "C3"
+			(at 179.07 91.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "2.2μF"
+			(at 179.07 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+			(at 174.9552 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 173.99 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 173.99 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2c235822-790c-465d-a7b6-f1181b5fed41")
+		)
+		(pin "2"
+			(uuid "72a03f2b-8929-41df-9a44-5e8560bb650b")
+		)
+		(instances
+			(project "PowerSupplyLp2985"
+				(path "/2cdfd080-49b3-4815-8d2f-60f985ee42e6"
+					(reference "C3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 107.95 92.71 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "529d99e3-f778-43a2-b21c-fe92fd8c60a8")
+		(property "Reference" "C1"
+			(at 113.03 91.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1μF"
+			(at 113.03 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+			(at 108.9152 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 107.95 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 107.95 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "7214b494-289f-4c86-8a63-021c7ee6b041")
+		)
+		(pin "2"
+			(uuid "c55d7730-c0c4-4ec2-9920-4a7dbc310136")
+		)
+		(instances
+			(project "PowerSupplyLp2985"
+				(path "/2cdfd080-49b3-4815-8d2f-60f985ee42e6"
+					(reference "C1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 138.43 102.87 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "6f2a4e8e-a94c-473b-8acd-62516d5d1782")
+		(property "Reference" "#PWR01"
+			(at 138.43 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1217,7 +1658,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 139.7 100.33 0)
+			(at 138.43 106.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1225,7 +1666,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 139.7 96.52 0)
+			(at 138.43 102.87 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1234,7 +1675,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 139.7 96.52 0)
+			(at 138.43 102.87 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1243,7 +1684,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 139.7 96.52 0)
+			(at 138.43 102.87 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1252,12 +1693,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "1fa76923-cd55-458f-80ee-24d87c58d947")
+			(uuid "08d4cabf-e754-4c2f-8fc5-62422809fa71")
 		)
 		(instances
-			(project "PowerSupplyLm7805"
-				(path "/2d797758-27d9-42d0-9452-1ad0217c26de"
-					(reference "#PWR02")
+			(project "PowerSupplyLp2985"
+				(path "/2cdfd080-49b3-4815-8d2f-60f985ee42e6"
+					(reference "#PWR01")
 					(unit 1)
 				)
 			)
@@ -1265,16 +1706,16 @@
 	)
 	(symbol
 		(lib_id "Diode:BAT43")
-		(at 104.14 82.55 180)
+		(at 138.43 73.66 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "2330d127-6bef-4585-bacf-67a545a20766")
+		(uuid "ac82ded9-6434-4e43-bf7b-7e6711f8a25b")
 		(property "Reference" "D1"
-			(at 104.4575 76.2 0)
+			(at 138.1125 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1282,7 +1723,7 @@
 			)
 		)
 		(property "Value" "BAT43"
-			(at 104.4575 78.74 0)
+			(at 138.1125 69.85 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1290,7 +1731,7 @@
 			)
 		)
 		(property "Footprint" "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
-			(at 104.14 78.105 0)
+			(at 138.43 78.105 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1299,7 +1740,7 @@
 			)
 		)
 		(property "Datasheet" "http://www.vishay.com/docs/85660/bat42.pdf"
-			(at 104.14 82.55 0)
+			(at 138.43 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1308,7 +1749,7 @@
 			)
 		)
 		(property "Description" "30V 0.2A Small Signal Schottky Diode, DO-35"
-			(at 104.14 82.55 0)
+			(at 138.43 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1317,14 +1758,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "66e2be17-cbee-4da2-85fd-6b2193ef9781")
+			(uuid "e3624b9f-f112-4e91-be4a-0d438eb116d5")
 		)
 		(pin "2"
-			(uuid "141a3453-977d-41fe-b470-243375f4b6a0")
+			(uuid "aea1f3f6-edeb-4a96-8687-de271a68dea4")
 		)
 		(instances
-			(project "PowerSupplyLm7805"
-				(path "/2d797758-27d9-42d0-9452-1ad0217c26de"
+			(project "PowerSupplyLp2985"
+				(path "/2cdfd080-49b3-4815-8d2f-60f985ee42e6"
 					(reference "D1")
 					(unit 1)
 				)
@@ -1332,106 +1773,32 @@
 		)
 	)
 	(symbol
-		(lib_id "Regulator_Linear:LM7805_TO220")
-		(at 139.7 82.55 0)
+		(lib_id "Device:C")
+		(at 156.21 95.25 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "279792a9-79a4-4084-a435-b0760c7af8e9")
-		(property "Reference" "U1"
-			(at 139.7 76.2 0)
+		(uuid "e2368ba3-23e5-45cb-b7c2-78036ee3b16b")
+		(property "Reference" "C2"
+			(at 162.052 93.726 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "LM7805_TO220"
-			(at 139.7 78.74 0)
+		(property "Value" "10nF"
+			(at 162.306 96.266 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_THT:TO-220-3_Vertical"
-			(at 139.7 76.835 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-					(italic yes)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.onsemi.cn/PowerSolutions/document/MC7800-D.PDF"
-			(at 139.7 83.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Positive 1A 35V Linear Regulator, Fixed Output 5V, TO-220"
-			(at 139.7 82.55 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "09499eeb-42df-469d-9b79-6428591693cc")
-		)
-		(pin "3"
-			(uuid "9bd1a902-cec4-4dea-872d-1a0a7ee6f165")
-		)
-		(pin "1"
-			(uuid "947067b3-1e32-42b2-92a7-4d59899bfa15")
-		)
-		(instances
-			(project "PowerSupplyLm7805"
-				(path "/2d797758-27d9-42d0-9452-1ad0217c26de"
-					(reference "U1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C_Polarized")
-		(at 160.02 86.36 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "745495ad-eff4-428e-95ac-910c11bc0438")
-		(property "Reference" "C4"
-			(at 158.496 76.454 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "10μF"
-			(at 157.48 79.756 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Capacitor_THT:C_Radial_D6.3mm_H7.0mm_P2.50mm"
-			(at 160.9852 90.17 0)
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm"
+			(at 155.2448 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1440,76 +1807,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 160.02 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Polarized capacitor"
-			(at 160.02 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "a0ea0583-6ff0-448b-a471-1c4f8d10dceb")
-		)
-		(pin "1"
-			(uuid "5d230753-1d78-48c1-b0ad-ee349fededf6")
-		)
-		(instances
-			(project "PowerSupplyLm7805"
-				(path "/2d797758-27d9-42d0-9452-1ad0217c26de"
-					(reference "C4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:Barrel_Jack")
-		(at 81.28 86.36 0)
-		(mirror x)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "78e2c864-79b0-499c-ac5e-ba842d264b88")
-		(property "Reference" "J2"
-			(at 81.28 95.25 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "Barrel_Jack"
-			(at 81.28 92.71 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Connector_BarrelJack:BarrelJack_GCT_DCJ200-10-A_Horizontal"
-			(at 82.55 85.344 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 82.55 85.344 0)
+			(at 156.21 95.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1518,7 +1816,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 81.28 86.36 0)
+			(at 156.21 95.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1527,84 +1825,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "ee5ac1cf-8829-41a8-8f33-bad521daee52")
+			(uuid "c5b677f4-e09c-4a39-bf65-d2a424945217")
 		)
 		(pin "2"
-			(uuid "9dc4614b-d5ec-45ca-93be-9c4d9e20c59f")
+			(uuid "9189b698-0fc8-4e93-84a5-af9ddae82344")
 		)
 		(instances
-			(project "PowerSupplyLm7805"
-				(path "/2d797758-27d9-42d0-9452-1ad0217c26de"
-					(reference "J2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C_Polarized")
-		(at 119.38 86.36 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "9a11bcaa-498f-403a-a04a-d03cbd685f4e")
-		(property "Reference" "C3"
-			(at 118.11 77.724 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "10μF"
-			(at 116.84 80.518 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Capacitor_THT:C_Radial_D6.3mm_H7.0mm_P2.50mm"
-			(at 120.3452 90.17 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 119.38 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Polarized capacitor"
-			(at 119.38 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "a0ea0583-6ff0-448b-a471-1c4f8d10dcec")
-		)
-		(pin "1"
-			(uuid "5d230753-1d78-48c1-b0ad-ee349fededf7")
-		)
-		(instances
-			(project "PowerSupplyLm7805"
-				(path "/2d797758-27d9-42d0-9452-1ad0217c26de"
-					(reference "C3")
+			(project "PowerSupplyLp2985"
+				(path "/2cdfd080-49b3-4815-8d2f-60f985ee42e6"
+					(reference "C2")
 					(unit 1)
 				)
 			)
