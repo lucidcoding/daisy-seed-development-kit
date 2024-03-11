@@ -1052,3 +1052,5 @@ fp-info-cache
 *.gbrjob
 *.declarations
 *.drl
+*.kicad_sch.lck
+*.kicad_pcb.lck
