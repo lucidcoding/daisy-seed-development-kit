@@ -3271,7 +3271,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-8_W7.62mm"
 			(at 115.57 179.07 0)
 			(effects
 				(font
@@ -3356,7 +3356,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Horizontal"
 			(at 22.86 107.95 0)
 			(effects
 				(font
@@ -3556,7 +3556,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-8_W7.62mm"
 			(at 124.46 34.29 0)
 			(effects
 				(font
@@ -3776,7 +3776,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-8_W7.62mm"
 			(at 138.43 179.07 0)
 			(effects
 				(font
@@ -3864,7 +3864,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Protoplasma.pretty:PJ-307"
+		(property "Footprint" "Protoplasma:PJ-307"
 			(at 180.34 53.34 0)
 			(effects
 				(font
@@ -4203,7 +4203,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical"
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Horizontal"
 			(at 231.14 86.36 0)
 			(effects
 				(font
@@ -4481,7 +4481,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-8_W7.62mm"
 			(at 124.46 69.85 0)
 			(effects
 				(font
@@ -4568,7 +4568,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical"
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Horizontal"
 			(at 22.86 82.55 0)
 			(effects
 				(font
@@ -6046,7 +6046,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Horizontal"
 			(at 231.14 107.95 0)
 			(effects
 				(font
@@ -6114,7 +6114,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-8_W7.62mm"
 			(at 88.9 144.78 0)
 			(effects
 				(font
@@ -6269,7 +6269,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Protoplasma.pretty:PJ-307"
+		(property "Footprint" "Protoplasma:PJ-307"
 			(at 180.34 125.73 0)
 			(effects
 				(font
@@ -6940,7 +6940,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-8_W7.62mm"
 			(at 88.9 109.22 0)
 			(effects
 				(font

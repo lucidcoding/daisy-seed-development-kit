@@ -1261,6 +1261,16 @@
 		)
 		(uuid "d9029a00-5c6a-4c47-8fe5-2e4b8f5b64ac")
 	)
+	(text "All capacitors are ceramic"
+		(exclude_from_sim no)
+		(at 143.51 111.506 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "6e818e0d-2a64-4fb7-8b50-ee246eb8b590")
+	)
 	(text "Center negative"
 		(exclude_from_sim no)
 		(at 83.566 95.758 0)
