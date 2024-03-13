@@ -62,6 +62,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
         ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_SLIDE] = step.slide;
         ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_BACK] = false;
         ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_NEXT] = false;
+
+        for (uint8_t stepIndex = 0; stepIndex < STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT; stepIndex++)
+        {
+            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + stepIndex] = (stepIndex == currentStepIndex);
+        }
     }
 
     uint64_t Controller::GetLedState()
@@ -310,7 +315,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     uint8_t Controller::GetNote()
     {
-        uint8_t note = steps[currentStepIndex].note + 60;
+        uint8_t note = steps[currentStepIndex].note + 36;
 
         if (steps[currentStepIndex].octaveDown)
         {

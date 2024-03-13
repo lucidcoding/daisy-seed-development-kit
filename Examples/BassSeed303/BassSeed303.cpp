@@ -49,10 +49,10 @@ void InitPotentiometerArray()
 void InitParameters(float sampleRate)
 {
     masterVolumeParam.Init(potentiometerArray.analogControl[0], 0, 1.0f, Parameter::LINEAR);
-    cutOffFrequencyParam.Init(potentiometerArray.analogControl[1], 0, sampleRate / 3, Parameter::LINEAR);
-    resonanceParam.Init(potentiometerArray.analogControl[2], 0, 1.0f, Parameter::LINEAR);
-    decayParam.Init(potentiometerArray.analogControl[3], 0.025f, 1.0f, Parameter::LINEAR);
-    envelopeModulationParam.Init(potentiometerArray.analogControl[4], 0, 1.0f, Parameter::LINEAR);
+    cutOffFrequencyParam.Init(potentiometerArray.analogControl[1], 0.3f, sampleRate / 3, Parameter::LINEAR);
+    resonanceParam.Init(potentiometerArray.analogControl[2], 0, 0.88f, Parameter::LINEAR);
+    decayParam.Init(potentiometerArray.analogControl[3], 0.05f, 0.5f, Parameter::LINEAR);
+    envelopeModulationParam.Init(potentiometerArray.analogControl[4], 0.2f, 0.8f, Parameter::LINEAR);
     accentLevelParam.Init(potentiometerArray.analogControl[5], 0, 1.0f, Parameter::LINEAR);
     tempoParam.Init(potentiometerArray.analogControl[6], 0, 240.0f, Parameter::LINEAR);
 }

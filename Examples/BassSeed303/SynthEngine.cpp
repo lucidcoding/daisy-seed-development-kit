@@ -13,12 +13,15 @@ namespace developmentKit::bassSeed303
     {
         float oscillatorOut, adsrOut, filterOut;
         adsrOut = adsr.Process(gate);
-        mainOsc.SetAmp(adsrOut / 10 * (accent ? accentLevel : 0.7) * volume);
+        float accentedLevel = accent ? 0.7 * (1 + accentLevel) : 0.7;
+        mainOsc.SetAmp(adsrOut / 5 * accentedLevel * volume);
         mainOsc.SetFreq(noteFrequency);
         oscillatorOut = mainOsc.Process();
 
+        //float accentedEnvelopeModulation = accent ?  envelopeModulation * (1 + accentLevel) : envelopeModulation;
 
-        svf.SetFreq(cutOffFrequency + (maxCutoffFrequency / 2 * adsrOut * envelopeModulation));
+        float accentedEnvelopeModulation = accent ?  envelopeModulation * 4 : envelopeModulation;
+        svf.SetFreq((cutOffFrequency * (adsrOut * accentedEnvelopeModulation)) - (accent ? 1000 : 0));
         svf.Process(oscillatorOut);
         filterOut = svf.Low();
 
@@ -88,9 +91,9 @@ namespace developmentKit::bassSeed303
     void SynthEngine::InitAdsr(float sampleRate)
     {
         adsr.Init(sampleRate);
-        adsr.SetTime(ADSR_SEG_ATTACK, .01);
+        adsr.SetTime(ADSR_SEG_ATTACK, 0);
         adsr.SetTime(ADSR_SEG_DECAY, .1);
-        adsr.SetTime(ADSR_SEG_RELEASE, .02);
+        adsr.SetTime(ADSR_SEG_RELEASE, .03);
         adsr.SetSustainLevel(.2);
     }
 
