@@ -74,7 +74,7 @@
 			(subtractmaskfromsilk no)
 			(outputformat 1)
 			(mirror no)
-			(drillshape 1)
+			(drillshape 0)
 			(scaleselection 1)
 			(outputdirectory "")
 		)
@@ -436,7 +436,7 @@
 			)
 		)
 		(property "Value" "Conn_01x08_Male"
-			(at 4.385 20.05 270)
+			(at 4.385 20.05 -90)
 			(layer "F.Fab")
 			(uuid "65a33bd5-c0f2-4861-88a7-543a5ab71544")
 			(effects
@@ -1648,7 +1648,7 @@
 			(uuid "2d9bba85-1470-4ed4-ab6e-dc273430af83")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 2.77 8.89 360)
+			(at 2.77 8.89 0)
 			(layer "F.Fab")
 			(uuid "13f9cfb7-0633-4121-a223-14be7848a5d3")
 			(effects
