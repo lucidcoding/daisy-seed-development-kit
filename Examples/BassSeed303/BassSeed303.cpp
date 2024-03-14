@@ -15,20 +15,18 @@ StepSequencer stepSequencer;
 SynthEngine synthEngine;
 PotentiometerArray potentiometerArray;
 
-Parameter masterVolumeParam, cutOffFrequencyParam, resonanceParam, envelopeModulationParam, decayParam, accentLevelParam, tempoParam;
-
 static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
                           AudioHandle::InterleavingOutputBuffer out,
                           size_t size)
 {
     potentiometerArray.Process();
-
-    synthEngine.SetVolume(masterVolumeParam.Process());
-    synthEngine.SetCutOffFreq(cutOffFrequencyParam.Process());
-    synthEngine.setResonance(resonanceParam.Process());
-    synthEngine.setEnvelopeModulation(envelopeModulationParam.Process());
-    synthEngine.setDecay(decayParam.Process());
-    synthEngine.setAccentLevel(accentLevelParam.Process());
+    synthEngine.SetVolume(potentiometerArray.analogControl[0].GetRawFloat());
+    synthEngine.SetCutOffFreq(potentiometerArray.analogControl[1].GetRawFloat());
+    synthEngine.SetResonance(potentiometerArray.analogControl[2].GetRawFloat());
+    synthEngine.SetEnvelopeModulation(potentiometerArray.analogControl[3].GetRawFloat());
+    synthEngine.SetDecay(potentiometerArray.analogControl[4].GetRawFloat());
+    synthEngine.SetAccentLevel(potentiometerArray.analogControl[5].GetRawFloat());
+    synthEngine.SetWaveform(potentiometerArray.analogControl[6].GetRawFloat() < 0.5f ? Oscillator::WAVE_SAW : Oscillator::WAVE_SQUARE);
 
     float voiceLeft, voiceRight;
 
@@ -46,17 +44,6 @@ void InitPotentiometerArray()
     potentiometerArray.Init();
 }
 
-void InitParameters(float sampleRate)
-{
-    masterVolumeParam.Init(potentiometerArray.analogControl[0], 0, 1.0f, Parameter::LINEAR);
-    cutOffFrequencyParam.Init(potentiometerArray.analogControl[1], 0.3f, sampleRate / 3, Parameter::LINEAR);
-    resonanceParam.Init(potentiometerArray.analogControl[2], 0, 0.88f, Parameter::LINEAR);
-    decayParam.Init(potentiometerArray.analogControl[3], 0.05f, 0.8f, Parameter::LINEAR);
-    envelopeModulationParam.Init(potentiometerArray.analogControl[4], 0.2f, 0.8f, Parameter::LINEAR);
-    accentLevelParam.Init(potentiometerArray.analogControl[5], 0, 1.0f, Parameter::LINEAR);
-    tempoParam.Init(potentiometerArray.analogControl[6], 0, 240.0f, Parameter::LINEAR);
-}
-
 int main(void)
 {
     hardware.Configure();
@@ -65,13 +52,12 @@ int main(void)
     synthEngine.Init(sampleRate);
     stepSequencer.Init();
     InitPotentiometerArray();
-    InitParameters(sampleRate);
     hardware.adc.Start();
     hardware.StartAudio(AudioCallback);
     
     while (1)
     {
-        stepSequencer.SetTempo(tempoParam.Process());
+        stepSequencer.SetTempo(potentiometerArray.analogControl[7].GetRawFloat() * 240.0f);
         stepSequencer.Listen();
         synthEngine.SetGate(stepSequencer.GetGate());
         synthEngine.SetNoteFrequency(mtof(stepSequencer.GetNote()));

@@ -2,11 +2,12 @@
 
 namespace developmentKit::bassSeed303
 {
-    void SynthEngine::Init(float sampleRate)
+    void SynthEngine::Init(float prmSampleRate)
     {
-        InitOscillator(sampleRate);
-        InitAdsr(sampleRate);
-        InitSvf(sampleRate);
+        InitOscillator(prmSampleRate);
+        InitAdsr(prmSampleRate);
+        InitSvf(prmSampleRate);
+        sampleRate = prmSampleRate;
     }
 
     void SynthEngine::Process(float *voiceLeft, float *voiceRight)
@@ -64,29 +65,39 @@ namespace developmentKit::bassSeed303
 
     void SynthEngine::SetCutOffFreq(float newCutOffFrequency)
     {
-        cutOffFrequency = newCutOffFrequency;
+        cutOffFrequency = Scale(SYNTH_ENGINE_CUTOFF_MIN, sampleRate / 3, newCutOffFrequency);
     }
 
-    void SynthEngine::setResonance(float newResonance)
+    void SynthEngine::SetResonance(float newResonance)
     {
-        resonance = newResonance;
+        resonance = Scale(0, SYNTH_ENGINE_RESONANCE_MAX, newResonance);
         svf.SetRes(resonance);
     }
 
-    void SynthEngine::setEnvelopeModulation(float newEnvelopeModulation)
+    void SynthEngine::SetEnvelopeModulation(float newEnvelopeModulation)
     {
-        envelopeModulation = newEnvelopeModulation;
+        envelopeModulation = Scale(SYNTH_ENGINE_ENVELOPE_MODULATION_MIN, SYNTH_ENGINE_ENVELOPE_MODULATION_MAX, newEnvelopeModulation);
     }
 
-    void SynthEngine::setDecay(float newDecay)
+    void SynthEngine::SetDecay(float newDecay)
     {
-        decay = newDecay;
+        decay = Scale(SYNTH_ENGINE_DECAY_MIN, SYNTH_ENGINE_DECAY_MAX, newDecay);
         adsr.SetTime(ADSR_SEG_DECAY, decay);
     }
 
-    void SynthEngine::setAccentLevel(float newAccentLevel)
+    void SynthEngine::SetAccentLevel(float newAccentLevel)
     {
         accentLevel = newAccentLevel;
+    }
+
+    void SynthEngine::SetWaveform(uint8_t waveform)
+    {
+        mainOsc.SetWaveform(waveform);
+    }
+
+    float SynthEngine::Scale(float min, float max, float value)
+    {
+        return (value * (max - min)) + min;
     }
 
     void SynthEngine::InitOscillator(float sampleRate)
