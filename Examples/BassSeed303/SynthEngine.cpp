@@ -17,11 +17,8 @@ namespace developmentKit::bassSeed303
         mainOsc.SetAmp(adsrOut / 5 * accentedLevel * volume);
         mainOsc.SetFreq(noteFrequency);
         oscillatorOut = mainOsc.Process();
-
-        // float accentedEnvelopeModulation = accent ?  envelopeModulation * (1 + accentLevel) : envelopeModulation;
-
-        float accentedEnvelopeModulation = accent ? envelopeModulation * 2.5 : envelopeModulation;
-        svf.SetFreq(cutOffFrequency * (adsrOut * accentedEnvelopeModulation)); // - (accent ? 1000 : 0));
+        float accentedEnvelopeModulation = accent ? envelopeModulation * (1 + (accentLevel * 2.5)) : envelopeModulation;
+        svf.SetFreq(cutOffFrequency * (adsrOut * accentedEnvelopeModulation));
         svf.Process(oscillatorOut);
         filterOut = svf.Low();
 
@@ -73,7 +70,7 @@ namespace developmentKit::bassSeed303
     void SynthEngine::setResonance(float newResonance)
     {
         resonance = newResonance;
-        svf.SetRes(newResonance);
+        svf.SetRes(resonance);
     }
 
     void SynthEngine::setEnvelopeModulation(float newEnvelopeModulation)
@@ -84,7 +81,7 @@ namespace developmentKit::bassSeed303
     void SynthEngine::setDecay(float newDecay)
     {
         decay = newDecay;
-        adsr.SetTime(ADSR_SEG_DECAY, newDecay);
+        adsr.SetTime(ADSR_SEG_DECAY, decay);
     }
 
     void SynthEngine::setAccentLevel(float newAccentLevel)
@@ -105,7 +102,7 @@ namespace developmentKit::bassSeed303
         adsr.SetTime(ADSR_SEG_ATTACK, 0);
         adsr.SetTime(ADSR_SEG_DECAY, .1);
         adsr.SetTime(ADSR_SEG_RELEASE, .03);
-        adsr.SetSustainLevel(.2);
+        adsr.SetSustainLevel(.4);
     }
 
     void SynthEngine::InitSvf(float sampleRate)
