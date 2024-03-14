@@ -18,10 +18,10 @@ namespace developmentKit::bassSeed303
         mainOsc.SetFreq(noteFrequency);
         oscillatorOut = mainOsc.Process();
 
-        //float accentedEnvelopeModulation = accent ?  envelopeModulation * (1 + accentLevel) : envelopeModulation;
+        // float accentedEnvelopeModulation = accent ?  envelopeModulation * (1 + accentLevel) : envelopeModulation;
 
-        float accentedEnvelopeModulation = accent ?  envelopeModulation * 4 : envelopeModulation;
-        svf.SetFreq((cutOffFrequency * (adsrOut * accentedEnvelopeModulation)) - (accent ? 1000 : 0));
+        float accentedEnvelopeModulation = accent ? envelopeModulation * 2.5 : envelopeModulation;
+        svf.SetFreq(cutOffFrequency * (adsrOut * accentedEnvelopeModulation)); // - (accent ? 1000 : 0));
         svf.Process(oscillatorOut);
         filterOut = svf.Low();
 
@@ -47,6 +47,17 @@ namespace developmentKit::bassSeed303
     void SynthEngine::SetAccent(bool newAccent)
     {
         accent = newAccent;
+
+        if (accent)
+        {
+            adsr.SetTime(ADSR_SEG_DECAY, decay * 0.5);
+            svf.SetRes(resonance * 1.3);
+        }
+        else
+        {
+            adsr.SetTime(ADSR_SEG_DECAY, decay);
+            svf.SetRes(resonance);
+        }
     }
 
     void SynthEngine::SetVolume(float newVolume)
