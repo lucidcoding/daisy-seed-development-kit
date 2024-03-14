@@ -445,7 +445,7 @@ TEST_CASE("Only LEDs for first step shown when started")
     Controller controller = Setup();
     controller.SetSteps(GetVariedSteps());
     uint64_t actualLedStates = controller.GetLedState();
-    uint64_t expectedLedStates = 0x00 | (1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | (1 << STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_UP);
+    uint64_t expectedLedStates = 0x00 | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_UP) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1);
     REQUIRE(actualLedStates == expectedLedStates);
 }
 
@@ -455,7 +455,7 @@ TEST_CASE("Pressing PLAY turns PLAY LED on")
     controller.SetSteps(GetVariedSteps());
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
     uint64_t actualLedStates = controller.GetLedState();
-    uint64_t expectedLedStates = 0 | (1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | (1 << STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_UP) | (1 << STEP_SEQUENCER_CONTROLLER_LEDS_PLAY);
+    uint64_t expectedLedStates = 0 | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_UP) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_PLAY) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1);
     REQUIRE(actualLedStates == expectedLedStates);
 }
 
@@ -466,7 +466,7 @@ TEST_CASE("Pressing play and advancing 2 steps turns play LED on and correct ste
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
     Advance(&controller, 17);
     uint64_t actualLedStates = controller.GetLedState();
-    uint64_t expectedLedStates = 0 | (1 << STEP_SEQUENCER_CONTROLLER_LEDS_G) | (1 << STEP_SEQUENCER_CONTROLLER_LEDS_ACCENT) | (1 << STEP_SEQUENCER_CONTROLLER_LEDS_SLIDE) | (1 << STEP_SEQUENCER_CONTROLLER_LEDS_PLAY);
+    uint64_t expectedLedStates = 0 | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_G) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_ACCENT) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_SLIDE) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_PLAY) | ((uint64_t)1 << (STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + 2));
     REQUIRE(actualLedStates == expectedLedStates);
 }
 
@@ -477,7 +477,7 @@ TEST_CASE("Pressing PLAY twice turns PLAY LED off")
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
     uint64_t actualLedStates = controller.GetLedState();
-    uint64_t expectedLedStates = 0 | (1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | (1 << STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_UP);
+    uint64_t expectedLedStates = 0 | ((uint64_t)(uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_UP) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1);
     REQUIRE(actualLedStates == expectedLedStates);
 }
 
@@ -487,7 +487,7 @@ TEST_CASE("Pressing REC turns REC LED on")
     controller.SetSteps(GetVariedSteps());
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_REC);
     uint64_t actualLedStates = controller.GetLedState();
-    uint64_t expectedLedStates = 0 | (1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | (1 << STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_UP) | (1 << STEP_SEQUENCER_CONTROLLER_LEDS_REC);
+    uint64_t expectedLedStates = 0 | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_UP) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_REC) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1);
     REQUIRE(actualLedStates == expectedLedStates);
 }
 
@@ -499,7 +499,7 @@ TEST_CASE("Pressing REC and advancing 2 steps turns correct LEDs on")
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_NEXT);
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_NEXT);
     uint64_t actualLedStates = controller.GetLedState();
-    uint64_t expectedLedStates = 0 | (1 << STEP_SEQUENCER_CONTROLLER_LEDS_G) | (1 << STEP_SEQUENCER_CONTROLLER_LEDS_ACCENT) | (1 << STEP_SEQUENCER_CONTROLLER_LEDS_SLIDE) | (1 << STEP_SEQUENCER_CONTROLLER_LEDS_REC);
+    uint64_t expectedLedStates = 0 | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_G) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_ACCENT) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_SLIDE) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_REC) | ((uint64_t)1 << (STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + 2));
     REQUIRE(actualLedStates == expectedLedStates);
 }
 
@@ -510,7 +510,7 @@ TEST_CASE("Pressing REC and advancing to a step with no gate does not show note 
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_REC);
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_NEXT);
     uint64_t actualLedStates = controller.GetLedState();
-    uint64_t expectedLedStates = 0 | (1 << STEP_SEQUENCER_CONTROLLER_LEDS_REC);
+    uint64_t expectedLedStates = 0 | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_REC) | ((uint64_t)1 << (STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + 1));
     REQUIRE(actualLedStates == expectedLedStates);
 }
 

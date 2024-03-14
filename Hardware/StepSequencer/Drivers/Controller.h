@@ -53,8 +53,8 @@
 #define STEP_SEQUENCER_CONTROLLER_LEDS_B 11
 #define STEP_SEQUENCER_CONTROLLER_LEDS_C2 12
 #define STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_DOWN 13
+#define STEP_SEQUENCER_CONTROLLER_LEDS_ACCENT 14
 #define STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_UP 15
-#define STEP_SEQUENCER_CONTROLLER_LEDS_ACCENT 15
 #define STEP_SEQUENCER_CONTROLLER_LEDS_SLIDE 16
 #define STEP_SEQUENCER_CONTROLLER_LEDS_BACK 21
 #define STEP_SEQUENCER_CONTROLLER_LEDS_NEXT 22
@@ -100,7 +100,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
         bool gate;
         bool playJustPressed;
         bool ledStates[STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS];
-        const uint8_t noteToLedLookup[STEP_SEQUENCER_CONTROLLER_NUMBER_OF_NOTE_KEYS] = {9, 0, 10, 1, 11, 12, 2, 13, 3, 14, 4, 15, 16};
         void UpdateLedStates();
         uint8_t GetNoteFromKeyPressed(uint8_t);
         void ActivateCurrentStep();

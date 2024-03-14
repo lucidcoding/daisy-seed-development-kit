@@ -30,11 +30,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
         Step step = steps[currentStepIndex];
 
-        for (uint8_t ledToSet = STEP_SEQUENCER_CONTROLLER_LEDS_C_SHARP; ledToSet <= STEP_SEQUENCER_CONTROLLER_LEDS_A_SHARP; ledToSet++)
-        {
-            ledStates[ledToSet] = (ledToSet == noteToLedLookup[step.note]) && step.gate;
-        }
-
         if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY)
         {
             ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_PLAY] = true;
@@ -53,7 +48,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
         for (uint8_t ledToSet = STEP_SEQUENCER_CONTROLLER_LEDS_C; ledToSet <= STEP_SEQUENCER_CONTROLLER_LEDS_C2; ledToSet++)
         {
-            ledStates[ledToSet] = (ledToSet == noteToLedLookup[step.note]) && step.gate;
+            ledStates[ledToSet] = (ledToSet == step.note) && step.gate;
         }
 
         ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_DOWN] = step.octaveDown;
@@ -75,7 +70,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
         for (uint8_t ledIndex = 0; ledIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS; ledIndex++)
         {
-            returnValue = returnValue | ((ledStates[ledIndex] ? 0x01 : 0x00) << ledIndex);
+            returnValue = returnValue | ((ledStates[ledIndex] ? (uint64_t)1 : (uint64_t)0) << ledIndex);
         }
 
         return returnValue;
@@ -299,7 +294,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
         for (uint8_t currentIndex = 0; currentIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_NOTE_KEYS; currentIndex++)
         {
-            if (noteToLedLookup[currentIndex] == keyPressed)
+            if (currentIndex == keyPressed)
             {
                 return currentIndex;
             }
