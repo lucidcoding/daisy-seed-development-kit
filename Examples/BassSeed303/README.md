@@ -7,8 +7,8 @@ Potentiometer assignment:
 1: Master Volume
 2: Cutoff Frequency
 3: Resonance
-4: Decay
-5: Envelope Modulation
+4: Envelope Modulation
+5: Decay
 6: Accent Level
 7: Waveform (0 - 0.5: saw, 0.5 - 1: square)
 8: Tempo

@@ -6,6 +6,7 @@
 #define STEP_SEQUENCER_CONTROLLER_MODE_STOP 0
 #define STEP_SEQUENCER_CONTROLLER_MODE_PLAY 1
 #define STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC 2
+#define STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC 3
 
 #define STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS 35
 #define STEP_SEQUENCER_CONTROLLER_NUMBER_OF_NOTE_KEYS 13
@@ -63,13 +64,20 @@
 #include "stdint.h"
 #include "Step.h"
 
-//#include "daisy_seed.h"
+// #include "daisy_seed.h"
 
 namespace developmentKit::hardware::stepSequencer::drivers
 {
     class Controller
     {
     public:
+        enum SeqSyncSource
+        {
+            InternalSequencerInternalSync,
+            InternalSequencerPulseSync,
+            InternalSequencerMidiSync,
+            MidiInSequencer
+        };
         void Init(uint32_t);
         void SetKeyState(uint32_t);
         void Process(uint32_t);
@@ -89,7 +97,8 @@ namespace developmentKit::hardware::stepSequencer::drivers
         Step *GetSteps() { return steps; }
         uint32_t GetLastTicks() { return lastStepStartTicks; }
         void SetLastTicks(uint32_t newLastTicks) { lastStepStartTicks = newLastTicks; }
-        //daisy::DaisySeed *daisy;
+        SeqSyncSource GetSeqSyncSource() { return seqSyncSource; }
+        // daisy::DaisySeed *daisy;
 
     private:
         Step steps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT];
@@ -104,6 +113,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         bool playJustPressed;
         bool ledStates[STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS];
         uint32_t lastKeyState;
+        SeqSyncSource seqSyncSource;
         void UpdateLedStates();
         uint8_t GetNoteFromKeyPressed(uint32_t);
         void ActivateCurrentStep();
@@ -117,6 +127,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void OnAccentPressed();
         void OnSlidePressed();
         void OnNoteKeyPressed(uint64_t);
+        void OnFunctionKeyReleased();
         void OnKeyPressed(uint32_t);
         void OnKeyReleased(uint32_t);
         void CheckForClockEvent(uint32_t);

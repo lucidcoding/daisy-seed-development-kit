@@ -604,3 +604,66 @@ TEST_CASE("GetPreviousSlide returns false if current step is slide but previous 
     Advance(&controller, 8);
     REQUIRE(controller.GetPreviousSlide() == true);
 }
+
+TEST_CASE("Pressing FUNC + D# leaves seqSyncSource the same")
+{
+    uint64_t expectedLedStates = (uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1;
+    Controller controller = Setup();
+    controller.SetSteps(GetClearedSteps());
+    REQUIRE(controller.GetSeqSyncSource() == Controller::SeqSyncSource::InternalSequencerInternalSync);
+    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
+    REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC);
+    REQUIRE(controller.GetSeqSyncSource() == Controller::SeqSyncSource::InternalSequencerInternalSync);
+    REQUIRE(controller.GetLedState() == expectedLedStates);
+    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC);
+    REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC);
+    REQUIRE(controller.GetSeqSyncSource() == Controller::SeqSyncSource::InternalSequencerInternalSync);
+    REQUIRE(controller.GetLedState() == expectedLedStates);
+    controller.SetKeyState(0);
+    REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_STOP);
+    REQUIRE(controller.GetSeqSyncSource() == Controller::SeqSyncSource::InternalSequencerInternalSync);
+    expectedLedStates = ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1);
+    REQUIRE(controller.GetLedState() == expectedLedStates);
+}
+
+TEST_CASE("Pressing FUNC + D# 2 times changes seqSyncSource to InternalSequencerPulseSync")
+{
+    uint64_t expectedLedStates = (uint64_t)1 << (STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + 1);
+    Controller controller = Setup();
+    controller.SetSteps(GetClearedSteps());
+    REQUIRE(controller.GetSeqSyncSource() == Controller::SeqSyncSource::InternalSequencerInternalSync);
+    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
+    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC);
+    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
+    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC);
+    REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC);
+    REQUIRE(controller.GetSeqSyncSource() == Controller::SeqSyncSource::InternalSequencerPulseSync);
+    REQUIRE(controller.GetLedState() == expectedLedStates);
+    controller.SetKeyState(0);
+    REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_STOP);
+    REQUIRE(controller.GetSeqSyncSource() == Controller::SeqSyncSource::InternalSequencerPulseSync);
+    expectedLedStates = ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1);
+    REQUIRE(controller.GetLedState() == expectedLedStates);
+}
+/*
+TEST_CASE("Pressing FUNC + D# 3 times changes seqSyncSource to InternalSequencerMidiSync")
+{
+    uint64_t expectedLedStates = (uint64_t)1 << (STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + 2);
+    Controller controller = Setup();
+    controller.SetSteps(GetClearedSteps());
+    REQUIRE(controller.GetSeqSyncSource() == Controller::SeqSyncSource::InternalSequencerInternalSync);
+    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
+    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC);
+    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
+    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC);
+    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
+    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC);
+    REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC);
+    REQUIRE(controller.GetSeqSyncSource() == Controller::SeqSyncSource::InternalSequencerMidiSync);
+    REQUIRE(controller.GetLedState() == expectedLedStates);
+    controller.SetKeyState(0);
+    REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_STOP);
+    REQUIRE(controller.GetSeqSyncSource() == Controller::SeqSyncSource::InternalSequencerMidiSync);
+    expectedLedStates = ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1);
+    REQUIRE(controller.GetLedState() == expectedLedStates);
+}*/

@@ -26,6 +26,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
         UpdateLedStates();
         lastKeyState = STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS;
+        seqSyncSource = SeqSyncSource::InternalSequencerInternalSync;
     }
 
     void Controller::UpdateLedStates()
@@ -48,21 +49,50 @@ namespace developmentKit::hardware::stepSequencer::drivers
             ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_REC] = false;
         }
 
-        for (uint8_t ledToSet = STEP_SEQUENCER_CONTROLLER_LEDS_C; ledToSet <= STEP_SEQUENCER_CONTROLLER_LEDS_C2; ledToSet++)
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY || mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC || mode == STEP_SEQUENCER_CONTROLLER_MODE_STOP)
         {
-            ledStates[ledToSet] = (ledToSet == step.note) && step.gate;
+            for (uint8_t ledToSet = STEP_SEQUENCER_CONTROLLER_LEDS_C; ledToSet <= STEP_SEQUENCER_CONTROLLER_LEDS_C2; ledToSet++)
+            {
+                ledStates[ledToSet] = (ledToSet == step.note) && step.gate;
+            }
+
+            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_DOWN] = step.octaveDown;
+            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_UP] = step.octaveUp;
+            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_ACCENT] = step.accent;
+            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_SLIDE] = step.slide;
+            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_BACK] = false;
+            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_NEXT] = false;
+
+            for (uint8_t stepIndex = 0; stepIndex < STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT; stepIndex++)
+            {
+                ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + stepIndex] = (stepIndex == currentStepIndex);
+            }
         }
 
-        ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_DOWN] = step.octaveDown;
-        ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_UP] = step.octaveUp;
-        ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_ACCENT] = step.accent;
-        ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_SLIDE] = step.slide;
-        ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_BACK] = false;
-        ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_NEXT] = false;
-
-        for (uint8_t stepIndex = 0; stepIndex < STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT; stepIndex++)
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC)
         {
-            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + stepIndex] = (stepIndex == currentStepIndex);
+            for (uint8_t ledIndex = 0; ledIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS; ledIndex++)
+            {
+                ledStates[ledIndex] = false;
+            }
+
+            switch (seqSyncSource)
+            {
+            case SeqSyncSource::InternalSequencerInternalSync:
+                ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1] = true;
+                break;
+            case SeqSyncSource::InternalSequencerPulseSync:
+                ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + 1] = true;
+                break;
+            case SeqSyncSource::InternalSequencerMidiSync:
+                ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + 2] = true;
+                break;
+            case SeqSyncSource::MidiInSequencer:
+                ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + 3] = true;
+                break;
+            default:
+                ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1] = true;
+            };
         }
     }
 
@@ -104,7 +134,30 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void Controller::OnSeqSyncSelectPressed()
     {
-        //daisy->PrintLine("OnSeqSyncSelectPressed");
+        if (mode != STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC)
+        {
+            mode = STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC;
+        }
+        else
+        {
+            switch (seqSyncSource)
+            {
+            case SeqSyncSource::InternalSequencerInternalSync:
+                seqSyncSource = SeqSyncSource::InternalSequencerPulseSync;
+                break;
+            case SeqSyncSource::InternalSequencerPulseSync:
+                seqSyncSource = SeqSyncSource::InternalSequencerMidiSync;
+                break;
+            case SeqSyncSource::InternalSequencerMidiSync:
+                seqSyncSource = SeqSyncSource::MidiInSequencer;
+                break;
+            case SeqSyncSource::MidiInSequencer:
+                seqSyncSource = SeqSyncSource::InternalSequencerInternalSync;
+                break;
+            default:
+                seqSyncSource = SeqSyncSource::InternalSequencerInternalSync;
+            };
+        }
     }
 
     void Controller::OnPlayPressed()
@@ -203,6 +256,14 @@ namespace developmentKit::hardware::stepSequencer::drivers
         }
     }
 
+    void Controller::OnFunctionKeyReleased()
+    {
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC)
+        {
+            mode = STEP_SEQUENCER_CONTROLLER_MODE_STOP;
+        }
+    }
+
     void Controller::OnKeyPressed(uint32_t keyState)
     {
         switch (keyState)
@@ -254,12 +315,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void Controller::OnKeyReleased(uint32_t keyState)
     {
-        
-       //daisy->PrintLine("Release: %d, keyState: %d, lastKeyState: %d", keyState, lastKeyState);
-
-        if(((lastKeyState & ((uint32_t)1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC)) > 0) && ((keyState & ((uint32_t)1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC)) == 0))
+        if (((lastKeyState & ((uint32_t)1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC)) > 0) && ((keyState & ((uint32_t)1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC)) == 0))
         {
-            //daisy->PrintLine("FUNC released");
+            OnFunctionKeyReleased();
         }
     }
 
