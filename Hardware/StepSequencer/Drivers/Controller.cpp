@@ -1,4 +1,5 @@
 #include "stdint.h"
+#include "math.h"
 #include "Controller.h"
 #include "Debug.h"
 
@@ -24,6 +25,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         }
 
         UpdateLedStates();
+        lastKeyState = STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS;
     }
 
     void Controller::UpdateLedStates()
@@ -98,6 +100,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
         {
             gate = true;
         }
+    }
+
+    void Controller::OnSeqSyncSelectPressed()
+    {
+        //daisy->PrintLine("OnSeqSyncSelectPressed");
     }
 
     void Controller::OnPlayPressed()
@@ -175,11 +182,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
         }
     }
 
-    void Controller::OnNoteKeyPressed(uint8_t keyIndex)
+    void Controller::OnNoteKeyPressed(uint64_t keyState)
     {
         if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
         {
-            uint8_t note = GetNoteFromKeyPressed(keyIndex);
+            uint8_t note = GetNoteFromKeyPressed(keyState);
 
             if (note != STEP_SEQUENCER_CONTROLLER_NOT_NOTE_KEY)
             {
@@ -196,69 +203,89 @@ namespace developmentKit::hardware::stepSequencer::drivers
         }
     }
 
+    void Controller::OnKeyPressed(uint32_t keyState)
+    {
+        switch (keyState)
+        {
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP):
+            OnSeqSyncSelectPressed();
+            break;
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY):
+            OnPlayPressed();
+            break;
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_REC):
+            OnRecordPressed();
+            break;
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_BACK):
+            OnBackPressed();
+            break;
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_NEXT):
+            OnNextPressed();
+            break;
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_OCTAVE_DOWN):
+            OnOctaveDownPressed();
+            break;
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_OCTAVE_UP):
+            OnOctaveUpPressed();
+            break;
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_ACCENT):
+            OnAccentPressed();
+            break;
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_SLIDE):
+            OnSlidePressed();
+            break;
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C):
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP):
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_D):
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_D_SHARP):
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_E):
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_F):
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_F_SHARP):
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_G):
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_G_SHARP):
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_A):
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_A_SHARP):
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_B):
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C2):
+            OnNoteKeyPressed(keyState);
+            break;
+        }
+    }
+
+    void Controller::OnKeyReleased(uint32_t keyState)
+    {
+        
+       //daisy->PrintLine("Release: %d, keyState: %d, lastKeyState: %d", keyState, lastKeyState);
+
+        if(((lastKeyState & ((uint32_t)1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC)) > 0) && ((keyState & ((uint32_t)1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC)) == 0))
+        {
+            //daisy->PrintLine("FUNC released");
+        }
+    }
+
     void Controller::SetKeyState(uint32_t keyState)
     {
-        if (keyState != STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS)
+        if (keyState == STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS)
         {
-            for (uint8_t keyIndex = 0; keyIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_KEYS; keyIndex++)
-            {
-                bool keyIsPressed = (keyState & (1 << keyIndex)) > 0;
-
-                if (keyIsPressed)
-                {
-                    switch (keyIndex)
-                    {
-                    case STEP_SEQUENCER_CONTROLLER_KEYS_PLAY:
-                        OnPlayPressed();
-                        break;
-                    case STEP_SEQUENCER_CONTROLLER_KEYS_REC:
-                        OnRecordPressed();
-                        break;
-                    case STEP_SEQUENCER_CONTROLLER_KEYS_BACK:
-                        OnBackPressed();
-                        break;
-                    case STEP_SEQUENCER_CONTROLLER_KEYS_NEXT:
-                        OnNextPressed();
-                        break;
-                    case STEP_SEQUENCER_CONTROLLER_KEYS_OCTAVE_DOWN:
-                        OnOctaveDownPressed();
-                        break;
-                    case STEP_SEQUENCER_CONTROLLER_KEYS_OCTAVE_UP:
-                        OnOctaveUpPressed();
-                        break;
-                    case STEP_SEQUENCER_CONTROLLER_KEYS_ACCENT:
-                        OnAccentPressed();
-                        break;
-                    case STEP_SEQUENCER_CONTROLLER_KEYS_SLIDE:
-                        OnSlidePressed();
-                        break;
-                    case STEP_SEQUENCER_CONTROLLER_KEYS_C:
-                    case STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP:
-                    case STEP_SEQUENCER_CONTROLLER_KEYS_D:
-                    case STEP_SEQUENCER_CONTROLLER_KEYS_D_SHARP:
-                    case STEP_SEQUENCER_CONTROLLER_KEYS_E:
-                    case STEP_SEQUENCER_CONTROLLER_KEYS_F:
-                    case STEP_SEQUENCER_CONTROLLER_KEYS_F_SHARP:
-                    case STEP_SEQUENCER_CONTROLLER_KEYS_G:
-                    case STEP_SEQUENCER_CONTROLLER_KEYS_G_SHARP:
-                    case STEP_SEQUENCER_CONTROLLER_KEYS_A:
-                    case STEP_SEQUENCER_CONTROLLER_KEYS_A_SHARP:
-                    case STEP_SEQUENCER_CONTROLLER_KEYS_B:
-                    case STEP_SEQUENCER_CONTROLLER_KEYS_C2:
-                        OnNoteKeyPressed(keyIndex);
-                        break;
-                    }
-
-                    keyState = keyState && ~(1 << keyIndex);
-                    UpdateLedStates();
-                }
-            }
+            return;
         }
+
+        if ((lastKeyState & keyState) == keyState)
+        {
+            OnKeyReleased(keyState);
+        }
+        else
+        {
+            OnKeyPressed(keyState);
+        }
+
+        UpdateLedStates();
+        lastKeyState = keyState;
     }
 
     void Controller::CheckForClockEvent(uint32_t currentTicks)
     {
-        if(playJustPressed)
+        if (playJustPressed)
         {
             playJustPressed = false;
             lastStepStartTicks = currentTicks;
@@ -290,8 +317,19 @@ namespace developmentKit::hardware::stepSequencer::drivers
         CheckForClockEvent(currentProcessTimeUs);
     }
 
-    uint8_t Controller::GetNoteFromKeyPressed(uint8_t keyPressed)
+    uint8_t Controller::GetNoteFromKeyPressed(uint32_t keyState)
     {
+        uint8_t keyPressed = STEP_SEQUENCER_CONTROLLER_NOT_NOTE_KEY;
+
+        for (uint8_t currentKeyIndex = 0; currentKeyIndex <= 12; currentKeyIndex++)
+        {
+            if ((keyState & (1 << currentKeyIndex)) > 0)
+            {
+                keyPressed = currentKeyIndex;
+                break;
+            }
+        }
+
         for (uint8_t currentIndex = 0; currentIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_NOTE_KEYS; currentIndex++)
         {
             if (currentIndex == keyPressed)

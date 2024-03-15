@@ -63,6 +63,8 @@
 #include "stdint.h"
 #include "Step.h"
 
+//#include "daisy_seed.h"
+
 namespace developmentKit::hardware::stepSequencer::drivers
 {
     class Controller
@@ -87,6 +89,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         Step *GetSteps() { return steps; }
         uint32_t GetLastTicks() { return lastStepStartTicks; }
         void SetLastTicks(uint32_t newLastTicks) { lastStepStartTicks = newLastTicks; }
+        //daisy::DaisySeed *daisy;
 
     private:
         Step steps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT];
@@ -100,9 +103,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
         bool gate;
         bool playJustPressed;
         bool ledStates[STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS];
+        uint32_t lastKeyState;
         void UpdateLedStates();
-        uint8_t GetNoteFromKeyPressed(uint8_t);
+        uint8_t GetNoteFromKeyPressed(uint32_t);
         void ActivateCurrentStep();
+        void OnSeqSyncSelectPressed();
         void OnPlayPressed();
         void OnRecordPressed();
         void OnBackPressed();
@@ -111,7 +116,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void OnOctaveUpPressed();
         void OnAccentPressed();
         void OnSlidePressed();
-        void OnNoteKeyPressed(uint8_t);
+        void OnNoteKeyPressed(uint64_t);
+        void OnKeyPressed(uint32_t);
+        void OnKeyReleased(uint32_t);
         void CheckForClockEvent(uint32_t);
     };
 }

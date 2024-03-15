@@ -11,12 +11,7 @@ Potentiometer assignment:
 5: Envelope Modulation
 6: Accent Level
 7: Waveform (0 - 0.5: saw, 0.5 - 1: square)
-8: Distortion amount
-9: Delay level
-10: Delay time
-11: Reverb level
-12: Reverb time
-13: Tempo
+8: Tempo
 
 To play: PLAY
 
