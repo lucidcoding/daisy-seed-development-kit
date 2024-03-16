@@ -17,6 +17,7 @@ Controller Setup()
     Controller controller;
     controller.Init(1);
     controller.SetStepTime(STEP_SEQUENCER_CONTROLLER_TEST_TICKS_PER_STEP);
+    controller.SetBlinkTimeUs(STEP_SEQUENCER_CONTROLLER_TEST_TICKS_PER_STEP);
     controller.SetLastTicks(0);
     return controller;
 }
@@ -645,7 +646,7 @@ TEST_CASE("Pressing FUNC + D# 2 times changes seqSyncSource to InternalSequencer
     expectedLedStates = ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1);
     REQUIRE(controller.GetLedState() == expectedLedStates);
 }
-/*
+
 TEST_CASE("Pressing FUNC + D# 3 times changes seqSyncSource to InternalSequencerMidiSync")
 {
     uint64_t expectedLedStates = (uint64_t)1 << (STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + 2);
@@ -666,4 +667,46 @@ TEST_CASE("Pressing FUNC + D# 3 times changes seqSyncSource to InternalSequencer
     REQUIRE(controller.GetSeqSyncSource() == Controller::SeqSyncSource::InternalSequencerMidiSync);
     expectedLedStates = ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1);
     REQUIRE(controller.GetLedState() == expectedLedStates);
-}*/
+}
+
+TEST_CASE("Pressing FUNC + C2 clears the pattern")
+{
+    Controller controller = Setup();
+    controller.SetSteps(GetVariedSteps());
+    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C2));
+    controller.SetKeyState(0);
+    REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_CLEARING);
+    REQUIRE(controller.GetLedState() == 0x1FFFF);
+    Advance(&controller, 8);
+    REQUIRE(controller.GetLedState() == 0);
+    Advance(&controller, 8);
+    REQUIRE(controller.GetLedState() == 0x1FFFF);
+    Advance(&controller, 8);
+    REQUIRE(controller.GetLedState() == 0);
+    Advance(&controller, 8);
+    REQUIRE(controller.GetLedState() == 0x1FFFF);
+    Advance(&controller, 8);
+    REQUIRE(controller.GetLedState() == 0);
+    Advance(&controller, 8);
+    REQUIRE(controller.GetLedState() == 0x1FFFF);
+    Advance(&controller, 8);
+    REQUIRE(controller.GetLedState() == 0);
+    Advance(&controller, 8);
+    REQUIRE(controller.GetLedState() == 0x1FFFF);
+    Advance(&controller, 8);
+    REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_STOP);
+    Step *actualSteps = controller.GetSteps();
+
+    for(uint8_t stepIndex = 0; stepIndex < 16; stepIndex ++)
+    {
+        DYNAMIC_SECTION("Checking step with index: " << stepIndex)
+        {
+            REQUIRE(actualSteps[stepIndex].note == 0);
+            REQUIRE(actualSteps[stepIndex].gate == true);
+            REQUIRE(actualSteps[stepIndex].octaveDown == false);
+            REQUIRE(actualSteps[stepIndex].octaveUp == false);
+            REQUIRE(actualSteps[stepIndex].slide == false);
+            REQUIRE(actualSteps[stepIndex].accent == false);
+        }
+    }
+}

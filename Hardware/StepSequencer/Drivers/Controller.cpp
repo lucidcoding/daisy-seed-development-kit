@@ -10,10 +10,19 @@ namespace developmentKit::hardware::stepSequencer::drivers
         ticksPerUs = newTicksPerUs;
         currentStepIndex = 0;
         SetStepTime(1000000);
+        blinkTimeUs = 100000;
+        blinkJustStarted = false;
         mode = STEP_SEQUENCER_CONTROLLER_MODE_STOP;
         gate = false;
         playJustPressed = false;
+        ClearSteps();
+        UpdateLedStates();
+        lastKeyState = STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS;
+        seqSyncSource = SeqSyncSource::InternalSequencerInternalSync;
+    }
 
+    void Controller::ClearSteps()
+    {
         for (uint8_t i = 0; i < 16; i++)
         {
             steps[i].note = 0;
@@ -23,10 +32,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
             steps[i].accent = false;
             steps[i].slide = false;
         }
-
-        UpdateLedStates();
-        lastKeyState = STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS;
-        seqSyncSource = SeqSyncSource::InternalSequencerInternalSync;
     }
 
     void Controller::UpdateLedStates()
@@ -94,6 +99,19 @@ namespace developmentKit::hardware::stepSequencer::drivers
                 ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1] = true;
             };
         }
+
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_CLEARING)
+        {
+            for (uint8_t ledIndex = 0; ledIndex <= STEP_SEQUENCER_CONTROLLER_LEDS_SLIDE; ledIndex++)
+            {
+                ledStates[ledIndex] = blinkOn;
+            }
+
+            for (uint8_t ledIndex = STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1; ledIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS; ledIndex++)
+            {
+                ledStates[ledIndex] = false;
+            }
+        }
     }
 
     uint64_t Controller::GetLedState()
@@ -158,6 +176,16 @@ namespace developmentKit::hardware::stepSequencer::drivers
                 seqSyncSource = SeqSyncSource::InternalSequencerInternalSync;
             };
         }
+    }
+
+    void Controller::OnClearPressed()
+    {
+        mode = STEP_SEQUENCER_CONTROLLER_MODE_CLEARING;
+        blinkJustStarted = true;
+        blinkCount = 8;
+        blinkOn = true;
+        UpdateLedStates();
+        ClearSteps();
     }
 
     void Controller::OnPlayPressed()
@@ -271,6 +299,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP):
             OnSeqSyncSelectPressed();
             break;
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C2):
+            OnClearPressed();
+            break;
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY):
             OnPlayPressed();
             break;
@@ -349,6 +380,12 @@ namespace developmentKit::hardware::stepSequencer::drivers
             lastStepStartTicks = currentTicks;
         }
 
+        if (blinkJustStarted)
+        {
+            blinkJustStarted = false;
+            lastBlinkTicks = currentTicks - 1;
+        }
+
         if (gate && (currentTicks - lastStepStartTicks) >= (gateTimeUs * ticksPerUs))
         {
             if (!steps[currentStepIndex].slide)
@@ -367,6 +404,19 @@ namespace developmentKit::hardware::stepSequencer::drivers
             lastStepStartTicks = currentTicks;
             currentStepIndex = (currentStepIndex + 1) % STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT;
             ActivateCurrentStep();
+        }
+
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_CLEARING && (currentTicks - lastBlinkTicks) >= (blinkTimeUs * ticksPerUs))
+        {
+            lastBlinkTicks = currentTicks;
+            blinkOn = !blinkOn;
+
+            if (blinkCount-- == 0)
+            {
+                mode = STEP_SEQUENCER_CONTROLLER_MODE_STOP;
+            }
+
+            UpdateLedStates();
         }
     }
 

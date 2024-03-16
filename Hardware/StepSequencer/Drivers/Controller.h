@@ -7,6 +7,7 @@
 #define STEP_SEQUENCER_CONTROLLER_MODE_PLAY 1
 #define STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC 2
 #define STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC 3
+#define STEP_SEQUENCER_CONTROLLER_MODE_CLEARING 4
 
 #define STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS 35
 #define STEP_SEQUENCER_CONTROLLER_NUMBER_OF_NOTE_KEYS 13
@@ -64,7 +65,7 @@
 #include "stdint.h"
 #include "Step.h"
 
-// #include "daisy_seed.h"
+//#include "daisy_seed.h"
 
 namespace developmentKit::hardware::stepSequencer::drivers
 {
@@ -98,7 +99,8 @@ namespace developmentKit::hardware::stepSequencer::drivers
         uint32_t GetLastTicks() { return lastStepStartTicks; }
         void SetLastTicks(uint32_t newLastTicks) { lastStepStartTicks = newLastTicks; }
         SeqSyncSource GetSeqSyncSource() { return seqSyncSource; }
-        // daisy::DaisySeed *daisy;
+        void SetBlinkTimeUs(uint32_t newBlinkTimeUs) { blinkTimeUs = newBlinkTimeUs; }
+        //daisy::DaisySeed *daisy;
 
     private:
         Step steps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT];
@@ -111,13 +113,20 @@ namespace developmentKit::hardware::stepSequencer::drivers
         uint8_t tempo;
         bool gate;
         bool playJustPressed;
+        uint32_t blinkTimeUs;
+        uint32_t lastBlinkTicks;
+        uint8_t blinkCount;
+        bool blinkOn;
+        bool blinkJustStarted;
         bool ledStates[STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS];
         uint32_t lastKeyState;
         SeqSyncSource seqSyncSource;
+        void ClearSteps();
         void UpdateLedStates();
         uint8_t GetNoteFromKeyPressed(uint32_t);
         void ActivateCurrentStep();
         void OnSeqSyncSelectPressed();
+        void OnClearPressed();
         void OnPlayPressed();
         void OnRecordPressed();
         void OnBackPressed();
