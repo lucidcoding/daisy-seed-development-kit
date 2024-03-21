@@ -52,7 +52,7 @@ int main(void)
     float sampleRate = hardware.AudioSampleRate();
     synthEngine.Init(sampleRate);
     stepSequencer.Init();
-    //stepSequencer.controller.daisy = &hardware;
+    stepSequencer.controller.daisy = &hardware;
     InitPotentiometerArray();
     hardware.adc.Start();
     hardware.StartAudio(AudioCallback);

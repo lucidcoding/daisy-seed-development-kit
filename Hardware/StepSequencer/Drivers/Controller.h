@@ -8,6 +8,8 @@
 #define STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC 2
 #define STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC 3
 #define STEP_SEQUENCER_CONTROLLER_MODE_CLEARING 4
+#define STEP_SEQUENCER_CONTROLLER_MODE_SAVE 5
+#define STEP_SEQUENCER_CONTROLLER_MODE_SAVING 6
 
 #define STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS 35
 #define STEP_SEQUENCER_CONTROLLER_NUMBER_OF_NOTE_KEYS 13
@@ -65,7 +67,7 @@
 #include "stdint.h"
 #include "Step.h"
 
-//#include "daisy_seed.h"
+#include "daisy_seed.h"
 
 namespace developmentKit::hardware::stepSequencer::drivers
 {
@@ -100,9 +102,10 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void SetLastTicks(uint32_t newLastTicks) { lastStepStartTicks = newLastTicks; }
         SeqSyncSource GetSeqSyncSource() { return seqSyncSource; }
         void SetBlinkTimeUs(uint32_t newBlinkTimeUs) { blinkTimeUs = newBlinkTimeUs; }
-        //daisy::DaisySeed *daisy;
+        daisy::DaisySeed *daisy;
 
     private:
+        Step savedPatterns[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT][8];
         Step steps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT];
         uint8_t currentStepIndex;
         uint8_t mode;
@@ -121,10 +124,12 @@ namespace developmentKit::hardware::stepSequencer::drivers
         bool ledStates[STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS];
         uint32_t lastKeyState;
         SeqSyncSource seqSyncSource;
+        uint8_t savingPattern;
         void ClearSteps();
         void UpdateLedStates();
         uint8_t GetNoteFromKeyPressed(uint32_t);
         void ActivateCurrentStep();
+        void OnSavePatternPressed();
         void OnSeqSyncSelectPressed();
         void OnClearPressed();
         void OnPlayPressed();
@@ -140,6 +145,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void OnKeyPressed(uint32_t);
         void OnKeyReleased(uint32_t);
         void CheckForClockEvent(uint32_t);
+        void StartBlink();
     };
 }
 

@@ -37,3 +37,5 @@ Pressing FUNC + C# will toggle the mode. The mode is indicated by which step LED
 xxSelect MIDI Channel:
 Pressing FUNC + D# will toggle the MIDI channel. The MIDI channel is indicated by which step LED is lit.
 
+To change pattern length:
+FUNC + BACK to shortern, FUN + NEXT to lengthen.

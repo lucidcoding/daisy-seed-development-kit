@@ -112,6 +112,38 @@ namespace developmentKit::hardware::stepSequencer::drivers
                 ledStates[ledIndex] = false;
             }
         }
+
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_SAVE)
+        {
+            uint8_t wholeNoteIndicies[8] = {0, 2, 4, 5, 7, 9, 11, 12};
+
+            for (uint8_t ledIndex = 0; ledIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS; ledIndex++)
+            {
+                ledStates[ledIndex] = false;
+                for (uint8_t wholeNoteIndex = 0; wholeNoteIndex < 8; wholeNoteIndex++)
+                {
+                    if (ledIndex == wholeNoteIndicies[wholeNoteIndex])
+                    {
+                        ledStates[ledIndex] = true;
+                    }
+                }
+            }
+        }
+
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_SAVING)
+        {
+            for (uint8_t ledIndex = 0; ledIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS; ledIndex++)
+            {
+                if (ledIndex == savingPattern)
+                {
+                    ledStates[ledIndex] = blinkOn;
+                }
+                else
+                {
+                    ledStates[ledIndex] = false;
+                }
+            }
+        }
     }
 
     uint64_t Controller::GetLedState()
@@ -150,6 +182,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
         }
     }
 
+    void Controller::OnSavePatternPressed()
+    {
+        mode = STEP_SEQUENCER_CONTROLLER_MODE_SAVE;
+    }
+
     void Controller::OnSeqSyncSelectPressed()
     {
         if (mode != STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC)
@@ -181,9 +218,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
     void Controller::OnClearPressed()
     {
         mode = STEP_SEQUENCER_CONTROLLER_MODE_CLEARING;
-        blinkJustStarted = true;
-        blinkCount = 8;
-        blinkOn = true;
+        StartBlink();
         UpdateLedStates();
         ClearSteps();
     }
@@ -265,9 +300,10 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void Controller::OnNoteKeyPressed(uint64_t keyState)
     {
+        uint8_t note = GetNoteFromKeyPressed(keyState);
+
         if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
         {
-            uint8_t note = GetNoteFromKeyPressed(keyState);
 
             if (note != STEP_SEQUENCER_CONTROLLER_NOT_NOTE_KEY)
             {
@@ -281,6 +317,15 @@ namespace developmentKit::hardware::stepSequencer::drivers
                     steps[currentStepIndex].note = note;
                 }
             }
+        }
+
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_SAVE)
+        {
+            daisy->PrintLine("Save to %d", (uint16_t)note);
+            mode = STEP_SEQUENCER_CONTROLLER_MODE_SAVING;
+            savingPattern = note;
+            StartBlink();
+            UpdateLedStates();
         }
     }
 
@@ -296,6 +341,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
         switch (keyState)
         {
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN):
+            OnSavePatternPressed();
+            break;
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP):
             OnSeqSyncSelectPressed();
             break;
@@ -406,7 +454,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
             ActivateCurrentStep();
         }
 
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_CLEARING && (currentTicks - lastBlinkTicks) >= (blinkTimeUs * ticksPerUs))
+        if ((mode == STEP_SEQUENCER_CONTROLLER_MODE_CLEARING || mode == STEP_SEQUENCER_CONTROLLER_MODE_SAVING) && (currentTicks - lastBlinkTicks) >= (blinkTimeUs * ticksPerUs))
         {
             lastBlinkTicks = currentTicks;
             blinkOn = !blinkOn;
@@ -506,5 +554,12 @@ namespace developmentKit::hardware::stepSequencer::drivers
         }
 
         UpdateLedStates();
+    }
+
+    void Controller::StartBlink()
+    {
+        blinkJustStarted = true;
+        blinkCount = 8;
+        blinkOn = true;
     }
 }
