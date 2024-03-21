@@ -6,20 +6,24 @@
 #include "../../Drivers/Controller.h"
 #include "../../Drivers/Step.h"
 #include "stdint.h"
+#include "MockHardware.h"
 
 using namespace developmentKit::hardware::stepSequencer::drivers;
+using namespace developmentKit::hardware::stepSequencer::tests::unitTests;
 
 uint32_t currentTicks;
+MockHardware mockHardware;
+Controller controller;
 
-Controller Setup()
+void Setup()
 {
     currentTicks = 0;
-    Controller controller;
     controller.Init(1);
+    mockHardware.Clear();
+    controller.SetHardware(&mockHardware);
     controller.SetStepTime(STEP_SEQUENCER_CONTROLLER_TEST_TICKS_PER_STEP);
     controller.SetBlinkTimeUs(STEP_SEQUENCER_CONTROLLER_TEST_TICKS_PER_STEP);
     controller.SetLastTicks(0);
-    return controller;
 }
 
 Step *GetGatedSteps()
@@ -180,7 +184,7 @@ void Advance(Controller *controller, uint8_t ticks)
 
 TEST_CASE("Pressing Play sets mode to play")
 {
-    Controller controller = Setup();
+    Setup();
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_STOP);
     Step *steps = GetGatedSteps();
     controller.SetSteps(steps);
@@ -191,7 +195,7 @@ TEST_CASE("Pressing Play sets mode to play")
 
 TEST_CASE("Calling Process() without pressing play does not advance step")
 {
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetGatedSteps());
     uint8_t currentStepIndex = controller.GetCurrentStepIndex();
     REQUIRE(currentStepIndex == 0);
@@ -201,7 +205,7 @@ TEST_CASE("Calling Process() without pressing play does not advance step")
 
 TEST_CASE("Pressing play advances to first step")
 {
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetGatedSteps());
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
     controller.SetKeyState(0);
@@ -232,7 +236,7 @@ TEST_CASE("Correct notes are played at each step")
         14, 14, 14, 14, 14, 14, 14, 14,
         15, 15, 15, 15, 15, 15, 15, 15};
 
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetIncrementingNoteSteps());
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
     controller.SetKeyState(0);
@@ -268,7 +272,7 @@ TEST_CASE("Correct gate is registered at each tick")
         0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0};
 
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetGatedSteps());
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
     controller.SetKeyState(0);
@@ -286,7 +290,7 @@ TEST_CASE("Correct gate is registered at each tick")
 
 TEST_CASE("Pressing stop mid gate closes gate after current has finished")
 {
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetGatedSteps());
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
     controller.SetKeyState(0);
@@ -305,7 +309,7 @@ TEST_CASE("Pressing stop mid gate closes gate after current has finished")
 
 TEST_CASE("Pressing stop after gate keeps gate closed")
 {
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetGatedSteps());
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
     controller.SetKeyState(0);
@@ -322,7 +326,7 @@ TEST_CASE("Pressing stop after gate keeps gate closed")
 
 TEST_CASE("Pressing stop mid long gate closes gate immediately")
 {
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetGatedSteps());
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
     controller.SetKeyState(0);
@@ -340,7 +344,7 @@ TEST_CASE("Pressing stop mid long gate closes gate immediately")
 
 TEST_CASE("Pressing record in stop mode puts it into step record mode")
 {
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetGatedSteps());
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_REC);
     controller.SetKeyState(0);
@@ -349,7 +353,7 @@ TEST_CASE("Pressing record in stop mode puts it into step record mode")
 
 TEST_CASE("Pressing record in play mode puts it into step record mode")
 {
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetGatedSteps());
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
     controller.SetKeyState(0);
@@ -360,7 +364,7 @@ TEST_CASE("Pressing record in play mode puts it into step record mode")
 
 TEST_CASE("Entering notes in step record mode sets steps correctly")
 {
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetClearedSteps());
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_REC);
     controller.SetKeyState(0);
@@ -465,7 +469,7 @@ TEST_CASE("Entering notes in step record mode sets steps correctly")
 
 TEST_CASE("Pressing play in the middle of step record mode starts playing from begining")
 {
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetIncrementingNoteSteps());
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_REC);
     controller.SetKeyState(0);
@@ -488,7 +492,7 @@ TEST_CASE("Pressing play in the middle of step record mode starts playing from b
 
 TEST_CASE("Tick count resets when pressing play after a few ticks")
 {
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetIncrementingNoteSteps());
     Advance(&controller, 6);
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
@@ -503,7 +507,7 @@ TEST_CASE("Tick count resets when pressing play after a few ticks")
 
 TEST_CASE("Only LEDs for first step shown when started")
 {
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetVariedSteps());
     uint64_t actualLedStates = controller.GetLedState();
     uint64_t expectedLedStates = 0x00 | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_UP) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1);
@@ -512,7 +516,7 @@ TEST_CASE("Only LEDs for first step shown when started")
 
 TEST_CASE("Pressing PLAY turns PLAY LED on")
 {
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetVariedSteps());
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
     controller.SetKeyState(0);
@@ -523,7 +527,7 @@ TEST_CASE("Pressing PLAY turns PLAY LED on")
 
 TEST_CASE("Pressing play and advancing 2 steps turns play LED on and correct steps")
 {
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetVariedSteps());
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
     controller.SetKeyState(0);
@@ -535,7 +539,7 @@ TEST_CASE("Pressing play and advancing 2 steps turns play LED on and correct ste
 
 TEST_CASE("Pressing PLAY twice turns PLAY LED off")
 {
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetVariedSteps());
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
     controller.SetKeyState(0);
@@ -548,7 +552,7 @@ TEST_CASE("Pressing PLAY twice turns PLAY LED off")
 
 TEST_CASE("Pressing REC turns REC LED on")
 {
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetVariedSteps());
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_REC);
     controller.SetKeyState(0);
@@ -559,7 +563,7 @@ TEST_CASE("Pressing REC turns REC LED on")
 
 TEST_CASE("Pressing REC and advancing 2 steps turns correct LEDs on")
 {
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetVariedSteps());
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_REC);
     controller.SetKeyState(0);
@@ -574,7 +578,7 @@ TEST_CASE("Pressing REC and advancing 2 steps turns correct LEDs on")
 
 TEST_CASE("Pressing REC and advancing to a step with no gate does not show note LED")
 {
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetVariedSteps());
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_REC);
     controller.SetKeyState(0);
@@ -587,7 +591,7 @@ TEST_CASE("Pressing REC and advancing to a step with no gate does not show note 
 
 TEST_CASE("GetPreviousSlide returns false if on first step and last step is not slide")
 {
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetClearedSteps());
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
     controller.SetKeyState(0);
@@ -596,7 +600,7 @@ TEST_CASE("GetPreviousSlide returns false if on first step and last step is not 
 
 TEST_CASE("GetPreviousSlide returns false if current step is slide but previous is not, and true if previous is")
 {
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetGatedSteps());
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
     controller.SetKeyState(0);
@@ -609,7 +613,7 @@ TEST_CASE("GetPreviousSlide returns false if current step is slide but previous 
 TEST_CASE("Pressing FUNC + D# leaves seqSyncSource the same")
 {
     uint64_t expectedLedStates = (uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1;
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetClearedSteps());
     REQUIRE(controller.GetSeqSyncSource() == Controller::SeqSyncSource::InternalSequencerInternalSync);
     controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
@@ -630,7 +634,7 @@ TEST_CASE("Pressing FUNC + D# leaves seqSyncSource the same")
 TEST_CASE("Pressing FUNC + D# 2 times changes seqSyncSource to InternalSequencerPulseSync")
 {
     uint64_t expectedLedStates = (uint64_t)1 << (STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + 1);
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetClearedSteps());
     REQUIRE(controller.GetSeqSyncSource() == Controller::SeqSyncSource::InternalSequencerInternalSync);
     controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
@@ -650,7 +654,7 @@ TEST_CASE("Pressing FUNC + D# 2 times changes seqSyncSource to InternalSequencer
 TEST_CASE("Pressing FUNC + D# 3 times changes seqSyncSource to InternalSequencerMidiSync")
 {
     uint64_t expectedLedStates = (uint64_t)1 << (STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + 2);
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetClearedSteps());
     REQUIRE(controller.GetSeqSyncSource() == Controller::SeqSyncSource::InternalSequencerInternalSync);
     controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
@@ -671,7 +675,7 @@ TEST_CASE("Pressing FUNC + D# 3 times changes seqSyncSource to InternalSequencer
 
 TEST_CASE("Pressing FUNC + C2 clears the pattern")
 {
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetVariedSteps());
     controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C2));
     controller.SetKeyState(0);
@@ -713,7 +717,7 @@ TEST_CASE("Pressing FUNC + C2 clears the pattern")
 
 TEST_CASE("Pressing FUNC + PATTERN followed by a whole note key saves the pattern")
 {
-    Controller controller = Setup();
+    Setup();
     controller.SetSteps(GetVariedSteps());
     controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN));
     controller.SetKeyState(0);
@@ -740,7 +744,9 @@ TEST_CASE("Pressing FUNC + PATTERN followed by a whole note key saves the patter
     REQUIRE(controller.GetLedState() == 1 << STEP_SEQUENCER_CONTROLLER_KEYS_B);
     Advance(&controller, 8);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_STOP);
+    REQUIRE(mockHardware.savePatternsCount == 1);
     Step *actualSteps = controller.GetSavedPatterns();
+    Step *actualHardwareSteps = mockHardware.savedPatterns;
 
     for (uint16_t patternIndex = 0; patternIndex < 6; patternIndex++)
     {
@@ -756,6 +762,13 @@ TEST_CASE("Pressing FUNC + PATTERN followed by a whole note key saves the patter
                 REQUIRE(actualSteps[savedPatternIndex].octaveUp == false);
                 REQUIRE(actualSteps[savedPatternIndex].slide == false);
                 REQUIRE(actualSteps[savedPatternIndex].accent == false);
+                
+                REQUIRE(actualHardwareSteps[savedPatternIndex].note == 0);
+                REQUIRE(actualHardwareSteps[savedPatternIndex].gate == true);
+                REQUIRE(actualHardwareSteps[savedPatternIndex].octaveDown == false);
+                REQUIRE(actualHardwareSteps[savedPatternIndex].octaveUp == false);
+                REQUIRE(actualHardwareSteps[savedPatternIndex].slide == false);
+                REQUIRE(actualHardwareSteps[savedPatternIndex].accent == false);
             }
         }
     }
@@ -772,6 +785,13 @@ TEST_CASE("Pressing FUNC + PATTERN followed by a whole note key saves the patter
             REQUIRE(actualSteps[96 + stepIndex].octaveUp == expectedSteps[stepIndex].octaveUp);
             REQUIRE(actualSteps[96 + stepIndex].slide == expectedSteps[stepIndex].slide);
             REQUIRE(actualSteps[96 + stepIndex].accent == expectedSteps[stepIndex].accent);
+            
+            REQUIRE(actualHardwareSteps[96 + stepIndex].note == expectedSteps[stepIndex].note);
+            REQUIRE(actualHardwareSteps[96 + stepIndex].gate == expectedSteps[stepIndex].gate);
+            REQUIRE(actualHardwareSteps[96 + stepIndex].octaveDown == expectedSteps[stepIndex].octaveDown);
+            REQUIRE(actualHardwareSteps[96 + stepIndex].octaveUp == expectedSteps[stepIndex].octaveUp);
+            REQUIRE(actualHardwareSteps[96 + stepIndex].slide == expectedSteps[stepIndex].slide);
+            REQUIRE(actualHardwareSteps[96 + stepIndex].accent == expectedSteps[stepIndex].accent);
         }
     }
 
@@ -785,6 +805,13 @@ TEST_CASE("Pressing FUNC + PATTERN followed by a whole note key saves the patter
             REQUIRE(actualSteps[112 + stepIndex].octaveUp == false);
             REQUIRE(actualSteps[112 + stepIndex].slide == false);
             REQUIRE(actualSteps[112 + stepIndex].accent == false);
+            
+            REQUIRE(actualHardwareSteps[112 + stepIndex].note == 0);
+            REQUIRE(actualHardwareSteps[112 + stepIndex].gate == true);
+            REQUIRE(actualHardwareSteps[112 + stepIndex].octaveDown == false);
+            REQUIRE(actualHardwareSteps[112 + stepIndex].octaveUp == false);
+            REQUIRE(actualHardwareSteps[112 + stepIndex].slide == false);
+            REQUIRE(actualHardwareSteps[112 + stepIndex].accent == false);
         }
     }
 }

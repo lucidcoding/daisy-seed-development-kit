@@ -66,8 +66,9 @@
 
 #include "stdint.h"
 #include "Step.h"
+#include "IHardware.h"
 
-//#include "daisy_seed.h"
+// #include "daisy_seed.h"
 
 namespace developmentKit::hardware::stepSequencer::drivers
 {
@@ -82,6 +83,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
             MidiInSequencer
         };
         void Init(uint32_t);
+        void SetHardware(IHardware *);
         void SetKeyState(uint32_t);
         void Process(uint32_t);
         bool GetGate();
@@ -103,10 +105,10 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void SetLastTicks(uint32_t newLastTicks) { lastStepStartTicks = newLastTicks; }
         SeqSyncSource GetSeqSyncSource() { return seqSyncSource; }
         void SetBlinkTimeUs(uint32_t newBlinkTimeUs) { blinkTimeUs = newBlinkTimeUs; }
-        //daisy::DaisySeed *daisy;
+        // daisy::DaisySeed *daisy;
 
     private:
-        Step savedPatterns[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT* 8];
+        Step savedPatterns[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT * 8];
         Step steps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT];
         uint8_t currentStepIndex;
         uint8_t mode;
@@ -126,6 +128,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         uint32_t lastKeyState;
         SeqSyncSource seqSyncSource;
         uint8_t savingPattern;
+        IHardware *hardware;
         void ClearSteps();
         void UpdateLedStates();
         uint8_t GetNoteFromKeyPressed(uint32_t);

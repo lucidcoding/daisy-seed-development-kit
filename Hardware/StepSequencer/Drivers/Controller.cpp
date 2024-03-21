@@ -2,12 +2,14 @@
 #include "math.h"
 #include "Controller.h"
 #include "Debug.h"
+#include "IHardware.h"
 
 namespace developmentKit::hardware::stepSequencer::drivers
 {
     void Controller::Init(uint32_t newTicksPerUs)
     {
         ticksPerUs = newTicksPerUs;
+        hardware = NULL;
         currentStepIndex = 0;
         SetStepTime(1000000);
         blinkTimeUs = 100000;
@@ -29,6 +31,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
             savedPatterns[savedStepIndex].accent = false;
             savedPatterns[savedStepIndex].slide = false;
         }
+    }
+
+    void Controller::SetHardware(IHardware *prmHardware)
+    {
+        hardware = prmHardware;
     }
 
     void Controller::ClearSteps()
@@ -600,5 +607,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
             savedPatterns[savedPatternIndex].accent = steps[stepIndex].accent;
             savedPatterns[savedPatternIndex].slide = steps[stepIndex].slide;
         }
+
+        hardware->SavePatterns(savedPatterns);
     }
 }
