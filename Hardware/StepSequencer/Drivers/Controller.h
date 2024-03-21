@@ -67,7 +67,7 @@
 #include "stdint.h"
 #include "Step.h"
 
-#include "daisy_seed.h"
+//#include "daisy_seed.h"
 
 namespace developmentKit::hardware::stepSequencer::drivers
 {
@@ -98,14 +98,15 @@ namespace developmentKit::hardware::stepSequencer::drivers
         uint8_t GetMode() { return mode; }
         void SetSteps(Step newSteps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT]);
         Step *GetSteps() { return steps; }
+        Step *GetSavedPatterns() { return savedPatterns; }
         uint32_t GetLastTicks() { return lastStepStartTicks; }
         void SetLastTicks(uint32_t newLastTicks) { lastStepStartTicks = newLastTicks; }
         SeqSyncSource GetSeqSyncSource() { return seqSyncSource; }
         void SetBlinkTimeUs(uint32_t newBlinkTimeUs) { blinkTimeUs = newBlinkTimeUs; }
-        daisy::DaisySeed *daisy;
+        //daisy::DaisySeed *daisy;
 
     private:
-        Step savedPatterns[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT][8];
+        Step savedPatterns[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT* 8];
         Step steps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT];
         uint8_t currentStepIndex;
         uint8_t mode;
@@ -128,6 +129,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void ClearSteps();
         void UpdateLedStates();
         uint8_t GetNoteFromKeyPressed(uint32_t);
+        uint8_t GetPatternIndexFromNote(uint8_t);
         void ActivateCurrentStep();
         void OnSavePatternPressed();
         void OnSeqSyncSelectPressed();
@@ -146,6 +148,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void OnKeyReleased(uint32_t);
         void CheckForClockEvent(uint32_t);
         void StartBlink();
+        void SavePattern(uint8_t);
     };
 }
 

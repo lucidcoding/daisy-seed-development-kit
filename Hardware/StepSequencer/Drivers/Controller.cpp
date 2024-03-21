@@ -19,6 +19,16 @@ namespace developmentKit::hardware::stepSequencer::drivers
         UpdateLedStates();
         lastKeyState = STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS;
         seqSyncSource = SeqSyncSource::InternalSequencerInternalSync;
+
+        for (uint8_t savedStepIndex = 0; savedStepIndex < 128; savedStepIndex++)
+        {
+            savedPatterns[savedStepIndex].note = 0;
+            savedPatterns[savedStepIndex].gate = true;
+            savedPatterns[savedStepIndex].octaveDown = false;
+            savedPatterns[savedStepIndex].octaveUp = false;
+            savedPatterns[savedStepIndex].accent = false;
+            savedPatterns[savedStepIndex].slide = false;
+        }
     }
 
     void Controller::ClearSteps()
@@ -304,7 +314,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
         if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
         {
-
             if (note != STEP_SEQUENCER_CONTROLLER_NOT_NOTE_KEY)
             {
                 if (steps[currentStepIndex].note == note)
@@ -321,8 +330,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
         if (mode == STEP_SEQUENCER_CONTROLLER_MODE_SAVE)
         {
-            daisy->PrintLine("Save to %d", (uint16_t)note);
             mode = STEP_SEQUENCER_CONTROLLER_MODE_SAVING;
+            uint8_t patternIndex = GetPatternIndexFromNote(note);
+            SavePattern(patternIndex);
             savingPattern = note;
             StartBlink();
             UpdateLedStates();
@@ -497,6 +507,21 @@ namespace developmentKit::hardware::stepSequencer::drivers
         return STEP_SEQUENCER_CONTROLLER_NOT_NOTE_KEY;
     }
 
+    uint8_t Controller::GetPatternIndexFromNote(uint8_t noteNumber)
+    {
+        uint8_t lookup[8] = {0, 2, 4, 6, 7, 9, 11, 12};
+
+        for (uint8_t index = 0; index < 8; index++)
+        {
+            if (lookup[index] == noteNumber)
+            {
+                return index;
+            }
+        }
+
+        return STEP_SEQUENCER_CONTROLLER_NOT_NOTE_KEY;
+    }
+
     bool Controller::GetGate()
     {
         return gate;
@@ -561,5 +586,19 @@ namespace developmentKit::hardware::stepSequencer::drivers
         blinkJustStarted = true;
         blinkCount = 8;
         blinkOn = true;
+    }
+
+    void Controller::SavePattern(uint8_t patternIndex)
+    {
+        for (uint8_t stepIndex = 0; stepIndex < 16; stepIndex++)
+        {
+            uint8_t savedPatternIndex = (patternIndex * 16) + stepIndex;
+            savedPatterns[savedPatternIndex].note = steps[stepIndex].note;
+            savedPatterns[savedPatternIndex].gate = steps[stepIndex].gate;
+            savedPatterns[savedPatternIndex].octaveDown = steps[stepIndex].octaveDown;
+            savedPatterns[savedPatternIndex].octaveUp = steps[stepIndex].octaveUp;
+            savedPatterns[savedPatternIndex].accent = steps[stepIndex].accent;
+            savedPatterns[savedPatternIndex].slide = steps[stepIndex].slide;
+        }
     }
 }

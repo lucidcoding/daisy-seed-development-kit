@@ -697,7 +697,7 @@ TEST_CASE("Pressing FUNC + C2 clears the pattern")
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_STOP);
     Step *actualSteps = controller.GetSteps();
 
-    for(uint8_t stepIndex = 0; stepIndex < 16; stepIndex ++)
+    for (uint8_t stepIndex = 0; stepIndex < 16; stepIndex++)
     {
         DYNAMIC_SECTION("Checking step with index: " << stepIndex)
         {
@@ -707,6 +707,84 @@ TEST_CASE("Pressing FUNC + C2 clears the pattern")
             REQUIRE(actualSteps[stepIndex].octaveUp == false);
             REQUIRE(actualSteps[stepIndex].slide == false);
             REQUIRE(actualSteps[stepIndex].accent == false);
+        }
+    }
+}
+
+TEST_CASE("Pressing FUNC + PATTERN followed by a whole note key saves the pattern")
+{
+    Controller controller = Setup();
+    controller.SetSteps(GetVariedSteps());
+    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN));
+    controller.SetKeyState(0);
+    REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_SAVE);
+    REQUIRE(controller.GetLedState() == 0x1AB5);
+    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_B);
+    controller.SetKeyState(0);
+    REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_SAVING);
+    Advance(&controller, 8);
+    REQUIRE(controller.GetLedState() == 0);
+    Advance(&controller, 8);
+    REQUIRE(controller.GetLedState() == 1 << STEP_SEQUENCER_CONTROLLER_KEYS_B);
+    Advance(&controller, 8);
+    REQUIRE(controller.GetLedState() == 0);
+    Advance(&controller, 8);
+    REQUIRE(controller.GetLedState() == 1 << STEP_SEQUENCER_CONTROLLER_KEYS_B);
+    Advance(&controller, 8);
+    REQUIRE(controller.GetLedState() == 0);
+    Advance(&controller, 8);
+    REQUIRE(controller.GetLedState() == 1 << STEP_SEQUENCER_CONTROLLER_KEYS_B);
+    Advance(&controller, 8);
+    REQUIRE(controller.GetLedState() == 0);
+    Advance(&controller, 8);
+    REQUIRE(controller.GetLedState() == 1 << STEP_SEQUENCER_CONTROLLER_KEYS_B);
+    Advance(&controller, 8);
+    REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_STOP);
+    Step *actualSteps = controller.GetSavedPatterns();
+
+    for (uint16_t patternIndex = 0; patternIndex < 6; patternIndex++)
+    {
+        for (uint16_t stepIndex = 0; stepIndex < 16; stepIndex++)
+        {
+            uint16_t savedPatternIndex = (patternIndex * 16) + stepIndex;
+
+            DYNAMIC_SECTION("Checking step with patternIndex " << savedPatternIndex << ", p:" << patternIndex << ", s:" << stepIndex)
+            {
+                REQUIRE(actualSteps[savedPatternIndex].note == 0);
+                REQUIRE(actualSteps[savedPatternIndex].gate == true);
+                REQUIRE(actualSteps[savedPatternIndex].octaveDown == false);
+                REQUIRE(actualSteps[savedPatternIndex].octaveUp == false);
+                REQUIRE(actualSteps[savedPatternIndex].slide == false);
+                REQUIRE(actualSteps[savedPatternIndex].accent == false);
+            }
+        }
+    }
+
+    Step *expectedSteps = GetVariedSteps();
+
+    for (uint16_t stepIndex = 0; stepIndex < 16; stepIndex++)
+    {
+        DYNAMIC_SECTION("Checking step with patternIndex 6 and spepIndex: " << stepIndex)
+        {
+            REQUIRE(actualSteps[96 + stepIndex].note == expectedSteps[stepIndex].note);
+            REQUIRE(actualSteps[96 + stepIndex].gate == expectedSteps[stepIndex].gate);
+            REQUIRE(actualSteps[96 + stepIndex].octaveDown == expectedSteps[stepIndex].octaveDown);
+            REQUIRE(actualSteps[96 + stepIndex].octaveUp == expectedSteps[stepIndex].octaveUp);
+            REQUIRE(actualSteps[96 + stepIndex].slide == expectedSteps[stepIndex].slide);
+            REQUIRE(actualSteps[96 + stepIndex].accent == expectedSteps[stepIndex].accent);
+        }
+    }
+
+    for (uint16_t stepIndex = 0; stepIndex < 16; stepIndex++)
+    {
+        DYNAMIC_SECTION("Checking step with patternIndex 7 and spepIndex: " << stepIndex)
+        {
+            REQUIRE(actualSteps[112 + stepIndex].note == 0);
+            REQUIRE(actualSteps[112 + stepIndex].gate == true);
+            REQUIRE(actualSteps[112 + stepIndex].octaveDown == false);
+            REQUIRE(actualSteps[112 + stepIndex].octaveUp == false);
+            REQUIRE(actualSteps[112 + stepIndex].slide == false);
+            REQUIRE(actualSteps[112 + stepIndex].accent == false);
         }
     }
 }

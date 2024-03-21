@@ -18,7 +18,7 @@ To play: PLAY
 To record
 Press REC, select note and any up/down/accent/slide, use BACK and NEXT to move between steps. Prssing REC again goes back to start. To select no gate, press the note which is currently lit - this will toggle it on/off. Step indicator LEDs show which step you are on.
 
-xxTo save pattern: FUNC + PATTERN + whole note key (C - C2)
+xxTo save pattern: FUNC + PATTERN, then whole note key (C - C2)
 
 To recall pattern: 
 xxPATTERN + whole note key (C - C2)
