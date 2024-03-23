@@ -20,7 +20,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         ClearSteps();
         UpdateLedStates();
         lastKeyState = STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS;
-        seqSyncSource = SeqSyncSource::InternalSequencerInternalSync;
+        seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL ;
 
         for (uint8_t savedStepIndex = 0; savedStepIndex < 128; savedStepIndex++)
         {
@@ -100,16 +100,16 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
             switch (seqSyncSource)
             {
-            case SeqSyncSource::InternalSequencerInternalSync:
+            case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL:
                 ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1] = true;
                 break;
-            case SeqSyncSource::InternalSequencerPulseSync:
+            case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_PULSE:
                 ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + 1] = true;
                 break;
-            case SeqSyncSource::InternalSequencerMidiSync:
+            case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SYNC:
                 ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + 2] = true;
                 break;
-            case SeqSyncSource::MidiInSequencer:
+            case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SEQ:
                 ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + 3] = true;
                 break;
             default:
@@ -222,20 +222,20 @@ namespace developmentKit::hardware::stepSequencer::drivers
         {
             switch (seqSyncSource)
             {
-            case SeqSyncSource::InternalSequencerInternalSync:
-                seqSyncSource = SeqSyncSource::InternalSequencerPulseSync;
+            case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL:
+                seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_PULSE;
                 break;
-            case SeqSyncSource::InternalSequencerPulseSync:
-                seqSyncSource = SeqSyncSource::InternalSequencerMidiSync;
+            case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_PULSE:
+                seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SYNC;
                 break;
-            case SeqSyncSource::InternalSequencerMidiSync:
-                seqSyncSource = SeqSyncSource::MidiInSequencer;
+            case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SYNC:
+                seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SEQ;
                 break;
-            case SeqSyncSource::MidiInSequencer:
-                seqSyncSource = SeqSyncSource::InternalSequencerInternalSync;
+            case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SEQ:
+                seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL;
                 break;
             default:
-                seqSyncSource = SeqSyncSource::InternalSequencerInternalSync;
+                seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL;
             };
         }
     }

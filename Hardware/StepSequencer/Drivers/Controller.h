@@ -14,6 +14,11 @@
 #define STEP_SEQUENCER_CONTROLLER_MODE_PLAY_SELECT_PATTERN 8
 #define STEP_SEQUENCER_CONTROLLER_MODE_PLAY_SELECTING_PATTERN 9*/
 
+#define STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL 0
+#define STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_PULSE 1
+#define STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SYNC 2
+#define STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SEQ 3
+
 #define STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS 35
 #define STEP_SEQUENCER_CONTROLLER_NUMBER_OF_NOTE_KEYS 13
 #define STEP_SEQUENCER_CONTROLLER_NUMBER_OF_KEYS 23
@@ -78,13 +83,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
     class Controller
     {
     public:
-        enum SeqSyncSource
-        {
-            InternalSequencerInternalSync,
-            InternalSequencerPulseSync,
-            InternalSequencerMidiSync,
-            MidiInSequencer
-        };
         void Init(uint32_t);
         void SetHardware(IHardware *);
         void SetKeyState(uint32_t);
@@ -106,7 +104,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         Step *GetSavedPatterns() { return savedPatterns; }
         uint32_t GetLastTicks() { return lastStepStartTicks; }
         void SetLastTicks(uint32_t newLastTicks) { lastStepStartTicks = newLastTicks; }
-        SeqSyncSource GetSeqSyncSource() { return seqSyncSource; }
+        uint8_t GetSeqSyncSource() { return seqSyncSource; }
         void SetBlinkTimeUs(uint32_t newBlinkTimeUs) { blinkTimeUs = newBlinkTimeUs; }
         //daisy::DaisySeed *daisy;
 
@@ -129,7 +127,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         bool blinkJustStarted;
         bool ledStates[STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS];
         uint32_t lastKeyState;
-        SeqSyncSource seqSyncSource;
+        uint8_t seqSyncSource;
         uint8_t savingLed;
         IHardware *hardware;
         void ClearSteps();
