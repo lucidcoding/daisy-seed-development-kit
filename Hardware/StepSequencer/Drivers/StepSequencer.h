@@ -13,6 +13,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
     public:
         void Init();
+        void SetHardware(IHardware *);
         void Listen();
         bool GetGate();
         uint8_t GetNote();

@@ -1,5 +1,6 @@
 #include "daisysp.h"
 #include "daisy_seed.h"
+#include "DaisyAdapter.h"
 #include "SynthEngine.h"
 #include "../../Hardware/PotentiometerArray/Drivers/PotentiometerArray.h"
 #include "../../Hardware/StepSequencer/Drivers/StepSequencer.h"
@@ -13,6 +14,7 @@ using namespace developmentKit::bassSeed303;
 static DaisySeed hardware;
 StepSequencer stepSequencer;
 SynthEngine synthEngine;
+DaisyAdapter daisyAdapter;
 PotentiometerArray potentiometerArray;
 
 static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
@@ -52,11 +54,12 @@ int main(void)
     float sampleRate = hardware.AudioSampleRate();
     synthEngine.Init(sampleRate);
     stepSequencer.Init();
-    stepSequencer.controller.daisy = &hardware;
+    stepSequencer.SetHardware(&daisyAdapter);
+    //stepSequencer.controller.daisy = &hardware;
     InitPotentiometerArray();
     hardware.adc.Start();
     hardware.StartAudio(AudioCallback);
-    
+
     while (1)
     {
         stepSequencer.SetTempo(potentiometerArray.analogControl[7].GetRawFloat() * 240.0f);

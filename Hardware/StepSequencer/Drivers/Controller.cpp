@@ -40,7 +40,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void Controller::ClearSteps()
     {
-        for (uint8_t i = 0; i < 16; i++)
+        for (uint8_t i = 0; i < STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT; i++)
         {
             steps[i].note = 0;
             steps[i].gate = true;
@@ -151,7 +151,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         {
             for (uint8_t ledIndex = 0; ledIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS; ledIndex++)
             {
-                if (ledIndex == savingPattern)
+                if (ledIndex == savingLed)
                 {
                     ledStates[ledIndex] = blinkOn;
                 }
@@ -203,6 +203,14 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
         mode = STEP_SEQUENCER_CONTROLLER_MODE_SAVE;
     }
+
+    /*void Controller::OnSelectPatternPressed(uint32_t keyState)
+    {
+        uint8_t note = GetNoteFromKeyPressed(keyState);
+        uint8_t patternIndex = GetPatternIndexFromNote(note);
+        //daisy->PrintLine("Loading: %d", (uint16_t)patternIndex);
+        LoadPattern(patternIndex);
+    }*/
 
     void Controller::OnSeqSyncSelectPressed()
     {
@@ -340,7 +348,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
             mode = STEP_SEQUENCER_CONTROLLER_MODE_SAVING;
             uint8_t patternIndex = GetPatternIndexFromNote(note);
             SavePattern(patternIndex);
-            savingPattern = note;
+            savingLed = note;
             StartBlink();
             UpdateLedStates();
         }
@@ -367,6 +375,16 @@ namespace developmentKit::hardware::stepSequencer::drivers
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C2):
             OnClearPressed();
             break;
+        /*case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C):
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_D):
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_E):
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_F):
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_G):
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_A):
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_B):
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C2):
+            OnSelectPatternPressed(keyState);
+            break;*/
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY):
             OnPlayPressed();
             break;
@@ -573,9 +591,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
         gateTimeUs = stepTimeUs / 2;
     }
 
-    void Controller::SetSteps(Step newSteps[16])
+    void Controller::SetSteps(Step newSteps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT])
     {
-        for (uint8_t stepIndex = 0; stepIndex < 16; stepIndex++)
+        for (uint8_t stepIndex = 0; stepIndex < STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT; stepIndex++)
         {
             steps[stepIndex].gate = newSteps[stepIndex].gate;
             steps[stepIndex].note = newSteps[stepIndex].note;
@@ -597,9 +615,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void Controller::SavePattern(uint8_t patternIndex)
     {
-        for (uint8_t stepIndex = 0; stepIndex < 16; stepIndex++)
+        for (uint8_t stepIndex = 0; stepIndex < STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT; stepIndex++)
         {
-            uint8_t savedPatternIndex = (patternIndex * 16) + stepIndex;
+            uint8_t savedPatternIndex = (patternIndex * STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT) + stepIndex;
             savedPatterns[savedPatternIndex].note = steps[stepIndex].note;
             savedPatterns[savedPatternIndex].gate = steps[stepIndex].gate;
             savedPatterns[savedPatternIndex].octaveDown = steps[stepIndex].octaveDown;
@@ -610,4 +628,18 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
         hardware->SavePatterns(savedPatterns);
     }
+
+    /*void Controller::LoadPattern(uint8_t patternIndex)
+    {
+        for (uint8_t stepIndex = 0; stepIndex < STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT; stepIndex++)
+        {
+            uint8_t savedPatternIndex = (patternIndex * STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT) + stepIndex;
+            savedPatterns[savedPatternIndex].note = savedPatterns[stepIndex].note;
+            steps[stepIndex].gate = savedPatterns[savedPatternIndex].gate;
+            steps[stepIndex].octaveDown = savedPatterns[savedPatternIndex].octaveDown;
+            steps[stepIndex].octaveUp = savedPatterns[savedPatternIndex].octaveUp;
+            steps[stepIndex].accent = savedPatterns[savedPatternIndex].accent;
+            steps[stepIndex].slide = savedPatterns[savedPatternIndex].slide;
+        }
+    }*/
 }

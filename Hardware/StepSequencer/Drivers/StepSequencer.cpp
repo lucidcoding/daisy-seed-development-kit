@@ -12,6 +12,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
         controller.Init(System::GetTickFreq() / 1000000);
     }
 
+    void StepSequencer::SetHardware(IHardware *hardware)
+    {
+        controller.SetHardware(hardware);
+    }
+
     void StepSequencer::Listen()
     {
         uint32_t keyState = interface.ScanKeys(System::GetTick());
