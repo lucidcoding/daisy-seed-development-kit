@@ -55,6 +55,14 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
         Step step = steps[currentStepIndex];
 
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STOP)
+        {
+            ledState = stopState.GetLedState(steps, currentStepIndex);
+            return;
+        }
+
+        bool ledStates[STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS];
+
         if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY)
         {
             ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_PLAY] = true;
@@ -64,11 +72,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
         {
             ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_PLAY] = false;
             ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_REC] = true;
-        }
-        else if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STOP)
-        {
-            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_PLAY] = false;
-            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_REC] = false;
         }
 
         if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY || mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC || mode == STEP_SEQUENCER_CONTROLLER_MODE_STOP)
@@ -161,18 +164,18 @@ namespace developmentKit::hardware::stepSequencer::drivers
                 }
             }
         }
+
+        ledState = 0x00;
+
+        for (uint8_t ledIndex = 0; ledIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS; ledIndex++)
+        {
+            ledState = ledState | ((ledStates[ledIndex] ? (uint64_t)1 : (uint64_t)0) << ledIndex);
+        }
     }
 
     uint64_t Controller::GetLedState()
     {
-        uint64_t returnValue = 0x00;
-
-        for (uint8_t ledIndex = 0; ledIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS; ledIndex++)
-        {
-            returnValue = returnValue | ((ledStates[ledIndex] ? (uint64_t)1 : (uint64_t)0) << ledIndex);
-        }
-
-        return returnValue;
+        return ledState;
     }
 
     void Controller::SetTempo(uint8_t newTempo)

@@ -10,6 +10,8 @@ CPP_SOURCES = \
 	../../Hardware/StepSequencer/Drivers/Interface.cpp \
 	../../Hardware/StepSequencer/Drivers/Controller.cpp \
 	../../Hardware/StepSequencer/Drivers/StepSequencer.cpp \
+	../../Hardware/StepSequencer/Drivers/StepIndicator.cpp \
+	../../Hardware/StepSequencer/Drivers/StopState.cpp \
 	../../Hardware/PotentiometerArray/Drivers/PotentiometerArray.cpp
 
 # Core location, and generic Makefile.
