@@ -61,38 +61,19 @@ namespace developmentKit::hardware::stepSequencer::drivers
             return;
         }
 
-        bool ledStates[STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS];
-
         if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY)
         {
-            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_PLAY] = true;
-            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_REC] = false;
+            ledState = playState.GetLedState(steps, currentStepIndex);
+            return;
         }
-        else if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
+
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
         {
-            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_PLAY] = false;
-            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_REC] = true;
+            ledState = stepRecState.GetLedState(steps, currentStepIndex);
+            return;
         }
 
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY || mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC || mode == STEP_SEQUENCER_CONTROLLER_MODE_STOP)
-        {
-            for (uint8_t ledToSet = STEP_SEQUENCER_CONTROLLER_LEDS_C; ledToSet <= STEP_SEQUENCER_CONTROLLER_LEDS_C2; ledToSet++)
-            {
-                ledStates[ledToSet] = (ledToSet == step.note) && step.gate;
-            }
-
-            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_DOWN] = step.octaveDown;
-            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_UP] = step.octaveUp;
-            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_ACCENT] = step.accent;
-            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_SLIDE] = step.slide;
-            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_BACK] = false;
-            ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_NEXT] = false;
-
-            for (uint8_t stepIndex = 0; stepIndex < STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT; stepIndex++)
-            {
-                ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + stepIndex] = (stepIndex == currentStepIndex);
-            }
-        }
+        bool ledStates[STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS];
 
         if (mode == STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC)
         {

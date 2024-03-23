@@ -1,5 +1,4 @@
 #include "StopState.h"
-#include "Controller.h"
 #include "Debug.h"
 
 namespace developmentKit::hardware::stepSequencer::drivers

@@ -7,6 +7,8 @@
 #include "Step.h"
 #include "IHardware.h"
 #include "IState.h"
+#include "PlayState.h"
+#include "StepRecState.h"
 #include "StopState.h"
 
 //#include "daisy_seed.h"
@@ -30,6 +32,8 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
         IState * state;
         StopState stopState;
+        PlayState playState;
+        StepRecState stepRecState;
 
         // For testing only
         void SetStepTime(uint32_t);
