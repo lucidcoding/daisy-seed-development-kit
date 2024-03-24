@@ -73,33 +73,14 @@ namespace developmentKit::hardware::stepSequencer::drivers
             return;
         }
 
-        bool ledStates[STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS];
-
         if (mode == STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC)
         {
-            for (uint8_t ledIndex = 0; ledIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS; ledIndex++)
-            {
-                ledStates[ledIndex] = false;
-            }
-
-            switch (seqSyncSource)
-            {
-            case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL:
-                ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1] = true;
-                break;
-            case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_PULSE:
-                ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + 1] = true;
-                break;
-            case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SYNC:
-                ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + 2] = true;
-                break;
-            case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SEQ:
-                ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + 3] = true;
-                break;
-            default:
-                ledStates[STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1] = true;
-            };
+            setSeqSyncState.SetSeqSyncSource(seqSyncSource);
+            ledState = setSeqSyncState.GetLedState(steps, currentStepIndex);
+            return;
         }
+
+        bool ledStates[STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS];
 
         if (mode == STEP_SEQUENCER_CONTROLLER_MODE_CLEARING)
         {

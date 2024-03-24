@@ -12,6 +12,7 @@ CPP_SOURCES = \
 	../../Hardware/StepSequencer/Drivers/StepSequencer.cpp \
 	../../Hardware/StepSequencer/Drivers/StepIndicator.cpp \
 	../../Hardware/StepSequencer/Drivers/PlayState.cpp \
+	../../Hardware/StepSequencer/Drivers/SetSeqSyncState.cpp \
 	../../Hardware/StepSequencer/Drivers/StepRecState.cpp \
 	../../Hardware/StepSequencer/Drivers/StopState.cpp \
 	../../Hardware/PotentiometerArray/Drivers/PotentiometerArray.cpp

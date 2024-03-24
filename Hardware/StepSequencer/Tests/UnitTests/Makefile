@@ -4,6 +4,7 @@ test:
 		../../Drivers/Controller.cpp \
 		../../Drivers/StepIndicator.cpp \
 		../../Drivers/PlayState.cpp \
+		../../Drivers/SetSeqSyncState.cpp \
 		../../Drivers/StepRecState.cpp \
 		../../Drivers/StopState.cpp 
 
