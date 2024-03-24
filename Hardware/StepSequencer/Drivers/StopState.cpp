@@ -14,4 +14,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
 
     }
+
+    void StopState::OnKeyPressed(uint32_t keyState)
+    {
+
+    }
 }

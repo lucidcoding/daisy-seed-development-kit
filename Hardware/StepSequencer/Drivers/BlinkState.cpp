@@ -7,11 +7,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
         uint64_t ledState = (uint64_t)0;
 
-        if(blinkOn) 
+        if (blinkOn)
         {
             ledState = ledsToBlink;
-        } 
-        
+        }
+
         return ledState;
     }
 
@@ -33,6 +33,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
                 controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
             }
         }
+    }
+
+    void BlinkState::OnKeyPressed(uint32_t keyState)
+    {
+
     }
 
     void BlinkState::SetLedsToBlink(uint64_t newLedsToBlink)

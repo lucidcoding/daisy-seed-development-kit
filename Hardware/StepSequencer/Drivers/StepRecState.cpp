@@ -14,4 +14,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
 
     }
+
+    void StepRecState::OnKeyPressed(uint32_t keyState)
+    {
+
+    }
 }

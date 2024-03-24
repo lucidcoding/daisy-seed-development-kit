@@ -33,6 +33,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     }
 
+    void SetSeqSyncState::OnKeyPressed(uint32_t keyState)
+    {
+
+    }
+
     void SetSeqSyncState::SetSeqSyncSource(uint8_t newSeqSyncSource)
     {
         seqSyncSource = newSeqSyncSource;

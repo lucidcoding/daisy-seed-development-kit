@@ -13,4 +13,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
 
     }
+
+    void SaveState::OnKeyPressed(uint32_t keyState)
+    {
+
+    }
 }

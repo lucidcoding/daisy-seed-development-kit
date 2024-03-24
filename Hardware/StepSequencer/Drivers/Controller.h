@@ -81,7 +81,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
         uint8_t GetPatternIndexFromNote(uint8_t);
         void ActivateCurrentStep();
         void OnSavePatternPressed();
-        //void OnSelectPatternPressed(uint32_t);
         void OnSeqSyncSelectPressed();
         void OnClearPressed();
         void OnPlayPressed();

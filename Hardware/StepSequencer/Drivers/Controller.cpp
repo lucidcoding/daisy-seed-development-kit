@@ -378,18 +378,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void Controller::CheckForClockEvent(uint32_t currentTicks)
     {
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_BLINK)
-        {
-            blinkState.CheckForClockEvent(currentTicks);
-            UpdateLedStates();
-            return;
-        }
-
-        if (playJustPressed)
-        {
-            playJustPressed = false;
-            lastStepStartTicks = currentTicks;
-        }
 
         if (gate && (currentTicks - lastStepStartTicks) >= (gateTimeUs * ticksPerUs))
         {
@@ -402,6 +390,19 @@ namespace developmentKit::hardware::stepSequencer::drivers
             {
                 gate = false;
             }
+        }
+        
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_BLINK)
+        {
+            blinkState.CheckForClockEvent(currentTicks);
+            UpdateLedStates();
+            return;
+        }
+
+        if (playJustPressed)
+        {
+            playJustPressed = false;
+            lastStepStartTicks = currentTicks;
         }
 
         if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY && (currentTicks - lastStepStartTicks) >= (stepTimeUs * ticksPerUs))
