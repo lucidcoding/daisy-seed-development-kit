@@ -21,13 +21,13 @@ namespace developmentKit::hardware::stepSequencer::drivers
         SetStepTime(1000000);
         blinkState.SetTicksPerUs(newTicksPerUs);
         blinkState.SetBlinkTimeUs(100000);
-        mode = STEP_SEQUENCER_CONTROLLER_MODE_STOP;
+        SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
         gate = false;
         playJustPressed = false;
         ClearSteps();
         UpdateLedStates();
         lastKeyState = STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS;
-        seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL ;
+        seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL;
 
         for (uint8_t savedStepIndex = 0; savedStepIndex < 128; savedStepIndex++)
         {
@@ -40,9 +40,34 @@ namespace developmentKit::hardware::stepSequencer::drivers
         }
     }
 
-    void Controller::SetState(uint8_t newState)
+    void Controller::SetState(uint8_t newMode)
     {
-        mode = newState;
+        mode = newMode;
+
+        switch (newMode)
+        {
+        case STEP_SEQUENCER_CONTROLLER_MODE_STOP:
+            state = &stopState;
+            break;
+        case STEP_SEQUENCER_CONTROLLER_MODE_PLAY:
+            state = &playState;
+            break;
+        case STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC:
+            state = &stepRecState;
+            break;
+        case STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC:
+            state = &setSeqSyncState;
+            break;
+        case STEP_SEQUENCER_CONTROLLER_MODE_BLINK:
+            state = &blinkState;
+            break;
+        case STEP_SEQUENCER_CONTROLLER_MODE_SAVE:
+            state = &saveState;
+            break;
+        default:
+            state = &stopState;
+            break;
+        }
     }
 
     void Controller::SetHardware(IHardware *prmHardware)
@@ -66,43 +91,8 @@ namespace developmentKit::hardware::stepSequencer::drivers
     void Controller::UpdateLedStates()
     {
         Step step = steps[currentStepIndex];
-
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STOP)
-        {
-            ledState = stopState.GetLedState(steps, currentStepIndex);
-            return;
-        }
-
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY)
-        {
-            ledState = playState.GetLedState(steps, currentStepIndex);
-            return;
-        }
-
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
-        {
-            ledState = stepRecState.GetLedState(steps, currentStepIndex);
-            return;
-        }
-
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC)
-        {
-            setSeqSyncState.SetSeqSyncSource(seqSyncSource);
-            ledState = setSeqSyncState.GetLedState(steps, currentStepIndex);
-            return;
-        }
-
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_BLINK)
-        {
-            ledState = blinkState.GetLedState(steps, currentStepIndex);
-            return;
-        }
-
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_SAVE)
-        {
-            ledState = saveState.GetLedState(steps, currentStepIndex);
-            return;
-        }
+        ledState = state->GetLedState(steps, currentStepIndex);
+        return;
     }
 
     uint64_t Controller::GetLedState()
@@ -136,14 +126,14 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void Controller::OnSavePatternPressed()
     {
-        mode = STEP_SEQUENCER_CONTROLLER_MODE_SAVE;
+        SetState(STEP_SEQUENCER_CONTROLLER_MODE_SAVE);
     }
 
     void Controller::OnSeqSyncSelectPressed()
     {
         if (mode != STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC)
         {
-            mode = STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC;
+            SetState(STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC);
         }
         else
         {
@@ -165,12 +155,14 @@ namespace developmentKit::hardware::stepSequencer::drivers
                 seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL;
             };
         }
+
+        setSeqSyncState.SetSeqSyncSource(seqSyncSource);
     }
 
     void Controller::OnClearPressed()
     {
         ClearSteps();
-        mode = STEP_SEQUENCER_CONTROLLER_MODE_BLINK;
+        SetState(STEP_SEQUENCER_CONTROLLER_MODE_BLINK);
         blinkState.SetLedsToBlink(0x1FFFF);
         blinkState.StartBlink();
         UpdateLedStates();
@@ -180,20 +172,20 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
         if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY)
         {
-            mode = STEP_SEQUENCER_CONTROLLER_MODE_STOP;
+            SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
         }
         else if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STOP || mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
         {
             currentStepIndex = 0;
             ActivateCurrentStep();
-            mode = STEP_SEQUENCER_CONTROLLER_MODE_PLAY;
+            SetState(STEP_SEQUENCER_CONTROLLER_MODE_PLAY);
             playJustPressed = true;
         }
     }
 
     void Controller::OnRecordPressed()
     {
-        mode = STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC;
+        SetState(STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC);
         currentStepIndex = 0;
     }
 
@@ -275,7 +267,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         {
             uint8_t patternIndex = GetPatternIndexFromNote(note);
             SavePattern(patternIndex);
-            mode = STEP_SEQUENCER_CONTROLLER_MODE_BLINK;
+            SetState(STEP_SEQUENCER_CONTROLLER_MODE_BLINK);
             savingLed = note;
             blinkState.SetLedsToBlink((uint64_t)1 << savingLed);
             blinkState.StartBlink();
@@ -287,7 +279,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
         if (mode == STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC)
         {
-            mode = STEP_SEQUENCER_CONTROLLER_MODE_STOP;
+            SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
         }
     }
 
@@ -386,8 +378,8 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void Controller::CheckForClockEvent(uint32_t currentTicks)
     {
-        if(mode == STEP_SEQUENCER_CONTROLLER_MODE_BLINK)
-        {         
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_BLINK)
+        {
             blinkState.CheckForClockEvent(currentTicks);
             UpdateLedStates();
             return;
@@ -418,19 +410,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
             currentStepIndex = (currentStepIndex + 1) % STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT;
             ActivateCurrentStep();
         }
-
-        /*if ((mode == STEP_SEQUENCER_CONTROLLER_MODE_CLEARING || mode == STEP_SEQUENCER_CONTROLLER_MODE_SAVING) && (currentTicks - lastBlinkTicks) >= (blinkTimeUs * ticksPerUs))
-        {
-            lastBlinkTicks = currentTicks;
-            blinkOn = !blinkOn;
-
-            if (blinkCount-- == 0)
-            {
-                mode = STEP_SEQUENCER_CONTROLLER_MODE_STOP;
-            }
-
-            UpdateLedStates();
-        }*/
     }
 
     void Controller::Process(uint32_t currentProcessTimeUs)
