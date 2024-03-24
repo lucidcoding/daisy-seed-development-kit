@@ -6,23 +6,12 @@ namespace developmentKit::hardware::stepSequencer::drivers
     uint64_t BlinkState::GetLedState(Step steps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT], uint8_t currentStepIndex)
     {
         uint64_t ledState = (uint64_t)0;
-        bool ledStates[STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS];
+
+        if(blinkOn) 
+        {
+            ledState = ledsToBlink;
+        } 
         
-        for (uint8_t ledIndex = 0; ledIndex <= STEP_SEQUENCER_CONTROLLER_LEDS_SLIDE; ledIndex++)
-        {
-            ledStates[ledIndex] = blinkOn;
-        }
-
-        for (uint8_t ledIndex = STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1; ledIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS; ledIndex++)
-        {
-            ledStates[ledIndex] = false;
-        }
-
-        for (uint8_t ledIndex = 0; ledIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS; ledIndex++)
-        {
-            ledState = ledState | ((ledStates[ledIndex] ? (uint64_t)1 : (uint64_t)0) << ledIndex);
-        }
-
         return ledState;
     }
 

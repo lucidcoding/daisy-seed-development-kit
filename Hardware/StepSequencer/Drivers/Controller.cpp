@@ -99,20 +99,13 @@ namespace developmentKit::hardware::stepSequencer::drivers
             return;
         }
 
-        bool ledStates[STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS];
-
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_CLEARING)
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_SAVING)
         {
-            for (uint8_t ledIndex = 0; ledIndex <= STEP_SEQUENCER_CONTROLLER_LEDS_SLIDE; ledIndex++)
-            {
-                ledStates[ledIndex] = blinkOn;
-            }
-
-            for (uint8_t ledIndex = STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1; ledIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS; ledIndex++)
-            {
-                ledStates[ledIndex] = false;
-            }
+            ledState = blinkState.GetLedState(steps, currentStepIndex);
+            return;
         }
+
+        bool ledStates[STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS];
 
         if (mode == STEP_SEQUENCER_CONTROLLER_MODE_SAVE)
         {
@@ -131,7 +124,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
             }
         }
 
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_SAVING)
+        /*if (mode == STEP_SEQUENCER_CONTROLLER_MODE_SAVING)
         {
             for (uint8_t ledIndex = 0; ledIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS; ledIndex++)
             {
@@ -144,7 +137,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
                     ledStates[ledIndex] = false;
                 }
             }
-        }
+        }*/
 
         ledState = 0x00;
 
@@ -222,6 +215,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         //StartBlink();
         //UpdateLedStates();
         ClearSteps();
+        blinkState.SetLedsToBlink(0x1FFFF);
         blinkState.StartBlink();
         UpdateLedStates();
     }
@@ -327,7 +321,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
             uint8_t patternIndex = GetPatternIndexFromNote(note);
             SavePattern(patternIndex);
             savingLed = note;
-            StartBlink();
+            blinkState.SetLedsToBlink((uint64_t)1 << savingLed);
+            //StartBlink();
+            blinkState.StartBlink();
             UpdateLedStates();
         }
     }
@@ -442,6 +438,13 @@ namespace developmentKit::hardware::stepSequencer::drivers
             return;
         }
 
+        if(mode == STEP_SEQUENCER_CONTROLLER_MODE_SAVING)
+        {         
+            blinkState.CheckForClockEvent(currentTicks);
+            UpdateLedStates();
+            return;
+        }
+
         if (playJustPressed)
         {
             playJustPressed = false;
@@ -474,7 +477,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
             ActivateCurrentStep();
         }
 
-        if ((mode == STEP_SEQUENCER_CONTROLLER_MODE_CLEARING || mode == STEP_SEQUENCER_CONTROLLER_MODE_SAVING) && (currentTicks - lastBlinkTicks) >= (blinkTimeUs * ticksPerUs))
+        /*if ((mode == STEP_SEQUENCER_CONTROLLER_MODE_CLEARING || mode == STEP_SEQUENCER_CONTROLLER_MODE_SAVING) && (currentTicks - lastBlinkTicks) >= (blinkTimeUs * ticksPerUs))
         {
             lastBlinkTicks = currentTicks;
             blinkOn = !blinkOn;
@@ -485,7 +488,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
             }
 
             UpdateLedStates();
-        }
+        }*/
     }
 
     void Controller::Process(uint32_t currentProcessTimeUs)
