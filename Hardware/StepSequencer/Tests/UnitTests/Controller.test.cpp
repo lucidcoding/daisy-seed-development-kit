@@ -701,7 +701,7 @@ TEST_CASE("Pressing FUNC + C2 clears the pattern")
     controller.SetSteps(GetVariedSteps());
     controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C2));
     controller.SetKeyState(0);
-    REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_CLEARING);
+    REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_BLINK);
     RequireLedsFlash(0x1FFFF);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_STOP);
     Step *actualSteps = controller.GetSteps();
@@ -730,7 +730,7 @@ TEST_CASE("Pressing FUNC + PATTERN followed by a whole note key saves the patter
     REQUIRE(controller.GetLedState() == 0x1AB5);
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_B);
     controller.SetKeyState(0);
-    REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_SAVING);
+    REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_BLINK);
     RequireLedsFlash(1 << STEP_SEQUENCER_CONTROLLER_KEYS_B);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_STOP);
     REQUIRE(mockHardware.savePatternsCount == 1);

@@ -52,7 +52,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void SetLastTicks(uint32_t newLastTicks) { lastStepStartTicks = newLastTicks; }
         uint8_t GetSeqSyncSource() { return seqSyncSource; }
         void SetBlinkTimeUs(uint32_t newBlinkTimeUs) { 
-            blinkTimeUs = newBlinkTimeUs;  
             blinkState.SetBlinkTimeUs(newBlinkTimeUs);
         }
         //daisy::DaisySeed *daisy;
@@ -69,11 +68,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
         uint8_t tempo;
         bool gate;
         bool playJustPressed;
-        uint32_t blinkTimeUs;
-        uint32_t lastBlinkTicks;
-        uint8_t blinkCount;
-        bool blinkOn;
-        bool blinkJustStarted;
         uint64_t ledState;
         uint32_t lastKeyState;
         uint8_t seqSyncSource;
@@ -101,7 +95,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void OnKeyPressed(uint32_t);
         void OnKeyReleased(uint32_t);
         void CheckForClockEvent(uint32_t);
-        void StartBlink();
         void SavePattern(uint8_t);
         //void LoadPattern(uint8_t);
     };
