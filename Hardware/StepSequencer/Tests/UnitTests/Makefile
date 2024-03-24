@@ -5,6 +5,7 @@ test:
 		../../Drivers/StepIndicator.cpp \
 		../../Drivers/BlinkState.cpp \
 		../../Drivers/PlayState.cpp \
+		../../Drivers/SaveState.cpp \
 		../../Drivers/SetSeqSyncState.cpp \
 		../../Drivers/StepRecState.cpp \
 		../../Drivers/StopState.cpp 

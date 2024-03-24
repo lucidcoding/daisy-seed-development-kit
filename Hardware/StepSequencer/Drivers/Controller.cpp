@@ -11,6 +11,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         blinkState.Init(this);
         stopState.Init(this);
         playState.Init(this);
+        saveState.Init(this);
         stepRecState.Init(this);
         setSeqSyncState.Init(this);
 
@@ -97,45 +98,10 @@ namespace developmentKit::hardware::stepSequencer::drivers
             return;
         }
 
-        bool ledStates[STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS];
-
         if (mode == STEP_SEQUENCER_CONTROLLER_MODE_SAVE)
         {
-            uint8_t wholeNoteIndicies[8] = {0, 2, 4, 5, 7, 9, 11, 12};
-
-            for (uint8_t ledIndex = 0; ledIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS; ledIndex++)
-            {
-                ledStates[ledIndex] = false;
-                for (uint8_t wholeNoteIndex = 0; wholeNoteIndex < 8; wholeNoteIndex++)
-                {
-                    if (ledIndex == wholeNoteIndicies[wholeNoteIndex])
-                    {
-                        ledStates[ledIndex] = true;
-                    }
-                }
-            }
-        }
-
-        /*if (mode == STEP_SEQUENCER_CONTROLLER_MODE_SAVING)
-        {
-            for (uint8_t ledIndex = 0; ledIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS; ledIndex++)
-            {
-                if (ledIndex == savingLed)
-                {
-                    ledStates[ledIndex] = blinkOn;
-                }
-                else
-                {
-                    ledStates[ledIndex] = false;
-                }
-            }
-        }*/
-
-        ledState = 0x00;
-
-        for (uint8_t ledIndex = 0; ledIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_LEDS; ledIndex++)
-        {
-            ledState = ledState | ((ledStates[ledIndex] ? (uint64_t)1 : (uint64_t)0) << ledIndex);
+            ledState = saveState.GetLedState(steps, currentStepIndex);
+            return;
         }
     }
 

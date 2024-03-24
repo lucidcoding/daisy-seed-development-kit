@@ -10,6 +10,7 @@
 #include "IState.h"
 #include "BlinkState.h"
 #include "PlayState.h"
+#include "SaveState.h"
 #include "SetSeqSyncState.h"
 #include "StepRecState.h"
 #include "StopState.h"
@@ -38,6 +39,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         BlinkState blinkState;
         StopState stopState;
         PlayState playState;
+        SaveState saveState;
         StepRecState stepRecState;
         SetSeqSyncState setSeqSyncState;
 
