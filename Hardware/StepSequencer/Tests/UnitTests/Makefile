@@ -3,6 +3,7 @@ test:
 		Controller.test.cpp \
 		../../Drivers/Controller.cpp \
 		../../Drivers/StepIndicator.cpp \
+		../../Drivers/BlinkState.cpp \
 		../../Drivers/PlayState.cpp \
 		../../Drivers/SetSeqSyncState.cpp \
 		../../Drivers/StepRecState.cpp \

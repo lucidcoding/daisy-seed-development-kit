@@ -9,4 +9,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
         ledState |= stepIndicator.GetLedState(steps, currentStepIndex);
         return ledState;
     }
+
+    void StopState::CheckForClockEvent(uint32_t currentTicks) 
+    {
+
+    }
 }

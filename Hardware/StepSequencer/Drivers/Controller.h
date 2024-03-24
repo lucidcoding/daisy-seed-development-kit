@@ -5,8 +5,10 @@
 #include "stdint.h"
 #include "Constants.h"
 #include "Step.h"
+#include "IController.h"
 #include "IHardware.h"
 #include "IState.h"
+#include "BlinkState.h"
 #include "PlayState.h"
 #include "SetSeqSyncState.h"
 #include "StepRecState.h"
@@ -16,7 +18,7 @@
 
 namespace developmentKit::hardware::stepSequencer::drivers
 {
-    class Controller
+    class Controller : public IController
     {
     public:
         void Init(uint32_t);
@@ -30,8 +32,10 @@ namespace developmentKit::hardware::stepSequencer::drivers
         uint8_t GetNote();
         uint64_t GetLedState();
         void SetTempo(uint8_t);
+        void SetState(uint8_t);
 
         IState * state;
+        BlinkState blinkState;
         StopState stopState;
         PlayState playState;
         StepRecState stepRecState;
@@ -47,7 +51,10 @@ namespace developmentKit::hardware::stepSequencer::drivers
         uint32_t GetLastTicks() { return lastStepStartTicks; }
         void SetLastTicks(uint32_t newLastTicks) { lastStepStartTicks = newLastTicks; }
         uint8_t GetSeqSyncSource() { return seqSyncSource; }
-        void SetBlinkTimeUs(uint32_t newBlinkTimeUs) { blinkTimeUs = newBlinkTimeUs; }
+        void SetBlinkTimeUs(uint32_t newBlinkTimeUs) { 
+            blinkTimeUs = newBlinkTimeUs;  
+            blinkState.SetBlinkTimeUs(newBlinkTimeUs);
+        }
         //daisy::DaisySeed *daisy;
 
     private:

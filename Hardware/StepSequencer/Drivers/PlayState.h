@@ -13,6 +13,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
     public:
         uint64_t GetLedState(Step[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT], uint8_t);
+        void CheckForClockEvent(uint32_t currentTicks);
 
     private:
         StepIndicator stepIndicator;

@@ -11,6 +11,7 @@ CPP_SOURCES = \
 	../../Hardware/StepSequencer/Drivers/Controller.cpp \
 	../../Hardware/StepSequencer/Drivers/StepSequencer.cpp \
 	../../Hardware/StepSequencer/Drivers/StepIndicator.cpp \
+	../../Hardware/StepSequencer/Drivers/BlinkState.cpp \
 	../../Hardware/StepSequencer/Drivers/PlayState.cpp \
 	../../Hardware/StepSequencer/Drivers/SetSeqSyncState.cpp \
 	../../Hardware/StepSequencer/Drivers/StepRecState.cpp \

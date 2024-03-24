@@ -28,6 +28,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
         return ledState;
     }
 
+    void SetSeqSyncState::CheckForClockEvent(uint32_t currentTicks) 
+    {
+
+    }
+
     void SetSeqSyncState::SetSeqSyncSource(uint8_t newSeqSyncSource)
     {
         seqSyncSource = newSeqSyncSource;
