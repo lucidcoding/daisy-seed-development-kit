@@ -13,12 +13,14 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
     public:
         void Reset();
-        uint64_t GetLedState(Step[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT], uint8_t);
+        uint64_t GetLedState();
         void CheckForClockEvent(uint32_t currentTicks);
         void OnKeyPressed(uint32_t keyState);
 
     private:
         StepIndicator stepIndicator;
+        bool playJustPressed;
+        uint32_t lastStepStartTicks;
     };
 }
 

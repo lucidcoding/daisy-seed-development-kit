@@ -68,6 +68,8 @@ namespace developmentKit::hardware::stepSequencer::drivers
             state = &stopState;
             break;
         }
+
+        state->Reset();
     }
 
     void Controller::SetHardware(IHardware *prmHardware)
@@ -91,7 +93,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
     void Controller::UpdateLedStates()
     {
         Step step = steps[currentStepIndex];
-        ledState = state->GetLedState(steps, currentStepIndex);
+        ledState = state->GetLedState();
         return;
     }
 
@@ -164,7 +166,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
         ClearSteps();
         SetState(STEP_SEQUENCER_CONTROLLER_MODE_BLINK);
         blinkState.SetLedsToBlink(0x1FFFF);
-        blinkState.Reset();
         UpdateLedStates();
     }
 
@@ -379,36 +380,8 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void Controller::CheckForClockEvent(uint32_t currentTicks)
     {
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_BLINK)
-        {
-            blinkState.CheckForClockEvent(currentTicks);
-            UpdateLedStates();
-            return;
-        }
-
-        if (playJustPressed)
-        {
-            playJustPressed = false;
-            lastStepStartTicks = currentTicks;
-        }
-
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY)
-        {
-            if (gate && (currentTicks - lastStepStartTicks) >= (gateTimeUs * ticksPerUs))
-            {
-                if (!steps[currentStepIndex].slide)
-                {
-                    gate = false;
-                }
-            }
-
-            if ((currentTicks - lastStepStartTicks) >= (stepTimeUs * ticksPerUs))
-            {
-                lastStepStartTicks = currentTicks;
-                currentStepIndex = (currentStepIndex + 1) % STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT;
-                ActivateCurrentStep();
-            }
-        }
+        state->CheckForClockEvent(currentTicks);
+        UpdateLedStates();
     }
 
     void Controller::Process(uint32_t currentProcessTimeUs)

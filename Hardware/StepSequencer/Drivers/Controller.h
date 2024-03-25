@@ -15,7 +15,7 @@
 #include "StepRecState.h"
 #include "StopState.h"
 
-//#include "daisy_seed.h"
+// #include "daisy_seed.h"
 
 namespace developmentKit::hardware::stepSequencer::drivers
 {
@@ -35,13 +35,18 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void SetTempo(uint8_t);
         void SetState(uint8_t);
 
-        IState * state;
+        IState *state;
         BlinkState blinkState;
         StopState stopState;
         PlayState playState;
         SaveState saveState;
         StepRecState stepRecState;
         SetSeqSyncState setSeqSyncState;
+        void SetCurrentStepIndex(uint8_t newCurrentStepIndex) { currentStepIndex = newCurrentStepIndex; }
+        uint32_t GetStepTimeUs() { return stepTimeUs; };
+        uint32_t GetGateTimeUs() { return gateTimeUs; };
+        uint32_t GetTicksPerUs() { return ticksPerUs; };
+        void SetGate(bool newGate) { gate = newGate; }
 
         // For testing only
         void SetStepTime(uint32_t);
@@ -53,10 +58,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
         uint32_t GetLastTicks() { return lastStepStartTicks; }
         void SetLastTicks(uint32_t newLastTicks) { lastStepStartTicks = newLastTicks; }
         uint8_t GetSeqSyncSource() { return seqSyncSource; }
-        void SetBlinkTimeUs(uint32_t newBlinkTimeUs) { 
+        void SetBlinkTimeUs(uint32_t newBlinkTimeUs)
+        {
             blinkState.SetBlinkTimeUs(newBlinkTimeUs);
         }
-        //daisy::DaisySeed *daisy;
+        // daisy::DaisySeed *daisy;
 
     private:
         Step savedPatterns[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT * 8];
@@ -97,7 +103,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void OnKeyReleased(uint32_t);
         void CheckForClockEvent(uint32_t);
         void SavePattern(uint8_t);
-        //void LoadPattern(uint8_t);
+        // void LoadPattern(uint8_t);
     };
 }
 
