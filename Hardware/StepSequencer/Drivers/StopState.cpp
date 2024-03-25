@@ -24,6 +24,18 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void StopState::OnKeyPressed(uint32_t keyState)
     {
+        switch (keyState)
+        {
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY):
+            OnPlayPressed();
+            break;
+        }
+    }
 
+    void StopState::OnPlayPressed()
+    {
+        controller->SetCurrentStepIndex(0);
+        controller->ActivateCurrentStep();
+        controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_PLAY);
     }
 }

@@ -19,6 +19,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     private:
         StepIndicator stepIndicator;
+        void OnPlayPressed();
     };
 }
 

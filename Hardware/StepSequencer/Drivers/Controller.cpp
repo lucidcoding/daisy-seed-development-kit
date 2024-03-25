@@ -23,7 +23,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
         blinkState.SetBlinkTimeUs(100000);
         SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
         gate = false;
-        playJustPressed = false;
         ClearSteps();
         UpdateLedStates();
         lastKeyState = STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS;
@@ -171,7 +170,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void Controller::OnPlayPressed()
     {
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY)
+        /*if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY)
         {
             SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
             gate = false;
@@ -181,8 +180,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
             currentStepIndex = 0;
             ActivateCurrentStep();
             SetState(STEP_SEQUENCER_CONTROLLER_MODE_PLAY);
-            playJustPressed = true;
-        }
+        }*/
     }
 
     void Controller::OnRecordPressed()
@@ -309,7 +307,8 @@ namespace developmentKit::hardware::stepSequencer::drivers
             OnSelectPatternPressed(keyState);
             break;*/
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY):
-            OnPlayPressed();
+            //OnPlayPressed();
+            state->OnKeyPressed(keyState);
             break;
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_REC):
             OnRecordPressed();
@@ -378,15 +377,10 @@ namespace developmentKit::hardware::stepSequencer::drivers
         lastKeyState = keyState;
     }
 
-    void Controller::CheckForClockEvent(uint32_t currentTicks)
+    void Controller::Process(uint32_t currentTicks)
     {
         state->CheckForClockEvent(currentTicks);
         UpdateLedStates();
-    }
-
-    void Controller::Process(uint32_t currentProcessTimeUs)
-    {
-        CheckForClockEvent(currentProcessTimeUs);
     }
 
     uint8_t Controller::GetNoteFromKeyPressed(uint32_t keyState)

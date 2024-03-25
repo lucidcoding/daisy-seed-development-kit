@@ -75,7 +75,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
         uint32_t lastStepStartTicks;
         uint8_t tempo;
         bool gate;
-        bool playJustPressed;
         uint64_t ledState;
         uint32_t lastKeyState;
         uint8_t seqSyncSource;
@@ -101,7 +100,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void OnFunctionKeyReleased();
         void OnKeyPressed(uint32_t);
         void OnKeyReleased(uint32_t);
-        void CheckForClockEvent(uint32_t);
         void SavePattern(uint8_t);
         // void LoadPattern(uint8_t);
     };
