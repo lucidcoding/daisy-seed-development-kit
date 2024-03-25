@@ -38,11 +38,15 @@ namespace developmentKit::hardware::stepSequencer::drivers
         }
     }
 
+    void SaveState::OnKeyReleased(uint32_t, uint32_t)
+    {
+    }
+
     void SaveState::OnNoteKeyPressed(uint64_t keyState)
     {
         uint8_t note = controller->GetNoteFromKeyPressed(keyState);
         uint8_t patternIndex = controller->GetPatternIndexFromNote(note);
         controller->SavePattern(patternIndex);
-        controller->SwitchToBlinkState((uint64_t)1 << note);
+        controller->Blink((uint64_t)1 << note);
     }
 }

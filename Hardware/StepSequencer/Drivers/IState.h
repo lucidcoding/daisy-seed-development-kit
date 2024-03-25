@@ -17,6 +17,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         virtual uint64_t GetLedState() = 0;
         virtual void CheckForClockEvent(uint32_t currentTicks) = 0;
         virtual void OnKeyPressed(uint32_t keyState) = 0;
+        virtual void OnKeyReleased(uint32_t, uint32_t) = 0;
 
     protected:
         IController *controller;

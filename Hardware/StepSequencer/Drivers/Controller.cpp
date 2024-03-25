@@ -125,49 +125,16 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void Controller::ToggleSeqSyncSource()
     {
-        switch (seqSyncSource)
-        {
-        case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL:
-            seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_PULSE;
-            break;
-        case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_PULSE:
-            seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SYNC;
-            break;
-        case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SYNC:
-            seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SEQ;
-            break;
-        case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SEQ:
-            seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL;
-            break;
-        default:
-            seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL;
-        };
-
+        seqSyncSource = (seqSyncSource + 1) % 4;
         setSeqSyncState.SetSeqSyncSource(seqSyncSource);
     }
 
-    void Controller::SwitchToBlinkState(uint64_t ledsToBlink)
+    void Controller::Blink(uint64_t ledsToBlink)
     {
         blinkState.SetLedsToBlink(ledsToBlink);
         state = &blinkState;
         mode = STEP_SEQUENCER_CONTROLLER_MODE_BLINK;
         state->Reset();
-    }
-
-    void Controller::OnFunctionKeyReleased()
-    {
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC)
-        {
-            SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
-        }
-    }
-
-    void Controller::OnKeyReleased(uint32_t keyState)
-    {
-        if (((lastKeyState & ((uint32_t)1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC)) > 0) && ((keyState & ((uint32_t)1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC)) == 0))
-        {
-            OnFunctionKeyReleased();
-        }
     }
 
     void Controller::SetKeyState(uint32_t keyState)
@@ -179,7 +146,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
         if ((lastKeyState & keyState) == keyState)
         {
-            OnKeyReleased(keyState);
+            state->OnKeyReleased(keyState, lastKeyState);
         }
         else
         {

@@ -72,6 +72,10 @@ namespace developmentKit::hardware::stepSequencer::drivers
             break;
         }
     }
+    
+    void PlayState::OnKeyReleased(uint32_t keyState, uint32_t lastKeyState)
+    {
+    }
 
     void PlayState::OnSavePatternPressed()
     {
@@ -86,9 +90,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
     void PlayState::OnClearPressed()
     {
         controller->ClearSteps();
-        controller->SwitchToBlinkState(0x1FFFF);
+        controller->Blink(0x1FFFF);
     }
-        
+
     void PlayState::OnRecordPressed()
     {
         controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC);

@@ -13,9 +13,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
     public:
         void Reset();
         uint64_t GetLedState();
-        void CheckForClockEvent(uint32_t currentTicks);
-        void OnKeyPressed(uint32_t keyState);
-        void SetSeqSyncSource(uint8_t newSeqSyncSource);
+        void CheckForClockEvent(uint32_t);
+        void OnKeyPressed(uint32_t);
+        void OnKeyReleased(uint32_t, uint32_t);
+        void SetSeqSyncSource(uint8_t);
+        void OnFunctionKeyReleased();
 
     private:
         uint8_t seqSyncSource;

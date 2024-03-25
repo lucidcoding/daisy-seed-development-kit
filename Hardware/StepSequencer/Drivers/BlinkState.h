@@ -13,8 +13,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
     public:
         void Reset();
         uint64_t GetLedState();
-        void CheckForClockEvent(uint32_t currentTicks);
-        void OnKeyPressed(uint32_t keyState);
+        void CheckForClockEvent(uint32_t);
+        void OnKeyPressed(uint32_t);
+        void OnKeyReleased(uint32_t, uint32_t);
         void SetLedsToBlink(uint64_t);
         void SetTicksPerUs(uint32_t);
         void SetBlinkTimeUs(uint32_t);

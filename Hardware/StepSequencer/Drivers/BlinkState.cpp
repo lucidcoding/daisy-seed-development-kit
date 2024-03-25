@@ -44,7 +44,10 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void BlinkState::OnKeyPressed(uint32_t keyState)
     {
+    }
 
+    void BlinkState::OnKeyReleased(uint32_t keyState, uint32_t lastKeyState)
+    {
     }
 
     void BlinkState::SetLedsToBlink(uint64_t newLedsToBlink)

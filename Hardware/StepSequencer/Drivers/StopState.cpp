@@ -42,6 +42,10 @@ namespace developmentKit::hardware::stepSequencer::drivers
         }
     }
 
+    void StopState::OnKeyReleased(uint32_t keyState, uint32_t lastKeyState)
+    {
+    }
+
     void StopState::OnSavePatternPressed()
     {
         controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_SAVE);
@@ -55,9 +59,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
     void StopState::OnClearPressed()
     {
         controller->ClearSteps();
-        controller->SwitchToBlinkState(0x1FFFF);
+        controller->Blink(0x1FFFF);
     }
-        
+
     void StopState::OnRecordPressed()
     {
         controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC);

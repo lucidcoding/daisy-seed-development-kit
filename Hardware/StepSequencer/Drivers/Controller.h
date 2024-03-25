@@ -48,7 +48,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         uint32_t GetTicksPerUs() { return ticksPerUs; };
         void SetGate(bool newGate) { gate = newGate; }
         void ToggleSeqSyncSource();
-        void SwitchToBlinkState(uint64_t);
+        void Blink(uint64_t);
 
         // For testing only
         void SetStepTime(uint32_t);
@@ -86,8 +86,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
         uint8_t GetNoteFromKeyPressed(uint32_t);
         uint8_t GetPatternIndexFromNote(uint8_t);
         void ActivateCurrentStep();
-        void OnFunctionKeyReleased();
-        void OnKeyReleased(uint32_t);
         void SavePattern(uint8_t);
         // void LoadPattern(uint8_t);
     };
