@@ -173,6 +173,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY)
         {
             SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
+            gate = false;
         }
         else if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STOP || mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
         {
@@ -378,20 +379,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void Controller::CheckForClockEvent(uint32_t currentTicks)
     {
-
-        if (gate && (currentTicks - lastStepStartTicks) >= (gateTimeUs * ticksPerUs))
-        {
-            if (!steps[currentStepIndex].slide)
-            {
-                gate = false;
-            }
-
-            if (steps[currentStepIndex].slide && mode != STEP_SEQUENCER_CONTROLLER_MODE_PLAY)
-            {
-                gate = false;
-            }
-        }
-        
         if (mode == STEP_SEQUENCER_CONTROLLER_MODE_BLINK)
         {
             blinkState.CheckForClockEvent(currentTicks);
@@ -405,11 +392,35 @@ namespace developmentKit::hardware::stepSequencer::drivers
             lastStepStartTicks = currentTicks;
         }
 
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY && (currentTicks - lastStepStartTicks) >= (stepTimeUs * ticksPerUs))
+        /*if (gate && (currentTicks - lastStepStartTicks) >= (gateTimeUs * ticksPerUs))
         {
-            lastStepStartTicks = currentTicks;
-            currentStepIndex = (currentStepIndex + 1) % STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT;
-            ActivateCurrentStep();
+            if (!steps[currentStepIndex].slide)
+            {
+                gate = false;
+            }
+
+            if (steps[currentStepIndex].slide && mode != STEP_SEQUENCER_CONTROLLER_MODE_PLAY)
+            {
+                gate = false;
+            }
+        }*/
+
+        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY)
+        {
+            if (gate && (currentTicks - lastStepStartTicks) >= (gateTimeUs * ticksPerUs))
+            {
+                if (!steps[currentStepIndex].slide)
+                {
+                    gate = false;
+                }
+            }
+
+            if ((currentTicks - lastStepStartTicks) >= (stepTimeUs * ticksPerUs))
+            {
+                lastStepStartTicks = currentTicks;
+                currentStepIndex = (currentStepIndex + 1) % STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT;
+                ActivateCurrentStep();
+            }
         }
     }
 

@@ -297,8 +297,6 @@ TEST_CASE("Pressing stop mid gate closes gate after current has finished")
     Advance(&controller, 3);
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
     controller.SetKeyState(0);
-    Advance(&controller, 1);
-    REQUIRE(controller.GetGate());
 
     for (uint16_t i = 0; i < (3 * STEP_SEQUENCER_CONTROLLER_TEST_TICKS_PER_STEP); i++)
     {
