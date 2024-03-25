@@ -125,10 +125,10 @@ namespace developmentKit::hardware::stepSequencer::drivers
         }
     }
 
-    void Controller::OnSavePatternPressed()
+    /*void Controller::OnSavePatternPressed()
     {
         SetState(STEP_SEQUENCER_CONTROLLER_MODE_SAVE);
-    }
+    }*/
 
     void Controller::OnSeqSyncSelectPressed()
     {
@@ -203,7 +203,8 @@ namespace developmentKit::hardware::stepSequencer::drivers
         switch (keyState)
         {
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN):
-            OnSavePatternPressed();
+            //OnSavePatternPressed();
+            state->OnKeyPressed(keyState);
             break;
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP):
             OnSeqSyncSelectPressed();

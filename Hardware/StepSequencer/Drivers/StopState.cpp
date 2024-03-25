@@ -5,7 +5,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
 {
     void StopState::Reset()
     {
-
     }
 
     uint64_t StopState::GetLedState()
@@ -17,19 +16,26 @@ namespace developmentKit::hardware::stepSequencer::drivers
         return ledState;
     }
 
-    void StopState::CheckForClockEvent(uint32_t currentTicks) 
+    void StopState::CheckForClockEvent(uint32_t currentTicks)
     {
-
     }
 
     void StopState::OnKeyPressed(uint32_t keyState)
     {
         switch (keyState)
         {
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN):
+            OnSavePatternPressed();
+            break;
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY):
             OnPlayPressed();
             break;
         }
+    }
+
+    void StopState::OnSavePatternPressed()
+    {
+        controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_SAVE);
     }
 
     void StopState::OnPlayPressed()

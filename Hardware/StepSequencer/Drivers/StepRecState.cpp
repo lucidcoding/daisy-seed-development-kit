@@ -24,6 +24,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
         switch (keyState)
         {
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN):
+            OnSavePatternPressed();
+            break;
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY):
             OnPlayPressed();
             break;
@@ -60,6 +63,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C2):
             OnNoteKeyPressed(keyState);
         }
+    }
+
+    void StepRecState::OnSavePatternPressed()
+    {
+        controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_SAVE);
     }
 
     void StepRecState::OnPlayPressed()
@@ -116,7 +124,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         Step *steps = controller->GetSteps();
         uint8_t currentStepIndex = controller->GetCurrentStepIndex();
         uint8_t note = controller->GetNoteFromKeyPressed(keyState);
-        
+
         if (note != STEP_SEQUENCER_CONTROLLER_NOT_NOTE_KEY)
         {
             if (steps[currentStepIndex].note == note)

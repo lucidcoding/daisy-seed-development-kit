@@ -55,15 +55,23 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
         switch (keyState)
         {
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN):
+            OnSavePatternPressed();
+            break;
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY):
             OnPlayPressed();
             break;
         }
     }
 
+    void PlayState::OnSavePatternPressed()
+    {
+        controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_SAVE);
+    }
+
     void PlayState::OnPlayPressed()
     {
         controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
-        controller->SetGate(false);;
+        controller->SetGate(false);
     }
 }

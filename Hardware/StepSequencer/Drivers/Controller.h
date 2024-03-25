@@ -85,7 +85,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         uint8_t GetNoteFromKeyPressed(uint32_t);
         uint8_t GetPatternIndexFromNote(uint8_t);
         void ActivateCurrentStep();
-        void OnSavePatternPressed();
+        //void OnSavePatternPressed();
         void OnSeqSyncSelectPressed();
         void OnClearPressed();
         void OnRecordPressed();

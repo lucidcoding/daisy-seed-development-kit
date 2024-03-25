@@ -21,6 +21,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         StepIndicator stepIndicator;
         bool playJustPressed;
         uint32_t lastStepStartTicks;
+        void OnSavePatternPressed();
         void OnPlayPressed();
     };
 }
