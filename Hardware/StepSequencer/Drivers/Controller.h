@@ -47,7 +47,8 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void SetCurrentStepIndex(uint8_t newCurrentStepIndex) { currentStepIndex = newCurrentStepIndex; }
         void SetGate(bool newGate) { gate = newGate; }
         void ToggleSeqSyncSource();
-        void Blink(uint64_t);
+        void SwitchToBlinkState(uint64_t);
+        void SwitchToLoadState(IState *);
         void MoveBackStep();
         void MoveNextStep();
         void MoveToFirstStep();

@@ -138,11 +138,19 @@ namespace developmentKit::hardware::stepSequencer::drivers
         setSeqSyncState.SetSeqSyncSource(seqSyncSource);
     }
 
-    void Controller::Blink(uint64_t ledsToBlink)
+    void Controller::SwitchToBlinkState(uint64_t ledsToBlink)
     {
         blinkState.SetLedsToBlink(ledsToBlink);
         state = &blinkState;
         mode = STEP_SEQUENCER_CONTROLLER_MODE_BLINK;
+        state->Reset();
+    }
+
+    void Controller::SwitchToLoadState(IState *backgroundState)
+    {
+        loadState.SetBackgroundState(backgroundState);
+        state = &loadState;
+        mode = STEP_SEQUENCER_CONTROLLER_MODE_LOAD;
         state->Reset();
     }
 

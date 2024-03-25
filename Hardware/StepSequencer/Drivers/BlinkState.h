@@ -16,6 +16,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void CheckForClockEvent(uint32_t);
         void OnKeyPressed(uint32_t);
         void OnKeyReleased(uint32_t, uint32_t);
+        uint8_t GetStateCode();
         void SetLedsToBlink(uint64_t);
         void SetTicksPerUs(uint32_t);
         void SetBlinkTimeUs(uint32_t);

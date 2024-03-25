@@ -78,6 +78,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
     }
 
+    uint8_t PlayState::GetStateCode()
+    {
+        return STEP_SEQUENCER_CONTROLLER_MODE_PLAY;
+    }
+
     void PlayState::OnSavePatternPressed()
     {
         controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_SAVE);
@@ -90,13 +95,13 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void PlayState::OnLoadPatternPressed()
     {
-        controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_LOAD);
+        controller->SwitchToLoadState(this);
     }
 
     void PlayState::OnClearPressed()
     {
         controller->ClearSteps();
-        controller->Blink(0x1FFFF);
+        controller->SwitchToBlinkState(0x1FFFF);
     }
 
     void PlayState::OnRecordPressed()

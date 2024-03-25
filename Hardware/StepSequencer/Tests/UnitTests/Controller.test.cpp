@@ -839,12 +839,12 @@ TEST_CASE("Given state is stopped, pressing PATTERN followed by a whole note key
     // Press PATTERN - should so into LOAD state and display LEDs for patterns to select
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_LOAD);
-    REQUIRE(controller.GetLedState() == 0x1AB5);
+    REQUIRE(controller.GetLedState() == (0x1AB5 | (1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1)));
 
     // Then press the note key and release - this should light up the respective LED and sets the selected pattern
     controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_D));
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN);
-    REQUIRE(controller.GetLedState() == (1 << STEP_SEQUENCER_CONTROLLER_LEDS_D));
+    REQUIRE(controller.GetLedState() == ((1 << STEP_SEQUENCER_CONTROLLER_LEDS_D) | (1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1)));
 
     // Releasing PATTERN sends it back to STOP state and copies the selected pattern
     controller.SetKeyState(0);

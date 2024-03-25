@@ -17,6 +17,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void CheckForClockEvent(uint32_t);
         void OnKeyPressed(uint32_t);
         void OnKeyReleased(uint32_t, uint32_t);
+        uint8_t GetStateCode();
         void SetStepTimeUs(uint32_t);
         void SetTicksPerUs(uint32_t);
 

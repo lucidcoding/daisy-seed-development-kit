@@ -49,6 +49,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
     }
 
+    uint8_t StopState::GetStateCode()
+    {
+        return STEP_SEQUENCER_CONTROLLER_MODE_STOP;
+    }
+
     void StopState::OnSavePatternPressed()
     {
         controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_SAVE);
@@ -61,13 +66,13 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void StopState::OnLoadPatternPressed()
     {
-        controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_LOAD);
+        controller->SwitchToLoadState(this);
     }
 
     void StopState::OnClearPressed()
     {
         controller->ClearSteps();
-        controller->Blink(0x1FFFF);
+        controller->SwitchToBlinkState(0x1FFFF);
     }
 
     void StopState::OnRecordPressed()

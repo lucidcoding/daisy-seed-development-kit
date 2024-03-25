@@ -79,6 +79,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
     }
 
+    uint8_t StepRecState::GetStateCode()
+    {
+        return STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC;
+    }
+
     void StepRecState::OnSavePatternPressed()
     {
         controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_SAVE);
@@ -92,7 +97,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
     void StepRecState::OnClearPressed()
     {
         controller->ClearSteps();
-        controller->Blink(0x1FFFF);
+        controller->SwitchToBlinkState(0x1FFFF);
     }
 
     void StepRecState::OnRecordPressed()

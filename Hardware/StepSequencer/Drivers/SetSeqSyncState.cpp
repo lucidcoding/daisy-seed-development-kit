@@ -54,6 +54,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
         }
     }
 
+    uint8_t SetSeqSyncState::GetStateCode()
+    {
+        return STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC;
+    }
+
     void SetSeqSyncState::OnSeqSyncSelectPressed()
     {
         controller->ToggleSeqSyncSource();

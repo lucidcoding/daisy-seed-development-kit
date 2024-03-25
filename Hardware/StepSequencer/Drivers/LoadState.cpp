@@ -10,18 +10,24 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     uint64_t LoadState::GetLedState()
     {
+        uint64_t backgroundLedState = backgroundState->GetLedState() & 0x7FFFFE54A;
+        uint64_t thisLedState = (uint64_t)0;
+
         if (patternIndexToLoad == 255)
         {
-            return (uint64_t)0x1AB5;
+            thisLedState = (uint64_t)0x1AB5;
         }
         else
         {
-            return (uint64_t)1 << controller->GetNoteFromPatternIndex(patternIndexToLoad);
+            thisLedState = (uint64_t)1 << controller->GetNoteFromPatternIndex(patternIndexToLoad);
         }
+
+        return backgroundLedState | thisLedState;
     }
 
     void LoadState::CheckForClockEvent(uint32_t currentTicks)
     {
+        backgroundState->CheckForClockEvent(currentTicks);
     }
 
     void LoadState::OnKeyPressed(uint32_t keyState)
@@ -49,6 +55,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
         }
     }
 
+    uint8_t LoadState::GetStateCode()
+    {
+        return STEP_SEQUENCER_CONTROLLER_MODE_LOAD;
+    }
+
     void LoadState::OnNoteKeyPressed(uint64_t keyState)
     {
         uint8_t note = controller->GetNoteFromKeyPressed(keyState);
@@ -62,6 +73,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
             controller->LoadPattern(patternIndexToLoad);
         }
 
-        controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
+        controller->SetState(backgroundState->GetStateCode());
+    }
+
+    void LoadState::SetBackgroundState(IState *newBackGroundState)
+    {
+        backgroundState = newBackGroundState;
     }
 }
