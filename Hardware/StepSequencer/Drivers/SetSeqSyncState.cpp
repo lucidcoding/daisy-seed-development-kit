@@ -40,7 +40,17 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void SetSeqSyncState::OnKeyPressed(uint32_t keyState)
     {
+        switch (keyState)
+        {
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP):
+            OnSeqSyncSelectPressed();
+            break;
+        }
+    }
 
+    void SetSeqSyncState::OnSeqSyncSelectPressed()
+    {
+        controller->ToggleSeqSyncSource();
     }
 
     void SetSeqSyncState::SetSeqSyncSource(uint8_t newSeqSyncSource)

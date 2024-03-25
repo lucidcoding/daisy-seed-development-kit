@@ -22,6 +22,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
         bool playJustPressed;
         uint32_t lastStepStartTicks;
         void OnSavePatternPressed();
+        void OnSeqSyncSelectPressed();
+        void OnClearPressed();
+        void OnRecordPressed();
         void OnPlayPressed();
     };
 }

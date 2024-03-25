@@ -4,6 +4,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
 {
     void StepRecState::Reset()
     {
+        controller->SetCurrentStepIndex(0);
     }
 
     uint64_t StepRecState::GetLedState()
@@ -26,6 +27,12 @@ namespace developmentKit::hardware::stepSequencer::drivers
         {
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN):
             OnSavePatternPressed();
+            break;
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP):
+            OnSeqSyncSelectPressed();
+            break;
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C2):
+            OnClearPressed();
             break;
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY):
             OnPlayPressed();
@@ -68,6 +75,17 @@ namespace developmentKit::hardware::stepSequencer::drivers
     void StepRecState::OnSavePatternPressed()
     {
         controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_SAVE);
+    }
+
+    void StepRecState::OnSeqSyncSelectPressed()
+    {
+        controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC);
+    }
+
+    void StepRecState::OnClearPressed()
+    {
+        controller->ClearSteps();
+        controller->SwitchToBlinkState(0x1FFFF);
     }
 
     void StepRecState::OnPlayPressed()

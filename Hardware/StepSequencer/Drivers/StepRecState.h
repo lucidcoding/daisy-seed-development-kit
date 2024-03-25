@@ -20,6 +20,8 @@ namespace developmentKit::hardware::stepSequencer::drivers
     private:
         StepIndicator stepIndicator;
         void OnSavePatternPressed();
+        void OnSeqSyncSelectPressed();
+        void OnClearPressed();
         void OnPlayPressed();
         void OnBackPressed();
         void OnNextPressed();

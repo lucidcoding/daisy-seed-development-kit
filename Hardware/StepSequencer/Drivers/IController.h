@@ -22,6 +22,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
         virtual void SetCurrentStepIndex(uint8_t) = 0;
         virtual void SetGate(bool) = 0;
         virtual uint8_t GetNoteFromKeyPressed(uint32_t) = 0;
+        virtual uint8_t GetPatternIndexFromNote(uint8_t) = 0;
+        virtual void ToggleSeqSyncSource() = 0;
+        virtual void SwitchToBlinkState(uint64_t) = 0;
+        virtual void ClearSteps() = 0;
+        virtual void SavePattern(uint8_t) = 0;
 
     private:
     };

@@ -91,9 +91,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void Controller::UpdateLedStates()
     {
-        Step step = steps[currentStepIndex];
         ledState = state->GetLedState();
-        return;
     }
 
     uint64_t Controller::GetLedState()
@@ -125,69 +123,35 @@ namespace developmentKit::hardware::stepSequencer::drivers
         }
     }
 
-    /*void Controller::OnSavePatternPressed()
+    void Controller::ToggleSeqSyncSource()
     {
-        SetState(STEP_SEQUENCER_CONTROLLER_MODE_SAVE);
-    }*/
-
-    void Controller::OnSeqSyncSelectPressed()
-    {
-        if (mode != STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC)
+        switch (seqSyncSource)
         {
-            SetState(STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC);
-        }
-        else
-        {
-            switch (seqSyncSource)
-            {
-            case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL:
-                seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_PULSE;
-                break;
-            case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_PULSE:
-                seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SYNC;
-                break;
-            case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SYNC:
-                seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SEQ;
-                break;
-            case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SEQ:
-                seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL;
-                break;
-            default:
-                seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL;
-            };
-        }
+        case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL:
+            seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_PULSE;
+            break;
+        case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_PULSE:
+            seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SYNC;
+            break;
+        case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SYNC:
+            seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SEQ;
+            break;
+        case STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SEQ:
+            seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL;
+            break;
+        default:
+            seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL;
+        };
 
         setSeqSyncState.SetSeqSyncSource(seqSyncSource);
     }
 
-    void Controller::OnClearPressed()
+    void Controller::SwitchToBlinkState(uint64_t ledsToBlink)
     {
-        ClearSteps();
-        SetState(STEP_SEQUENCER_CONTROLLER_MODE_BLINK);
-        blinkState.SetLedsToBlink(0x1FFFF);
-        UpdateLedStates();
-    }
-
-    void Controller::OnRecordPressed()
-    {
-        SetState(STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC);
-        currentStepIndex = 0;
-    }
-
-    void Controller::OnNoteKeyPressed(uint64_t keyState)
-    {
-        uint8_t note = GetNoteFromKeyPressed(keyState);
-
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_SAVE)
-        {
-            uint8_t patternIndex = GetPatternIndexFromNote(note);
-            SavePattern(patternIndex);
-            SetState(STEP_SEQUENCER_CONTROLLER_MODE_BLINK);
-            savingLed = note;
-            blinkState.SetLedsToBlink((uint64_t)1 << savingLed);
-            blinkState.Reset();
-            UpdateLedStates();
-        }
+        blinkState.SetLedsToBlink(ledsToBlink);
+        state = &blinkState;
+        mode = STEP_SEQUENCER_CONTROLLER_MODE_BLINK;
+        state->Reset();
     }
 
     void Controller::OnFunctionKeyReleased()
@@ -195,80 +159,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
         if (mode == STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC)
         {
             SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
-        }
-    }
-
-    void Controller::OnKeyPressed(uint32_t keyState)
-    {
-        switch (keyState)
-        {
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN):
-            //OnSavePatternPressed();
-            state->OnKeyPressed(keyState);
-            break;
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP):
-            OnSeqSyncSelectPressed();
-            break;
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C2):
-            OnClearPressed();
-            break;
-        /*case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C):
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_D):
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_E):
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_F):
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_G):
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_A):
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_B):
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C2):
-            OnSelectPatternPressed(keyState);
-            break;*/
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY):
-            //OnPlayPressed();
-            state->OnKeyPressed(keyState);
-            break;
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_REC):
-            OnRecordPressed();
-            break;
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_BACK):
-            //OnBackPressed();
-            state->OnKeyPressed(keyState);
-            break;
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_NEXT):
-            //OnNextPressed();
-            state->OnKeyPressed(keyState);
-            break;
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_OCTAVE_DOWN):
-            //OnOctaveDownPressed();
-            state->OnKeyPressed(keyState);
-            break;
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_OCTAVE_UP):
-            //OnOctaveUpPressed();
-            state->OnKeyPressed(keyState);
-            break;
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_ACCENT):
-            //OnAccentPressed();
-            state->OnKeyPressed(keyState);
-            break;
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_SLIDE):
-            //OnSlidePressed();
-            state->OnKeyPressed(keyState);
-            break;
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C):
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP):
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_D):
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_D_SHARP):
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_E):
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_F):
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_F_SHARP):
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_G):
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_G_SHARP):
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_A):
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_A_SHARP):
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_B):
-        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C2):
-            OnNoteKeyPressed(keyState);
-            state->OnKeyPressed(keyState);
-            break;
         }
     }
 
@@ -293,7 +183,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         }
         else
         {
-            OnKeyPressed(keyState);
+            state->OnKeyPressed(keyState);
         }
 
         UpdateLedStates();

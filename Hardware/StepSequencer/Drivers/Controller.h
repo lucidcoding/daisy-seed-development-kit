@@ -47,6 +47,8 @@ namespace developmentKit::hardware::stepSequencer::drivers
         uint32_t GetGateTimeUs() { return gateTimeUs; };
         uint32_t GetTicksPerUs() { return ticksPerUs; };
         void SetGate(bool newGate) { gate = newGate; }
+        void ToggleSeqSyncSource();
+        void SwitchToBlinkState(uint64_t);
 
         // For testing only
         void SetStepTime(uint32_t);
@@ -78,20 +80,13 @@ namespace developmentKit::hardware::stepSequencer::drivers
         uint64_t ledState;
         uint32_t lastKeyState;
         uint8_t seqSyncSource;
-        uint8_t savingLed;
         IHardware *hardware;
         void ClearSteps();
         void UpdateLedStates();
         uint8_t GetNoteFromKeyPressed(uint32_t);
         uint8_t GetPatternIndexFromNote(uint8_t);
         void ActivateCurrentStep();
-        //void OnSavePatternPressed();
-        void OnSeqSyncSelectPressed();
-        void OnClearPressed();
-        void OnRecordPressed();
-        void OnNoteKeyPressed(uint64_t);
         void OnFunctionKeyReleased();
-        void OnKeyPressed(uint32_t);
         void OnKeyReleased(uint32_t);
         void SavePattern(uint8_t);
         // void LoadPattern(uint8_t);

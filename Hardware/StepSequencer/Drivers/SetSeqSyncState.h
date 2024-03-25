@@ -19,6 +19,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     private:
         uint8_t seqSyncSource;
+        void OnSeqSyncSelectPressed();
     };
 }
 
