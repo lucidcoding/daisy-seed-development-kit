@@ -23,6 +23,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void OnSavePatternPressed();
         void OnSeqSyncSelectPressed();
         void OnClearPressed();
+        void OnRecordPressed();
         void OnPlayPressed();
         void OnBackPressed();
         void OnNextPressed();

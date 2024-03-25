@@ -800,7 +800,7 @@ TEST_CASE("Pressing FUNC + PATTERN followed by a whole note key saves the patter
     }
 }
 
-/*TEST_CASE("Given state is stopped, pressing PATTERN followed by a whole note key recalls the pattern")
+TEST_CASE("Given state is stopped, pressing PATTERN followed by a whole note key recalls the pattern")
 {
     Setup();
     controller.SetSteps(GetClearedSteps());
@@ -808,7 +808,7 @@ TEST_CASE("Pressing FUNC + PATTERN followed by a whole note key saves the patter
     // Set pattern 3 to VariedSteps
     Step *variedSteps = GetVariedSteps();
     Step *stepsToSet = controller.GetSavedPatterns();
-    uint8_t patternIndex = 3;
+    uint8_t patternIndex = 1;
 
     for (uint8_t stepIndex = 0; stepIndex < 16; stepIndex++)
     {
@@ -836,40 +836,38 @@ TEST_CASE("Pressing FUNC + PATTERN followed by a whole note key saves the patter
         }
     }
 
-    // Press PATTERN - should so into SELECT_PATERN state and display LEDs for patterns to select
+    // Press PATTERN - should so into LOAD state and display LEDs for patterns to select
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN);
-    REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_STOP_SELECT_PATTERN);
+    REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_LOAD);
     REQUIRE(controller.GetLedState() == 0x1AB5);
 
     // Then press the note key and release - this should light up the respective LED and sets the selected pattern
-    // GOES INTO ANOTHER STATE?
-    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_F));
+    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_D));
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN);
-    // REQUIRE(controller.getSelectedPattern() == patternIndex);
-    REQUIRE(controller.GetLedState() == (1 << STEP_SEQUENCER_CONTROLLER_LEDS_F));
+    REQUIRE(controller.GetLedState() == (1 << STEP_SEQUENCER_CONTROLLER_LEDS_D));
 
     // Releasing PATTERN sends it back to STOP state and copies the selected pattern
-    // NO LONGER RESETTING TO ZERO
     controller.SetKeyState(0);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_STOP);
     uint64_t expectedLedStates = 0x00 | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_UP) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1);
     REQUIRE(controller.GetLedState() == expectedLedStates);
+    actualSteps = controller.GetSteps();
 
     for (uint16_t stepIndex = 0; stepIndex < 16; stepIndex++)
     {
         DYNAMIC_SECTION("Checking step with stepIndex: " << stepIndex)
         {
-            REQUIRE(actualSteps[112 + stepIndex].note == variedSteps[stepIndex].note);
-            REQUIRE(actualSteps[112 + stepIndex].gate == variedSteps[stepIndex].gate);
-            REQUIRE(actualSteps[112 + stepIndex].octaveDown == variedSteps[stepIndex].octaveDown);
-            REQUIRE(actualSteps[112 + stepIndex].octaveUp == variedSteps[stepIndex].octaveUp);
-            REQUIRE(actualSteps[112 + stepIndex].slide == variedSteps[stepIndex].accent);
-            REQUIRE(actualSteps[112 + stepIndex].accent == variedSteps[stepIndex].slide);
+            REQUIRE(actualSteps[stepIndex].note == variedSteps[stepIndex].note);
+            REQUIRE(actualSteps[stepIndex].gate == variedSteps[stepIndex].gate);
+            REQUIRE(actualSteps[stepIndex].octaveDown == variedSteps[stepIndex].octaveDown);
+            REQUIRE(actualSteps[stepIndex].octaveUp == variedSteps[stepIndex].octaveUp);
+            REQUIRE(actualSteps[stepIndex].accent == variedSteps[stepIndex].accent);
+            REQUIRE(actualSteps[stepIndex].slide == variedSteps[stepIndex].slide);
         }
     }
 }
 
-TEST_CASE("Given state is playing, pressing PATTERN followed by a whole note key recalls the pattern")
+/*TEST_CASE("Given state is playing, pressing PATTERN followed by a whole note key recalls the pattern")
 {
     Setup();
     controller.SetSteps(GetClearedSteps());

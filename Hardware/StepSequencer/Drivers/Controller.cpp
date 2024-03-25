@@ -216,13 +216,13 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     uint8_t Controller::GetNoteFromPatternIndex(uint8_t patternIndex)
     {
-        uint8_t lookup[8] = {0, 2, 4, 6, 7, 9, 11, 12};
+        uint8_t lookup[8] = {0, 2, 4, 5, 7, 9, 11, 12};
         return lookup[patternIndex];
     }
 
     uint8_t Controller::GetPatternIndexFromNote(uint8_t noteNumber)
     {
-        uint8_t lookup[8] = {0, 2, 4, 6, 7, 9, 11, 12};
+        uint8_t lookup[8] = {0, 2, 4, 5, 7, 9, 11, 12};
 
         for (uint8_t index = 0; index < 8; index++)
         {
@@ -307,7 +307,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         for (uint8_t stepIndex = 0; stepIndex < STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT; stepIndex++)
         {
             uint8_t savedPatternIndex = (patternIndex * STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT) + stepIndex;
-            savedPatterns[savedPatternIndex].note = savedPatterns[stepIndex].note;
+            steps[stepIndex].note = savedPatterns[savedPatternIndex].note;
             steps[stepIndex].gate = savedPatterns[savedPatternIndex].gate;
             steps[stepIndex].octaveDown = savedPatterns[savedPatternIndex].octaveDown;
             steps[stepIndex].octaveUp = savedPatterns[savedPatternIndex].octaveUp;

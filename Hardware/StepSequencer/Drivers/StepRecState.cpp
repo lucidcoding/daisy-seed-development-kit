@@ -34,6 +34,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C2):
             OnClearPressed();
             break;
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_REC):
+            OnRecordPressed();
+            break;
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY):
             OnPlayPressed();
             break;
@@ -90,6 +93,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
         controller->ClearSteps();
         controller->Blink(0x1FFFF);
+    }
+
+    void StepRecState::OnRecordPressed()
+    {
+        Reset();
     }
 
     void StepRecState::OnPlayPressed()
