@@ -12,6 +12,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
     class PlayState : public IState
     {
     public:
+        void Reset();
         uint64_t GetLedState(Step[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT], uint8_t);
         void CheckForClockEvent(uint32_t currentTicks);
         void OnKeyPressed(uint32_t keyState);

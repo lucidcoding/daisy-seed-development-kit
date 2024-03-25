@@ -2,6 +2,10 @@
 
 namespace developmentKit::hardware::stepSequencer::drivers
 {
+    void PlayState::Reset()
+    {
+    }
+
     uint64_t PlayState::GetLedState(Step steps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT], uint8_t currentStepIndex)
     {
         uint64_t ledState = (uint64_t)0;
@@ -10,13 +14,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
         return ledState;
     }
 
-    void PlayState::CheckForClockEvent(uint32_t currentTicks) 
+    void PlayState::CheckForClockEvent(uint32_t currentTicks)
     {
-
     }
 
     void PlayState::OnKeyPressed(uint32_t keyState)
     {
-
     }
 }

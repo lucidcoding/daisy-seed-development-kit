@@ -11,12 +11,12 @@ namespace developmentKit::hardware::stepSequencer::drivers
     class BlinkState : public IState
     {
     public:
+        void Reset();
         uint64_t GetLedState(Step[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT], uint8_t);
         void CheckForClockEvent(uint32_t currentTicks);
         void OnKeyPressed(uint32_t keyState);
         void SetLedsToBlink(uint64_t);
         void SetTicksPerUs(uint32_t);
-        void StartBlink();
         void SetBlinkTimeUs(uint32_t);
 
     private:

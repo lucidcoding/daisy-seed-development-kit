@@ -3,6 +3,13 @@
 
 namespace developmentKit::hardware::stepSequencer::drivers
 {
+    void BlinkState::Reset()
+    {
+        blinkJustStarted = true;
+        blinkCount = 8;
+        blinkOn = true;
+    }
+
     uint64_t BlinkState::GetLedState(Step steps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT], uint8_t currentStepIndex)
     {
         uint64_t ledState = (uint64_t)0;
@@ -48,13 +55,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
     void BlinkState::SetTicksPerUs(uint32_t newTicksPerUs)
     {
         ticksPerUs = newTicksPerUs;
-    }
-
-    void BlinkState::StartBlink()
-    {
-        blinkJustStarted = true;
-        blinkCount = 8;
-        blinkOn = true;
     }
 
     void BlinkState::SetBlinkTimeUs(uint32_t newBlinkTimeUs)

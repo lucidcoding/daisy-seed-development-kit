@@ -164,7 +164,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         ClearSteps();
         SetState(STEP_SEQUENCER_CONTROLLER_MODE_BLINK);
         blinkState.SetLedsToBlink(0x1FFFF);
-        blinkState.StartBlink();
+        blinkState.Reset();
         UpdateLedStates();
     }
 
@@ -271,7 +271,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
             SetState(STEP_SEQUENCER_CONTROLLER_MODE_BLINK);
             savingLed = note;
             blinkState.SetLedsToBlink((uint64_t)1 << savingLed);
-            blinkState.StartBlink();
+            blinkState.Reset();
             UpdateLedStates();
         }
     }
@@ -391,19 +391,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
             playJustPressed = false;
             lastStepStartTicks = currentTicks;
         }
-
-        /*if (gate && (currentTicks - lastStepStartTicks) >= (gateTimeUs * ticksPerUs))
-        {
-            if (!steps[currentStepIndex].slide)
-            {
-                gate = false;
-            }
-
-            if (steps[currentStepIndex].slide && mode != STEP_SEQUENCER_CONTROLLER_MODE_PLAY)
-            {
-                gate = false;
-            }
-        }*/
 
         if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY)
         {

@@ -3,6 +3,11 @@
 
 namespace developmentKit::hardware::stepSequencer::drivers
 {
+    void StopState::Reset()
+    {
+
+    }
+
     uint64_t StopState::GetLedState(Step steps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT], uint8_t currentStepIndex)
     {
         uint64_t ledState = (uint64_t)0;
