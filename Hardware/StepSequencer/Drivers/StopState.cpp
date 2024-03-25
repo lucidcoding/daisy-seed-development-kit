@@ -30,6 +30,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP):
             OnSeqSyncSelectPressed();
             break;
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN):
+            OnLoadPatternPressed();
+            break;
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C2):
             OnClearPressed();
             break;
@@ -54,6 +57,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
     void StopState::OnSeqSyncSelectPressed()
     {
         controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC);
+    }
+
+    void StopState::OnLoadPatternPressed()
+    {
+        controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_LOAD);
     }
 
     void StopState::OnClearPressed()

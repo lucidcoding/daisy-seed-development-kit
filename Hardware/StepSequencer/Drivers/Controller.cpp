@@ -10,15 +10,15 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
         blinkState.Init(this);
         stopState.Init(this);
+        loadState.Init(this);
         playState.Init(this);
         saveState.Init(this);
         stepRecState.Init(this);
         setSeqSyncState.Init(this);
-
-        ticksPerUs = newTicksPerUs;
         hardware = NULL;
         currentStepIndex = 0;
-        SetStepTime(1000000);
+        playState.SetTicksPerUs(newTicksPerUs);
+        playState.SetStepTimeUs(1000000);
         blinkState.SetTicksPerUs(newTicksPerUs);
         blinkState.SetBlinkTimeUs(100000);
         SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
@@ -37,6 +37,12 @@ namespace developmentKit::hardware::stepSequencer::drivers
             savedPatterns[savedStepIndex].accent = false;
             savedPatterns[savedStepIndex].slide = false;
         }
+    }
+
+    void  Controller::EnterTestMode()
+    {
+        playState.SetStepTimeUs(STEP_SEQUENCER_CONTROLLER_TEST_TICKS_PER_STEP);
+        blinkState.SetBlinkTimeUs(STEP_SEQUENCER_CONTROLLER_TEST_TICKS_PER_STEP);
     }
 
     void Controller::SetState(uint8_t newMode)
@@ -62,6 +68,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
             break;
         case STEP_SEQUENCER_CONTROLLER_MODE_SAVE:
             state = &saveState;
+            break;
+        case STEP_SEQUENCER_CONTROLLER_MODE_LOAD:
+            state = &loadState;
             break;
         default:
             state = &stopState;
@@ -111,14 +120,12 @@ namespace developmentKit::hardware::stepSequencer::drivers
             float stepsPerUs = stepsPerSecond / 1000000;
             float usPerStep = 1 / stepsPerUs;
             uint32_t intUsPerStep = (uint32_t)usPerStep;
-            SetStepTime(intUsPerStep);
+            playState.SetStepTimeUs(intUsPerStep);
         }
     }
 
     void Controller::ActivateCurrentStep()
     {
-        //UpdateLedStates();
-
         if (steps[currentStepIndex].gate)
         {
             gate = true;
@@ -207,6 +214,12 @@ namespace developmentKit::hardware::stepSequencer::drivers
         return STEP_SEQUENCER_CONTROLLER_NOT_NOTE_KEY;
     }
 
+    uint8_t Controller::GetNoteFromPatternIndex(uint8_t patternIndex)
+    {
+        uint8_t lookup[8] = {0, 2, 4, 6, 7, 9, 11, 12};
+        return lookup[patternIndex];
+    }
+
     uint8_t Controller::GetPatternIndexFromNote(uint8_t noteNumber)
     {
         uint8_t lookup[8] = {0, 2, 4, 6, 7, 9, 11, 12};
@@ -260,12 +273,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
         return steps[previousStepIndex].slide;
     }
 
-    void Controller::SetStepTime(uint32_t newStepTimeUs)
-    {
-        stepTimeUs = newStepTimeUs;
-        gateTimeUs = stepTimeUs / 2;
-    }
-
     void Controller::SetSteps(Step newSteps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT])
     {
         for (uint8_t stepIndex = 0; stepIndex < STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT; stepIndex++)
@@ -277,8 +284,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
             steps[stepIndex].accent = newSteps[stepIndex].accent;
             steps[stepIndex].slide = newSteps[stepIndex].slide;
         }
-
-        //UpdateLedStates();
     }
 
     void Controller::SavePattern(uint8_t patternIndex)
@@ -297,7 +302,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         hardware->SavePatterns(savedPatterns);
     }
 
-    /*void Controller::LoadPattern(uint8_t patternIndex)
+    void Controller::LoadPattern(uint8_t patternIndex)
     {
         for (uint8_t stepIndex = 0; stepIndex < STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT; stepIndex++)
         {
@@ -309,5 +314,5 @@ namespace developmentKit::hardware::stepSequencer::drivers
             steps[stepIndex].accent = savedPatterns[savedPatternIndex].accent;
             steps[stepIndex].slide = savedPatterns[savedPatternIndex].slide;
         }
-    }*/
+    }
 }

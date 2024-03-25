@@ -9,6 +9,7 @@
 #include "IHardware.h"
 #include "IState.h"
 #include "BlinkState.h"
+#include "LoadState.h"
 #include "PlayState.h"
 #include "SaveState.h"
 #include "SetSeqSyncState.h"
@@ -38,14 +39,12 @@ namespace developmentKit::hardware::stepSequencer::drivers
         IState *state;
         BlinkState blinkState;
         StopState stopState;
+        LoadState loadState;
         PlayState playState;
         SaveState saveState;
         StepRecState stepRecState;
         SetSeqSyncState setSeqSyncState;
         void SetCurrentStepIndex(uint8_t newCurrentStepIndex) { currentStepIndex = newCurrentStepIndex; }
-        uint32_t GetStepTimeUs() { return stepTimeUs; };
-        uint32_t GetGateTimeUs() { return gateTimeUs; };
-        uint32_t GetTicksPerUs() { return ticksPerUs; };
         void SetGate(bool newGate) { gate = newGate; }
         void ToggleSeqSyncSource();
         void Blink(uint64_t);
@@ -54,19 +53,13 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void MoveToFirstStep();
 
         // For testing only
-        void SetStepTime(uint32_t);
+        void EnterTestMode();
         uint8_t GetCurrentStepIndex() { return currentStepIndex; }
         uint8_t GetMode() { return mode; }
         void SetSteps(Step newSteps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT]);
         Step *GetSteps() { return steps; }
         Step *GetSavedPatterns() { return savedPatterns; }
-        uint32_t GetLastTicks() { return lastStepStartTicks; }
-        void SetLastTicks(uint32_t newLastTicks) { lastStepStartTicks = newLastTicks; }
         uint8_t GetSeqSyncSource() { return seqSyncSource; }
-        void SetBlinkTimeUs(uint32_t newBlinkTimeUs)
-        {
-            blinkState.SetBlinkTimeUs(newBlinkTimeUs);
-        }
         // daisy::DaisySeed *daisy;
 
     private:
@@ -74,10 +67,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
         Step steps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT];
         uint8_t currentStepIndex;
         uint8_t mode;
-        uint32_t stepTimeUs;
-        uint32_t gateTimeUs;
-        uint32_t ticksPerUs;
-        uint32_t lastStepStartTicks;
         uint8_t tempo;
         bool gate;
         uint64_t ledState;
@@ -87,10 +76,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void ClearSteps();
         void UpdateLedStates();
         uint8_t GetNoteFromKeyPressed(uint32_t);
+        uint8_t GetNoteFromPatternIndex(uint8_t);
         uint8_t GetPatternIndexFromNote(uint8_t);
         void ActivateCurrentStep();
         void SavePattern(uint8_t);
-        // void LoadPattern(uint8_t);
+        void LoadPattern(uint8_t);
     };
 }
 

@@ -25,9 +25,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
         bool gate = controller->GetGate();
         uint8_t currentStepIndex = controller->GetCurrentStepIndex();
         Step *steps = controller->GetSteps();
-        uint32_t stepTimeUs = controller->GetStepTimeUs();
-        uint32_t gateTimeUs = controller->GetGateTimeUs();
-        uint32_t ticksPerUs = controller->GetTicksPerUs();
 
         if (playJustPressed)
         {
@@ -62,6 +59,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP):
             OnSeqSyncSelectPressed();
             break;
+        case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN):
+            OnLoadPatternPressed();
+            break;
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C2):
             OnClearPressed();
             break;
@@ -88,6 +88,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
         controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC);
     }
 
+    void PlayState::OnLoadPatternPressed()
+    {
+        controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_LOAD);
+    }
+
     void PlayState::OnClearPressed()
     {
         controller->ClearSteps();
@@ -103,5 +108,16 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
         controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
         controller->SetGate(false);
+    }
+
+    void PlayState::SetStepTimeUs(uint32_t newStepTimeUs)
+    {
+        stepTimeUs = newStepTimeUs;
+        gateTimeUs = stepTimeUs / 2;
+    }
+
+    void PlayState::SetTicksPerUs(uint32_t newTicksPerUs)
+    {
+        ticksPerUs = newTicksPerUs;
     }
 }

@@ -1,6 +1,4 @@
 #define CATCH_CONFIG_MAIN // This tells Catch to provide a main() - only do this in one cpp file
-#define STEP_SEQUENCER_CONTROLLER_TEST_TICKS_PER_STEP 8
-#define STEP_SEQUENCER_CONTROLLER_TEST_STEP_COUNT 16
 #include "../../Drivers/Debug.h"
 #include "catch.hpp"
 #include "../../Drivers/Controller.h"
@@ -21,9 +19,7 @@ void Setup()
     controller.Init(1);
     mockHardware.Clear();
     controller.SetHardware(&mockHardware);
-    controller.SetStepTime(STEP_SEQUENCER_CONTROLLER_TEST_TICKS_PER_STEP);
-    controller.SetBlinkTimeUs(STEP_SEQUENCER_CONTROLLER_TEST_TICKS_PER_STEP);
-    controller.SetLastTicks(0);
+    controller.EnterTestMode();
 }
 
 Step *GetGatedSteps()

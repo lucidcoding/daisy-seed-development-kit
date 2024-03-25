@@ -22,6 +22,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         StepIndicator stepIndicator;
         void OnSavePatternPressed();
         void OnSeqSyncSelectPressed();
+        void OnLoadPatternPressed();
         void OnClearPressed();
         void OnRecordPressed();
         void OnPlayPressed();
