@@ -87,6 +87,8 @@ namespace developmentKit::hardware::stepSequencer::drivers
             steps[i].accent = false;
             steps[i].slide = false;
         }
+
+        // Blink(0x1FFFF);
     }
 
     void Controller::UpdateLedStates()
@@ -115,7 +117,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void Controller::ActivateCurrentStep()
     {
-        UpdateLedStates();
+        //UpdateLedStates();
 
         if (steps[currentStepIndex].gate)
         {
@@ -135,6 +137,24 @@ namespace developmentKit::hardware::stepSequencer::drivers
         state = &blinkState;
         mode = STEP_SEQUENCER_CONTROLLER_MODE_BLINK;
         state->Reset();
+    }
+
+    void Controller::MoveBackStep()
+    {
+        if (currentStepIndex > 0)
+        {
+            currentStepIndex--;
+        }
+    }
+
+    void Controller::MoveNextStep()
+    {
+        currentStepIndex = (currentStepIndex + 1) % STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT;
+    }
+
+    void Controller::MoveToFirstStep()
+    {
+        currentStepIndex = 0;
     }
 
     void Controller::SetKeyState(uint32_t keyState)
@@ -258,7 +278,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
             steps[stepIndex].slide = newSteps[stepIndex].slide;
         }
 
-        UpdateLedStates();
+        //UpdateLedStates();
     }
 
     void Controller::SavePattern(uint8_t patternIndex)

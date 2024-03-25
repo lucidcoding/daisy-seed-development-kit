@@ -4,7 +4,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
 {
     void StepRecState::Reset()
     {
-        controller->SetCurrentStepIndex(0);
+        controller->MoveToFirstStep();
     }
 
     uint64_t StepRecState::GetLedState()
@@ -94,23 +94,17 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void StepRecState::OnPlayPressed()
     {
-        controller->SetCurrentStepIndex(0);
-        controller->ActivateCurrentStep();
         controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_PLAY);
     }
 
     void StepRecState::OnBackPressed()
     {
-        uint8_t currentStepIndex = controller->GetCurrentStepIndex();
-        currentStepIndex--;
-        controller->SetCurrentStepIndex(currentStepIndex);
+        controller->MoveBackStep();
     }
 
     void StepRecState::OnNextPressed()
     {
-        uint8_t currentStepIndex = controller->GetCurrentStepIndex();
-        currentStepIndex++;
-        controller->SetCurrentStepIndex(currentStepIndex);
+        controller->MoveNextStep();
     }
 
     void StepRecState::OnOctaveDownPressed()

@@ -507,6 +507,7 @@ TEST_CASE("Only LEDs for first step shown when started")
 {
     Setup();
     controller.SetSteps(GetVariedSteps());
+    controller.Process(0);
     uint64_t actualLedStates = controller.GetLedState();
     uint64_t expectedLedStates = 0x00 | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_UP) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1);
     REQUIRE(actualLedStates == expectedLedStates);

@@ -6,6 +6,8 @@ namespace developmentKit::hardware::stepSequencer::drivers
     void PlayState::Reset()
     {
         playJustPressed = true;
+        controller->MoveToFirstStep();
+        controller->ActivateCurrentStep();
     }
 
     uint64_t PlayState::GetLedState()
@@ -45,8 +47,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         if ((currentTicks - lastStepStartTicks) >= (stepTimeUs * ticksPerUs))
         {
             lastStepStartTicks = currentTicks;
-            currentStepIndex = (currentStepIndex + 1) % STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT;
-            controller->SetCurrentStepIndex(currentStepIndex);
+            controller->MoveNextStep();
             controller->ActivateCurrentStep();
         }
     }

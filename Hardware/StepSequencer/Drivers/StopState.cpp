@@ -69,8 +69,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void StopState::OnPlayPressed()
     {
-        controller->SetCurrentStepIndex(0);
-        controller->ActivateCurrentStep();
         controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_PLAY);
     }
 }

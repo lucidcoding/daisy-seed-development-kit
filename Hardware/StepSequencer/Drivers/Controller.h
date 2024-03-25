@@ -49,6 +49,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void SetGate(bool newGate) { gate = newGate; }
         void ToggleSeqSyncSource();
         void Blink(uint64_t);
+        void MoveBackStep();
+        void MoveNextStep();
+        void MoveToFirstStep();
 
         // For testing only
         void SetStepTime(uint32_t);
