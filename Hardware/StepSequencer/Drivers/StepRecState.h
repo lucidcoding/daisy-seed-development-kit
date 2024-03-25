@@ -20,6 +20,13 @@ namespace developmentKit::hardware::stepSequencer::drivers
     private:
         StepIndicator stepIndicator;
         void OnPlayPressed();
+        void OnBackPressed();
+        void OnNextPressed();
+        void OnOctaveDownPressed();
+        void OnOctaveUpPressed();
+        void OnAccentPressed();
+        void OnSlidePressed();
+        void OnNoteKeyPressed(uint64_t);
     };
 }
 

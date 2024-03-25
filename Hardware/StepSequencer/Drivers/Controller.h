@@ -88,14 +88,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void OnSavePatternPressed();
         void OnSeqSyncSelectPressed();
         void OnClearPressed();
-        void OnPlayPressed();
         void OnRecordPressed();
-        void OnBackPressed();
-        void OnNextPressed();
-        void OnOctaveDownPressed();
-        void OnOctaveUpPressed();
-        void OnAccentPressed();
-        void OnSlidePressed();
         void OnNoteKeyPressed(uint64_t);
         void OnFunctionKeyReleased();
         void OnKeyPressed(uint32_t);

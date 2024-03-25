@@ -168,100 +168,15 @@ namespace developmentKit::hardware::stepSequencer::drivers
         UpdateLedStates();
     }
 
-    void Controller::OnPlayPressed()
-    {
-        /*if (mode == STEP_SEQUENCER_CONTROLLER_MODE_PLAY)
-        {
-            SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
-            gate = false;
-        }
-        else if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STOP || mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
-        {
-            currentStepIndex = 0;
-            ActivateCurrentStep();
-            SetState(STEP_SEQUENCER_CONTROLLER_MODE_PLAY);
-        }*/
-    }
-
     void Controller::OnRecordPressed()
     {
         SetState(STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC);
         currentStepIndex = 0;
     }
 
-    void Controller::OnBackPressed()
-    {
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
-        {
-            if (currentStepIndex > 0)
-            {
-                currentStepIndex--;
-            }
-        }
-    }
-
-    void Controller::OnNextPressed()
-    {
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
-        {
-            if (currentStepIndex < (STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT - 1))
-            {
-                currentStepIndex++;
-            }
-        }
-    }
-
-    void Controller::OnOctaveDownPressed()
-    {
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
-        {
-            steps[currentStepIndex].octaveDown = !steps[currentStepIndex].octaveDown;
-        }
-    }
-
-    void Controller::OnOctaveUpPressed()
-    {
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
-        {
-            steps[currentStepIndex].octaveUp = !steps[currentStepIndex].octaveUp;
-        }
-    }
-
-    void Controller::OnAccentPressed()
-    {
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
-        {
-            steps[currentStepIndex].accent = !steps[currentStepIndex].accent;
-        }
-    }
-
-    void Controller::OnSlidePressed()
-    {
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
-        {
-            steps[currentStepIndex].slide = !steps[currentStepIndex].slide;
-        }
-    }
-
     void Controller::OnNoteKeyPressed(uint64_t keyState)
     {
         uint8_t note = GetNoteFromKeyPressed(keyState);
-
-        if (mode == STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC)
-        {
-            if (note != STEP_SEQUENCER_CONTROLLER_NOT_NOTE_KEY)
-            {
-                if (steps[currentStepIndex].note == note)
-                {
-                    steps[currentStepIndex].gate = !steps[currentStepIndex].gate;
-                }
-                else
-                {
-                    steps[currentStepIndex].gate = true;
-                    steps[currentStepIndex].note = note;
-                }
-            }
-        }
 
         if (mode == STEP_SEQUENCER_CONTROLLER_MODE_SAVE)
         {
@@ -314,22 +229,28 @@ namespace developmentKit::hardware::stepSequencer::drivers
             OnRecordPressed();
             break;
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_BACK):
-            OnBackPressed();
+            //OnBackPressed();
+            state->OnKeyPressed(keyState);
             break;
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_NEXT):
-            OnNextPressed();
+            //OnNextPressed();
+            state->OnKeyPressed(keyState);
             break;
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_OCTAVE_DOWN):
-            OnOctaveDownPressed();
+            //OnOctaveDownPressed();
+            state->OnKeyPressed(keyState);
             break;
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_OCTAVE_UP):
-            OnOctaveUpPressed();
+            //OnOctaveUpPressed();
+            state->OnKeyPressed(keyState);
             break;
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_ACCENT):
-            OnAccentPressed();
+            //OnAccentPressed();
+            state->OnKeyPressed(keyState);
             break;
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_SLIDE):
-            OnSlidePressed();
+            //OnSlidePressed();
+            state->OnKeyPressed(keyState);
             break;
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C):
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP):
@@ -345,6 +266,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_B):
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C2):
             OnNoteKeyPressed(keyState);
+            state->OnKeyPressed(keyState);
             break;
         }
     }

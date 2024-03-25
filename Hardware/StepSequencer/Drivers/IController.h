@@ -21,6 +21,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         virtual uint32_t GetTicksPerUs() = 0;
         virtual void SetCurrentStepIndex(uint8_t) = 0;
         virtual void SetGate(bool) = 0;
+        virtual uint8_t GetNoteFromKeyPressed(uint32_t) = 0;
 
     private:
     };
