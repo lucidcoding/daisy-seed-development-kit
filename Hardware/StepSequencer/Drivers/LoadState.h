@@ -17,11 +17,13 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void OnKeyPressed(uint32_t);
         void OnKeyReleased(uint32_t, uint32_t);
         uint8_t GetStateCode();
+        void MoveToStep(uint8_t);
         void SetBackgroundState(IState *newBackGroundState);
 
     private:
         uint8_t patternIndexToLoad;
         IState *backgroundState;
+        bool loadOnNextBarStart;
         void OnNoteKeyPressed(uint64_t);
         void OnPatternKeyReleased();
     };

@@ -867,14 +867,10 @@ TEST_CASE("Given state is stopped, pressing PATTERN followed by a whole note key
     }
 }
 
-/*TEST_CASE("Given state is playing, pressing PATTERN followed by a whole note key recalls the pattern")
+TEST_CASE("Given state is playing, pressing PATTERN followed by a whole note key recalls the pattern when the current bar has completed")
 {
     Setup();
     controller.SetSteps(GetClearedSteps());
-
-    // Press PLAY
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
-    controller.SetKeyState(0);
 
     // Set pattern 3 to VariedSteps
     Step *variedSteps = GetVariedSteps();
@@ -891,7 +887,30 @@ TEST_CASE("Given state is stopped, pressing PATTERN followed by a whole note key
         stepsToSet[patternIndex * 16 + stepIndex].slide = variedSteps[stepIndex].slide;
     }
 
-    // Check loaded steps are clear
+    // Press PLAY and advance a step
+    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
+    controller.SetKeyState(0);
+    Advance(&controller, 8);
+
+    // Press PATTERN and advance another step - should go into LOAD state and display LEDs for patterns to select
+    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN);
+    Advance(&controller, 8);
+    REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_LOAD);
+    REQUIRE(controller.GetLedState() == 0x200041AB5);
+
+    // Then press the note key and release and advance again - this should light up the respective LED and sets the selected pattern
+    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_D));
+    Advance(&controller, 8);
+    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN);
+    Advance(&controller, 8);
+    controller.SetKeyState(0);
+    Advance(&controller, 8);
+    REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_LOAD);
+    REQUIRE(controller.GetLedState() == 0x200200004);
+
+    // Advance to last tick of this pattern and it should still be the old steps
+    Advance(&controller, 88); 
+    REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_LOAD);
     Step *actualSteps = controller.GetSteps();
 
     for (uint8_t stepIndex = 0; stepIndex < 16; stepIndex++)
@@ -907,35 +926,20 @@ TEST_CASE("Given state is stopped, pressing PATTERN followed by a whole note key
         }
     }
 
-    // Press PATTERN - should go into PLAY_SELECT_PATERN state and display LEDs for patterns to select
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN);
-    REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_PLAY_SELECT_PATTERN);
-    REQUIRE(controller.GetLedState() == 0x1AB5);
-
-    // Then press the note key and release - this should light up the respective LED and sets the selected pattern
-    // GOES INTO ANOTHER STATE?
-    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_F));
-    controller.SetKeyState(0);
-    REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_PLAY_SELECTING_PATTERN);
-    REQUIRE(controller.GetLedState() == (1 << STEP_SEQUENCER_CONTROLLER_LEDS_F));
-
-    // Releasing PATTERN sends it back to PLAY state state and copies the selected pattern and continues playing
-    // NO LONGER RESETTING TO ZERO
-    REQUIRE(controller.GetCurrentStepIndex() == 0);
+    // Advance one more and they should match Varied
+    Advance(&controller, 1);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_PLAY);
-    uint64_t expectedLedStates = 0x00 | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_UP) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1);
-    REQUIRE(controller.GetLedState() == expectedLedStates);
-
+    actualSteps = controller.GetSteps();
     for (uint16_t stepIndex = 0; stepIndex < 16; stepIndex++)
     {
         DYNAMIC_SECTION("Checking step with stepIndex: " << stepIndex)
         {
-            REQUIRE(actualSteps[112 + stepIndex].note == variedSteps[stepIndex].note);
-            REQUIRE(actualSteps[112 + stepIndex].gate == variedSteps[stepIndex].gate);
-            REQUIRE(actualSteps[112 + stepIndex].octaveDown == variedSteps[stepIndex].octaveDown);
-            REQUIRE(actualSteps[112 + stepIndex].octaveUp == variedSteps[stepIndex].octaveUp);
-            REQUIRE(actualSteps[112 + stepIndex].slide == variedSteps[stepIndex].accent);
-            REQUIRE(actualSteps[112 + stepIndex].accent == variedSteps[stepIndex].slide);
+            REQUIRE(actualSteps[stepIndex].note == variedSteps[stepIndex].note);
+            REQUIRE(actualSteps[stepIndex].gate == variedSteps[stepIndex].gate);
+            REQUIRE(actualSteps[stepIndex].octaveDown == variedSteps[stepIndex].octaveDown);
+            REQUIRE(actualSteps[stepIndex].octaveUp == variedSteps[stepIndex].octaveUp);
+            REQUIRE(actualSteps[stepIndex].slide == variedSteps[stepIndex].accent);
+            REQUIRE(actualSteps[stepIndex].accent == variedSteps[stepIndex].slide);
         }
     }
-}*/
+}

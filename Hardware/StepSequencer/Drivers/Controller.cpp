@@ -165,6 +165,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
     void Controller::MoveNextStep()
     {
         currentStepIndex = (currentStepIndex + 1) % STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT;
+        state->MoveToStep(currentStepIndex);
     }
 
     void Controller::MoveToFirstStep()

@@ -19,6 +19,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         virtual void OnKeyPressed(uint32_t keyState) = 0;
         virtual void OnKeyReleased(uint32_t, uint32_t) = 0;
         virtual uint8_t GetStateCode() = 0;
+        virtual void MoveToStep(uint8_t) = 0;
 
     protected:
         IController *controller;

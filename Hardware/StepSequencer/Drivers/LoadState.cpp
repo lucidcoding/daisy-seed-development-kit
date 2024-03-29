@@ -5,7 +5,8 @@ namespace developmentKit::hardware::stepSequencer::drivers
 {
     void LoadState::Reset()
     {
-        patternIndexToLoad = 255;
+        patternIndexToLoad = STEP_SEQUENCER_CONTROLLER_NO_PATTERN_SELECTED;
+        loadOnNextBarStart = false;
     }
 
     uint64_t LoadState::GetLedState()
@@ -60,6 +61,19 @@ namespace developmentKit::hardware::stepSequencer::drivers
         return STEP_SEQUENCER_CONTROLLER_MODE_LOAD;
     }
 
+    void LoadState::MoveToStep(uint8_t newStepIndex)
+    {
+        if (newStepIndex == 0)
+        {
+            if(loadOnNextBarStart)
+            {
+                loadOnNextBarStart = false;
+                controller->LoadPattern(patternIndexToLoad);
+                controller->SetState(backgroundState->GetStateCode());
+            }
+        }
+    }
+
     void LoadState::OnNoteKeyPressed(uint64_t keyState)
     {
         uint8_t note = controller->GetNoteFromKeyPressed(keyState);
@@ -68,12 +82,18 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void LoadState::OnPatternKeyReleased()
     {
-        if (patternIndexToLoad != 255)
+        if (patternIndexToLoad != STEP_SEQUENCER_CONTROLLER_NO_PATTERN_SELECTED)
         {
-            controller->LoadPattern(patternIndexToLoad);
+            if (backgroundState->GetStateCode() == STEP_SEQUENCER_CONTROLLER_MODE_PLAY)
+            {
+                loadOnNextBarStart = true;
+            }
+            else
+            {
+                controller->LoadPattern(patternIndexToLoad);
+                controller->SetState(backgroundState->GetStateCode());
+            }
         }
-
-        controller->SetState(backgroundState->GetStateCode());
     }
 
     void LoadState::SetBackgroundState(IState *newBackGroundState)
