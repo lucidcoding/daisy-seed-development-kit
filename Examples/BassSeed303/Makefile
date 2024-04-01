@@ -18,7 +18,8 @@ CPP_SOURCES = \
 	../../Hardware/StepSequencer/Drivers/SetSeqSyncState.cpp \
 	../../Hardware/StepSequencer/Drivers/StepRecState.cpp \
 	../../Hardware/StepSequencer/Drivers/StopState.cpp \
-	../../Hardware/PotentiometerArray/Drivers/PotentiometerArray.cpp
+	../../Hardware/PotentiometerArray/Drivers/PotentiometerArray.cpp \
+	../../Hardware/Sync/Drivers/Sync.cpp
 
 # Core location, and generic Makefile.
 SYSTEM_FILES_DIR = $(LIBDAISY_DIR)/core

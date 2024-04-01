@@ -21,6 +21,8 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void MoveToStep(uint8_t) {}
         void SetStepTimeUs(uint32_t);
         void SetTicksPerUs(uint32_t);
+        void SyncPulse2ppqn();
+        void SetSeqSyncSource(uint8_t);
 
     private:
         uint32_t stepTimeUs;
@@ -29,6 +31,13 @@ namespace developmentKit::hardware::stepSequencer::drivers
         StepIndicator stepIndicator;
         bool playJustPressed;
         uint32_t lastStepStartTicks;
+        uint8_t seqSyncSource;
+        bool pulseOn;
+        uint32_t lastPulseTicks;
+        uint32_t ticksBetweenPulses;
+        uint32_t playIntermediateNoteTicks;
+        bool playIntermediaryNote;
+        bool firstPulseReceived;
         void OnSavePatternPressed();
         void OnSeqSyncSelectPressed();
         void OnLoadPatternPressed();

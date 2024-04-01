@@ -8,6 +8,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
         playJustPressed = true;
         controller->MoveToFirstStep();
         controller->ActivateCurrentStep();
+        pulseOn = false;
+        ticksBetweenPulses = 0;
+        lastPulseTicks = 0;
     }
 
     uint64_t PlayState::GetLedState()
@@ -30,6 +33,10 @@ namespace developmentKit::hardware::stepSequencer::drivers
         {
             playJustPressed = false;
             lastStepStartTicks = currentTicks;
+            lastPulseTicks = currentTicks;
+            ticksBetweenPulses = 0;
+            playIntermediaryNote = false;
+            firstPulseReceived = false;
         }
 
         if (gate && (currentTicks - lastStepStartTicks) >= (gateTimeUs * ticksPerUs))
@@ -41,11 +48,42 @@ namespace developmentKit::hardware::stepSequencer::drivers
             }
         }
 
-        if ((currentTicks - lastStepStartTicks) >= (stepTimeUs * ticksPerUs))
+        if (seqSyncSource == STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL)
         {
-            lastStepStartTicks = currentTicks;
-            controller->MoveNextStep();
-            controller->ActivateCurrentStep();
+            if ((currentTicks - lastStepStartTicks) >= (stepTimeUs * ticksPerUs))
+            {
+                lastStepStartTicks = currentTicks;
+                controller->MoveNextStep();
+                controller->ActivateCurrentStep();
+            }
+        }
+
+        if (seqSyncSource == STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_PULSE)
+        {
+            if (playIntermediaryNote && currentTicks >= playIntermediateNoteTicks)
+            {
+                controller->MoveNextStep();
+                controller->ActivateCurrentStep();
+                playIntermediaryNote = false;
+            }
+
+            if (pulseOn)
+            {
+                pulseOn = false;
+                ticksBetweenPulses = currentTicks - lastPulseTicks;
+                playIntermediateNoteTicks = (currentTicks + (ticksBetweenPulses / 2));
+
+                if(firstPulseReceived)
+                {
+                    playIntermediaryNote = true;
+                }
+
+                lastPulseTicks = currentTicks;
+                lastStepStartTicks = currentTicks;
+                firstPulseReceived = true;
+                controller->MoveNextStep();
+                controller->ActivateCurrentStep();
+            }
         }
     }
 
@@ -73,7 +111,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
             break;
         }
     }
-    
+
     void PlayState::OnKeyReleased(uint32_t keyState, uint32_t lastKeyState)
     {
     }
@@ -124,5 +162,15 @@ namespace developmentKit::hardware::stepSequencer::drivers
     void PlayState::SetTicksPerUs(uint32_t newTicksPerUs)
     {
         ticksPerUs = newTicksPerUs;
+    }
+
+    void PlayState::SyncPulse2ppqn()
+    {
+        pulseOn = true;
+    }
+
+    void PlayState::SetSeqSyncSource(uint8_t newSeqSyncSource)
+    {
+        seqSyncSource = newSeqSyncSource;
     }
 }

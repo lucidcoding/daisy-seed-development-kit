@@ -27,6 +27,8 @@ namespace developmentKit::hardware::stepSequencer::drivers
         UpdateLedStates();
         lastKeyState = STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS;
         seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL;
+        playState.SetSeqSyncSource(seqSyncSource);
+        setSeqSyncState.SetSeqSyncSource(seqSyncSource);
 
         for (uint8_t savedStepIndex = 0; savedStepIndex < 128; savedStepIndex++)
         {
@@ -39,7 +41,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         }
     }
 
-    void  Controller::EnterTestMode()
+    void Controller::EnterTestMode()
     {
         playState.SetStepTimeUs(STEP_SEQUENCER_CONTROLLER_TEST_TICKS_PER_STEP);
         blinkState.SetBlinkTimeUs(STEP_SEQUENCER_CONTROLLER_TEST_TICKS_PER_STEP);
@@ -136,6 +138,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
         seqSyncSource = (seqSyncSource + 1) % 4;
         setSeqSyncState.SetSeqSyncSource(seqSyncSource);
+        playState.SetSeqSyncSource(seqSyncSource);
     }
 
     void Controller::SwitchToBlinkState(uint64_t ledsToBlink)
@@ -171,6 +174,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
     void Controller::MoveToFirstStep()
     {
         currentStepIndex = 0;
+    }
+
+    void Controller::SyncPulse2ppqn()
+    {
+        playState.SyncPulse2ppqn();
     }
 
     void Controller::SetKeyState(uint32_t keyState)
@@ -314,7 +322,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
     void Controller::LoadPattern(uint8_t patternIndex)
     {
         for (uint8_t stepIndex = 0; stepIndex < STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT; stepIndex++)
-        {
+        {   
             uint8_t savedPatternIndex = (patternIndex * STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT) + stepIndex;
             steps[stepIndex].note = savedPatterns[savedPatternIndex].note;
             steps[stepIndex].gate = savedPatterns[savedPatternIndex].gate;

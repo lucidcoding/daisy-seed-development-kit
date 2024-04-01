@@ -65,7 +65,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
         if (newStepIndex == 0)
         {
-            if(loadOnNextBarStart)
+            if (loadOnNextBarStart)
             {
                 loadOnNextBarStart = false;
                 controller->LoadPattern(patternIndexToLoad);

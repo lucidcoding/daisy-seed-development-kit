@@ -21,6 +21,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         bool GetSlide();
         bool GetPreviousSlide();
         void SetTempo(uint8_t newTempo);
+        void SyncPulse2ppqn();
         Controller controller;
 
     private:

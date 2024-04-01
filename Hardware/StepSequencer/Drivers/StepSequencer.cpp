@@ -55,4 +55,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
         controller.SetTempo(newTempo);
     }
+
+    void StepSequencer::SyncPulse2ppqn()
+    {
+        controller.SyncPulse2ppqn();
+    }
 }

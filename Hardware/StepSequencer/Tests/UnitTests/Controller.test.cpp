@@ -899,17 +899,17 @@ TEST_CASE("Given state is playing, pressing PATTERN followed by a whole note key
     REQUIRE(controller.GetLedState() == 0x200041AB5);
 
     // Then press the note key and release and advance again - this should light up the respective LED and sets the selected pattern
-    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_D));
+    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_F));
     Advance(&controller, 8);
     controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN);
     Advance(&controller, 8);
     controller.SetKeyState(0);
     Advance(&controller, 8);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_LOAD);
-    REQUIRE(controller.GetLedState() == 0x200200004);
+    REQUIRE(controller.GetLedState() == 0x200200020);
 
     // Advance to last tick of this pattern and it should still be the old steps
-    Advance(&controller, 88); 
+    Advance(&controller, 88);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_LOAD);
     Step *actualSteps = controller.GetSteps();
 
@@ -938,8 +938,40 @@ TEST_CASE("Given state is playing, pressing PATTERN followed by a whole note key
             REQUIRE(actualSteps[stepIndex].gate == variedSteps[stepIndex].gate);
             REQUIRE(actualSteps[stepIndex].octaveDown == variedSteps[stepIndex].octaveDown);
             REQUIRE(actualSteps[stepIndex].octaveUp == variedSteps[stepIndex].octaveUp);
-            REQUIRE(actualSteps[stepIndex].slide == variedSteps[stepIndex].accent);
-            REQUIRE(actualSteps[stepIndex].accent == variedSteps[stepIndex].slide);
+            REQUIRE(actualSteps[stepIndex].accent == variedSteps[stepIndex].accent);
+            REQUIRE(actualSteps[stepIndex].slide == variedSteps[stepIndex].slide);
         }
     }
+}
+
+TEST_CASE("Given seqSyncSource is PULSE, when pulse is sent, then step advances, and also inbetween pulses")
+{
+    Setup();
+    controller.SetSteps(GetClearedSteps());
+    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
+    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC);
+    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
+    controller.SetKeyState(0);
+    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
+    controller.SetKeyState(0);
+    REQUIRE(controller.GetSeqSyncSource() == STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_PULSE);
+    Advance(&controller, 8);
+    REQUIRE(controller.GetCurrentStepIndex() == 0);
+    controller.SyncPulse2ppqn();
+    Advance(&controller, 1);
+    REQUIRE(controller.GetCurrentStepIndex() == 1);
+    Advance(&controller, 15);
+    REQUIRE(controller.GetCurrentStepIndex() == 1);
+    controller.SyncPulse2ppqn();
+    Advance(&controller, 1);
+    REQUIRE(controller.GetCurrentStepIndex() == 2);
+    Advance(&controller, 7);
+    REQUIRE(controller.GetCurrentStepIndex() == 2);
+    Advance(&controller, 1);
+    REQUIRE(controller.GetCurrentStepIndex() == 3);
+    Advance(&controller, 8);
+    REQUIRE(controller.GetCurrentStepIndex() == 3);
+    controller.SyncPulse2ppqn();
+    Advance(&controller, 1);
+    REQUIRE(controller.GetCurrentStepIndex() == 4);
 }

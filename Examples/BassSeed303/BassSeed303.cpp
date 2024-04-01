@@ -4,11 +4,13 @@
 #include "SynthEngine.h"
 #include "../../Hardware/PotentiometerArray/Drivers/PotentiometerArray.h"
 #include "../../Hardware/StepSequencer/Drivers/StepSequencer.h"
+#include "../../Hardware/Sync/Drivers/Sync.h"
 
 using namespace daisysp;
 using namespace daisy;
 using namespace developmentKit::hardware::potentiometerArray::drivers;
 using namespace developmentKit::hardware::stepSequencer::drivers;
+using namespace developmentKit::hardware::sync::drivers;
 using namespace developmentKit::bassSeed303;
 
 static DaisySeed hardware;
@@ -16,6 +18,7 @@ StepSequencer stepSequencer;
 SynthEngine synthEngine;
 DaisyAdapter daisyAdapter;
 PotentiometerArray potentiometerArray;
+Sync synch;
 
 static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
                           AudioHandle::InterleavingOutputBuffer out,
@@ -52,10 +55,11 @@ int main(void)
     hardware.Init();
     hardware.StartLog(false);
     float sampleRate = hardware.AudioSampleRate();
+    synch.Init(&hardware);
     synthEngine.Init(sampleRate);
     stepSequencer.Init();
     stepSequencer.SetHardware(&daisyAdapter);
-    //stepSequencer.controller.daisy = &hardware;
+    // stepSequencer.controller.daisy = &hardware;
     InitPotentiometerArray();
     hardware.adc.Start();
     hardware.StartAudio(AudioCallback);
@@ -63,6 +67,7 @@ int main(void)
     while (1)
     {
         stepSequencer.SetTempo(potentiometerArray.analogControl[7].GetRawFloat() * 240.0f);
+        if (synch.Poll()) stepSequencer.SyncPulse2ppqn();
         stepSequencer.Listen();
         synthEngine.SetGate(stepSequencer.GetGate());
         synthEngine.SetNoteFrequency(mtof(stepSequencer.GetNote()));
