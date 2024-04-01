@@ -13,11 +13,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
     public:
         void Reset();
         uint64_t GetLedState();
-        void CheckForClockEvent(uint32_t);
+        void Process(uint32_t, uint32_t);
         void OnKeyPressed(uint32_t);
         uint8_t GetStateCode();
         void MoveToStep(uint8_t) {}
-        void OnKeyReleased(uint32_t, uint32_t);
+        //void OnKeyReleased(uint32_t, uint32_t);
         void OnNoteKeyPressed(uint64_t);
 
     private:

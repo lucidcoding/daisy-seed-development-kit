@@ -5,6 +5,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
 {
     void SetSeqSyncState::Reset()
     {
+        lastKeyState = STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS;
     }
 
     uint64_t SetSeqSyncState::GetLedState()
@@ -32,8 +33,21 @@ namespace developmentKit::hardware::stepSequencer::drivers
         return ledState;
     }
 
-    void SetSeqSyncState::CheckForClockEvent(uint32_t currentTicks)
+    void SetSeqSyncState::Process(uint32_t currentTicks, uint32_t keyState)
     {
+        if (keyState != STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS)
+        {
+            if ((lastKeyState & keyState) == keyState)
+            {
+                OnKeyReleased(keyState, lastKeyState);
+            }
+            else
+            {
+                OnKeyPressed(keyState);
+            }
+        }
+
+        lastKeyState = keyState;
     }
 
     void SetSeqSyncState::OnKeyPressed(uint32_t keyState)

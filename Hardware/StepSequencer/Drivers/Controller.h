@@ -25,8 +25,8 @@ namespace developmentKit::hardware::stepSequencer::drivers
     public:
         void Init(uint32_t);
         void SetHardware(IHardware *);
-        void SetKeyState(uint32_t);
-        void Process(uint32_t);
+        //void SetKeyState(uint32_t);
+        void Process(uint32_t, uint32_t);
         bool GetGate();
         bool GetAccent();
         bool GetSlide();
@@ -49,6 +49,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void ToggleSeqSyncSource();
         void SwitchToBlinkState(uint64_t);
         void SwitchToLoadState(IState *);
+        void SwitchToPlayState(uint32_t);
         void MoveBackStep();
         void MoveNextStep();
         void MoveToFirstStep();
@@ -72,7 +73,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         uint8_t tempo;
         bool gate;
         uint64_t ledState;
-        uint32_t lastKeyState;
+        //uint32_t lastKeyState;
         uint8_t seqSyncSource;
         IHardware *hardware;
         void ClearSteps();

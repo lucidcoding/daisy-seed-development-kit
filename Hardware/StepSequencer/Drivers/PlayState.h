@@ -13,10 +13,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
     public:
         void Reset();
+        void Start(uint32_t);
         uint64_t GetLedState();
-        void CheckForClockEvent(uint32_t);
+        void Process(uint32_t, uint32_t);
         void OnKeyPressed(uint32_t);
-        void OnKeyReleased(uint32_t, uint32_t);
+        //void OnKeyReleased(uint32_t, uint32_t);
         uint8_t GetStateCode();
         void MoveToStep(uint8_t) {}
         void SetStepTimeUs(uint32_t);
@@ -29,7 +30,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
         uint32_t gateTimeUs;
         uint32_t ticksPerUs;
         StepIndicator stepIndicator;
-        bool playJustPressed;
         uint32_t lastStepStartTicks;
         uint8_t seqSyncSource;
         bool pulseOn;

@@ -20,8 +20,8 @@ namespace developmentKit::hardware::stepSequencer::drivers
     void StepSequencer::Listen()
     {
         uint32_t keyState = interface.ScanKeys(System::GetTick());
-        controller.SetKeyState(keyState);
-        controller.Process(System::GetTick());
+        //controller.SetKeyState(keyState);
+        controller.Process(System::GetTick(), keyState);
         uint64_t ledState = controller.GetLedState();
         interface.ScanLeds(ledState, System::GetTick());
     }

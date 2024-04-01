@@ -25,7 +25,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         gate = false;
         ClearSteps();
         UpdateLedStates();
-        lastKeyState = STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS;
+        //lastKeyState = STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS;
         seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL;
         playState.SetSeqSyncSource(seqSyncSource);
         setSeqSyncState.SetSeqSyncSource(seqSyncSource);
@@ -128,6 +128,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void Controller::ActivateCurrentStep()
     {
+
         if (steps[currentStepIndex].gate)
         {
             gate = true;
@@ -157,6 +158,13 @@ namespace developmentKit::hardware::stepSequencer::drivers
         state->Reset();
     }
 
+    void Controller::SwitchToPlayState(uint32_t currentTicks)
+    {
+        state = &playState;
+        mode = STEP_SEQUENCER_CONTROLLER_MODE_PLAY;
+        playState.Start(currentTicks);
+    }
+
     void Controller::MoveBackStep()
     {
         if (currentStepIndex > 0)
@@ -181,7 +189,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         playState.SyncPulse2ppqn();
     }
 
-    void Controller::SetKeyState(uint32_t keyState)
+    /*void Controller::SetKeyState(uint32_t keyState)
     {
         if (keyState == STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS)
         {
@@ -199,11 +207,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
         UpdateLedStates();
         lastKeyState = keyState;
-    }
+    }*/
 
-    void Controller::Process(uint32_t currentTicks)
+    void Controller::Process(uint32_t currentTicks, uint32_t keyState)
     {
-        state->CheckForClockEvent(currentTicks);
+        state->Process(currentTicks, keyState);
         UpdateLedStates();
     }
 

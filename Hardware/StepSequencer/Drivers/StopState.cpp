@@ -16,11 +16,15 @@ namespace developmentKit::hardware::stepSequencer::drivers
         return ledState;
     }
 
-    void StopState::CheckForClockEvent(uint32_t currentTicks)
+    void StopState::Process(uint32_t currentTicks, uint32_t keyState)
     {
+        if (keyState != STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS)
+        {
+            OnKeyPressed(currentTicks, keyState);
+        }
     }
 
-    void StopState::OnKeyPressed(uint32_t keyState)
+    void StopState::OnKeyPressed(uint32_t currentTicks, uint32_t keyState)
     {
         switch (keyState)
         {
@@ -40,14 +44,14 @@ namespace developmentKit::hardware::stepSequencer::drivers
             OnRecordPressed();
             break;
         case (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY):
-            OnPlayPressed();
+            OnPlayPressed(currentTicks);
             break;
         }
     }
 
-    void StopState::OnKeyReleased(uint32_t keyState, uint32_t lastKeyState)
+    /*void StopState::OnKeyReleased(uint32_t keyState, uint32_t lastKeyState)
     {
-    }
+    }*/
 
     uint8_t StopState::GetStateCode()
     {
@@ -80,8 +84,8 @@ namespace developmentKit::hardware::stepSequencer::drivers
         controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC);
     }
 
-    void StopState::OnPlayPressed()
+    void StopState::OnPlayPressed(uint32_t currentTicks)
     {
-        controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_PLAY);
+        controller->SwitchToPlayState(currentTicks);
     }
 }

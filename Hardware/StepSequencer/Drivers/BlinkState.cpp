@@ -22,7 +22,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         return ledState;
     }
 
-    void BlinkState::CheckForClockEvent(uint32_t currentTicks)
+    void BlinkState::Process(uint32_t currentTicks, uint32_t keyState)
     {
         if (blinkJustStarted)
         {
@@ -42,13 +42,13 @@ namespace developmentKit::hardware::stepSequencer::drivers
         }
     }
 
-    void BlinkState::OnKeyPressed(uint32_t keyState)
+    /*void BlinkState::OnKeyPressed(uint32_t keyState)
     {
     }
 
     void BlinkState::OnKeyReleased(uint32_t keyState, uint32_t lastKeyState)
     {
-    }
+    }*/
 
     uint8_t BlinkState::GetStateCode()
     {

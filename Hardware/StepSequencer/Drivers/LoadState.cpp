@@ -7,6 +7,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
         patternIndexToLoad = STEP_SEQUENCER_CONTROLLER_NO_PATTERN_SELECTED;
         loadOnNextBarStart = false;
+        lastKeyState = STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS;
     }
 
     uint64_t LoadState::GetLedState()
@@ -26,9 +27,23 @@ namespace developmentKit::hardware::stepSequencer::drivers
         return backgroundLedState | thisLedState;
     }
 
-    void LoadState::CheckForClockEvent(uint32_t currentTicks)
+    void LoadState::Process(uint32_t currentTicks, uint32_t keyState)
     {
-        backgroundState->CheckForClockEvent(currentTicks);
+        if (keyState != STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS)
+        {
+            if ((lastKeyState & keyState) == keyState)
+            {
+                OnKeyReleased(keyState, lastKeyState);
+            }
+            else
+            {
+                OnKeyPressed(keyState);
+            }
+        }
+
+        lastKeyState = keyState;
+
+        backgroundState->Process(currentTicks, keyState);
     }
 
     void LoadState::OnKeyPressed(uint32_t keyState)

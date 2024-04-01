@@ -5,12 +5,24 @@ namespace developmentKit::hardware::stepSequencer::drivers
 {
     void PlayState::Reset()
     {
-        playJustPressed = true;
         controller->MoveToFirstStep();
         controller->ActivateCurrentStep();
         pulseOn = false;
         ticksBetweenPulses = 0;
         lastPulseTicks = 0;
+    }
+
+    void PlayState::Start(uint32_t currentTicks)
+    {
+        lastStepStartTicks = currentTicks;
+        lastPulseTicks = currentTicks;
+        controller->MoveToFirstStep();
+        controller->ActivateCurrentStep();
+        pulseOn = false;
+        ticksBetweenPulses = 0;
+        lastPulseTicks = 0;
+        playIntermediaryNote = false;
+        firstPulseReceived = false;
     }
 
     uint64_t PlayState::GetLedState()
@@ -23,21 +35,16 @@ namespace developmentKit::hardware::stepSequencer::drivers
         return ledState;
     }
 
-    void PlayState::CheckForClockEvent(uint32_t currentTicks)
+    void PlayState::Process(uint32_t currentTicks, uint32_t keyState)
     {
+        if (keyState != STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS)
+        {
+            OnKeyPressed(keyState);
+        }
+
         bool gate = controller->GetGate();
         uint8_t currentStepIndex = controller->GetCurrentStepIndex();
         Step *steps = controller->GetSteps();
-
-        if (playJustPressed)
-        {
-            playJustPressed = false;
-            lastStepStartTicks = currentTicks;
-            lastPulseTicks = currentTicks;
-            ticksBetweenPulses = 0;
-            playIntermediaryNote = false;
-            firstPulseReceived = false;
-        }
 
         if (gate && (currentTicks - lastStepStartTicks) >= (gateTimeUs * ticksPerUs))
         {
@@ -73,7 +80,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
                 ticksBetweenPulses = currentTicks - lastPulseTicks;
                 playIntermediateNoteTicks = (currentTicks + (ticksBetweenPulses / 2));
 
-                if(firstPulseReceived)
+                if (firstPulseReceived)
                 {
                     playIntermediaryNote = true;
                 }
@@ -112,9 +119,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
         }
     }
 
-    void PlayState::OnKeyReleased(uint32_t keyState, uint32_t lastKeyState)
+    /*void PlayState::OnKeyReleased(uint32_t keyState, uint32_t lastKeyState)
     {
-    }
+    }*/
 
     uint8_t PlayState::GetStateCode()
     {

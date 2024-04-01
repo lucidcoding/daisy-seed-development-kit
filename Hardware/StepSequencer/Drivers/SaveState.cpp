@@ -12,8 +12,12 @@ namespace developmentKit::hardware::stepSequencer::drivers
         return ledState;
     }
 
-    void SaveState::CheckForClockEvent(uint32_t currentTicks)
+    void SaveState::Process(uint32_t currentTicks, uint32_t keyState)
     {
+        if (keyState != STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS)
+        {
+            OnKeyPressed(keyState);
+        }
     }
 
     void SaveState::OnKeyPressed(uint32_t keyState)
@@ -38,9 +42,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
         }
     }
 
-    void SaveState::OnKeyReleased(uint32_t, uint32_t)
+    /*void SaveState::OnKeyReleased(uint32_t, uint32_t)
     {
-    }
+    }*/
 
     uint8_t SaveState::GetStateCode()
     {
