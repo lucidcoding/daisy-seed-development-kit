@@ -1,5 +1,6 @@
 #include "LoadState.h"
 #include "Debug.h"
+// #include "../../../Examples/BassSeed303/BassSeed303.h"
 
 namespace developmentKit::hardware::stepSequencer::drivers
 {
@@ -29,24 +30,26 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void LoadState::Process(uint32_t currentTicks, uint32_t keyState)
     {
+        // daisySeed.PrintLine("Press: %d", keyState);
+
         if (keyState != STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS)
         {
             if ((lastKeyState & keyState) == keyState)
             {
-                OnKeyReleased(keyState, lastKeyState);
+                OnKeyReleased(currentTicks, keyState, lastKeyState);
             }
             else
             {
-                OnKeyPressed(keyState);
+                OnKeyPressed(currentTicks, keyState);
             }
+
+            lastKeyState = keyState;
         }
 
-        lastKeyState = keyState;
-
-        backgroundState->Process(currentTicks, keyState);
+        backgroundState->Process(currentTicks, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     }
 
-    void LoadState::OnKeyPressed(uint32_t keyState)
+    void LoadState::OnKeyPressed(uint32_t currentTicks, uint32_t keyState)
     {
         switch (keyState)
         {
@@ -63,11 +66,12 @@ namespace developmentKit::hardware::stepSequencer::drivers
         }
     }
 
-    void LoadState::OnKeyReleased(uint32_t keyState, uint32_t lastKeyState)
+    void LoadState::OnKeyReleased(uint32_t currentTicks, uint32_t keyState, uint32_t lastKeyState)
     {
+        // daisySeed.PrintLine("Key release: keyState: %d, lastKeyState: %d", keyState, lastKeyState);
         if (((lastKeyState & ((uint32_t)1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN)) > 0) && ((keyState & ((uint32_t)1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN)) == 0))
         {
-            OnPatternKeyReleased();
+            OnPatternKeyReleased(currentTicks);
         }
     }
 
@@ -78,13 +82,15 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void LoadState::MoveToStep(uint8_t newStepIndex)
     {
+        DEBUG("MoveToStepy: " << (uint16_t)newStepIndex);
         if (newStepIndex == 0)
         {
             if (loadOnNextBarStart)
             {
                 loadOnNextBarStart = false;
                 controller->LoadPattern(patternIndexToLoad);
-                controller->SetState(backgroundState->GetStateCode());
+                // controller->SetState(backgroundState->GetStateCode());
+                controller->SwitchToPlayStateAndContinue();
             }
         }
     }
@@ -95,18 +101,21 @@ namespace developmentKit::hardware::stepSequencer::drivers
         patternIndexToLoad = controller->GetPatternIndexFromNote(note);
     }
 
-    void LoadState::OnPatternKeyReleased()
+    void LoadState::OnPatternKeyReleased(uint32_t currentTicks)
     {
+        // daisySeed.PrintLine("Patern release");
         if (patternIndexToLoad != STEP_SEQUENCER_CONTROLLER_NO_PATTERN_SELECTED)
         {
             if (backgroundState->GetStateCode() == STEP_SEQUENCER_CONTROLLER_MODE_PLAY)
             {
+                // daisySeed.PrintLine("playing");
                 loadOnNextBarStart = true;
             }
             else
             {
+                // daisySeed.PrintLine("stopped");
                 controller->LoadPattern(patternIndexToLoad);
-                controller->SetState(backgroundState->GetStateCode());
+                controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
             }
         }
     }

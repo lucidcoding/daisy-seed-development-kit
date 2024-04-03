@@ -49,7 +49,8 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void ToggleSeqSyncSource();
         void SwitchToBlinkState(uint64_t);
         void SwitchToLoadState(IState *);
-        void SwitchToPlayState(uint32_t);
+        void SwitchToPlayStateAndRestart(uint32_t);
+        void SwitchToPlayStateAndContinue();
         void MoveBackStep();
         void MoveNextStep();
         void MoveToFirstStep();

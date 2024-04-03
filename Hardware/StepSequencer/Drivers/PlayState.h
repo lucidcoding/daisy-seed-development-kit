@@ -14,6 +14,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
     public:
         void Reset();
         void Start(uint32_t);
+        //void Continue(uint32_t);
         uint64_t GetLedState();
         void Process(uint32_t, uint32_t);
         void OnKeyPressed(uint32_t);

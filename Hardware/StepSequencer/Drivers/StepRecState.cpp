@@ -111,7 +111,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void StepRecState::OnPlayPressed(uint32_t currentTicks)
     {
-        controller->SwitchToPlayState(currentTicks);
+        controller->SwitchToPlayStateAndRestart(currentTicks);
     }
 
     void StepRecState::OnBackPressed()

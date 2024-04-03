@@ -9,13 +9,13 @@
 using namespace developmentKit::hardware::stepSequencer::drivers;
 using namespace developmentKit::hardware::stepSequencer::tests::unitTests;
 
-//uint32_t currentTicks;
+// uint32_t currentTicks;
 MockHardware mockHardware;
 Controller controller;
 
 void Setup()
 {
-    //currentTicks = 0;
+    // currentTicks = 0;
     controller.Init(1);
     mockHardware.Clear();
     controller.SetHardware(&mockHardware);
@@ -168,20 +168,6 @@ Step *GetVariedSteps()
     steps[15].gate = false;
     return steps;
 }
-
-/*void SetKeyState(Controller *controller, uint32_t keyState)
-{
-    controller->Process(currentTicks, keyState);
-}
-
-void Advance(Controller *controller, uint8_t ticks)
-{
-    for (uint8_t i = 0; i < ticks; i++)
-    {
-        currentTicks++;
-        controller->Process(currentTicks, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
-    }
-}*/
 
 TEST_CASE("Pressing Play sets mode to play")
 {
@@ -346,7 +332,7 @@ TEST_CASE("Pressing stop after gate keeps gate closed")
     // Advance 6 ticks
     controller.Process(6, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(!controller.GetGate());
-    
+
     // Press and release STOP
     controller.Process(6, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
     controller.Process(6, 0);
@@ -370,11 +356,11 @@ TEST_CASE("Pressing stop mid long gate closes gate immediately")
     // Advance 22 ticks
     for(uint32_t i = 0; i <= 22; i ++)
     {
-        controller.Process(i, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);  
+        controller.Process(i, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     }
 
     REQUIRE(controller.GetGate());
-    
+
     // Press and release STOP
     controller.Process(22, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
     controller.Process(22, 0);
@@ -534,18 +520,18 @@ TEST_CASE("Pressing play in the middle of step record mode starts playing from b
     REQUIRE(controller.GetSteps()[controller.GetCurrentStepIndex()].note == 1);
 }
 
-/*TEST_CASE("Tick count resets when pressing play after a few ticks")
+TEST_CASE("Tick count resets when pressing play after a few ticks")
 {
     Setup();
     controller.SetSteps(GetIncrementingNoteSteps());
-    Advance(&controller, 6);
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
-    controller.SetKeyState(0);
-    Advance(&controller, 1);
+    controller.Process(6, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
+    controller.Process(6, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
+    controller.Process(6, 0);
+    controller.Process(7, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetSteps()[controller.GetCurrentStepIndex()].note == 0);
-    Advance(&controller, 7);
+    controller.Process(13, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetSteps()[controller.GetCurrentStepIndex()].note == 0);
-    Advance(&controller, 1);
+    controller.Process(14, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetSteps()[controller.GetCurrentStepIndex()].note == 1);
 }
 
@@ -553,7 +539,7 @@ TEST_CASE("Only LEDs for first step shown when started")
 {
     Setup();
     controller.SetSteps(GetVariedSteps());
-    controller.Process(0);
+    controller.Process(0, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     uint64_t actualLedStates = controller.GetLedState();
     uint64_t expectedLedStates = 0x00 | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_UP) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1);
     REQUIRE(actualLedStates == expectedLedStates);
@@ -563,8 +549,8 @@ TEST_CASE("Pressing PLAY turns PLAY LED on")
 {
     Setup();
     controller.SetSteps(GetVariedSteps());
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
-    controller.SetKeyState(0);
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
+    controller.Process(0, 0);
     uint64_t actualLedStates = controller.GetLedState();
     uint64_t expectedLedStates = 0 | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_UP) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_PLAY) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1);
     REQUIRE(actualLedStates == expectedLedStates);
@@ -574,9 +560,10 @@ TEST_CASE("Pressing play and advancing 2 steps turns play LED on and correct ste
 {
     Setup();
     controller.SetSteps(GetVariedSteps());
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
-    controller.SetKeyState(0);
-    Advance(&controller, 17);
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
+    controller.Process(0, 0);
+    controller.Process(8, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
+    controller.Process(16, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     uint64_t actualLedStates = controller.GetLedState();
     uint64_t expectedLedStates = 0 | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_G) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_ACCENT) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_SLIDE) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_PLAY) | ((uint64_t)1 << (STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + 2));
     REQUIRE(actualLedStates == expectedLedStates);
@@ -586,10 +573,10 @@ TEST_CASE("Pressing PLAY twice turns PLAY LED off")
 {
     Setup();
     controller.SetSteps(GetVariedSteps());
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
-    controller.SetKeyState(0);
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
-    controller.SetKeyState(0);
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
+    controller.Process(0, 0);
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
+    controller.Process(0, 0);
     uint64_t actualLedStates = controller.GetLedState();
     uint64_t expectedLedStates = 0 | ((uint64_t)(uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_UP) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1);
     REQUIRE(actualLedStates == expectedLedStates);
@@ -599,8 +586,8 @@ TEST_CASE("Pressing REC turns REC LED on")
 {
     Setup();
     controller.SetSteps(GetVariedSteps());
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_REC);
-    controller.SetKeyState(0);
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_REC);
+    controller.Process(0, 0);
     uint64_t actualLedStates = controller.GetLedState();
     uint64_t expectedLedStates = 0 | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_UP) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_REC) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1);
     REQUIRE(actualLedStates == expectedLedStates);
@@ -610,12 +597,12 @@ TEST_CASE("Pressing REC and advancing 2 steps turns correct LEDs on")
 {
     Setup();
     controller.SetSteps(GetVariedSteps());
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_REC);
-    controller.SetKeyState(0);
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_NEXT);
-    controller.SetKeyState(0);
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_NEXT);
-    controller.SetKeyState(0);
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_REC);
+    controller.Process(0, 0);
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_NEXT);
+    controller.Process(0, 0);
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_NEXT);
+    controller.Process(0, 0);
     uint64_t actualLedStates = controller.GetLedState();
     uint64_t expectedLedStates = 0 | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_G) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_ACCENT) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_SLIDE) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_REC) | ((uint64_t)1 << (STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + 2));
     REQUIRE(actualLedStates == expectedLedStates);
@@ -625,10 +612,10 @@ TEST_CASE("Pressing REC and advancing to a step with no gate does not show note 
 {
     Setup();
     controller.SetSteps(GetVariedSteps());
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_REC);
-    controller.SetKeyState(0);
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_NEXT);
-    controller.SetKeyState(0);
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_REC);
+    controller.Process(0, 0);
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_NEXT);
+    controller.Process(0, 0);
     uint64_t actualLedStates = controller.GetLedState();
     uint64_t expectedLedStates = 0 | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_REC) | ((uint64_t)1 << (STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1 + 1));
     REQUIRE(actualLedStates == expectedLedStates);
@@ -638,8 +625,8 @@ TEST_CASE("GetPreviousSlide returns false if on first step and last step is not 
 {
     Setup();
     controller.SetSteps(GetClearedSteps());
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
-    controller.SetKeyState(0);
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
+    controller.Process(0, 0);
     REQUIRE(controller.GetPreviousSlide() == false);
 }
 
@@ -647,11 +634,12 @@ TEST_CASE("GetPreviousSlide returns false if current step is slide but previous 
 {
     Setup();
     controller.SetSteps(GetGatedSteps());
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
-    controller.SetKeyState(0);
-    Advance(&controller, 17);
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
+    controller.Process(0, 0);
+    controller.Process(8, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
+    controller.Process(16, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetPreviousSlide() == false);
-    Advance(&controller, 8);
+    controller.Process(24, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetPreviousSlide() == true);
 }
 
@@ -661,15 +649,15 @@ TEST_CASE("Pressing FUNC + D# leaves seqSyncSource the same")
     Setup();
     controller.SetSteps(GetClearedSteps());
     REQUIRE(controller.GetSeqSyncSource() == STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL);
-    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
+    controller.Process(0, (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC);
     REQUIRE(controller.GetSeqSyncSource() == STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL);
     REQUIRE(controller.GetLedState() == expectedLedStates);
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC);
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC);
     REQUIRE(controller.GetSeqSyncSource() == STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL);
     REQUIRE(controller.GetLedState() == expectedLedStates);
-    controller.SetKeyState(0);
+    controller.Process(0, 0);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_STOP);
     REQUIRE(controller.GetSeqSyncSource() == STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL);
     expectedLedStates = ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1);
@@ -682,14 +670,14 @@ TEST_CASE("Pressing FUNC + D# 2 times changes seqSyncSource to InternalSequencer
     Setup();
     controller.SetSteps(GetClearedSteps());
     REQUIRE(controller.GetSeqSyncSource() == STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL);
-    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC);
-    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC);
+    controller.Process(0, (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC);
+    controller.Process(0, (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC);
     REQUIRE(controller.GetSeqSyncSource() == STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_PULSE);
     REQUIRE(controller.GetLedState() == expectedLedStates);
-    controller.SetKeyState(0);
+    controller.Process(0, 0);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_STOP);
     REQUIRE(controller.GetSeqSyncSource() == STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_PULSE);
     expectedLedStates = ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1);
@@ -702,16 +690,16 @@ TEST_CASE("Pressing FUNC + D# 3 times changes seqSyncSource to InternalSequencer
     Setup();
     controller.SetSteps(GetClearedSteps());
     REQUIRE(controller.GetSeqSyncSource() == STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL);
-    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC);
-    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC);
-    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC);
+    controller.Process(0, (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC);
+    controller.Process(0, (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC);
+    controller.Process(0, (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC);
     REQUIRE(controller.GetSeqSyncSource() == STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SYNC);
     REQUIRE(controller.GetLedState() == expectedLedStates);
-    controller.SetKeyState(0);
+    controller.Process(0, 0);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_STOP);
     REQUIRE(controller.GetSeqSyncSource() == STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_MIDI_SYNC);
     expectedLedStates = ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1);
@@ -721,31 +709,31 @@ TEST_CASE("Pressing FUNC + D# 3 times changes seqSyncSource to InternalSequencer
 void RequireLedsFlash(uint64_t ledsToFlash)
 {
     REQUIRE(controller.GetLedState() == ledsToFlash);
-    Advance(&controller, 8);
+    controller.Process(8, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetLedState() == 0);
-    Advance(&controller, 8);
+    controller.Process(16, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetLedState() == ledsToFlash);
-    Advance(&controller, 8);
+    controller.Process(24, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetLedState() == 0);
-    Advance(&controller, 8);
+    controller.Process(32, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetLedState() == ledsToFlash);
-    Advance(&controller, 8);
+    controller.Process(40, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetLedState() == 0);
-    Advance(&controller, 8);
+    controller.Process(48, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetLedState() == ledsToFlash);
-    Advance(&controller, 8);
+    controller.Process(56, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetLedState() == 0);
-    Advance(&controller, 8);
+    controller.Process(64, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetLedState() == ledsToFlash);
-    Advance(&controller, 8);
+    controller.Process(72, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
 }
 
 TEST_CASE("Pressing FUNC + C2 clears the pattern")
 {
     Setup();
     controller.SetSteps(GetVariedSteps());
-    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C2));
-    controller.SetKeyState(0);
+    controller.Process(0, (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C2));
+    controller.Process(0, 0);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_BLINK);
     RequireLedsFlash(0x1FFFF);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_STOP);
@@ -769,12 +757,12 @@ TEST_CASE("Pressing FUNC + PATTERN followed by a whole note key saves the patter
 {
     Setup();
     controller.SetSteps(GetVariedSteps());
-    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN));
-    controller.SetKeyState(0);
+    controller.Process(0, (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN));
+    controller.Process(0, 0);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_SAVE);
     REQUIRE(controller.GetLedState() == 0x1AB5);
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_B);
-    controller.SetKeyState(0);
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_B);
+    controller.Process(0, 0);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_BLINK);
     RequireLedsFlash(1 << STEP_SEQUENCER_CONTROLLER_KEYS_B);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_STOP);
@@ -887,17 +875,17 @@ TEST_CASE("Given state is stopped, pressing PATTERN followed by a whole note key
     }
 
     // Press PATTERN - should so into LOAD state and display LEDs for patterns to select
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN);
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_LOAD);
     REQUIRE(controller.GetLedState() == (0x1AB5 | (1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1)));
 
     // Then press the note key and release - this should light up the respective LED and sets the selected pattern
-    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_D));
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN);
+    controller.Process(0, (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_D));
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN);
     REQUIRE(controller.GetLedState() == ((1 << STEP_SEQUENCER_CONTROLLER_LEDS_D) | (1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1)));
 
     // Releasing PATTERN sends it back to STOP state and copies the selected pattern
-    controller.SetKeyState(0);
+    controller.Process(0, 0);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_STOP);
     uint64_t expectedLedStates = 0x00 | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_C) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_OCTAVE_UP) | ((uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_STEP_1);
     REQUIRE(controller.GetLedState() == expectedLedStates);
@@ -938,28 +926,33 @@ TEST_CASE("Given state is playing, pressing PATTERN followed by a whole note key
     }
 
     // Press PLAY and advance a step
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
-    controller.SetKeyState(0);
-    Advance(&controller, 8);
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
+    controller.Process(0, 0);
+    controller.Process(8, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
 
     // Press PATTERN and advance another step - should go into LOAD state and display LEDs for patterns to select
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN);
-    Advance(&controller, 8);
+    controller.Process(8, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN);
+    controller.Process(16, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_LOAD);
-    REQUIRE(controller.GetLedState() == 0x200041AB5);
+    REQUIRE(controller.GetLedState() == 0x200081AB5);
 
     // Then press the note key and release and advance again - this should light up the respective LED and sets the selected pattern
-    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_F));
-    Advance(&controller, 8);
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN);
-    Advance(&controller, 8);
-    controller.SetKeyState(0);
-    Advance(&controller, 8);
+    controller.Process(16, (1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_F));
+    controller.Process(24, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
+    controller.Process(24, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_PATTERN);
+    controller.Process(32, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
+    controller.Process(32, 0);
+    controller.Process(40, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_LOAD);
-    REQUIRE(controller.GetLedState() == 0x200200020);
+    REQUIRE(controller.GetLedState() == 0x200400020);
 
     // Advance to last tick of this pattern and it should still be the old steps
-    Advance(&controller, 88);
+
+    for (uint8_t i = 41; i <= 127; i++)
+    {
+        controller.Process(i, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
+    }
+
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_LOAD);
     Step *actualSteps = controller.GetSteps();
 
@@ -977,9 +970,10 @@ TEST_CASE("Given state is playing, pressing PATTERN followed by a whole note key
     }
 
     // Advance one more and they should match Varied
-    Advance(&controller, 1);
+    controller.Process(128, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetMode() == STEP_SEQUENCER_CONTROLLER_MODE_PLAY);
     actualSteps = controller.GetSteps();
+
     for (uint16_t stepIndex = 0; stepIndex < 16; stepIndex++)
     {
         DYNAMIC_SECTION("Checking step with stepIndex: " << stepIndex)
@@ -998,30 +992,30 @@ TEST_CASE("Given seqSyncSource is PULSE, when pulse is sent, then step advances,
 {
     Setup();
     controller.SetSteps(GetClearedSteps());
-    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC);
-    controller.SetKeyState((1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
-    controller.SetKeyState(0);
-    controller.SetKeyState(1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
-    controller.SetKeyState(0);
+    controller.Process(0, (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC);
+    controller.Process(0, (1 << STEP_SEQUENCER_CONTROLLER_KEYS_FUNC) | (1 << STEP_SEQUENCER_CONTROLLER_KEYS_C_SHARP));
+    controller.Process(0, 0);
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
+    controller.Process(0, 0);
     REQUIRE(controller.GetSeqSyncSource() == STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_PULSE);
-    Advance(&controller, 8);
+    controller.Process(8, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetCurrentStepIndex() == 0);
     controller.SyncPulse2ppqn();
-    Advance(&controller, 1);
+    controller.Process(9, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetCurrentStepIndex() == 1);
-    Advance(&controller, 15);
+    controller.Process(32, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetCurrentStepIndex() == 1);
     controller.SyncPulse2ppqn();
-    Advance(&controller, 1);
+    controller.Process(33, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetCurrentStepIndex() == 2);
-    Advance(&controller, 7);
+    controller.Process(40, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetCurrentStepIndex() == 2);
-    Advance(&controller, 1);
+    controller.Process(48, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetCurrentStepIndex() == 3);
-    Advance(&controller, 8);
+    controller.Process(55, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetCurrentStepIndex() == 3);
     controller.SyncPulse2ppqn();
-    Advance(&controller, 1);
+    controller.Process(56, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetCurrentStepIndex() == 4);
-}*/
+}

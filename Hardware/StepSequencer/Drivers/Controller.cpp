@@ -158,11 +158,17 @@ namespace developmentKit::hardware::stepSequencer::drivers
         state->Reset();
     }
 
-    void Controller::SwitchToPlayState(uint32_t currentTicks)
+    void Controller::SwitchToPlayStateAndRestart(uint32_t currentTicks)
     {
         state = &playState;
         mode = STEP_SEQUENCER_CONTROLLER_MODE_PLAY;
         playState.Start(currentTicks);
+    }
+
+    void Controller::SwitchToPlayStateAndContinue()
+    {
+        state = &playState;
+        mode = STEP_SEQUENCER_CONTROLLER_MODE_PLAY;   
     }
 
     void Controller::MoveBackStep()

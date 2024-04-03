@@ -1,8 +1,10 @@
 #include "daisysp.h"
 #include "daisy_seed.h"
+#include "BassSeed303.h"
 #include "DaisyAdapter.h"
 #include "SynthEngine.h"
 #include "../../Hardware/PotentiometerArray/Drivers/PotentiometerArray.h"
+#include "../../Hardware/StepSequencer/Drivers/DaisySeedReference.h"
 #include "../../Hardware/StepSequencer/Drivers/StepSequencer.h"
 #include "../../Hardware/Sync/Drivers/Sync.h"
 
@@ -13,7 +15,7 @@ using namespace developmentKit::hardware::stepSequencer::drivers;
 using namespace developmentKit::hardware::sync::drivers;
 using namespace developmentKit::bassSeed303;
 
-static DaisySeed hardware;
+DaisySeed daisySeed;
 StepSequencer stepSequencer;
 SynthEngine synthEngine;
 DaisyAdapter daisyAdapter;
@@ -45,24 +47,24 @@ static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
 
 void InitPotentiometerArray()
 {
-    potentiometerArray.seed = &hardware;
+    potentiometerArray.seed = &daisySeed;
     potentiometerArray.Init();
 }
 
 int main(void)
 {
-    hardware.Configure();
-    hardware.Init();
-    hardware.StartLog(false);
-    float sampleRate = hardware.AudioSampleRate();
-    synch.Init(&hardware);
+    daisySeed.Configure();
+    daisySeed.Init();
+    daisySeed.StartLog(false);
+    float sampleRate = daisySeed.AudioSampleRate();
+    synch.Init(&daisySeed);
     synthEngine.Init(sampleRate);
     stepSequencer.Init();
     stepSequencer.SetHardware(&daisyAdapter);
     // stepSequencer.controller.daisy = &hardware;
     InitPotentiometerArray();
-    hardware.adc.Start();
-    hardware.StartAudio(AudioCallback);
+    daisySeed.adc.Start();
+    daisySeed.StartAudio(AudioCallback);
 
     while (1)
     {

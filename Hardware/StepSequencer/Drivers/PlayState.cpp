@@ -25,6 +25,19 @@ namespace developmentKit::hardware::stepSequencer::drivers
         firstPulseReceived = false;
     }
 
+    /*void PlayState::Continue(uint32_t currentTicks)
+    {
+        lastStepStartTicks = currentTicks;
+        lastPulseTicks = currentTicks;
+        controller->MoveToFirstStep();
+        controller->ActivateCurrentStep();
+        pulseOn = false;
+        ticksBetweenPulses = 0;
+        lastPulseTicks = 0;
+        playIntermediaryNote = false;
+        firstPulseReceived = false;
+    }*/
+
     uint64_t PlayState::GetLedState()
     {
         Step *steps = controller->GetSteps();

@@ -86,6 +86,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void StopState::OnPlayPressed(uint32_t currentTicks)
     {
-        controller->SwitchToPlayState(currentTicks);
+        controller->SwitchToPlayStateAndRestart(currentTicks);
     }
 }
