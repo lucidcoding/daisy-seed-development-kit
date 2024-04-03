@@ -1,10 +1,9 @@
 #include "daisysp.h"
 #include "daisy_seed.h"
-#include "BassSeed303.h"
 #include "DaisyAdapter.h"
 #include "SynthEngine.h"
 #include "../../Hardware/PotentiometerArray/Drivers/PotentiometerArray.h"
-#include "../../Hardware/StepSequencer/Drivers/DaisySeedReference.h"
+#include "../../Hardware/StepSequencer/Drivers/Debug.h"
 #include "../../Hardware/StepSequencer/Drivers/StepSequencer.h"
 #include "../../Hardware/Sync/Drivers/Sync.h"
 
