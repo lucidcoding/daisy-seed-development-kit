@@ -284,7 +284,6 @@ TEST_CASE("Correct gate is registered at each tick")
     controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
     controller.Process(0, 0);
 
-
     for (uint16_t i = 0; i < (STEP_SEQUENCER_CONTROLLER_TEST_STEP_COUNT * STEP_SEQUENCER_CONTROLLER_TEST_TICKS_PER_STEP); i++)
     {
         controller.Process(i, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);

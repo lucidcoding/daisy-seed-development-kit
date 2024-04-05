@@ -60,7 +60,6 @@ int main(void)
     synthEngine.Init(sampleRate);
     stepSequencer.Init();
     stepSequencer.SetHardware(&daisyAdapter);
-    // stepSequencer.controller.daisy = &hardware;
     InitPotentiometerArray();
     daisySeed.adc.Start();
     daisySeed.StartAudio(AudioCallback);
