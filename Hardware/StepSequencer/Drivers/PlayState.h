@@ -15,6 +15,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void Reset();
         void Start(uint32_t);
         //void Continue(uint32_t);
+        void ProcessInBackground(uint32_t);
         uint64_t GetLedState();
         void Process(uint32_t, uint32_t);
         void OnKeyPressed(uint32_t);
@@ -33,12 +34,14 @@ namespace developmentKit::hardware::stepSequencer::drivers
         StepIndicator stepIndicator;
         uint32_t lastStepStartTicks;
         uint8_t seqSyncSource;
-        bool pulseOn;
+        bool external2PpqnPulseOn;
         uint32_t lastPulseTicks;
         uint32_t ticksBetweenPulses;
         uint32_t playIntermediateNoteTicks;
         bool playIntermediaryNote;
         bool firstPulseReceived;
+        uint32_t lastExternal2PpqnPulseTicks;
+        bool intermediaryPulseDone;
         void OnSavePatternPressed();
         void OnSeqSyncSelectPressed();
         void OnLoadPatternPressed();

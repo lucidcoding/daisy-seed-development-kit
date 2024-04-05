@@ -195,28 +195,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
         playState.SyncPulse2ppqn();
     }
 
-    /*void Controller::SetKeyState(uint32_t keyState)
-    {
-        if (keyState == STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS)
-        {
-            return;
-        }
-
-        if ((lastKeyState & keyState) == keyState)
-        {
-            state->OnKeyReleased(keyState, lastKeyState);
-        }
-        else
-        {
-            state->OnKeyPressed(keyState);
-        }
-
-        UpdateLedStates();
-        lastKeyState = keyState;
-    }*/
-
     void Controller::Process(uint32_t currentTicks, uint32_t keyState)
     {
+        playState.ProcessInBackground(currentTicks);
         state->Process(currentTicks, keyState);
         UpdateLedStates();
     }

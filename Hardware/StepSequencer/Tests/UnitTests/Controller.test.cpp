@@ -987,7 +987,7 @@ TEST_CASE("Given state is playing, pressing PATTERN followed by a whole note key
     }
 }
 
-TEST_CASE("Given seqSyncSource is PULSE, when pulse is sent, then step advances, and also inbetween pulses")
+TEST_CASE("Given seqSyncSource is PULSE, when pulse is sent, then step advances, and also inbetween pulses.")
 {
     Setup();
     controller.SetSteps(GetClearedSteps());
@@ -1017,4 +1017,54 @@ TEST_CASE("Given seqSyncSource is PULSE, when pulse is sent, then step advances,
     controller.SyncPulse2ppqn();
     controller.Process(56, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
     REQUIRE(controller.GetCurrentStepIndex() == 4);
+    controller.Process(60, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
+    REQUIRE(controller.GetCurrentStepIndex() == 4);
+
+    // When stopped and started, it picks up from where it left off without having to resync.
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
+    controller.Process(0, 0);
+    controller.Process(63, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
+    REQUIRE(controller.GetCurrentStepIndex() == 4);
+    REQUIRE(!controller.GetGate());
+    controller.SyncPulse2ppqn();
+    controller.Process(64, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
+    REQUIRE(controller.GetCurrentStepIndex() == 4);
+    REQUIRE(!controller.GetGate());
+    controller.Process(71, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
+    REQUIRE(controller.GetCurrentStepIndex() == 4);
+    REQUIRE(!controller.GetGate());
+    controller.Process(72, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
+    REQUIRE(controller.GetCurrentStepIndex() == 4);
+    REQUIRE(!controller.GetGate());
+    controller.Process(76, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
+    REQUIRE(controller.GetCurrentStepIndex() == 4);
+    REQUIRE(!controller.GetGate());
+    controller.Process(79, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
+    REQUIRE(controller.GetCurrentStepIndex() == 4);
+    REQUIRE(!controller.GetGate());
+    controller.SyncPulse2ppqn();
+    controller.Process(80, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
+    REQUIRE(controller.GetCurrentStepIndex() == 4);
+    REQUIRE(!controller.GetGate());
+    controller.Process(84, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
+    REQUIRE(controller.GetCurrentStepIndex() == 4);
+    REQUIRE(!controller.GetGate());
+
+    // Restart
+    controller.Process(0, 1 << STEP_SEQUENCER_CONTROLLER_KEYS_PLAY);
+    controller.Process(0, 0);
+    controller.Process(87, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
+    REQUIRE(controller.GetCurrentStepIndex() == 4);
+    REQUIRE(!controller.GetGate());
+    controller.Process(88, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
+    REQUIRE(controller.GetCurrentStepIndex() == 1);
+    REQUIRE(controller.GetGate());
+    controller.Process(95, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
+    REQUIRE(controller.GetCurrentStepIndex() == 1);
+    REQUIRE(controller.GetGate());
+    controller.SyncPulse2ppqn();
+    controller.Process(96, STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS);
+    REQUIRE(controller.GetCurrentStepIndex() == 2);
+    REQUIRE(controller.GetGate());
+
 }

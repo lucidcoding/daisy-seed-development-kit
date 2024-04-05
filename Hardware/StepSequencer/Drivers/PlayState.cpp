@@ -7,9 +7,10 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
         controller->MoveToFirstStep();
         controller->ActivateCurrentStep();
-        pulseOn = false;
+        external2PpqnPulseOn = false;
         ticksBetweenPulses = 0;
         lastPulseTicks = 0;
+        intermediaryPulseDone = false;
     }
 
     void PlayState::Start(uint32_t currentTicks)
@@ -18,7 +19,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         lastPulseTicks = currentTicks;
         controller->MoveToFirstStep();
         controller->ActivateCurrentStep();
-        pulseOn = false;
+        external2PpqnPulseOn = false;
         ticksBetweenPulses = 0;
         lastPulseTicks = 0;
         playIntermediaryNote = false;
@@ -46,6 +47,26 @@ namespace developmentKit::hardware::stepSequencer::drivers
         ledState |= (uint64_t)1 << STEP_SEQUENCER_CONTROLLER_LEDS_PLAY;
         ledState |= stepIndicator.GetLedState(steps, currentStepIndex);
         return ledState;
+    }
+
+    void PlayState::ProcessInBackground(uint32_t currentTicks)
+    {
+        if (external2PpqnPulseOn)
+        {
+            external2PpqnPulseOn = false;
+            DEBUG("Pulse ON");
+            ticksBetweenPulses = currentTicks - lastExternal2PpqnPulseTicks;
+            lastExternal2PpqnPulseTicks = currentTicks;
+            intermediaryPulseDone = false;
+            DEBUG("ticksBetweenPulses: %lu", ticksBetweenPulses);
+        }
+
+        if (!intermediaryPulseDone && (currentTicks - lastExternal2PpqnPulseTicks) >= (ticksBetweenPulses / 2))
+        {
+            DEBUG("Intermediary pulse ON");
+            DEBUG("currentTicks: %lu, lastExternal2PpqnPulseTicks: %lu, ticksBetweenPulses / 2: %lu", currentTicks, lastExternal2PpqnPulseTicks, ticksBetweenPulses / 2);
+            intermediaryPulseDone = true;
+        }
     }
 
     void PlayState::Process(uint32_t currentTicks, uint32_t keyState)
@@ -78,7 +99,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
             }
         }
 
-        if (seqSyncSource == STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_PULSE)
+        /*if (seqSyncSource == STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_PULSE)
         {
             if (playIntermediaryNote && currentTicks >= playIntermediateNoteTicks)
             {
@@ -87,9 +108,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
                 playIntermediaryNote = false;
             }
 
-            if (pulseOn)
+            if (external2PpqnPulseOn)
             {
-                pulseOn = false;
+                external2PpqnPulseOn = false;
                 ticksBetweenPulses = currentTicks - lastPulseTicks;
                 playIntermediateNoteTicks = (currentTicks + (ticksBetweenPulses / 2));
 
@@ -104,7 +125,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
                 controller->MoveNextStep();
                 controller->ActivateCurrentStep();
             }
-        }
+        }*/
     }
 
     void PlayState::OnKeyPressed(uint32_t keyState)
@@ -186,7 +207,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void PlayState::SyncPulse2ppqn()
     {
-        pulseOn = true;
+        external2PpqnPulseOn = true;
     }
 
     void PlayState::SetSeqSyncSource(uint8_t newSeqSyncSource)

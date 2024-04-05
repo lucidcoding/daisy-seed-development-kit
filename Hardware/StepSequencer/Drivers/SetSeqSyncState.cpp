@@ -45,9 +45,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
             {
                 OnKeyPressed(keyState);
             }
-        }
 
-        lastKeyState = keyState;
+            lastKeyState = keyState;
+        }
     }
 
     void SetSeqSyncState::OnKeyPressed(uint32_t keyState)
