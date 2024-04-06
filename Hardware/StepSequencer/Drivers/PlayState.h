@@ -35,10 +35,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         uint32_t lastStepStartTicks;
         uint8_t seqSyncSource;
         bool external2PpqnPulseOn;
-        uint32_t lastPulseTicks;
         uint32_t ticksBetweenPulses;
-        uint32_t playIntermediateNoteTicks;
-        bool playIntermediaryNote;
         bool firstPulseReceived;
         uint32_t lastExternal2PpqnPulseTicks;
         bool intermediaryPulseDone;
