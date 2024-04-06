@@ -37,18 +37,10 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
             if (blinkCount-- == 0)
             {
-                controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
+                controller->SwitchToStopState();
             }
         }
     }
-
-    /*void BlinkState::OnKeyPressed(uint32_t keyState)
-    {
-    }
-
-    void BlinkState::OnKeyReleased(uint32_t keyState, uint32_t lastKeyState)
-    {
-    }*/
 
     uint8_t BlinkState::GetStateCode()
     {

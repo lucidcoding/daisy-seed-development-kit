@@ -60,12 +60,12 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void StopState::OnSavePatternPressed()
     {
-        controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_SAVE);
+        controller->SwitchToSaveState();
     }
 
     void StopState::OnSeqSyncSelectPressed()
     {
-        controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC);
+        controller->SwitchToSetSeqSyncState();
     }
 
     void StopState::OnLoadPatternPressed()
@@ -81,7 +81,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void StopState::OnRecordPressed()
     {
-        controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC);
+        controller->SwitchToStepRecState();
     }
 
     void StopState::OnPlayPressed(uint32_t currentTicks)

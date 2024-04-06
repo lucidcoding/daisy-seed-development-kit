@@ -90,12 +90,12 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void StepRecState::OnSavePatternPressed()
     {
-        controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_SAVE);
+        controller->SwitchToSaveState();
     }
 
     void StepRecState::OnSeqSyncSelectPressed()
     {
-        controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC);
+        controller->SwitchToSetSeqSyncState();
     }
 
     void StepRecState::OnClearPressed()

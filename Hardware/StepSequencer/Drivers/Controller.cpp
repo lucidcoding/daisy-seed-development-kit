@@ -21,11 +21,10 @@ namespace developmentKit::hardware::stepSequencer::drivers
         playState.SetStepTimeUs(1000000);
         blinkState.SetTicksPerUs(newTicksPerUs);
         blinkState.SetBlinkTimeUs(100000);
-        SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
+        SwitchToStopState();
         gate = false;
         ClearSteps();
         UpdateLedStates();
-        //lastKeyState = STEP_SEQUENCER_CONTROLLER_NO_KEY_PRESS;
         seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL;
         playState.SetSeqSyncSource(seqSyncSource);
         setSeqSyncState.SetSeqSyncSource(seqSyncSource);
@@ -46,41 +45,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         playState.SetStepTimeUs(STEP_SEQUENCER_CONTROLLER_TEST_TICKS_PER_STEP);
         blinkState.SetBlinkTimeUs(STEP_SEQUENCER_CONTROLLER_TEST_TICKS_PER_STEP);
     }
-
-    void Controller::SetState(uint8_t newMode)
-    {
-        mode = newMode;
-
-        switch (newMode)
-        {
-        case STEP_SEQUENCER_CONTROLLER_MODE_STOP:
-            state = &stopState;
-            break;
-        case STEP_SEQUENCER_CONTROLLER_MODE_PLAY:
-            state = &playState;
-            break;
-        case STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC:
-            state = &stepRecState;
-            break;
-        case STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC:
-            state = &setSeqSyncState;
-            break;
-        case STEP_SEQUENCER_CONTROLLER_MODE_BLINK:
-            state = &blinkState;
-            break;
-        case STEP_SEQUENCER_CONTROLLER_MODE_SAVE:
-            state = &saveState;
-            break;
-        case STEP_SEQUENCER_CONTROLLER_MODE_LOAD:
-            state = &loadState;
-            break;
-        default:
-            state = &stopState;
-            break;
-        }
-
-        state->Reset();
-    }
+    
 
     void Controller::SetHardware(IHardware *prmHardware)
     {
@@ -166,7 +131,35 @@ namespace developmentKit::hardware::stepSequencer::drivers
     void Controller::SwitchToPlayStateAndContinue()
     {
         state = &playState;
-        mode = STEP_SEQUENCER_CONTROLLER_MODE_PLAY;   
+        mode = STEP_SEQUENCER_CONTROLLER_MODE_PLAY;
+    }
+
+    void Controller::SwitchToStopState()
+    {
+        state = &stopState;
+        mode = STEP_SEQUENCER_CONTROLLER_MODE_STOP;
+        state->Reset();
+    }
+
+    void Controller::SwitchToStepRecState()
+    {
+        state = &stepRecState;
+        mode = STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC;
+        state->Reset();
+    }
+
+    void Controller::SwitchToSaveState()
+    {
+        state = &saveState;
+        mode = STEP_SEQUENCER_CONTROLLER_MODE_SAVE;
+        state->Reset();
+    }
+
+    void Controller::SwitchToSetSeqSyncState()
+    {
+        state = &setSeqSyncState;
+        mode = STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC;
+        state->Reset();
     }
 
     void Controller::MoveBackStep()
@@ -180,17 +173,16 @@ namespace developmentKit::hardware::stepSequencer::drivers
     void Controller::MoveNextStep()
     {
         currentStepIndex = (currentStepIndex + 1) % STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT;
-        state->MoveToStep(currentStepIndex);
+
+        if (currentStepIndex == 0)
+        {
+            loadState.StartPattern();
+        }
     }
 
     void Controller::MoveToFirstStep()
     {
         currentStepIndex = 0;
-    }
-
-    void Controller::MoveToLastStep()
-    {
-        currentStepIndex = STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT - 1;
     }
 
     void Controller::SyncPulse2ppqn()
@@ -320,7 +312,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
     void Controller::LoadPattern(uint8_t patternIndex)
     {
         for (uint8_t stepIndex = 0; stepIndex < STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT; stepIndex++)
-        {   
+        {
             uint8_t savedPatternIndex = (patternIndex * STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT) + stepIndex;
             steps[stepIndex].note = savedPatterns[savedPatternIndex].note;
             steps[stepIndex].gate = savedPatterns[savedPatternIndex].gate;

@@ -14,7 +14,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
     class IController
     {
     public:
-        virtual void SetState(uint8_t) = 0;
+        //virtual void SetState(uint8_t) = 0;
         virtual void ActivateCurrentStep() = 0;
         virtual bool GetGate() = 0;
         virtual uint8_t GetCurrentStepIndex() = 0;
@@ -28,12 +28,15 @@ namespace developmentKit::hardware::stepSequencer::drivers
         virtual void SwitchToLoadState(IState *) = 0;
         virtual void SwitchToPlayStateAndRestart(uint32_t) = 0;
         virtual void SwitchToPlayStateAndContinue() = 0;
+        virtual void SwitchToStopState() = 0;
+        virtual void SwitchToStepRecState() = 0;
+        virtual void SwitchToSaveState() = 0;
+        virtual void SwitchToSetSeqSyncState() = 0;
         virtual void ClearSteps() = 0;
         virtual void SavePattern(uint8_t) = 0;
         virtual void MoveBackStep() = 0;
         virtual void MoveNextStep() = 0;
         virtual void MoveToFirstStep() = 0;
-        virtual void MoveToLastStep() = 0;
         virtual void LoadPattern(uint8_t) = 0;
 
 

@@ -34,7 +34,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         uint8_t GetNote();
         uint64_t GetLedState();
         void SetTempo(uint8_t);
-        void SetState(uint8_t);
+        //void SetState(uint8_t);
 
         IState *state;
         BlinkState blinkState;
@@ -51,10 +51,13 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void SwitchToLoadState(IState *);
         void SwitchToPlayStateAndRestart(uint32_t);
         void SwitchToPlayStateAndContinue();
+        void SwitchToStopState();
+        void SwitchToStepRecState();
+        void SwitchToSaveState();
+        void SwitchToSetSeqSyncState();
         void MoveBackStep();
         void MoveNextStep();
         void MoveToFirstStep();
-        void MoveToLastStep();
         void SyncPulse2ppqn();
 
         // For testing only

@@ -85,6 +85,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void SetSeqSyncState::OnFunctionKeyReleased()
     {
-        controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
+        controller->SwitchToStopState();
     }
 }

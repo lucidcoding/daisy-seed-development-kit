@@ -76,16 +76,13 @@ namespace developmentKit::hardware::stepSequencer::drivers
         return STEP_SEQUENCER_CONTROLLER_MODE_LOAD;
     }
 
-    void LoadState::MoveToStep(uint8_t newStepIndex)
+    void LoadState::StartPattern()
     {
-        if (newStepIndex == 0)
+        if (loadOnNextBarStart)
         {
-            if (loadOnNextBarStart)
-            {
-                loadOnNextBarStart = false;
-                controller->LoadPattern(patternIndexToLoad);
-                controller->SwitchToPlayStateAndContinue();
-            }
+            loadOnNextBarStart = false;
+            controller->LoadPattern(patternIndexToLoad);
+            controller->SwitchToPlayStateAndContinue();
         }
     }
 
@@ -106,7 +103,8 @@ namespace developmentKit::hardware::stepSequencer::drivers
             else
             {
                 controller->LoadPattern(patternIndexToLoad);
-                controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
+                //controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
+                controller->SwitchToStopState();
             }
         }
     }

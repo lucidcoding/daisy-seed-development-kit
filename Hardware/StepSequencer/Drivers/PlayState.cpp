@@ -146,12 +146,12 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void PlayState::OnSavePatternPressed()
     {
-        controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_SAVE);
+        controller->SwitchToSaveState();
     }
 
     void PlayState::OnSeqSyncSelectPressed()
     {
-        controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC);
+        controller->SwitchToSetSeqSyncState();
     }
 
     void PlayState::OnLoadPatternPressed()
@@ -167,12 +167,13 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void PlayState::OnRecordPressed()
     {
-        controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC);
+        controller->SwitchToStepRecState();
     }
 
     void PlayState::OnPlayPressed()
     {
-        controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
+        //controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
+        controller->SwitchToStopState();
         controller->SetGate(false);
     }
 
