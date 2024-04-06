@@ -33,6 +33,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         virtual void MoveBackStep() = 0;
         virtual void MoveNextStep() = 0;
         virtual void MoveToFirstStep() = 0;
+        virtual void MoveToLastStep() = 0;
         virtual void LoadPattern(uint8_t) = 0;
 
 

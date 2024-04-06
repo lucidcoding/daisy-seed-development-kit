@@ -98,8 +98,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
             steps[i].accent = false;
             steps[i].slide = false;
         }
-
-        // Blink(0x1FFFF);
     }
 
     void Controller::UpdateLedStates()
@@ -188,6 +186,11 @@ namespace developmentKit::hardware::stepSequencer::drivers
     void Controller::MoveToFirstStep()
     {
         currentStepIndex = 0;
+    }
+
+    void Controller::MoveToLastStep()
+    {
+        currentStepIndex = STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT - 1;
     }
 
     void Controller::SyncPulse2ppqn()

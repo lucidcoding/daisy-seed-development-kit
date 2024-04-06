@@ -54,6 +54,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         void MoveBackStep();
         void MoveNextStep();
         void MoveToFirstStep();
+        void MoveToLastStep();
         void SyncPulse2ppqn();
 
         // For testing only

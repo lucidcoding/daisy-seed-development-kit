@@ -42,6 +42,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         bool firstPulseReceived;
         uint32_t lastExternal2PpqnPulseTicks;
         bool intermediaryPulseDone;
+        bool internalPulseOn;
         void OnSavePatternPressed();
         void OnSeqSyncSelectPressed();
         void OnLoadPatternPressed();
