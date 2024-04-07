@@ -9,7 +9,8 @@ test:
 		../../Drivers/SaveState.cpp \
 		../../Drivers/SetSeqSyncState.cpp \
 		../../Drivers/StepRecState.cpp \
-		../../Drivers/StopState.cpp 
+		../../Drivers/StopState.cpp \
+		../../Drivers/Utilities.cpp 
 
 clean:
 	rm -f rm -fR build

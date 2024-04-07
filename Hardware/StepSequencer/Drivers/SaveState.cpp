@@ -1,5 +1,6 @@
 #include "SaveState.h"
 #include "Debug.h"
+#include "Utilities.h"
 
 namespace developmentKit::hardware::stepSequencer::drivers
 {
@@ -42,19 +43,15 @@ namespace developmentKit::hardware::stepSequencer::drivers
         }
     }
 
-    /*void SaveState::OnKeyReleased(uint32_t, uint32_t)
-    {
-    }*/
-
     uint8_t SaveState::GetStateCode()
     {
-        return STEP_SEQUENCER_CONTROLLER_MODE_SAVE;
+        return STEP_SEQUENCER_CONTROLLER_STATE_SAVE;
     }
 
     void SaveState::OnNoteKeyPressed(uint64_t keyState)
     {
-        uint8_t note = controller->GetNoteFromKeyPressed(keyState);
-        uint8_t patternIndex = controller->GetPatternIndexFromNote(note);
+        uint8_t note = Utilities::GetNoteFromKeyPressed(keyState);
+        uint8_t patternIndex = Utilities::GetPatternIndexFromNote(note);
         controller->SavePattern(patternIndex);
         controller->SwitchToBlinkState((uint64_t)1 << note);
     }

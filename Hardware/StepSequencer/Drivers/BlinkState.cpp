@@ -44,7 +44,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     uint8_t BlinkState::GetStateCode()
     {
-        return STEP_SEQUENCER_CONTROLLER_MODE_BLINK;
+        return STEP_SEQUENCER_CONTROLLER_STATE_BLINK;
     }
 
     void BlinkState::SetLedsToBlink(uint64_t newLedsToBlink)

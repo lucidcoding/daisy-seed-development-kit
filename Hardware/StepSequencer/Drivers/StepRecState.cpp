@@ -1,4 +1,5 @@
 #include "StepRecState.h"
+#include "Utilities.h"
 
 namespace developmentKit::hardware::stepSequencer::drivers
 {
@@ -79,13 +80,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
         }
     }
 
-    /*void StepRecState::OnKeyReleased(uint32_t keyState, uint32_t lastKeyState)
-    {
-    }*/
-
     uint8_t StepRecState::GetStateCode()
     {
-        return STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC;
+        return STEP_SEQUENCER_CONTROLLER_STATE_STEP_REC;
     }
 
     void StepRecState::OnSavePatternPressed()
@@ -156,7 +153,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
         Step *steps = controller->GetSteps();
         uint8_t currentStepIndex = controller->GetCurrentStepIndex();
-        uint8_t note = controller->GetNoteFromKeyPressed(keyState);
+        uint8_t note = Utilities::GetNoteFromKeyPressed(keyState);
 
         if (note != STEP_SEQUENCER_CONTROLLER_NOT_NOTE_KEY)
         {

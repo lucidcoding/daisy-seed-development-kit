@@ -91,7 +91,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void Controller::ActivateCurrentStep()
     {
-
         if (steps[currentStepIndex].gate)
         {
             gate = true;
@@ -109,7 +108,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
         blinkState.SetLedsToBlink(ledsToBlink);
         state = &blinkState;
-        mode = STEP_SEQUENCER_CONTROLLER_MODE_BLINK;
         state->Reset();
     }
 
@@ -117,48 +115,41 @@ namespace developmentKit::hardware::stepSequencer::drivers
     {
         loadState.SetBackgroundState(backgroundState);
         state = &loadState;
-        mode = STEP_SEQUENCER_CONTROLLER_MODE_LOAD;
         state->Reset();
     }
 
     void Controller::SwitchToPlayStateAndRestart(uint32_t currentTicks)
     {
         state = &playState;
-        mode = STEP_SEQUENCER_CONTROLLER_MODE_PLAY;
         playState.Start(currentTicks);
     }
 
     void Controller::SwitchToPlayStateAndContinue()
     {
         state = &playState;
-        mode = STEP_SEQUENCER_CONTROLLER_MODE_PLAY;
     }
 
     void Controller::SwitchToStopState()
     {
         state = &stopState;
-        mode = STEP_SEQUENCER_CONTROLLER_MODE_STOP;
         state->Reset();
     }
 
     void Controller::SwitchToStepRecState()
     {
         state = &stepRecState;
-        mode = STEP_SEQUENCER_CONTROLLER_MODE_STEP_REC;
         state->Reset();
     }
 
     void Controller::SwitchToSaveState()
     {
         state = &saveState;
-        mode = STEP_SEQUENCER_CONTROLLER_MODE_SAVE;
         state->Reset();
     }
 
     void Controller::SwitchToSetSeqSyncState()
     {
         state = &setSeqSyncState;
-        mode = STEP_SEQUENCER_CONTROLLER_MODE_SETTING_SEQ_SYNC;
         state->Reset();
     }
 
@@ -195,51 +186,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
         playState.ProcessInBackground(currentTicks);
         state->Process(currentTicks, keyState);
         UpdateLedStates();
-    }
-
-    uint8_t Controller::GetNoteFromKeyPressed(uint32_t keyState)
-    {
-        uint8_t keyPressed = STEP_SEQUENCER_CONTROLLER_NOT_NOTE_KEY;
-
-        for (uint8_t currentKeyIndex = 0; currentKeyIndex <= 12; currentKeyIndex++)
-        {
-            if ((keyState & (1 << currentKeyIndex)) > 0)
-            {
-                keyPressed = currentKeyIndex;
-                break;
-            }
-        }
-
-        for (uint8_t currentIndex = 0; currentIndex < STEP_SEQUENCER_CONTROLLER_NUMBER_OF_NOTE_KEYS; currentIndex++)
-        {
-            if (currentIndex == keyPressed)
-            {
-                return currentIndex;
-            }
-        }
-
-        return STEP_SEQUENCER_CONTROLLER_NOT_NOTE_KEY;
-    }
-
-    uint8_t Controller::GetNoteFromPatternIndex(uint8_t patternIndex)
-    {
-        uint8_t lookup[8] = {0, 2, 4, 5, 7, 9, 11, 12};
-        return lookup[patternIndex];
-    }
-
-    uint8_t Controller::GetPatternIndexFromNote(uint8_t noteNumber)
-    {
-        uint8_t lookup[8] = {0, 2, 4, 5, 7, 9, 11, 12};
-
-        for (uint8_t index = 0; index < 8; index++)
-        {
-            if (lookup[index] == noteNumber)
-            {
-                return index;
-            }
-        }
-
-        return STEP_SEQUENCER_CONTROLLER_NOT_NOTE_KEY;
     }
 
     bool Controller::GetGate()

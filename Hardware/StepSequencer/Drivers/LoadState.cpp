@@ -1,5 +1,6 @@
 #include "LoadState.h"
 #include "Debug.h"
+#include "Utilities.h"
 
 namespace developmentKit::hardware::stepSequencer::drivers
 {
@@ -21,7 +22,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
         }
         else
         {
-            thisLedState = (uint64_t)1 << controller->GetNoteFromPatternIndex(patternIndexToLoad);
+            thisLedState = (uint64_t)1 << Utilities::GetNoteFromPatternIndex(patternIndexToLoad);
         }
 
         return backgroundLedState | thisLedState;
@@ -73,7 +74,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     uint8_t LoadState::GetStateCode()
     {
-        return STEP_SEQUENCER_CONTROLLER_MODE_LOAD;
+        return STEP_SEQUENCER_CONTROLLER_STATE_LOAD;
     }
 
     void LoadState::StartPattern()
@@ -88,22 +89,22 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void LoadState::OnNoteKeyPressed(uint64_t keyState)
     {
-        uint8_t note = controller->GetNoteFromKeyPressed(keyState);
-        patternIndexToLoad = controller->GetPatternIndexFromNote(note);
+        uint8_t note = Utilities::GetNoteFromKeyPressed(keyState);
+        patternIndexToLoad = Utilities::GetPatternIndexFromNote(note);
     }
 
     void LoadState::OnPatternKeyReleased(uint32_t currentTicks)
     {
         if (patternIndexToLoad != STEP_SEQUENCER_CONTROLLER_NO_PATTERN_SELECTED)
         {
-            if (backgroundState->GetStateCode() == STEP_SEQUENCER_CONTROLLER_MODE_PLAY)
+            if (backgroundState->GetStateCode() == STEP_SEQUENCER_CONTROLLER_STATE_PLAY)
             {
                 loadOnNextBarStart = true;
             }
             else
             {
                 controller->LoadPattern(patternIndexToLoad);
-                //controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
+                //controller->SetState(STEP_SEQUENCER_CONTROLLER_STATE_STOP);
                 controller->SwitchToStopState();
             }
         }

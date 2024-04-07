@@ -135,13 +135,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
         }
     }
 
-    /*void PlayState::OnKeyReleased(uint32_t keyState, uint32_t lastKeyState)
-    {
-    }*/
-
     uint8_t PlayState::GetStateCode()
     {
-        return STEP_SEQUENCER_CONTROLLER_MODE_PLAY;
+        return STEP_SEQUENCER_CONTROLLER_STATE_PLAY;
     }
 
     void PlayState::OnSavePatternPressed()
@@ -172,7 +168,6 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void PlayState::OnPlayPressed()
     {
-        //controller->SetState(STEP_SEQUENCER_CONTROLLER_MODE_STOP);
         controller->SwitchToStopState();
         controller->SetGate(false);
     }

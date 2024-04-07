@@ -55,7 +55,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     uint8_t StopState::GetStateCode()
     {
-        return STEP_SEQUENCER_CONTROLLER_MODE_STOP;
+        return STEP_SEQUENCER_CONTROLLER_STATE_STOP;
     }
 
     void StopState::OnSavePatternPressed()
