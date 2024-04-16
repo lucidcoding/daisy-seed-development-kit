@@ -2,6 +2,7 @@
 #include "../../Drivers/Debug.h"
 #include "catch.hpp"
 #include "../../Drivers/Controller.h"
+#include "../../Drivers/StateFactory.h"
 #include "../../Drivers/Step.h"
 #include "stdint.h"
 #include "MockHardware.h"
@@ -11,6 +12,7 @@ using namespace developmentKit::hardware::stepSequencer::tests::unitTests;
 
 // uint32_t currentTicks;
 MockHardware mockHardware;
+StateFactory stateFactory;
 Controller controller;
 
 void Setup()

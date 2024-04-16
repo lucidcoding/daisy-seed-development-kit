@@ -10,6 +10,7 @@ test:
 		../../Drivers/SetSeqSyncState.cpp \
 		../../Drivers/StepRecState.cpp \
 		../../Drivers/StopState.cpp \
+		../../Drivers/StateFactory.cpp \
 		../../Drivers/Utilities.cpp 
 
 clean:

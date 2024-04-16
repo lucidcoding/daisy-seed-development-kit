@@ -26,6 +26,13 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     private:
         Interface interface;
+        /*BlinkState *_blinkState;
+        StopState *_stopState;
+        LoadState *_loadState;
+        PlayState *_playState;
+        SaveState *_saveState;
+        StepRecState *_stepRecState;
+        SetSeqSyncState *_setSeqSyncState;*/
     };
 }
 

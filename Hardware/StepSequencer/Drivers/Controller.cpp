@@ -6,28 +6,45 @@
 
 namespace developmentKit::hardware::stepSequencer::drivers
 {
+    Controller::Controller(BlinkState *blinkState,
+                           StopState *stopState,
+                           LoadState *loadState,
+                           PlayState *playState,
+                           SaveState *saveState,
+                           StepRecState *stepRecState,
+                           SetSeqSyncState *setSeqSyncState)
+    {
+        _blinkState = blinkState;
+        _stopState = stopState;
+        _loadState = loadState;
+        _playState = playState;
+        _saveState = saveState;
+        _stepRecState = stepRecState;
+        _setSeqSyncState = setSeqSyncState;
+    }
+
     void Controller::Init(uint32_t newTicksPerUs)
     {
-        blinkState.Init(this);
-        stopState.Init(this);
-        loadState.Init(this);
-        playState.Init(this);
-        saveState.Init(this);
-        stepRecState.Init(this);
-        setSeqSyncState.Init(this);
+        _blinkState->Init(this);
+        _stopState->Init(this);
+        _loadState->Init(this);
+        _playState->Init(this);
+        _saveState->Init(this);
+        _stepRecState->Init(this);
+        _setSeqSyncState->Init(this);
         hardware = NULL;
         currentStepIndex = 0;
-        playState.SetTicksPerUs(newTicksPerUs);
-        playState.SetStepTimeUs(1000000);
-        blinkState.SetTicksPerUs(newTicksPerUs);
-        blinkState.SetBlinkTimeUs(100000);
+        _playState->SetTicksPerUs(newTicksPerUs);
+        _playState->SetStepTimeUs(1000000);
+        _blinkState->SetTicksPerUs(newTicksPerUs);
+        _blinkState->SetBlinkTimeUs(100000);
         SwitchToStopState();
         gate = false;
         ClearSteps();
         UpdateLedStates();
         seqSyncSource = STEP_SEQUENCER_CONTROLLER_SEQ_SYNC_INTERNAL;
-        playState.SetSeqSyncSource(seqSyncSource);
-        setSeqSyncState.SetSeqSyncSource(seqSyncSource);
+        _playState->SetSeqSyncSource(seqSyncSource);
+        _setSeqSyncState->SetSeqSyncSource(seqSyncSource);
 
         for (uint8_t savedStepIndex = 0; savedStepIndex < 128; savedStepIndex++)
         {
@@ -42,10 +59,9 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void Controller::EnterTestMode()
     {
-        playState.SetStepTimeUs(STEP_SEQUENCER_CONTROLLER_TEST_TICKS_PER_STEP);
-        blinkState.SetBlinkTimeUs(STEP_SEQUENCER_CONTROLLER_TEST_TICKS_PER_STEP);
+        _playState->SetStepTimeUs(STEP_SEQUENCER_CONTROLLER_TEST_TICKS_PER_STEP);
+        _blinkState->SetBlinkTimeUs(STEP_SEQUENCER_CONTROLLER_TEST_TICKS_PER_STEP);
     }
-    
 
     void Controller::SetHardware(IHardware *prmHardware)
     {
@@ -85,7 +101,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
             float stepsPerUs = stepsPerSecond / 1000000;
             float usPerStep = 1 / stepsPerUs;
             uint32_t intUsPerStep = (uint32_t)usPerStep;
-            playState.SetStepTimeUs(intUsPerStep);
+            _playState->SetStepTimeUs(intUsPerStep);
         }
     }
 
@@ -100,56 +116,56 @@ namespace developmentKit::hardware::stepSequencer::drivers
     void Controller::ToggleSeqSyncSource()
     {
         seqSyncSource = (seqSyncSource + 1) % 4;
-        setSeqSyncState.SetSeqSyncSource(seqSyncSource);
-        playState.SetSeqSyncSource(seqSyncSource);
+        _setSeqSyncState->SetSeqSyncSource(seqSyncSource);
+        _playState->SetSeqSyncSource(seqSyncSource);
     }
 
     void Controller::SwitchToBlinkState(uint64_t ledsToBlink)
     {
-        blinkState.SetLedsToBlink(ledsToBlink);
-        state = &blinkState;
+        _blinkState->SetLedsToBlink(ledsToBlink);
+        state = _blinkState;
         state->Reset();
     }
 
     void Controller::SwitchToLoadState(IState *backgroundState)
     {
-        loadState.SetBackgroundState(backgroundState);
-        state = &loadState;
+        _loadState->SetBackgroundState(backgroundState);
+        state = _loadState;
         state->Reset();
     }
 
     void Controller::SwitchToPlayStateAndRestart(uint32_t currentTicks)
     {
-        state = &playState;
-        playState.Start(currentTicks);
+        state = _playState;
+        _playState->Start(currentTicks);
     }
 
     void Controller::SwitchToPlayStateAndContinue()
     {
-        state = &playState;
+        state = _playState;
     }
 
     void Controller::SwitchToStopState()
     {
-        state = &stopState;
+        state = _stopState;
         state->Reset();
     }
 
     void Controller::SwitchToStepRecState()
     {
-        state = &stepRecState;
+        state = _stepRecState;
         state->Reset();
     }
 
     void Controller::SwitchToSaveState()
     {
-        state = &saveState;
+        state = _saveState;
         state->Reset();
     }
 
     void Controller::SwitchToSetSeqSyncState()
     {
-        state = &setSeqSyncState;
+        state = _setSeqSyncState;
         state->Reset();
     }
 
@@ -167,7 +183,7 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
         if (currentStepIndex == 0)
         {
-            loadState.StartPattern();
+            _loadState->StartPattern();
         }
     }
 
@@ -178,12 +194,12 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     void Controller::SyncPulse2ppqn()
     {
-        playState.SyncPulse2ppqn();
+        _playState->SyncPulse2ppqn();
     }
 
     void Controller::Process(uint32_t currentTicks, uint32_t keyState)
     {
-        playState.ProcessInBackground(currentTicks);
+        _playState->ProcessInBackground(currentTicks);
         state->Process(currentTicks, keyState);
         UpdateLedStates();
     }

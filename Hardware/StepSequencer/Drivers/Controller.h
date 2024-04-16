@@ -21,6 +21,13 @@ namespace developmentKit::hardware::stepSequencer::drivers
     class Controller : public IController
     {
     public:
+        Controller(BlinkState *blinkState,
+                   StopState *stopState,
+                   LoadState *loadState,
+                   PlayState *playState,
+                   SaveState *saveState,
+                   StepRecState *stepRecState,
+                   SetSeqSyncState *setSeqSyncState);
         void Init(uint32_t);
         void SetHardware(IHardware *);
         void Process(uint32_t, uint32_t);
@@ -58,13 +65,13 @@ namespace developmentKit::hardware::stepSequencer::drivers
 
     private:
         IState *state;
-        BlinkState blinkState;
-        StopState stopState;
-        LoadState loadState;
-        PlayState playState;
-        SaveState saveState;
-        StepRecState stepRecState;
-        SetSeqSyncState setSeqSyncState;
+        BlinkState *_blinkState;
+        StopState *_stopState;
+        LoadState *_loadState;
+        PlayState *_playState;
+        SaveState *_saveState;
+        StepRecState *_stepRecState;
+        SetSeqSyncState *_setSeqSyncState;
         Step savedPatterns[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT * 8];
         Step steps[STEP_SEQUENCER_CONTROLLER_DEFAULT_STEP_COUNT];
         uint8_t currentStepIndex;
