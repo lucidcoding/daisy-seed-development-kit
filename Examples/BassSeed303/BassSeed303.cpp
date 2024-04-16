@@ -72,5 +72,6 @@ int main(void)
         synthEngine.SetGate(stepSequencer.GetGate());
         synthEngine.SetNoteFrequency(mtof(stepSequencer.GetNote()));
         synthEngine.SetAccent(stepSequencer.GetAccent());
+        synthEngine.SetSlide(stepSequencer.GetPreviousSlide());
     }
 }

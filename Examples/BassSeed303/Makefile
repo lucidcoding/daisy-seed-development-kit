@@ -1,6 +1,8 @@
 # Project Name
 TARGET = BassSeed303
 
+USE_DAISYSP_LGPL = 1
+
 # Sources
 CPP_SOURCES = \
 	BassSeed303.cpp \

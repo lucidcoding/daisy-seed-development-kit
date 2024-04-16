@@ -7,16 +7,18 @@ namespace developmentKit::bassSeed303
         InitOscillator(prmSampleRate);
         InitAdsr(prmSampleRate);
         InitSvf(prmSampleRate);
+        InitPort(prmSampleRate);
         sampleRate = prmSampleRate;
     }
 
     void SynthEngine::Process(float *voiceLeft, float *voiceRight)
     {
-        float oscillatorOut, adsrOut, filterOut;
+        float oscillatorOut, portOut, adsrOut, filterOut;
         adsrOut = adsr.Process(gate);
+        portOut = port.Process(noteFrequency);
         float accentedLevel = accent ? 0.7 * (1 + accentLevel) : 0.7;
         mainOsc.SetAmp(adsrOut / 5 * accentedLevel * volume);
-        mainOsc.SetFreq(noteFrequency);
+        mainOsc.SetFreq(portOut);
         oscillatorOut = mainOsc.Process();
         float accentedEnvelopeModulation = accent ? envelopeModulation * (1 + (accentLevel * 2.5)) : envelopeModulation;
         svf.SetFreq(cutOffFrequency * (adsrOut * accentedEnvelopeModulation));
@@ -40,6 +42,15 @@ namespace developmentKit::bassSeed303
     void SynthEngine::SetSlide(bool newSlide)
     {
         slide = newSlide;
+
+        if(slide)
+        {
+            port.SetHtime(0.002f);
+        }
+        else
+        {
+            port.SetHtime(0);
+        }
     }
 
     void SynthEngine::SetAccent(bool newAccent)
@@ -122,5 +133,10 @@ namespace developmentKit::bassSeed303
         svf.Init(sampleRate);
         svf.SetFreq(maxCutoffFrequency);
         svf.SetRes(0);
+    }
+
+    void SynthEngine::InitPort(float sampleRate)
+    {
+        port.Init(sampleRate, 0);
     }
 }

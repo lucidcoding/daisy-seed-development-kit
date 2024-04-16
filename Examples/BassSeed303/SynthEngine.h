@@ -6,7 +6,7 @@
 #include "daisy_seed.h"
 
 #define SYNTH_ENGINE_CUTOFF_MIN 0.3f
-#define SYNTH_ENGINE_RESONANCE_MAX 0.88f
+#define SYNTH_ENGINE_RESONANCE_MAX 0.92f
 #define SYNTH_ENGINE_DECAY_MIN 0.05f
 #define SYNTH_ENGINE_DECAY_MAX 0.8f
 #define SYNTH_ENGINE_ENVELOPE_MODULATION_MIN 0.2f
@@ -41,6 +41,7 @@ namespace developmentKit::bassSeed303
         Oscillator mainOsc;
         Adsr adsr;
         Svf svf;
+        Port port;
         float maxCutoffFrequency;
         bool gate;
         float noteFrequency;
@@ -57,6 +58,7 @@ namespace developmentKit::bassSeed303
         void InitOscillator(float);
         void InitAdsr(float);
         void InitSvf(float);
+        void InitPort(float);
     };
 }
 
