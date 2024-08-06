@@ -13,15 +13,17 @@ CPP_SOURCES = \
 	../../../Presenters/TabPage.cpp \
 	../../../Presenters/TabPageItem.cpp \
 	../../../Presenters/SettingsListPageItem.cpp \
-	../../../Presenters/NumericSettingsListPageItem.cpp \
 	../../../Presenters/NumericPotentiometerArrayPageItem.cpp \
+	../../../Presenters/NumericSettingsListPageItem.cpp \
 	../../../Presenters/OptionsPotentiometerArrayPageItem.cpp \
+	../../../Presenters/OptionsSettingsListPageItem.cpp \
 	../../../Utilities/PotentiometerToDisplayValueScaler.cpp \
 	../../../Views/ListPageView.cpp \
 	../../../Views/PotentiometerArrayPageView.cpp \
 	../../../Views/TabPageView.cpp \
 	../../../ViewAdapters/Ili9341ViewAdapter.cpp \
 	../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.cpp \
+	../../../../../Hardware/NavigationKeypad/Drivers/NavigationKeypad.cpp \
 	../../../../../Hardware/PotentiometerArray/Drivers/PotentiometerArray.cpp
 	
 # Core location, and generic Makefile.

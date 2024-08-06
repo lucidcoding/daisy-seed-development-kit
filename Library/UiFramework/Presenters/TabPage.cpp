@@ -13,15 +13,18 @@ namespace developmentKit::library::uiFramework::presenters
 
     void TabPage::Increment()
     {
-        if (currentIndex < items.size() - 1)
-        {
-            currentIndex++;
-        }
-
-        items[currentIndex]->GetContent()->SetFocus();
     }
 
     void TabPage::Decrement()
+    {
+    }
+
+    void TabPage::SetPotentiometerValues(float *values)
+    {
+        items[currentIndex]->GetContent()->SetPotentiometerValues(values);
+    }
+
+    void TabPage::Left()
     {
         if (currentIndex > 0)
         {
@@ -31,9 +34,14 @@ namespace developmentKit::library::uiFramework::presenters
         items[currentIndex]->GetContent()->SetFocus();
     }
 
-    void TabPage::SetPotentiometerValues(float *values)
+    void TabPage::Right()
     {
-        items[currentIndex]->GetContent()->SetPotentiometerValues(values);
+        if (currentIndex < items.size() - 1)
+        {
+            currentIndex++;
+        }
+
+        items[currentIndex]->GetContent()->SetFocus();
     }
 
     void TabPage::Select()

@@ -2,6 +2,7 @@
 #include "daisysp.h"
 #include "dev/oled_ssd130x.h"
 #include "UserInterface.h"
+#include "../../../../../Hardware/NavigationKeypad/Drivers/NavigationKeypad.h"
 #include "../../../../../Hardware/PotentiometerArray/Drivers/PotentiometerArray.h"
 #include "../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
 
@@ -11,6 +12,7 @@
 
 using namespace daisy;
 using namespace daisysp;
+using namespace developmentKit::hardware::navigationKeypad::drivers;
 using namespace developmentKit::hardware::potentiometerArray::drivers;
 using namespace developmentKit::library::uiFramework::presenters;
 using namespace developmentKit::library::uiFramework::views;
@@ -21,6 +23,7 @@ Oscillator oscillator;
 Adsr adsr;
 Metro metro;
 bool gate;
+NavigationKeypad navigationKeypad;
 PotentiometerArray potentiometerArray;
 UserInterface userInterface;
 UiDriver tftDisplay;
@@ -29,6 +32,23 @@ void UpdateDisplay()
 {
     userInterface.Paint();
     tftDisplay.Update();
+}
+
+void ProcessNavigationKeypad()
+{
+    uint8_t keyState = navigationKeypad.ScanKeys();
+
+    if (keyState == NAVIGATION_KEYPAD_KEY_LEFT)
+    {
+        userInterface.Left();
+        UpdateDisplay();
+    }
+
+    if (keyState == NAVIGATION_KEYPAD_KEY_RIGHT)
+    {
+        userInterface.Right();
+        UpdateDisplay();
+    }
 }
 
 void ProcessEncoder()
@@ -72,6 +92,7 @@ static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
                           AudioHandle::InterleavingOutputBuffer out,
                           size_t size)
 {
+    ProcessNavigationKeypad();
     ProcessEncoder();
     ProcessPotentiometerArray();
     ParameterSet parameterSet = userInterface.GetParameters();
@@ -131,6 +152,11 @@ void InitMetro(float sampleRate)
     metro.Init(1.0f, sampleRate);
 }
 
+void InitNavigationKeypad()
+{
+    navigationKeypad.Init();
+}
+
 void InitPotentiometerArray()
 {
     potentiometerArray.seed = &hardware;
@@ -159,6 +185,7 @@ int main(void)
     float sampleRate = hardware.AudioSampleRate();
     InitOscillator(sampleRate);
     InitAdsr(sampleRate);
+    InitNavigationKeypad();
     InitPotentiometerArray();
     InitMetro(sampleRate);
     InitEncoder(sampleRate);

@@ -16,6 +16,11 @@ namespace developmentKit::library::uiFramework::presenters
         void Decrement();
         void Select();
         void SetPotentiometerValues(float *values);
+        void Up();
+        void Left();
+        void Right();
+        void Down();
+        void Back();
         void SetPage(Page *newPage);
         Page *GetCurrentPage();
         void SetCurrentPage(Page *newCurrentPage);

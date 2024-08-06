@@ -22,6 +22,31 @@ namespace developmentKit::library::uiFramework::presenters
         currentPage->SetPotentiometerValues(values);
     }
 
+    void Root::Up()
+    {
+        currentPage->Up();
+    }
+
+    void Root::Left()
+    {
+        currentPage->Left();
+    }
+
+    void Root::Right()
+    {
+        currentPage->Right();
+    }
+
+    void Root::Down()
+    {
+        currentPage->Down();
+    }
+
+    void Root::Back()
+    {
+        currentPage->Back();
+    }
+
     Page *Root::GetCurrentPage()
     {
         return currentPage;

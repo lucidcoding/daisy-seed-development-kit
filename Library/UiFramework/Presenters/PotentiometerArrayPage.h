@@ -22,6 +22,11 @@ namespace developmentKit::library::uiFramework::presenters
         virtual void Increment();
         virtual void Decrement();
         virtual void SetPotentiometerValues(float *values);
+        virtual void Up() {}
+        virtual void Left() {}
+        virtual void Right() {}
+        virtual void Down() {}
+        virtual void Back() {}
         void Select();
         void SetFocus();
         void SetOutputValues(float *values);

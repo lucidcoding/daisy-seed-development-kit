@@ -27,10 +27,12 @@ void UserInterface::Init(UiDriver *prmUiDriver)
     // Initiviews
     viewAdapter.Init(uiDriver);
     tabPageView.Init(&viewAdapter, 0, 0, 320, 240);
+    listPageView.Init(&viewAdapter, 12, 22, 296, 210);
     potentiometerArrayPageView.Init(&viewAdapter, 12, 22, 296, 210);
     tabPage.Init(&tabPageView);
     oscillatorPotentiometerArrayPage.Init(&potentiometerArrayPageView);
     envelopePotentiometerArrayPage.Init(&potentiometerArrayPageView);
+    settingsListPage.Init(&listPageView);
 
     // Add oscillator tab to tab page
     oscillatorTabPageItem.Init("OSC", &oscillatorPotentiometerArrayPage);
@@ -115,6 +117,20 @@ void UserInterface::Init(UiDriver *prmUiDriver)
     envReleasePotentiometerArrayPageItem.SetOutputValue(0.5f);
     envReleasePotentiometerArrayPageItem.SetTitle("RELEASE");
     envelopePotentiometerArrayPage.SetItem(3, &envReleasePotentiometerArrayPageItem);
+
+    // Add settings tab to tab page
+    settingsTabPageItem.Init("SETTINGS", &settingsListPage);
+    tabPage.AddItem(&settingsTabPageItem);
+
+    // Add MIDI channel to settings page
+    midiChannelSettingsListPageItem.Init("MIDI channel", &settingsListPage, 1, 16, 1);
+    settingsListPage.AddItem(&midiChannelSettingsListPageItem);
+
+    // Add knob mode to settings page
+    knobModeSettingsListPageItem.Init("Knob mode", &settingsListPage);
+    knobModeSettingsListPageItem.AddOption("Catch", 0);
+    knobModeSettingsListPageItem.AddOption("Direct", 1);
+    settingsListPage.AddItem(&knobModeSettingsListPageItem);
 
     // Set home and current pages
     SetHomePage(&tabPage);

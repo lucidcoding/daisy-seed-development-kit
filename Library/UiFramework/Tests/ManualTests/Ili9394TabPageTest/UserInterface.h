@@ -7,7 +7,9 @@
 #include "../../../Presenters/ListPage.h"
 #include "../../../Presenters/NavigationListPageItem.h"
 #include "../../../Presenters/NumericPotentiometerArrayPageItem.h"
+#include "../../../Presenters/NumericSettingsListPageItem.h"
 #include "../../../Presenters/OptionsPotentiometerArrayPageItem.h"
+#include "../../../Presenters/OptionsSettingsListPageItem.h"
 #include "../../../Presenters/PotentiometerArrayPage.h"
 #include "../../../Presenters/PotentiometerArrayPageItem.h"
 #include "../../../Presenters/TabPage.h"
@@ -54,6 +56,10 @@ private:
     NumericPotentiometerArrayPageItem envDecayPotentiometerArrayPageItem;
     NumericPotentiometerArrayPageItem envSustainPotentiometerArrayPageItem;
     NumericPotentiometerArrayPageItem envReleasePotentiometerArrayPageItem;
+    TabPageItem settingsTabPageItem;
+    ListPage settingsListPage;
+    NumericSettingsListPageItem midiChannelSettingsListPageItem;
+    OptionsSettingsListPageItem knobModeSettingsListPageItem;
 };
 
 #endif
