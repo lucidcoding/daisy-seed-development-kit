@@ -21,6 +21,7 @@ namespace developmentKit::library::uiFramework::presenters
         void Right();
         void Down();
         void Back();
+        void Menu();
         void SetPage(Page *newPage);
         Page *GetCurrentPage();
         void SetCurrentPage(Page *newCurrentPage);

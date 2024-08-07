@@ -84,4 +84,14 @@ namespace developmentKit::library::uiFramework::presenters
             }
         }
     }
+
+    void PotentiometerArrayPage::SetUseQuickAlias(bool prmUseQuickAlias)
+    {
+        useQuickAlias = prmUseQuickAlias;
+    }
+
+    bool PotentiometerArrayPage::GetUseQuickAlias()
+    {
+        return useQuickAlias;
+    }
 }

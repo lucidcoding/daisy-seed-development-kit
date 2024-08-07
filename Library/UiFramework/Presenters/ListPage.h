@@ -29,6 +29,7 @@ namespace developmentKit::library::uiFramework::presenters
         virtual void Right() {}
         virtual void Down() {}
         virtual void Back() {}
+        virtual void Menu() {}
         virtual void SetFocus() {}
         ListPageItem *GetItem(uint8_t index);
         void AddItem(ListPageItem *pageItem);

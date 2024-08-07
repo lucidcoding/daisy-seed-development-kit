@@ -11,14 +11,24 @@ namespace developmentKit::library::uiFramework::presenters
         initialKnobPosition = prmInitialValue;
     }
 
-    void PotentiometerArrayPageItem::SetTitle(const char * prmTitle)
+    void PotentiometerArrayPageItem::SetTitle(const char *prmTitle)
     {
         title = prmTitle;
     }
 
-    const char * PotentiometerArrayPageItem::GetTitle()
+    const char *PotentiometerArrayPageItem::GetTitle()
     {
         return title;
+    }
+
+    void PotentiometerArrayPageItem::SetQuickAlias(const char *prmQuickAlias)
+    {
+        quickAlias = prmQuickAlias;
+    }
+
+    const char *PotentiometerArrayPageItem::GetQuickAlias()
+    {
+        return quickAlias;
     }
 
     void PotentiometerArrayPageItem::SetCurrentKnobPosition(float prmCurrentKnobPosiiton)

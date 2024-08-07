@@ -49,6 +49,19 @@ void ProcessNavigationKeypad()
         userInterface.Right();
         UpdateDisplay();
     }
+
+    if (keyState == NAVIGATION_KEYPAD_KEY_MENU)
+    {
+        userInterface.Menu();
+        UpdateDisplay();
+    }
+
+    if (keyState == NAVIGATION_KEYPAD_KEY_ENTER)
+    {
+        userInterface.Select();
+        hardware.PrintLine("select!");
+        UpdateDisplay();
+    }
 }
 
 void ProcessEncoder()
@@ -71,6 +84,7 @@ void ProcessEncoder()
     if (encoder.RisingEdge())
     {
         userInterface.Select();
+        hardware.PrintLine("select!");
         UpdateDisplay();
     }
 }
@@ -96,6 +110,7 @@ static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
     ProcessEncoder();
     ProcessPotentiometerArray();
     ParameterSet parameterSet = userInterface.GetParameters();
+    userInterface.UpdateSettings(parameterSet);
     float level = parameterSet.level;
     //float frequency = mtof(parameterSet.note);
     float attackTime = parameterSet.attack;

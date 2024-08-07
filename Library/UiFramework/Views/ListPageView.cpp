@@ -24,7 +24,7 @@ namespace developmentKit::library::uiFramework::views
         const uint8_t maxRows = height / rowHeight;
         const uint16_t valueWidth = width / 4;
         const FontDef fontDef = Font_7x10;
-        viewAdapter->Fill(ViewAdapter::COLOR_BLACK);
+        //viewAdapter->Fill(ViewAdapter::COLOR_BLACK);
         char title[25];
         uint8_t rowsToShow = listPage->ItemsCount() <= maxRows ? listPage->ItemsCount() : maxRows;
         uint8_t startRow = listPage->GetCurrentIndex() < maxRows ? 0 : listPage->GetCurrentIndex() - maxRows +1;

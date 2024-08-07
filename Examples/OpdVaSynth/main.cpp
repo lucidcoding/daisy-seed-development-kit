@@ -31,10 +31,23 @@ source projects. Please feel free to take this code and make it better or use it
 //#include "qspi.h"
 #include "vasynth.h"
 
+#include "UserInterface.h"
+#include "../../Hardware/NavigationKeypad/Drivers/NavigationKeypad.h"
+#include "../../Hardware/PotentiometerArray/Drivers/PotentiometerArray.h"
+#include "../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
 
+
+#define PIN_ENC_A 30
+#define PIN_ENC_CLICK 0
+#define PIN_ENC_B 29
 
 using namespace daisy;
 using namespace daisysp;
+using namespace developmentKit::hardware::navigationKeypad::drivers;
+using namespace developmentKit::hardware::potentiometerArray::drivers;
+using namespace developmentKit::library::uiFramework::presenters;
+using namespace developmentKit::library::uiFramework::views;
+
 float oldk1, oldk2, k1, k2;
 int mode;
 // globals
@@ -51,6 +64,11 @@ void UpdateButtons();
 void UpdateLeds();
 extern uint8_t preset_max;
 extern VASynthSetting preset_setting[PRESET_MAX];
+Encoder encoder;
+NavigationKeypad navigationKeypad;
+PotentiometerArray potentiometerArray;
+UserInterface userInterface;
+UiDriver tftDisplay;
 
 static Parameter transposeParam, cutoffParam, attackParam, releaseParam, detuneParam, portamentoParam;
 
@@ -236,7 +254,36 @@ float mtoval(uint8_t midiPitch)
 	return ((midiPitch * voltsPerNote) / 3.3f);
 }
 
+void UpdateDisplay()
+{
+    userInterface.Paint();
+    tftDisplay.Update();
+}
 
+void InitNavigationKeypad()
+{
+    navigationKeypad.Init();
+}
+
+void InitPotentiometerArray()
+{
+    potentiometerArray.seed = &hw;
+    potentiometerArray.Init();
+}
+
+void InitEncoder(float sampleRate)
+{
+    encoder.Init(
+        hw.GetPin(PIN_ENC_A),
+        hw.GetPin(PIN_ENC_B),
+        hw.GetPin(PIN_ENC_CLICK),
+        sampleRate);
+}
+
+void InitDisplay()
+{
+    userInterface.Init(&tftDisplay);
+}
 
 int main(void)
 {
@@ -245,6 +292,10 @@ int main(void)
 	hardware.Init(true); // true = boost to 480MHz
 	hardware.StartAdc();
 	sysSampleRate = hardware.AudioSampleRate();
+	InitNavigationKeypad();
+    InitPotentiometerArray();
+    InitEncoder(sysSampleRate);
+    InitDisplay();
 	sysCallbackRate = hardware.AudioCallbackRate();
  
 	// init qspi flash for saving and loading patches
@@ -301,6 +352,7 @@ int main(void)
 	// Start calling the audio callback
 	hardware.StartAudio(AudioCallback);
 	
+    UpdateDisplay();
 	
 
 	// Loop forever

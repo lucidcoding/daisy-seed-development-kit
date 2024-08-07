@@ -27,6 +27,7 @@ namespace developmentKit::library::uiFramework::presenters
         virtual void Right() {}
         virtual void Down() {}
         virtual void Back() {}
+        virtual void Menu() {}
         void Select();
         void SetFocus();
         void SetOutputValues(float *values);
@@ -34,10 +35,13 @@ namespace developmentKit::library::uiFramework::presenters
         PotentiometerArrayPageItem *GetItem(uint8_t index);
         void SetItem(uint8_t index, PotentiometerArrayPageItem *item);
         void SetKnobMode(PotentiometerArrayPageItem::KnobMode prmKnobMode);
+        void SetUseQuickAlias(bool prmUseQuickAlias);
+        bool GetUseQuickAlias();
 
     private:
         View *view;
         PotentiometerArrayPageItem *items[16];
+        bool useQuickAlias = false;
     };
 }
 

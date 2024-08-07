@@ -18,6 +18,7 @@ namespace developmentKit::library::uiFramework::presenters
         virtual void Right() = 0;
         virtual void Down() = 0;
         virtual void Back() = 0;
+        virtual void Menu() = 0;
         virtual void SetFocus() = 0;
         virtual void Paint() = 0;
 

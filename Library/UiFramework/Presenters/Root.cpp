@@ -47,6 +47,11 @@ namespace developmentKit::library::uiFramework::presenters
         currentPage->Back();
     }
 
+    void Root::Menu()
+    {
+        currentPage->Menu();
+    }
+
     Page *Root::GetCurrentPage()
     {
         return currentPage;

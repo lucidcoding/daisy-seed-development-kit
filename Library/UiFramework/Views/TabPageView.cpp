@@ -13,7 +13,7 @@ namespace developmentKit::library::uiFramework::views
         x = prmX;
         y = prmY;
         width = prmWidth;
-        height = prmHeight;  
+        height = prmHeight;
     }
 
     void TabPageView::Paint(Page *page)
@@ -70,5 +70,21 @@ namespace developmentKit::library::uiFramework::views
         viewAdapter->DrawLine(0, tabHeight, 0, height - 1, ViewAdapter::COLOR_WHITE);
         viewAdapter->DrawLine(0, height - 1, width - 1, height - 1, ViewAdapter::COLOR_WHITE);
         viewAdapter->DrawLine(width - 1, tabHeight - 1, width - 1, height - 1, ViewAdapter::COLOR_WHITE);
+
+        if (tabPage->GetMenuVisible())
+        {   
+            uint16_t borderWidth = 20;
+            viewAdapter->FillRect(borderWidth, borderWidth, width - (borderWidth * 2), height - (borderWidth * 2), ViewAdapter::COLOR_BLACK);
+            viewAdapter->DrawRect(borderWidth, borderWidth, width - (borderWidth * 2), height - (borderWidth * 2), ViewAdapter::COLOR_WHITE);
+            uint8_t boxShadowOffset = 3;
+
+            for(uint8_t i = 1; i <= boxShadowOffset; i ++)
+            {
+                viewAdapter->DrawLine(borderWidth + boxShadowOffset, height - borderWidth + i, width - borderWidth + boxShadowOffset, height - borderWidth + i, ViewAdapter::COLOR_GRAY);
+                viewAdapter->DrawLine(width - borderWidth + i, borderWidth + boxShadowOffset, width - borderWidth + i, height - borderWidth + boxShadowOffset, ViewAdapter::COLOR_GRAY);
+            }
+
+            tabPage->GetMenuContent()->Paint();
+        }
     }
 }

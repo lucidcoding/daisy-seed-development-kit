@@ -28,18 +28,24 @@ namespace developmentKit::library::uiFramework::presenters
         virtual void Right();
         virtual void Down() {}
         virtual void Back() {}
+        virtual void Menu();
         TabPageItem *GetItem(uint8_t index);
         void AddItem(TabPageItem *item);
         uint8_t ItemsCount();
         uint8_t GetCurrentIndex();
+        bool GetMenuVisible();
+        void SetMenuContent(Page *newMenuContent);
+        Page *GetMenuContent();
         void SetFocus() {}
         void Paint();
 
     private:
         vector<TabPageItem *> items;
+        Page *menuContent;
         uint8_t currentIndex;
         bool itemSelected;
         View *view;
+        bool menuVisible;
     };
 }
 

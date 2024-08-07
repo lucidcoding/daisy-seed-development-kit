@@ -3,7 +3,7 @@
 #define PARAMETER_SET_H
 
 #include <stdint.h>
-#include "../../../Presenters/PotentiometerArrayPageItem.h"
+#include "../../Library/UiFramework/Presenters/PotentiometerArrayPageItem.h"
 
 using namespace developmentKit::library::uiFramework::presenters;
 
