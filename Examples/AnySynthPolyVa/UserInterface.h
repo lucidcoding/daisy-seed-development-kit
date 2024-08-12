@@ -100,42 +100,25 @@ private:
     OptionsPotentiometerArrayPageItem osc1WaveShapePotentiometerArrayPageItem;
     NumericPotentiometerArrayPageItem osc1DetunePotentiometerArrayPageItem;
     OptionsPotentiometerArrayPageItem osc2WaveShapePotentiometerArrayPageItem;
-    NumericPotentiometerArrayPageItem osc2DetunePotentiometerArrayPageItem;
-    NumericPotentiometerArrayPageItem portamentoPotentiometerArrayPageItem;
-    NumericPotentiometerArrayPageItem voicesPotentiometerArrayPageItem;
     NumericPotentiometerArrayPageItem osc2TransposePotentiometerArrayPageItem;
+    NumericPotentiometerArrayPageItem osc2DetunePotentiometerArrayPageItem;
     NumericPotentiometerArrayPageItem osc2LevelPotentiometerArrayPageItem;
-    NumericPotentiometerArrayPageItem pitchAttackPotentiometerArrayPageItem;
-    NumericPotentiometerArrayPageItem pitchDecayPotentiometerArrayPageItem;
-    NumericPotentiometerArrayPageItem pitchSustainPotentiometerArrayPageItem;
-    NumericPotentiometerArrayPageItem pitchReleasePotentiometerArrayPageItem;
     NumericPotentiometerArrayPageItem noiseLevelPotentiometerArrayPageItem;
+    NumericPotentiometerArrayPageItem portamentoPotentiometerArrayPageItem;
+    NumericPotentiometerArrayPageItem mixLevelPotentiometerArrayPageItem;
+    NumericPotentiometerArrayPageItem panPotentiometerArrayPageItem;
 
+
+
+    OptionsPotentiometerArrayPageItem oscSyncPotentiometerArrayPageItem;
+    NumericPotentiometerArrayPageItem cutOffPotentiometerArrayPageItem;
+    NumericPotentiometerArrayPageItem resonancePotentiometerArrayPageItem;
     TabPageItem filterAmpTabPageItem;
     PotentiometerArrayPage filterAmpPotentiometerArrayPage;
     NumericPotentiometerArrayPageItem filterAttackPotentiometerArrayPageItem;
     NumericPotentiometerArrayPageItem filterDecayPotentiometerArrayPageItem;
     NumericPotentiometerArrayPageItem filterSustainPotentiometerArrayPageItem;
     NumericPotentiometerArrayPageItem filterReleasePotentiometerArrayPageItem;
-    NumericPotentiometerArrayPageItem cutOffPotentiometerArrayPageItem;
-    NumericPotentiometerArrayPageItem resonancePotentiometerArrayPageItem;
-    OptionsPotentiometerArrayPageItem filterTypePotentiometerArrayPageItem;
-    NumericPotentiometerArrayPageItem filterEnvelopeAmountPotentiometerArrayPageItem;
-    NumericPotentiometerArrayPageItem ampAttackPotentiometerArrayPageItem;
-    NumericPotentiometerArrayPageItem ampDecayPotentiometerArrayPageItem;
-    NumericPotentiometerArrayPageItem ampSustainPotentiometerArrayPageItem;
-    NumericPotentiometerArrayPageItem ampReleasePotentiometerArrayPageItem;
-    NumericPotentiometerArrayPageItem panPotentiometerArrayPageItem;
-    NumericPotentiometerArrayPageItem mixLevelPotentiometerArrayPageItem;
-
-    TabPageItem lfoTabPageItem;
-    PotentiometerArrayPage lfoPotentiometerArrayPage;
-    NumericPotentiometerArrayPageItem lfoLevelPotentiometerArrayPageItem;
-    NumericPotentiometerArrayPageItem lfoFrequencyPotentiometerArrayPageItem;
-    OptionsPotentiometerArrayPageItem lfoWaveShapePotentiometerArrayPageItem;
-    OptionsPotentiometerArrayPageItem lfoTargetPotentiometerArrayPageItem;
-
-
     TabPageItem quickTabPageItem;
     PotentiometerArrayPage quickPotentiometerArrayPage;
     ListPage settingsListPage;

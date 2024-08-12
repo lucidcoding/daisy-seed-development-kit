@@ -1,11 +1,11 @@
 # Project Name
-TARGET = oscvasynthpod
+TARGET = AnySynthPolyVa
 
 USE_DAISYSP_LGPL = 1
 
 # Sources
 CPP_SOURCES = main.cpp \
-	vasynth.cpp \
+	PolySynthEngine.cpp \
 	UserInterface.cpp \
 	../../Library/UiFramework/Presenters/Root.cpp \
 	../../Library/UiFramework/Presenters/NavigationListPageItem.cpp \

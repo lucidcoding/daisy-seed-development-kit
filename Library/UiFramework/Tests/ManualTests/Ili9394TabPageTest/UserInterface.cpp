@@ -31,7 +31,7 @@ void UserInterface::Init(UiDriver *prmUiDriver)
     potentiometerArrayPageView.Init(&viewAdapter, 12, 22, 296, 210);
     tabPage.Init(&tabPageView);
     oscillatorPotentiometerArrayPage.Init(&potentiometerArrayPageView);
-    envelopePotentiometerArrayPage.Init(&potentiometerArrayPageView);
+    filterAmpPotentiometerArrayPage.Init(&potentiometerArrayPageView);
     quickPotentiometerArrayPage.Init(&potentiometerArrayPageView);
     settingsListPage.Init(&listPageView);
 
@@ -93,32 +93,32 @@ void UserInterface::Init(UiDriver *prmUiDriver)
     oscillatorPotentiometerArrayPage.SetItem(7, &oscLfoDepthPotentiometerArrayPageItem);
 
     // Add envelope tab to tab page
-    envelopeTabPageItem.Init("ENV", &envelopePotentiometerArrayPage);
-    tabPage.AddItem(&envelopeTabPageItem);
+    filterAmpTabPageItem.Init("ENV", &filterAmpPotentiometerArrayPage);
+    tabPage.AddItem(&filterAmpTabPageItem);
 
     // Add attack to envelope tab
-    envAttackPotentiometerArrayPageItem.SetScaledRange(0, 255);
-    envAttackPotentiometerArrayPageItem.SetOutputValue(0.5f);
-    envAttackPotentiometerArrayPageItem.SetTitle("ATTACK");
-    envelopePotentiometerArrayPage.SetItem(0, &envAttackPotentiometerArrayPageItem);
+    filterAttackPotentiometerArrayPageItem.SetScaledRange(0, 255);
+    filterAttackPotentiometerArrayPageItem.SetOutputValue(0.5f);
+    filterAttackPotentiometerArrayPageItem.SetTitle("ATTACK");
+    filterAmpPotentiometerArrayPage.SetItem(0, &filterAttackPotentiometerArrayPageItem);
 
     // Add decay to envelope tab
-    envDecayPotentiometerArrayPageItem.SetScaledRange(0, 255);
-    envDecayPotentiometerArrayPageItem.SetOutputValue(0.5f);
-    envDecayPotentiometerArrayPageItem.SetTitle("DECAY");
-    envelopePotentiometerArrayPage.SetItem(1, &envDecayPotentiometerArrayPageItem);
+    filterDecayPotentiometerArrayPageItem.SetScaledRange(0, 255);
+    filterDecayPotentiometerArrayPageItem.SetOutputValue(0.5f);
+    filterDecayPotentiometerArrayPageItem.SetTitle("DECAY");
+    filterAmpPotentiometerArrayPage.SetItem(1, &filterDecayPotentiometerArrayPageItem);
 
     // Add sustain to envelope tab
-    envSustainPotentiometerArrayPageItem.SetScaledRange(0, 255);
-    envSustainPotentiometerArrayPageItem.SetOutputValue(0.5f);
-    envSustainPotentiometerArrayPageItem.SetTitle("SUSTAIN");
-    envelopePotentiometerArrayPage.SetItem(2, &envSustainPotentiometerArrayPageItem);
+    filterSustainPotentiometerArrayPageItem.SetScaledRange(0, 255);
+    filterSustainPotentiometerArrayPageItem.SetOutputValue(0.5f);
+    filterSustainPotentiometerArrayPageItem.SetTitle("SUSTAIN");
+    filterAmpPotentiometerArrayPage.SetItem(2, &filterSustainPotentiometerArrayPageItem);
 
     // Add release to envelope tab
-    envReleasePotentiometerArrayPageItem.SetScaledRange(0, 255);
-    envReleasePotentiometerArrayPageItem.SetOutputValue(0.5f);
-    envReleasePotentiometerArrayPageItem.SetTitle("RELEASE");
-    envelopePotentiometerArrayPage.SetItem(3, &envReleasePotentiometerArrayPageItem);
+    filterReleasePotentiometerArrayPageItem.SetScaledRange(0, 255);
+    filterReleasePotentiometerArrayPageItem.SetOutputValue(0.5f);
+    filterReleasePotentiometerArrayPageItem.SetTitle("RELEASE");
+    filterAmpPotentiometerArrayPage.SetItem(3, &filterReleasePotentiometerArrayPageItem);
 
     // Add quick access tab to tab page
     quickTabPageItem.Init("QUICK", &quickPotentiometerArrayPage);
@@ -152,10 +152,10 @@ ParameterSet UserInterface::GetParameters()
     parameterSet.level = oscLevelPotentiometerArrayPageItem.GetOutputValue();
     parameterSet.waveform = oscWaveShapePotentiometerArrayPageItem.GetSelectedValue();
     //parameterSet.note = noteSettingsPageItem.GetValue();
-    parameterSet.attack = envAttackPotentiometerArrayPageItem.GetOutputValue();
-    parameterSet.decay = envDecayPotentiometerArrayPageItem.GetOutputValue();
-    parameterSet.sustain = envSustainPotentiometerArrayPageItem.GetOutputValue();
-    parameterSet.release = envReleasePotentiometerArrayPageItem.GetOutputValue();
+    parameterSet.attack = filterAttackPotentiometerArrayPageItem.GetOutputValue();
+    parameterSet.decay = filterDecayPotentiometerArrayPageItem.GetOutputValue();
+    parameterSet.sustain = filterSustainPotentiometerArrayPageItem.GetOutputValue();
+    parameterSet.release = filterReleasePotentiometerArrayPageItem.GetOutputValue();
     parameterSet.midiChannel = (uint8_t)midiChannelSettingsListPageItem.GetValue();
     parameterSet.knobMode = (PotentiometerArrayPageItem::KnobMode)knobModeSettingsListPageItem.GetValue();
     return parameterSet;
@@ -164,5 +164,5 @@ ParameterSet UserInterface::GetParameters()
 void UserInterface::UpdateSettings(ParameterSet parameterSet)
 {
     oscillatorPotentiometerArrayPage.SetKnobMode(parameterSet.knobMode);
-    envelopePotentiometerArrayPage.SetKnobMode(parameterSet.knobMode);
+    filterAmpPotentiometerArrayPage.SetKnobMode(parameterSet.knobMode);
 }

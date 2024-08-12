@@ -51,12 +51,12 @@ private:
     NumericPotentiometerArrayPageItem oscPulseWidthModulationPotentiometerArrayPageItem;
     OptionsPotentiometerArrayPageItem oscSyncPotentiometerArrayPageItem;
     NumericPotentiometerArrayPageItem oscLfoDepthPotentiometerArrayPageItem;
-    TabPageItem envelopeTabPageItem;
-    PotentiometerArrayPage envelopePotentiometerArrayPage;
-    NumericPotentiometerArrayPageItem envAttackPotentiometerArrayPageItem;
-    NumericPotentiometerArrayPageItem envDecayPotentiometerArrayPageItem;
-    NumericPotentiometerArrayPageItem envSustainPotentiometerArrayPageItem;
-    NumericPotentiometerArrayPageItem envReleasePotentiometerArrayPageItem;
+    TabPageItem filterAmpTabPageItem;
+    PotentiometerArrayPage filterAmpPotentiometerArrayPage;
+    NumericPotentiometerArrayPageItem filterAttackPotentiometerArrayPageItem;
+    NumericPotentiometerArrayPageItem filterDecayPotentiometerArrayPageItem;
+    NumericPotentiometerArrayPageItem filterSustainPotentiometerArrayPageItem;
+    NumericPotentiometerArrayPageItem filterReleasePotentiometerArrayPageItem;
     TabPageItem quickTabPageItem;
     PotentiometerArrayPage quickPotentiometerArrayPage;
     ListPage settingsListPage;
