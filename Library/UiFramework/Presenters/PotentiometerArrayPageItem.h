@@ -23,8 +23,6 @@ namespace developmentKit::library::uiFramework::presenters
         ~PotentiometerArrayPageItem() {}
         void SetTitle(const char *prmTitle);
         const char *GetTitle();
-        void SetQuickAlias(const char *prmQuickAlias);
-        const char *GetQuickAlias();
         void InitialiseKnobPosition(float prmInitialValue);
         void SetOutputValue(float prmOutputValue);
         void SetCurrentKnobPosition(float prmCurrentKnobPosiiton);
@@ -38,7 +36,6 @@ namespace developmentKit::library::uiFramework::presenters
 
     protected:
         const char *title;
-        const char *quickAlias;
         bool initialKnobPositionSet;
         float initialKnobPosition;
         float currentKnobPosition;

@@ -5,8 +5,8 @@ USE_DAISYSP_LGPL = 1
 
 # Sources
 CPP_SOURCES = main.cpp \
-	vasynth.cpp \
 	UserInterface.cpp \
+	vasynth.cpp \
 	../../Library/UiFramework/Presenters/Root.cpp \
 	../../Library/UiFramework/Presenters/NavigationListPageItem.cpp \
 	../../Library/UiFramework/Presenters/ListPage.cpp \

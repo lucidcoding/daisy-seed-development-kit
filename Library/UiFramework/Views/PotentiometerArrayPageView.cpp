@@ -43,16 +43,7 @@ namespace developmentKit::library::uiFramework::views
                 char buffer[25];
                 strcpy(buffer, item->GetDisplayString());
                 viewAdapter->WriteStringAligned(buffer, xOffset, yOffset, cellWidth, cellHeight - 11, Alignment::centered, Font_11x18, valueColor);
-
-                if (potentiometerArrayPage->GetUseQuickAlias())
-                {
-                    strcpy(buffer, item->GetQuickAlias());
-                }
-                else
-                {
-                    strcpy(buffer, item->GetTitle());
-                }
-
+                strcpy(buffer, item->GetTitle());
                 viewAdapter->WriteStringAligned(buffer, xOffset, yOffset + cellHeight - 25, cellWidth, 25, Alignment::centered, Font_6x8, ViewAdapter::COLOR_WHITE);
             }
         }

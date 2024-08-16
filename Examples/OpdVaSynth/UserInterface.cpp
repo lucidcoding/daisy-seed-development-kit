@@ -32,7 +32,7 @@ void UserInterface::Init(UiDriver *prmUiDriver)
     tabPage.Init(&tabPageView);
     oscillatorPotentiometerArrayPage.Init(&potentiometerArrayPageView);
     filterAmpPotentiometerArrayPage.Init(&potentiometerArrayPageView);
-    lfoPotentiometerArrayPage.Init(&potentiometerArrayPageView);
+    lfoFxPotentiometerArrayPage.Init(&potentiometerArrayPageView);
     quickPotentiometerArrayPage.Init(&potentiometerArrayPageView);
     settingsListPage.Init(&listPageView);
 
@@ -122,7 +122,6 @@ void UserInterface::Init(UiDriver *prmUiDriver)
     noiseLevelPotentiometerArrayPageItem.SetScaledRange(0, 255);
     noiseLevelPotentiometerArrayPageItem.SetOutputValue(0.5f);
     noiseLevelPotentiometerArrayPageItem.SetTitle("NOISE LEVEL");
-    noiseLevelPotentiometerArrayPageItem.SetQuickAlias("OSC:PW");
     oscillatorPotentiometerArrayPage.SetItem(12, &noiseLevelPotentiometerArrayPageItem);
 
     // Add envelope tab to tab page
@@ -217,20 +216,20 @@ void UserInterface::Init(UiDriver *prmUiDriver)
     filterAmpPotentiometerArrayPage.SetItem(13, &mixLevelPotentiometerArrayPageItem);
 
     // Add LFO tab to tab page
-    lfoTabPageItem.Init("LFO", &lfoPotentiometerArrayPage);
-    tabPage.AddItem(&lfoTabPageItem);
+    lfoFxTabPageItem.Init("LFO", &lfoFxPotentiometerArrayPage);
+    tabPage.AddItem(&lfoFxTabPageItem);
 
     // Add LFO level to LFO tab
     lfoLevelPotentiometerArrayPageItem.SetScaledRange(0, 255);
     lfoLevelPotentiometerArrayPageItem.SetOutputValue(0.5f);
     lfoLevelPotentiometerArrayPageItem.SetTitle("LEVEL");
-    lfoPotentiometerArrayPage.SetItem(0, &lfoLevelPotentiometerArrayPageItem);
+    lfoFxPotentiometerArrayPage.SetItem(0, &lfoLevelPotentiometerArrayPageItem);
 
     // Add LFO frequency to LFO tab
     lfoFrequencyPotentiometerArrayPageItem.SetScaledRange(0, 255);
     lfoFrequencyPotentiometerArrayPageItem.SetOutputValue(0.5f);
     lfoFrequencyPotentiometerArrayPageItem.SetTitle("LEVEL");
-    lfoPotentiometerArrayPage.SetItem(1, &lfoFrequencyPotentiometerArrayPageItem);
+    lfoFxPotentiometerArrayPage.SetItem(1, &lfoFrequencyPotentiometerArrayPageItem);
 
     // Add LFO wave shape to LFO tab
     lfoWaveShapePotentiometerArrayPageItem.AddOption("SIN", VASynth::WAVE_SIN);
@@ -240,7 +239,7 @@ void UserInterface::Init(UiDriver *prmUiDriver)
     lfoWaveShapePotentiometerArrayPageItem.AddOption("SQU", VASynth::WAVE_SQUARE);
     lfoWaveShapePotentiometerArrayPageItem.SetOutputValue(0.5f);
     lfoWaveShapePotentiometerArrayPageItem.SetTitle("LFO WAVE");
-    lfoPotentiometerArrayPage.SetItem(2, &lfoWaveShapePotentiometerArrayPageItem);
+    lfoFxPotentiometerArrayPage.SetItem(2, &lfoWaveShapePotentiometerArrayPageItem);
 
     // Add LFO target to LFO tab
     lfoTargetPotentiometerArrayPageItem.AddOption("NONE", VASynth::Target::NONE);
@@ -251,7 +250,55 @@ void UserInterface::Init(UiDriver *prmUiDriver)
     lfoTargetPotentiometerArrayPageItem.AddOption("LAST", VASynth::Target::LAST);
     lfoTargetPotentiometerArrayPageItem.SetOutputValue(0.5f);
     lfoTargetPotentiometerArrayPageItem.SetTitle("LFO TARGET");
-    lfoPotentiometerArrayPage.SetItem(3, &lfoTargetPotentiometerArrayPageItem);
+    lfoFxPotentiometerArrayPage.SetItem(3, &lfoTargetPotentiometerArrayPageItem);
+
+    // Add reverb amountto LFO/FX tab
+    reverbAmountPotentiometerArrayPageItem.SetScaledRange(0, 255);
+    reverbAmountPotentiometerArrayPageItem.SetOutputValue(0.5f);
+    reverbAmountPotentiometerArrayPageItem.SetTitle("REVERB AMOUNT");
+    lfoFxPotentiometerArrayPage.SetItem(4, &reverbAmountPotentiometerArrayPageItem);
+
+    // Add reverb feedback to LFO/FX tab
+    reverbFeedbackPotentiometerArrayPageItem.SetScaledRange(0, 255);
+    reverbFeedbackPotentiometerArrayPageItem.SetOutputValue(0.5f);
+    reverbFeedbackPotentiometerArrayPageItem.SetTitle("REVERB FEEDBACK");
+    lfoFxPotentiometerArrayPage.SetItem(5, &reverbFeedbackPotentiometerArrayPageItem);
+
+    // Add reverb filter to LFO/FX tab
+    reverbFilterPotentiometerArrayPageItem.SetScaledRange(0, 255);
+    reverbFilterPotentiometerArrayPageItem.SetOutputValue(0.5f);
+    reverbFilterPotentiometerArrayPageItem.SetTitle("DELAY AMOUNT");
+    lfoFxPotentiometerArrayPage.SetItem(6, &reverbFilterPotentiometerArrayPageItem);
+
+    // Add reverb dryLFO/FX tab
+    reverbDryPotentiometerArrayPageItem.SetScaledRange(0, 255);
+    reverbDryPotentiometerArrayPageItem.SetOutputValue(0.5f);
+    reverbDryPotentiometerArrayPageItem.SetTitle("REVERB DRY");
+    lfoFxPotentiometerArrayPage.SetItem(7, &reverbDryPotentiometerArrayPageItem);
+
+    // Add reverb dryLFO/FX tab
+    reverbWetPotentiometerArrayPageItem.SetScaledRange(0, 255);
+    reverbWetPotentiometerArrayPageItem.SetOutputValue(0.5f);
+    reverbWetPotentiometerArrayPageItem.SetTitle("REVERB WET");
+    lfoFxPotentiometerArrayPage.SetItem(8, &reverbWetPotentiometerArrayPageItem);
+
+    // Add delay amountto LFO/FX tab
+    delayAmountPotentiometerArrayPageItem.SetScaledRange(0, 255);
+    delayAmountPotentiometerArrayPageItem.SetOutputValue(0.5f);
+    delayAmountPotentiometerArrayPageItem.SetTitle("DELAY FEEDBACK");
+    lfoFxPotentiometerArrayPage.SetItem(9, &delayAmountPotentiometerArrayPageItem);
+
+    // Add delay time to LFO/FX tab
+    delayFeedbackPotentiometerArrayPageItem.SetScaledRange(0, 255);
+    delayFeedbackPotentiometerArrayPageItem.SetOutputValue(0.5f);
+    delayFeedbackPotentiometerArrayPageItem.SetTitle("DELAY TIME");
+    lfoFxPotentiometerArrayPage.SetItem(10, &delayFeedbackPotentiometerArrayPageItem);
+
+    // Add delay time to LFO/FX tab
+    delayTimePotentiometerArrayPageItem.SetScaledRange(0, 255);
+    delayTimePotentiometerArrayPageItem.SetOutputValue(0.5f);
+    delayTimePotentiometerArrayPageItem.SetTitle("DELAY TIME");
+    lfoFxPotentiometerArrayPage.SetItem(11, &delayTimePotentiometerArrayPageItem);
 
 
 
@@ -327,7 +374,14 @@ ParameterSet UserInterface::GetParameters()
     parameterSet.lfoFrequency = lfoFrequencyPotentiometerArrayPageItem.GetOutputValue();
     parameterSet.lfoWaveShape = lfoWaveShapePotentiometerArrayPageItem.GetSelectedValue();
     parameterSet.lfoTarget = lfoTargetPotentiometerArrayPageItem.GetSelectedValue();
-
+    parameterSet.reverbAmount = reverbAmountPotentiometerArrayPageItem.GetOutputValue();
+    parameterSet.reverbFeedback = reverbFeedbackPotentiometerArrayPageItem.GetOutputValue();
+    parameterSet.reverbFilter = reverbFilterPotentiometerArrayPageItem.GetOutputValue();
+    parameterSet.reverbDry = reverbDryPotentiometerArrayPageItem.GetOutputValue();
+    parameterSet.reverbWet = reverbWetPotentiometerArrayPageItem.GetOutputValue();
+    parameterSet.delayAmount = delayAmountPotentiometerArrayPageItem.GetOutputValue();
+    parameterSet.delayFeedback = delayFeedbackPotentiometerArrayPageItem.GetOutputValue();
+    parameterSet.delayTime = delayTimePotentiometerArrayPageItem.GetOutputValue();
 
 
 

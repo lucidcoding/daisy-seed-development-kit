@@ -9,9 +9,9 @@
 #include "vasynth.h"
 #include "main.h"
 
-#define PIN_ENC_A 30
+#define PIN_ENC_A 29
 #define PIN_ENC_CLICK 0
-#define PIN_ENC_B 29
+#define PIN_ENC_B 30
 
 using namespace daisy;
 using namespace daisysp;
@@ -19,6 +19,7 @@ using namespace developmentKit::hardware::navigationKeypad::drivers;
 using namespace developmentKit::hardware::potentiometerArray::drivers;
 using namespace developmentKit::library::uiFramework::presenters;
 using namespace developmentKit::library::uiFramework::views;
+using namespace developmentKit::library::uiFramework::tree::utilities;
 
 float sysSampleRate;
 uint8_t gPlay = PLAY_ON;
@@ -30,6 +31,8 @@ PotentiometerArray potentiometerArray;
 UserInterface userInterface;
 UiDriver tftDisplay;
 VASynth vasynth;
+ParameterScaler transposeParam, cutoffParam, attackParam, releaseParam, detuneParam, portamentoParam;
+MidiUartHandler midi;
 
 void UpdateDisplay()
 {
@@ -105,103 +108,66 @@ void ProcessPotentiometerArray()
     userInterface.SetPotentiometerValues(values);
 }
 
-static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
-                          AudioHandle::InterleavingOutputBuffer out,
-                          size_t size)
+void ProcessControls()
 {
-    float voice_left, voice_right;
     ProcessNavigationKeypad();
     ProcessEncoder();
     ProcessPotentiometerArray();
     ParameterSet parameterSet = userInterface.GetParameters();
     userInterface.UpdateSettings(parameterSet);
-
-    /*adsr.SetTime(ADSR_SEG_ATTACK, 0.1f);
-    adsr.SetTime(ADSR_SEG_DECAY, 0.5f);
-    adsr.SetSustainLevel(0.5f);
-    adsr.SetTime(ADSR_SEG_RELEASE, 0.5f);
-    oscillator.SetWaveform(Oscillator::WAVE_SAW);
-    float oscillatorOut, adsrOut;
-
-    for (size_t i = 0; i < size; i += 2)
-    {
-        if (metro.Process())
-        {
-            hardware.Print("gate");
-            gate = !gate;
-        }
-
-        adsrOut = adsr.Process(gate);
-        oscillator.SetFreq(440);
-        oscillator.SetAmp(adsrOut);
-        oscillatorOut = oscillator.Process();
-
-        out[i] = oscillatorOut;
-        out[i + 1] = oscillatorOut;
-    }*/
-
-    // float frequency = mtof(parameterSet.note);
     vasynth.waveform_ = parameterSet.osc1WaveShape;
-    vasynth.detune_ = parameterSet.osc1Detune;
+    vasynth.detune_ = detuneParam.Process(parameterSet.osc1Detune);
     vasynth.osc2_waveform_ = parameterSet.osc2WaveShape;
-    vasynth.osc2_detune_ = parameterSet.osc2Detune;
+    vasynth.osc2_detune_ = detuneParam.Process(parameterSet.osc2Detune);
     vasynth.voices_ = parameterSet.voices;
-    vasynth.portamento_ = parameterSet.portamento;
+    vasynth.portamento_ = portamentoParam.Process(parameterSet.portamento);
     vasynth.osc2_transpose_ = parameterSet.osc2Transpose;
     vasynth.osc2_level_ = parameterSet.osc2Level;
-    vasynth.eg_p_attack_ = parameterSet.pitchAttack;
+    vasynth.eg_p_attack_ = attackParam.Process(parameterSet.pitchAttack);
     vasynth.eg_p_decay_ = parameterSet.pitchDecay;
     vasynth.eg_p_sustain_ = parameterSet.pitchSustain;
-    vasynth.eg_p_release_ = parameterSet.pitchRelease;
+    vasynth.eg_p_release_ = releaseParam.Process(parameterSet.pitchRelease);
     vasynth.noise_level_ = parameterSet.noiseLevel;
-
-    vasynth.eg_f_attack_ =  parameterSet.filterAttack;
-    vasynth.eg_f_decay_ =   parameterSet.filterDecay;
+    vasynth.eg_f_attack_ = attackParam.Process(parameterSet.filterAttack);
+    vasynth.eg_f_decay_ = parameterSet.filterDecay;
     vasynth.eg_f_sustain_ = parameterSet.filterSustain;
-    vasynth.eg_f_release_ = parameterSet.filterRelease;
-    vasynth.filter_cutoff_ = parameterSet.cutOff * 30000;
+    vasynth.eg_f_release_ = releaseParam.Process(parameterSet.filterRelease);
+    vasynth.filter_cutoff_ = cutoffParam.Process(parameterSet.cutOff);
     vasynth.filter_res_ = parameterSet.resonance;
     vasynth.filter_type_ = parameterSet.filterType;
     vasynth.eg_f_amount_ = parameterSet.filterEnvelopeAmount;
-    vasynth.eg_a_attack_ = parameterSet.ampAttack;
+    vasynth.eg_a_attack_ = attackParam.Process(parameterSet.ampAttack);
     vasynth.eg_a_decay_ = parameterSet.ampDecay;
     vasynth.eg_a_sustain_ = parameterSet.ampSustain;
-    vasynth.eg_a_release_ = parameterSet.ampRelease;
+    vasynth.eg_a_release_ = releaseParam.Process(parameterSet.ampRelease);
     vasynth.pan_ = parameterSet.noiseLevel;
     vasynth.level_ = parameterSet.mixLevel;
-
     vasynth.lfo_amp_ = parameterSet.lfoLevel;
     vasynth.lfo_freq_ = parameterSet.lfoFrequency;
     vasynth.lfo_waveform_ = parameterSet.lfoWaveShape;
     vasynth.lfo_target_ = parameterSet.lfoTarget;
-
-
-
-    //
-    // vasynth.lfo_amp_ = 0;
-    // vasynth.lfo_freq_ = 1000;
-    //vasynth.osc2_waveform_ = parameterSet.osc2WaveShape;
-
-    // vasynth.noise_ = parameterSet.noiseLevel;
-
-    /*vasynth.filter_cutoff_ = parameterSet.cutOff * 30000;
-    vasynth.filter_res_ = parameterSet.resonance;
-
-    vasynth.eg_a_attack_ - 0.1f;
-    vasynth.eg_a_decay_ = 0.5f;
-    vasynth.eg_a_sustain_ = 0.5f;
-    vasynth.eg_a_release_ = 0.2f;*/
-
+    vasynth.reverb_level_ = parameterSet.reverbAmount;
+    vasynth.reverb_feedback_ = parameterSet.reverbFeedback;
+    vasynth.reverb_lpffreq_ = cutoffParam.Process(parameterSet.reverbFilter);
+    vasynth.reverb_dry_ = parameterSet.reverbDry;
+    vasynth.reverb_wet_ = parameterSet.reverbWet;
+    vasynth.delay_level_ = parameterSet.delayAmount;
+    vasynth.delay_feedback_ = parameterSet.delayFeedback;
+    vasynth.delay_delay_ = parameterSet.delayTime;
     vasynth.SetWaveform();
     vasynth.SetFilter();
     vasynth.SetEG();
     vasynth.SetLFO();
+    vasynth.SetReverb();
+    vasynth.SetDelay();
+}
 
-	#ifdef OPD_MEASURE
-	// measure - start
-	DWT->CYCCNT = 0;
-	#endif
-	
+static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
+                          AudioHandle::InterleavingOutputBuffer out,
+                          size_t size)
+{
+    float voice_left, voice_right;
+    ProcessControls();
 
     for (size_t n = 0; n < size; n += 2)
     {
@@ -227,11 +193,6 @@ static void AudioCallback(AudioHandle::InterleavingInputBuffer in,
             out[n] = 0;
             out[n + 1] = 0;
         }
-
-
-        /*vasynth.Process(&voice_left, &voice_right);
-        out[i] = voice_left;
-        out[i + 1] = voice_right;*/
     }
 }
 
@@ -260,6 +221,68 @@ void InitDisplay()
     userInterface.Init(&tftDisplay);
 }
 
+void InitParams()
+{
+    cutoffParam.Init(30, 30000, cutoffParam.LOGARITHMIC);
+    attackParam.Init(0, 20, attackParam.LOGARITHMIC);
+    releaseParam.Init(0, 5, releaseParam.LINEAR);
+    detuneParam.Init(0.75, 1, detuneParam.LINEAR);
+    portamentoParam.Init(0, 1, portamentoParam.LOGARITHMIC);
+}
+
+
+void InitMidi()
+{
+    MidiUartHandler::Config midi_config;
+    midi.Init(midi_config);
+}
+
+// midi handler
+void HandleMidiMessage(MidiEvent m)
+{
+    switch (m.type)
+    {
+    case NoteOn:
+    {
+        NoteOnEvent p = m.AsNoteOn();
+        if ((vasynth.midi_channel_ == MIDI_CHANNEL_ALL) || (p.channel == vasynth.midi_channel_))
+        {
+            vasynth.NoteOn(p.note, p.velocity);
+        }
+        break;
+    }
+    case NoteOff:
+    {
+        NoteOnEvent p = m.AsNoteOn();
+        if ((vasynth.midi_channel_ == MIDI_CHANNEL_ALL) || (p.channel == vasynth.midi_channel_))
+        {
+            vasynth.NoteOff(p.note);
+        }
+        break;
+    }
+    case ControlChange:
+    {
+        ControlChangeEvent p = m.AsControlChange();
+        switch (p.control_number)
+        {
+        case 74: // cutoff, 0-127 -> frequency
+            vasynth.filter_cutoff_ = ((float)p.value / 127.0f) * FILTER_CUTOFF_MAX;
+            vasynth.SetFilter();
+            break;
+        case 71: // res, 0-127
+            vasynth.filter_res_ = ((float)p.value / 127.0f);
+            vasynth.SetFilter();
+            break;
+        default:
+            break;
+        }
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 int main(void)
 {
     hardware.Configure();
@@ -269,50 +292,30 @@ int main(void)
     InitNavigationKeypad();
     InitPotentiometerArray();
     InitEncoder(sysSampleRate);
-
     InitDisplay();
-
+    InitParams();
+    InitMidi();
     vasynth.First();
-
     hardware.adc.Start();
     hardware.StartAudio(AudioCallback);
     UpdateDisplay();
-
     uint32_t lastTicksRefresh = System::GetTick();
     const uint32_t ticksPerUs = System::GetTickFreq() / 1000000;
 
-    uint16_t noteCountUp = 0;
-
     while (1)
     {
+        midi.Listen();
+
+        while (midi.HasEvents())
+        {
+            HandleMidiMessage(midi.PopEvent());
+        }
 
         uint32_t currentTicks = System::GetTick();
 
         if (currentTicks - lastTicksRefresh > (100000 * ticksPerUs))
         {
             lastTicksRefresh = currentTicks;
-
-            noteCountUp++;
-
-            if (noteCountUp > 10)
-            {
-                noteCountUp = 0;
-                hardware.Print("gate");
-                gate = !gate;
-
-                if (gate)
-                {
-                    vasynth.NoteOn(50, 127);
-                }
-                else
-                {
-                    vasynth.NoteOff(50);
-                }
-            }
-            // vasynth.SetGate(gate);
-
-            hardware.PrintLine("Ticky...%d", noteCountUp);
-            // hardware.PrintLine("P1: %3.5f, P2: %3.5f", potentiometerArray.analogControl[0].GetRawFloat(), potentiometerArray.analogControl[1].GetRawFloat());
             UpdateDisplay();
         }
     }

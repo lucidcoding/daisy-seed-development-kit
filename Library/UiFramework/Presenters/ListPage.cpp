@@ -17,13 +17,13 @@ namespace developmentKit::library::uiFramework::presenters
     {
         if (itemSelected)
         {
-            items[currentIndex]->Decrement();
+            items[currentIndex]->Increment();
         }
         else
         {
-            if (currentIndex > 0)
+            if (currentIndex < items.size() - 1)
             {
-                currentIndex--;
+                currentIndex++;
             }
         }
     }
@@ -32,13 +32,13 @@ namespace developmentKit::library::uiFramework::presenters
     {
         if (itemSelected)
         {
-            items[currentIndex]->Increment();
+            items[currentIndex]->Decrement();
         }
         else
         {
-            if (currentIndex < items.size() - 1)
+            if (currentIndex > 0)
             {
-                currentIndex++;
+                currentIndex--;
             }
         }
     }

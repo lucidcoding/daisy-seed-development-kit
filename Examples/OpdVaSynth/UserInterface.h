@@ -128,12 +128,20 @@ private:
     NumericPotentiometerArrayPageItem panPotentiometerArrayPageItem;
     NumericPotentiometerArrayPageItem mixLevelPotentiometerArrayPageItem;
 
-    TabPageItem lfoTabPageItem;
-    PotentiometerArrayPage lfoPotentiometerArrayPage;
+    TabPageItem lfoFxTabPageItem;
+    PotentiometerArrayPage lfoFxPotentiometerArrayPage;
     NumericPotentiometerArrayPageItem lfoLevelPotentiometerArrayPageItem;
     NumericPotentiometerArrayPageItem lfoFrequencyPotentiometerArrayPageItem;
     OptionsPotentiometerArrayPageItem lfoWaveShapePotentiometerArrayPageItem;
     OptionsPotentiometerArrayPageItem lfoTargetPotentiometerArrayPageItem;
+    NumericPotentiometerArrayPageItem reverbAmountPotentiometerArrayPageItem;
+    NumericPotentiometerArrayPageItem reverbFeedbackPotentiometerArrayPageItem;
+    NumericPotentiometerArrayPageItem reverbFilterPotentiometerArrayPageItem;
+    NumericPotentiometerArrayPageItem reverbDryPotentiometerArrayPageItem;
+    NumericPotentiometerArrayPageItem reverbWetPotentiometerArrayPageItem;
+    NumericPotentiometerArrayPageItem delayAmountPotentiometerArrayPageItem;
+    NumericPotentiometerArrayPageItem delayFeedbackPotentiometerArrayPageItem;
+    NumericPotentiometerArrayPageItem delayTimePotentiometerArrayPageItem;
 
 
     TabPageItem quickTabPageItem;

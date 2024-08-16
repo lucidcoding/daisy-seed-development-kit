@@ -1086,7 +1086,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "RotaryEncoder:Bourns-PEC11R-4220F-S0024-0-0-0"
+		(property "Footprint" "Rotary_Encoder:RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm"
 			(at 66.294 100.33 0)
 			(effects
 				(font

@@ -21,16 +21,6 @@ namespace developmentKit::library::uiFramework::presenters
         return title;
     }
 
-    void PotentiometerArrayPageItem::SetQuickAlias(const char *prmQuickAlias)
-    {
-        quickAlias = prmQuickAlias;
-    }
-
-    const char *PotentiometerArrayPageItem::GetQuickAlias()
-    {
-        return quickAlias;
-    }
-
     void PotentiometerArrayPageItem::SetCurrentKnobPosition(float prmCurrentKnobPosiiton)
     {
         currentKnobPosition = prmCurrentKnobPosiiton;

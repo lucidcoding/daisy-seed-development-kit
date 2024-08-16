@@ -44,16 +44,20 @@ public:
     float lfoFrequency;
     uint8_t lfoWaveShape;
     uint8_t lfoTarget;
-
+    float reverbAmount;
+    float reverbFeedback;
+    float reverbFilter;
+    float reverbDry;
+    float reverbWet;
+    float delayAmount;
+    float delayFeedback;
+    float delayTime;
 
 
 
 
     uint8_t note;
-    float attack;
-    float decay;
-    float sustain;
-    float release;
+
     uint8_t midiChannel;
     PotentiometerArrayPageItem::KnobMode knobMode;
 

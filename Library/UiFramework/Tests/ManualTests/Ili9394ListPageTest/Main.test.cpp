@@ -4,9 +4,9 @@
 #include "../../../Presenters/Root.h"
 #include "../../../../../ThirdParty/Daisy_ILI9394/ili9341_ui_driver.hpp"
 
-#define PIN_ENC_A 30
+#define PIN_ENC_A 29
 #define PIN_ENC_CLICK 0
-#define PIN_ENC_B 29
+#define PIN_ENC_B 30
 
 using namespace daisysp;
 using namespace daisy;
